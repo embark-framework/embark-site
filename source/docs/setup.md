@@ -1,67 +1,82 @@
 title: Setup
 ---
 
-{% youtube 0m2HnATkHOk %}
-
-Once Hexo is installed, run the following commands to initialise Hexo in the target `<folder>`.
+Once Embark is installed, you can create a demo DApp with:
 
 ``` bash
-$ hexo init <folder>
-$ cd <folder>
-$ npm install
+$ embark demo
+$ cd embark_demo
+```
+
+If you want to create a blank DApp then:
+
+``` bash
+$ embark new <YourDAppName>
+$ cd <YourDAppName>
 ```
 
 Once initialised, here's what your project folder will look like:
 
 ``` plain
 .
-├── _config.yml
-├── package.json
-├── scaffolds
-├── source
-|   ├── _drafts
-|   └── _posts
-└── themes
+├── app/
+├── contracts/
+├── config
+|   ├── blockchain.json
+|   └── contracts.json
+|   └── storage.json
+|   └── communication.json
+|   └── webserver.json
+└── test/
+└── dist/
+└── chains.json
+└── embark.json
 ```
 
-### _config.yml
+### app/
 
-Site [configuration](configuration.html) file. You can configure most settings here.
+DApp Web code goes here. See embark.json on how you customize the pipeline.
 
-### package.json
+### contracts/
 
-Application data. The [EJS](http://embeddedjs.com/), [Stylus](http://learnboost.github.io/stylus/) and [Markdown](http://daringfireball.net/projects/markdown/) renderers are installed by default. If you want, you can uninstall them later.
+Smart Contracts go here. When active, Embark will automatically compile, deploy & track contracts in this directory. Embark will detect changes made to a contract and re-deploy it and its dependencies if necessary.
 
-``` json package.json
-{
-  "name": "hexo-site",
-  "version": "0.0.0",
-  "private": true,
-  "hexo": {
-    "version": ""
-  },
-  "dependencies": {
-    "hexo": "^3.0.0",
-    "hexo-generator-archive": "^0.1.0",
-    "hexo-generator-category": "^0.1.0",
-    "hexo-generator-index": "^0.1.0",
-    "hexo-generator-tag": "^0.1.0",
-    "hexo-renderer-ejs": "^0.1.0",
-    "hexo-renderer-stylus": "^0.2.0",
-    "hexo-renderer-marked": "^0.2.4",
-    "hexo-server": "^0.1.2"
-  }
-}
-```
+### config/
 
-### scaffolds
+The configuration files for the different components of the stack can be found here.
 
-[Scaffold](writing.html#Scaffolds) folder. When you create a new post, Hexo bases the new file on the scaffold.
+**blockchain.json**
+Contains the configuration used for embark to run a node with go-ethereum or a simulator.
 
-### source
+**contracts.json**
+Configuration for contracts, including their arguments, relationship between them. It's also possible to specify where to deploy the contracts and how the dapp should attempt to connect to a node.
+Please see [Configuring Contracts](configuring-contracts.html) for more details.
 
-Source folder. This is where you put your site's content. Hexo ignores hidden files and files or folders whose names are prefixed with `_` (underscore) - except the `_posts` folder. Renderable files (e.g. Markdown, HTML) will be processed and put into the `public` folder, while other files will simply be copied.
+**storage.json**
 
-### themes
+You can configure what storage component to use (e.g IPFS) and its config details including what node to connect to, get & uplaod files from, etc..
 
-[Theme](themes.html) folder. Hexo generates a static website by combining the site contents with the theme.
+**communication.json**
+
+You can configure what communication component to use (e.g Whisper) and its config details including what node to connect to.
+
+**webserver.json**
+
+Dev web server config, specifically the host and port to listen to.
+
+### test/
+
+Tests Folder. This where you typically put the code to test smart contracts. Embark includes a [testing framework](testing.html)
+
+### dist/
+
+The build output of your dapp will be put here. You can then distribute your app with this folder
+
+### chains.json
+
+This file is used to keep track of the deployed contracts in each chain. See [chains file](chains-file.html) documentation for more information
+
+### embark.json
+
+Embark is quite flexible and you can configure your own directory structure using ``embark.json``. This file is also used to specify embark plugins and other configurations. More information can be found in [configuring embark.json](configuring-embark-json.html)
+

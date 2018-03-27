@@ -16,12 +16,10 @@
                 <time class="article-footer-updated" datetime="{{ date_xml(page.updated) }}" itemprop="dateModified">{{ __('page.last_updated', date(page.updated)) }}</time>
                 {{ page_nav() }}
               </footer>
-              {{ partial('partial/comment') }}
             </div>
           </div>
           <aside id="article-toc" role="navigation">
             <div id="article-toc-inner">
-              {{ partial('partial/carbonads') }}
               <strong class="sidebar-title">{{ __('page.contents') }}</strong>
               {{ toc(page.content, {list_number: false}) }}
               <a href="#" id="article-toc-top">{{ __('page.back_to_top') }}</a>

@@ -1,72 +1,103 @@
 title: Documentation
 ---
-Welcome to the Hexo documentation. If you encounter any problems when using Hexo, have a look at the  [troubleshooting guide](troubleshooting.html), raise an issue on [GitHub](https://github.com/hexojs/hexo/issues) or start a topic on the [Google Group](https://groups.google.com/group/hexo).
+Welcome to the Embark documentation. If you encounter any problems when using Embark, have a look at the  [troubleshooting guide](troubleshooting.html), raise an issue on [GitHub](https://github.com/embark-framework/embark/issues) or ask in the [Gitter Chatroom](https://gitter.im/embark-framework/Lobby).
 
-## What is Hexo?
+## What is Embark?
 
-Hexo is a fast, simple and powerful blog framework. You write posts in [Markdown](http://daringfireball.net/projects/markdown/) (or other languages) and Hexo generates static files with a beautiful theme in seconds.
+Embark is a fast, simple and powerful framework to develop and deploy Decentralized Applications (DApps). 
+
+Embark currently integrates with EVM blockchains (Ethereum), Decentralized Storages (IPFS), and Decentralized communication platforms (Whisper and Orbit). Swarm is supported for deployment.
+
+With Embark you can:
+
+**Blockchain (Ethereum)**
+* Automatically deploy contracts and make them available in your JS code. Embark watches for changes, and if you update a contract, Embark will automatically redeploy the contracts (if needed) and the dapp.
+* Contracts are available in JS with Promises.
+* Do Test Driven Development with Contracts using Javascript.
+* Keep track of deployed contracts; deploy only when truly needed.
+* Manage different chains (e.g testnet, private net, livenet)
+* Easily manage complex systems of interdependent contracts.
+
+**Decentralized Storage (IPFS)**
+* Easily Store & Retrieve Data on the DApp through EmbarkJS. Including uploading and retrieving files.
+* Deploy the full application to IPFS or Swarm.
+
+
+**Decentralized Communication (Whisper, Orbit)**
+* Easily send/receive messages through channels in P2P through Whisper or Orbit.
+
+**Web Technologies**
+* Integrate with any web technology including React, Foundation, etc..
+* Use any build pipeline or tool you wish, including grunt, gulp and webpack.
+
 
 ## Installation
 
-It only takes a few minutes to set up Hexo. If you encounter a problem and can't find the solution here, please [submit a GitHub issue](https://github.com/hexojs/hexo/issues) and I'll try to solve it.
-
-{% youtube ARted4RniaU %}
+It only takes a few minutes to set up Embark. If you encounter a problem and can't find the solution here, please [submit a GitHub issue](https://github.com/embark-framework/embark/issues) and We'll try to solve it.
 
 ### Requirements
 
-Installing Hexo is quite easy. However, you do need to have a couple of other things installed first:
+Installing Embark is quite easy. However, you do need to have a couple of other things installed first:
 
-- [Node.js](http://nodejs.org/)
-- [Git](http://git-scm.com/)
+- [Node.js](http://nodejs.org/) 8.10 or higher
 
-If your computer already has these, congratulations! Just install Hexo with npm:
-
-``` bash
-$ npm install -g hexo-cli
-```
-
-If not, please follow the following instructions to install all the requirements.
-
-{% note warn For Mac users %}
-You may encounter some problems when compiling. Please install Xcode from App Store first. After Xcode is installed, open Xcode and go to **Preferences -> Download -> Command Line Tools -> Install** to install command line tools.
-{% endnote %}
-
-### Install Git
-
-- Windows: Download & install [git](https://git-scm.com/download/win).
-- Mac: Install it with [Homebrew](http://mxcl.github.com/homebrew/), [MacPorts](http://www.macports.org/) or [installer](http://sourceforge.net/projects/git-osx-installer/).
-- Linux (Ubuntu, Debian): `sudo apt-get install git-core`
-- Linux (Fedora, Red Hat, CentOS): `sudo yum install git-core`
-
-### Install Node.js
-
-The best way to install Node.js is with [Node Version Manager](https://github.com/creationix/nvm).
-Thankfully the creators of nvm provide a simple script that automatically installs nvm:
-
-cURL:
+After installing nodejs you can install embark with:
 
 ``` bash
-$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+$ npm install -g embark
 ```
 
-Wget:
+### With Ethereum Support
+
+If you want to use Embark with Ethereum and want embark to run a node for you (with the ``embark blockchain`` command), then you need to install [Go-Ethrereum](https://geth.ethereum.org/) 1.6.7 or higher.
+
+On macOS:
 
 ``` bash
-$ wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+$ brew tap ethereum/ethereum
+$ brew install ethereum
 ```
 
-Once nvm is installed, restart the terminal and run the following command to install Node.js:
+On a macOS:
+
+``` linux
+$ sudo add-apt-repository -y ppa:ethereum/ethereum
+$ sudo apt-get update
+$ sudo apt-get install ethereum
+```
+
+Alternatively you can also install a simulator such as testrpc:
 
 ``` bash
-$ nvm install stable
+$ npm -g install ethereumjs-testrpc
 ```
 
-Alternatively, download and run [the installer](http://nodejs.org/).
+### With IPFS Support
 
-### Install Hexo
+To use IPFS you need first to install a IPFS node and run it. There two available, go-ipfs and js-ipfs.
 
-Once all the requirements are installed, you can install Hexo with npm:
+**GO-IPFS**
+
+Instalation instructions are available [here](https://github.com/ipfs/go-ipfs#install).
+
+Once installed and setup you will need to make sure the headers are setup
+properly for your app.
 
 ``` bash
-$ npm install -g hexo-cli
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"http://example.com\"]"
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials "[\"true\"]"
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]"
 ```
+
+You would want to launch it with: ``ipfs daemon --enable-pubsub-experiment``
+
+**JS-IPFS**
+
+While it's not 100% on parity with GO-IPFS it seems good enough for most use cases. You can install it with:
+
+``` bash
+$ npm i -g ipfs
+```
+
+To launch you would need to use ``jsipfs`` instead ``ipfs``
+

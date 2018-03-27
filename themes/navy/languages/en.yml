@@ -5,6 +5,9 @@ menu:
   plugins: Plugins
   themes: Themes
   search: Search
+  chat: Chat
+  blog: Blog
+  tutorials: Tutorials
 
 index:
   get_started: Get started
@@ -22,10 +25,29 @@ sidebar:
     getting_started: Getting Started
     overview: Overview
     setup: Setup
-    configuration: Configuration
+    what_is_dapp: What is a DApp
+    quick_start: Quick Start
+    tutorials_&_guides: Tutorials & Guides
+    basic_usage: Basic Usage
+    smart_contracts: Smart Contracts
+    storage: Storage
+    messages: Messages
+    testing: Testing
+    distributing: Distributing your DApp
+    deploying: Deploying to IPFS/Swarm
+    plugins: Plugins
+    installing_a_plugin: Installing a plugin
+    creating_a_plugin: Creating a plugin
+    plugin_reference: Plugin Reference
+    advanced_topis: Advanced Topics
+    webpack: Webpack
+    reference: Reference
+    console_commands: Console Commands
+    embark_commands: Embark Commands
+    web3js: Web3.js
+    solidity: Solidity
     commands: Commands
     migration: Migration
-    basic_usage: Basic Usage
     writing: Writing
     front_matter: Front-matter
     tag_plugins: Tag Plugins
@@ -42,7 +64,6 @@ sidebar:
     variables: Variables
     helpers: Helpers
     internationalization: Internationalization (i18n)
-    plugins: Plugins
     miscellaneous: Miscellaneous
     troubleshooting: Troubleshooting
     contributing: Contributing

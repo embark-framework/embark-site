@@ -1,0 +1,13 @@
+- name: How to create a Token Factory with Ethereum — Part 1
+  description: Create and Deploy a Token with Ethereum
+  link: /
+  tags:
+    - token
+    - ethereum
+- name: How to create a Token Factory with Ethereum — Part 2
+  description: Create a DApp that can deploy Tokens on the fly
+  link: /
+  tags:
+    - token
+    - ethereum
+    - client-side-deployment

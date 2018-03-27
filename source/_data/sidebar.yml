@@ -2,26 +2,26 @@ docs:
   getting_started:
     overview: index.html
     setup: setup.html
-    configuration: configuration.html
-    commands: commands.html
-    migration: migration.html
+    what_is_dapp: what_dapp.html
+    quick_start: quick_start.html
   basic_usage:
-    writing: writing.html
-    front_matter: front-matter.html
-    tag_plugins: tag-plugins.html
-    asset_folders: asset-folders.html
-    data_files: data-files.html
-    server: server.html
-    generating: generating.html
-    deployment: deployment.html
-  customization:
-    permalinks: permalinks.html
-    themes: themes.html
-    templates: templates.html
-    variables: variables.html
-    helpers: helpers.html
-    internationalization: internationalization.html
-    plugins: plugins.html
+    smart_contracts: contracts.html
+    storage: storage.html
+    messages: messages.html
+    testing: testing.html
+  distributing:
+    deploying: deploying.html
+  plugins:
+    installing_a_plugin: installing_plugins.html
+    creating_a_plugin: creating_plugins.html
+    plugin_reference: plugin_reference.html
+  advanced_topis:
+    webpack: webpack.html
+  reference:
+    console_commands: console_commands.html
+    embark_commands: embark_commands.html
+    web3js: web3js.html
+    solidity: solidity.html
   miscellaneous:
     troubleshooting: troubleshooting.html
     contributing: contributing.html

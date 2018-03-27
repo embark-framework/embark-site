@@ -1,5 +1,5 @@
 docs: /docs/
-api: /api/
-news: /news/
+tutorials: /tutorials/
 plugins: /plugins/
-themes: /themes/
+chat: /chat/
+blog: /news/
