@@ -9,6 +9,10 @@ $ embark new <dappName>
 
 Creates a new empty DApp project. If no `dappName` is provided, Embark will ask for the dappName.
 
+Option | Description
+--- | ---
+`--simple` | create a barebones project meant only for contract development 
+
 ## demo
 
 ``` bash
