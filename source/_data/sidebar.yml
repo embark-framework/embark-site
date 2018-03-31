@@ -9,6 +9,7 @@ docs:
     storage: storage.html
     messages: messages.html
     testing: testing.html
+    configuration: configuration.html
   distributing:
     deploying: deploying.html
   plugins:
