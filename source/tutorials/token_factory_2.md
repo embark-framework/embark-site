@@ -6,21 +6,17 @@ In [part 1](/tutorials/token_factory_1.html) we deployed and interacted with a s
 
 A Token is typically a unit used to represent a medium of exchange for some service or utility. They can represent a concert ticket, a membership, voting share, reputation points, etc…
 
-**TODO: update tutorial to 3.0**
-
-*note: This tutorial is meant for embark 2.5.2 (not 2.6.0 and above)*
-
 ## Getting Started
 
-For the second part of the tutorial, Embark 2.5.2 is required.
+For the second part of the tutorial, Embark 3.0 or higher is required.
 
 If you are using an older version you can update with:
 
 ```Bash
-npm install -g embark@2.5.2
+npm install -g embark@3
 ```
 
-Afterwards make sure that `embark version` returns 2.5.2 then restart embark with `embark run`
+Afterwards make sure that `embark version` returns 3.0 then restart embark with `embark run`
 
 ## Generalizing Token Interaction
 
@@ -65,9 +61,12 @@ First, we’ll add a simple form to *app/index.html* to get address of the token
 </html>
 ```
 
-In *app/js/token.js* we’ll get the address given in the input, initialize a new contract object for that address and the Token ABI, and then assign it to a variable. We’ll also update the rest of code to use *currentToken* instead of *Token*. This way the existing code will work with the token we will be loading.
+In *app/js/index.js* we’ll get the address given in the input, initialize a new contract object for that address and the Token ABI, and then assign it to a variable. We’ll also update the rest of code to use *currentToken* instead of *Token*. This way the existing code will work with the token we will be loading.
 
 ```Plain
+import $ from 'jquery';
+import Token from 'Embark/contracts/Token';
+
 $(document).ready(function() {
 
   var currentToken;
@@ -86,7 +85,7 @@ $(document).ready(function() {
 
   $('#queryBalance button').click(function() {
     var address = $('#queryBalance input').val();
-    currentToken.balanceOf(address).then(function(balance) {
+    currentToken.methods.balanceOf(address).send().then(function(balance) {
       $('#queryBalance .result').html(balance.toString());
     });
   });
@@ -94,7 +93,7 @@ $(document).ready(function() {
   $('#transfer button').click(function() {
     var address = $('#transfer .address').val();
     var num = $('#transfer .num').val();
-    currentToken.transfer(address, num).then(function() {
+    currentToken.methods.transfer(address, num).send().then(function() {
       $('#transfer .result').html('Done!');
     });;
   });
@@ -172,7 +171,7 @@ First we’ll add a simple form to *app/index.html* to get the desired supply of
 
 Embark makes the contract objects available in the js side, each contract object will have a method called *deploy* that can deploy new instances of the contract. This method can take parameters for the contract, and it will return a promise containing a contract object of the deployed contract.
 
-In *app/js/token.js* we’ll add the code to deploy new tokens client side using this functionality:
+In *app/js/index.js* we’ll add the code to deploy new tokens client side using this functionality:
 
 ```Plain
 $(document).ready(function() {

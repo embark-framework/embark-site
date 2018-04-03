@@ -5,15 +5,12 @@ In this tutorial series we’ll create a Token Factory using Ethereum. In part 1
 
 A Token is typically a unit used to represent a medium of exchange for some service or utility. They can represent a concert ticket, a membership, voting share, reputation points, etc…
 
-**TODO: update the tutorial to 3.0**
-note: This tutorial is meant for embark 2.5.2 (not 2.6.0 and above)
-
 ## Getting Started
 
 First of all, make sure you have [Go-Ethereum](https://geth.ethereum.org/) and Embark installed.
 
 ```Bash
-npm -g install embark@2.5.2
+npm -g install embark
 ```
 
 Now, let’s create a new dapp
@@ -48,14 +45,77 @@ Now open your browser at http://localhost:8000 , start your favourite editor an
 
 We’ll add a typical ERC20 token contract to app/contracts/token.sol
 
-**TODO: add contract code**
-
 *warning: this contract is for educational purposes only, do not use it in production unless you know what you are doing*
+```Javascript
+pragma solidity ^0.4.8;
+contract Token {
 
-Embark will automatically detect the new file and deploy the contract. However we quickly notice a problem, in Embark’s console type:
+  event Transfer(address indexed from, address indexed to, uint value);
+  event Approval( address indexed owner, address indexed spender, uint value);
+
+  mapping( address => uint ) _balances;
+  mapping( address => mapping( address => uint ) ) _approvals;
+  uint public _supply;
+  function Token( uint initial_balance ) {
+    _balances[msg.sender] = initial_balance;
+    _supply = initial_balance;
+  }
+  function totalSupply() constant returns (uint supply) {
+    return _supply;
+  }
+  function balanceOf( address who ) constant returns (uint value) {
+    return _balances[who];
+  }
+  function transfer( address to, uint value) returns (bool ok) {
+    if( _balances[msg.sender] < value ) {
+      throw;
+    }
+    if( !safeToAdd(_balances[to], value) ) {
+      throw;
+    }
+    _balances[msg.sender] -= value;
+    _balances[to] += value;
+    Transfer( msg.sender, to, value );
+    return true;
+  }
+  function transferFrom( address from, address to, uint value) returns (bool ok) {
+    // if you don't have enough balance, throw
+    if( _balances[from] < value ) {
+      throw;
+    }
+    // if you don't have approval, throw
+    if( _approvals[from][msg.sender] < value ) {
+      throw;
+    }
+    if( !safeToAdd(_balances[to], value) ) {
+      throw;
+    }
+    // transfer and return true
+    _approvals[from][msg.sender] -= value;
+    _balances[from] -= value;
+    _balances[to] += value;
+    Transfer( from, to, value );
+    return true;
+  }
+  function approve(address spender, uint value) returns (bool ok) {
+    // TODO: should increase instead
+    _approvals[msg.sender][spender] = value;
+    Approval( msg.sender, spender, value );
+    return true;
+  }
+  function allowance(address owner, address spender) constant returns (uint _allowance) {
+    return _approvals[owner][spender];
+  }
+  function safeToAdd(uint a, uint b) internal returns (bool) {
+    return (a + b >= a);
+  }
+}
+```
+
+Once added, Embark will automatically detect the new file and deploy the contract. However we quickly notice a problem, in Embark’s console type:
 
 ```Javascript
-Token._supply().toNumber()
+Token.methods._supply().call(console.log)
 ```
 
 ![Console](token_factory_1/console_1.png)
@@ -77,9 +137,9 @@ Let’s rectify this by specifying the *initial_balance* value in `config/contra
     "gas": "auto",
     "contracts": {
       "Token": {
-        "args": [
-          1000
-        ]
+        "args": {
+          "initial_balance": 1000
+        }
       }
     }
   }
@@ -119,21 +179,26 @@ To input the address to query, we’ll edit *app/index.html* and add a simple fo
 ```
 
 **Adding jQuery**
-To simplify the code a bit in this tutorial, we’ll add the jQuery library to our DApp. Download jQuery from [here](https://code.jquery.com/jquery-3.1.1.min.js) and save it in your dapp *app/js/* folder.
 
-Alternatively:
+To simplify the code a bit in this tutorial, we’ll add the jQuery library to our DApp. 
 
 ```Bash
-cd app/js/ && wget https://code.jquery.com/jquery-3.1.1.min.js
+npm install jquery@3 --save
 ```
 
-*note: To use libraries such as react, give a look at a plugin such as [embark-babel](https://github.com/iurimatias/embark-babel)*
+Now edit the file *app/js/index.js* and add:
+
+```Javascript
+import $ from 'jquery';
+```
 
 **Setting the default address**
 
-Let’s add to the input field field our own address as the default text so we can easily query our own balance. create the file *app/js/token.js* and add:
+Let’s add to the input field field our own address as the default text so we can easily query our own balance. In the file *app/js/index.js* add:
 
 ```Javascript
+import $ from 'jquery';
+
 $(document).ready(function() {
   web3.eth.getAccounts(function(err, accounts) {
     $('#queryBalance input').val(accounts[0]);
@@ -156,12 +221,17 @@ function balanceOf( address who ) constant returns (uint value) {
 This method will be available in the JS code automatically as a promise, like:
 
 ```Javascript
+import Token from 'Embark/contracts/Token';
+
 Token.balanceOf(address).then(function(balance) { });
 ```
 
 So we can simply add a click event to the button, get the address, query the balance and set the result.
 
 ```Javascript
+import $ from 'jquery';
+import Token from 'Embark/contracts/Token';
+
 $(document).ready(function() {
 
   web3.eth.getAccounts(function(err, accounts) {
@@ -170,15 +240,13 @@ $(document).ready(function() {
 
   $('#queryBalance button').click(function() {
     var address = $('#queryBalance input').val();
-    Token.balanceOf(address).then(function(balance) {
-      $('#queryBalance .result').html(balance.toString());
+    Token.methods.balanceOf(address).call().then(function(balance) {
+      $('#queryBalance .result').html(balance);
     });
   });
 
 });
 ```
-
-*note: since the balance variable is a Big Integer, to read it it’s necessary to apply either .toNumber() or .toString()*
 
 ![Screenshot](token_factory_1/page_1.png)
 
@@ -226,9 +294,12 @@ The method will take two parameters, an address and a value. Like in the previou
 </html>
 ```
 
-Then we will add the code to take the address and number of tokens from the inputs and call the contracts transfer method to *app/js/token.js*:
+Then we will add the code to take the address and number of tokens from the inputs and call the contracts transfer method to *app/js/index.js*:
 
 ```Javascript
+import $ from 'jquery';
+import Token from 'Embark/contracts/Token';
+
 $(document).ready(function() {
 
   web3.eth.getAccounts(function(err, accounts) {
@@ -237,9 +308,8 @@ $(document).ready(function() {
 
   $('#queryBalance button').click(function() {
     var address = $('#queryBalance input').val();
-
-    Token.balanceOf(address).then(function(balance) {
-      $('#queryBalance .result').html(balance.toString());
+    Token.methods.balanceOf(address).call().then(function(balance) {
+      $('#queryBalance .result').html(balance);
     });
   });
 
@@ -247,7 +317,7 @@ $(document).ready(function() {
     var address = $('#transfer .address').val();
     var num = $('#transfer .num').val();
 
-    Token.transfer(address, num).then(function() {
+    Token.methods.transfer(address, num).send().then(function() {
       $('#transfer .result').html('Done!');
     });;
   });
