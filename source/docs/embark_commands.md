@@ -94,6 +94,14 @@ $ embark upload [platform] [environment]
 
 Uploads the DApp to a decentralized storage such as IPFS. `platform` can be `ipfs` or `swarm` or another parameter if supported by a plugin. If no `environment` is provider embark will use `development` by default.
 
+## graph
+
+``` bash
+$ embark graph
+```
+
+Generates documentation based on the smart contracts configured
+
 ## version
 
 ``` bash

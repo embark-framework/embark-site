@@ -203,3 +203,57 @@ You can specify actions to do after ALL contracts have been deployed by using th
     }
 ```
 
+### specify contract file
+
+By default embark will look for the contracts inside the folder defined in "contracts"` property in embark.json.
+However it's possible to specify the contract filepath:
+
+```Json
+    # config/contracts.json
+    {
+      "development": {
+        "gas": "auto",
+        "contracts": {
+          "SimpleStorage": {
+            "file": "./some_folder/simple_storage.sol",
+            "args": [
+              100
+            ]
+          }
+        }
+      }
+    }
+```
+
+### specify contract file from package
+
+It's also possible to specify a contract file from a npm package:
+
+```Json
+    # config/contracts.json
+    {
+      "development": {
+        "gas": "auto",
+        "contracts": {
+          "ERC20": {
+            "file": "zeppelin-solidity/contracts/token/ERC20/ERC20.sol",
+          }
+        }
+      }
+    }
+```
+
+### importing files in contracts
+
+If using solidity it's also possible to directly import contract files inside the dapp from folders that are not explicity defined in the "contracts" propery of embark.json.
+
+```Javascript
+import "another_folder/another_test.sol";
+```
+
+You can also import a contract file from a npm package:
+
+```Javascript
+import "zeppelin-solidity/contracts/ownership/Ownable.sol";
+```
+
