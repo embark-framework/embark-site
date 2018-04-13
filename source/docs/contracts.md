@@ -24,6 +24,23 @@ arguments:
     }
 ```
 
+If you prefer it's also possible to specify the contract arguments by their variable name instead of a list:
+
+```Json
+    # config/contracts.json
+    {
+      "development": {
+        "contracts": {
+          "SimpleStorage": {
+            "args": {
+              "initial_value": 100
+            }
+          }
+        }
+      }
+    }
+```
+
 ### Specifying Contract Dependencies
 
 If you are using multiple contracts, you can pass a reference to another contract as ``$ContractName``, Embark will automatically replace this with the correct address for the contract.
