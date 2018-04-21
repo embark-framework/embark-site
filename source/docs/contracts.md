@@ -220,7 +220,7 @@ You can specify actions to do after ALL contracts have been deployed by using th
     }
 ```
 
-### specify contract file
+### Specify contract file
 
 By default embark will look for the contracts inside the folder defined in "contracts"` property in embark.json.
 However it's possible to specify the contract filepath:
@@ -242,7 +242,27 @@ However it's possible to specify the contract filepath:
     }
 ```
 
-### specify contract file from package
+You can even specify files on Git, Github or over HTTP(S):
+```Json
+    # config/contracts.json
+    {
+      "development": {
+        "contracts": {
+          "ERC725": {
+            "file": "git://github.com/status/contracts/contracts/identity/ERC725.sol#develop"
+          },
+          "ERC725": {
+            "file": "github.com/status/contracts/contracts/identity/ERC725.sol"
+          },
+          "Ownable": {
+            "file": "https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/ownership/Ownable.sol"
+          }
+        }
+      }
+    }
+```
+
+### Specify contract file from package
 
 It's also possible to specify a contract file from a npm package:
 
@@ -260,7 +280,7 @@ It's also possible to specify a contract file from a npm package:
     }
 ```
 
-### importing files in contracts
+### Importing files in contracts
 
 If using solidity it's also possible to directly import contract files inside the dapp from folders that are not explicity defined in the "contracts" propery of embark.json.
 
@@ -272,5 +292,13 @@ You can also import a contract file from a npm package:
 
 ```Javascript
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
+```
+
+You can even use files directly from Git, Github or directly from HTTP(S):
+
+```Javascript
+import "git://github.com/status/contracts/contracts/identity/ERC725.sol#develop";
+import "github.com/status/contracts/contracts/identity/ERC725.sol";
+import "https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/ownership/Ownable.sol";
 ```
 
