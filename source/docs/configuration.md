@@ -14,7 +14,7 @@ title: Configuring Embark
   "buildDir": "dist/",
   "config": "config/",
   "versions": {
-    "web3.js": "1.0.0-beta",
+    "web3": "1.0.0-beta",
     "solc": "0.4.17",
     "ipfs-api": "17.2.4"
   },
