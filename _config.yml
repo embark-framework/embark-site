@@ -27,7 +27,8 @@ disqus_shortname: hexojs
 google_analytics: UA-48498357-3
 fb_admins: 100000247608790
 algolia:
-  apiKey: 439d8dc2add18007a2f31be4a9c0ed70
-  indexName: embark
+  en:
+    apiKey: 439d8dc2add18007a2f31be4a9c0ed70
+    indexName: embark
 twitter: iurimatias
 github: embark-framework/embark

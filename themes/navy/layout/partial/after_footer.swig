@@ -14,13 +14,13 @@
 <!-- endbuild -->
 {% endif %}
 <!-- Algolia -->
-{% if config.algolia %}
+{% if config.algolia[page.lang] %}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
 <script type="text/javascript">
     document.getElementById('search-input-wrap').classList.add('on');
     docsearch({
-        apiKey: '{{ config.algolia.apiKey }}',
-        indexName: '{{ config.algolia.indexName }}',
+        apiKey: '{{ config.algolia[page.lang].apiKey }}',
+        indexName: '{{ config.algolia[page.lang].indexName }}',
         inputSelector: '#search-input'
     });
 </script>
