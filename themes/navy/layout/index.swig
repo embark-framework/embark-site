@@ -12,12 +12,12 @@
   color: #000000;
   padding: 10px 25px;
   text-decoration: none;
-  font-family: Roboto
+  font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .startlink {
   color: white;
-  font-family: Roboto;
+  font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 20px;
   text-decoration: none;
   padding-left: 15px;
