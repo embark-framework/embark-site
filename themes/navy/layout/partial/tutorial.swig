@@ -1,5 +1,5 @@
 <li class="plugin on">
-  <a href="{{ tutorial.link }}" class="plugin-name" target="_blank">{{ tutorial.name }}</a>
+  <a href="{{ tutorial.link }}" class="plugin-name">{{ tutorial.name }}</a>
   <p class="plugin-desc">{{ tutorial.description }}</p>
   <div class="plugin-tag-list">
     {% for tag in tutorial.tags %}

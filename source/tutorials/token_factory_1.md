@@ -1,4 +1,5 @@
 title: How to create a Token Factory with Ethereum — Part 1
+layout: tutorial
 ---
 
 In this tutorial series we’ll create a Token Factory using Ethereum. In part 1 we’ll start by creating a DApp to interact with a single token, on part 2 we’ll adapt the application so it can deploy new tokens on the fly on the web side with user provided parameters.
