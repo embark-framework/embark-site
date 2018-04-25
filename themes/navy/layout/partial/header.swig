@@ -5,17 +5,17 @@
     </h1>
     <nav id="main-nav">
       {{ header_menu('main-nav') }}
-      <a href="https://github.com/{{ config.github }}" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
       <div id="search-input-wrap">
         <div id="search-input-icon">
           <i class="fa fa-search"></i>
         </div>
         <input type="search" id="search-input" placeholder="Search...">
       </div>
-    </nav>
-    <div id="lang-select-wrap" style="display: none">
-      <label id="lang-select-label"><i class="fa fa-globe"></i><span>{{ lang_name(page.lang) }}</span></label>
-      <select id="lang-select" data-canonical="{{ canonical_path_for_nav() }}">
+      <a href="https://github.com/{{ config.github }}" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+      <label id="lang-select-label" style="display: none"><i class="fa fa-globe"></i><span>{{ lang_name(page.lang) }}</span></label>
+      <select id="lang-select" data-canonical="{{ canonical_path_for_nav() }}" style="display: none">
         {% for lang in site.data.languages %}
           <option value="{{ loop.key }}"{% if page.lang === loop.key %} selected{% endif %}>{{ lang_name(loop.key) }}</option>
         {% endfor %}
