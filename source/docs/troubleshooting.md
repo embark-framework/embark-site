@@ -2,8 +2,6 @@ title: Troubleshooting
 ---
 In case you're experiencing problems with using Embark, here is a list of solutions to some frequently encountered issues. If this page doesn't help you solve your problem, try doing a search on [GitHub](https://github.com/embark-framework/embark/issues).
 
-**TODO: add typical issues**
-
 ## node-gyp problems
 node-gyp can cause problems, because it requires a C++ compiler.
 
