@@ -92,6 +92,8 @@ This call is used to add a file to the pipeline so it's included with the dapp o
 
 ``file`` is the file to add to the pipeline, the path should relative to the plugin.
 
+``intendedPath`` is the intended path outside of the plugin
+
 ``options`` available:
  * skipPipeline - If true it will not apply transformations to the file. For
    example if you have a babel plugin to transform es6 code or a minifier plugin, setting this to
@@ -103,7 +105,7 @@ This call is used to add a file to the pipeline so it's included with the dapp o
     }
 ```
 
-### embark.registerBeforeDeploy(callback(options))
+### embark.registerBeforeDeploy(callback(options), [callback])
 
 This call can be used to add handler to process contract code after it was generated, but immediately before it is going to be deployed.
 It is useful to replace placeholders with dynamic values.
@@ -114,6 +116,8 @@ options available:
  * deploymentAccount - address of account which will be used to deploy this contract
  * contract - contract object.
  * callback - callback function that handler must call with result object as the only argument. Result object must have field contractCode with (un)modified code from contract.code
+
+You can use the callback argument instead of the callback option if you prefer. It needs the same result object.
 
 expected return: ignored
 
@@ -145,7 +149,7 @@ example:
 ```Javascript
     module.exports = function(embark) {
         embark.registerClientWeb3Provider(function(options) {
-            return "web3 = new Web3(new Web3.providers.HttpProvider('http://" + options.rpcHost + ":" + options.rpcPort + "');";
+            return "web3 = new Web3(new Web3.providers.HttpProvider('http://" + options.rpcHost + ":" + options.rpcPort + "'));";
         });
     }
 ```
@@ -168,15 +172,16 @@ options available:
 expected return: ``string``
 
 ```Javascript
-    module.exports = function(embark) {
-        embark.registerContractsGeneration(function(options) {
-          for(var className in this.contractsManager.contracts) {
-            var abi = JSON.stringify(contract.abiDefinition);
-
-            return className + " = " + web3.eth.contract(" + abi + ").at('" + contract.deployedAddress + "');";
-          }
+    embark.registerContractsGeneration(function (options) {
+        const contractGenerations = [];
+        Object.keys(options.contracts).map(className => {
+          const contract = options.contracts[className];
+          const abi = JSON.stringify(contract.abiDefinition);
+    
+          contractGenerations.push(`${className} = web3.eth.contract('${abi}').at('${contract.deployedAddress}')`);
         });
-    }
+        return contractGenerations.join('\n');
+      });
 ```
 
 ### embark.registerConsoleCommand(callback(options))
@@ -199,19 +204,20 @@ expected return: ``string`` (output to print in console) or ``boolean`` (skip co
 
 ### embark.registerCompiler(extension, callback(contractFiles, doneCallback))
 
-expected doneCallback arguments: ``err`` and  ``hash`` of compiled contracts
+Expected doneCallback arguments: ``err`` and  ``hash`` of compiled contracts
 
   * Hash of objects containing the compiled contracts. (key: contractName, value: contract object)
-  * code - contract bytecode (string)
-  * runtimeBytecode - contract runtimeBytecode (string)
-  * gasEstimates - gas estimates for constructor and methods (hash)
-  * e.g ``{"creation":[20131,38200],"external":{"get()":269,"set(uint256)":20163,"storedData()":224},"internal":{}}``
-  * functionHashes - object with methods and their corresponding hash identifier (hash)
-  * e.g ``{"get()":"6d4ce63c","set(uint256)":"60fe47b1","storedData()":"2a1afcd9"}``
-  * abiDefinition - contract abi (array of objects)
-  * e.g ``[{"constant":true,"inputs":[],"name":"storedData","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"}, etc...``
+      * code - [required] contract bytecode (string)      
+      * abiDefinition - [required] contract abi (array of objects)
+        * e.g ``[{"constant":true,"inputs":[],"name":"storedData","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"}, etc...``
+      * runtimeBytecode - [optionnal] contract runtimeBytecode (string)
+      * gasEstimates - [optionnal] gas estimates for constructor and methods (hash)
+        * e.g ``{"creation":[20131,38200],"external":{"get()":269,"set(uint256)":20163,"storedData()":224},"internal":{}}``
+      * functionHashes - [optionnal] object with methods and their corresponding hash identifier (hash)
+        * e.g ``{"get()":"6d4ce63c","set(uint256)":"60fe47b1","storedData()":"2a1afcd9"}``
 
-below a possible implementation of a solcjs plugin:
+
+Below a possible implementation of a solcjs plugin:
 
 ```Javascript
     var solc = require('solc');
@@ -262,21 +268,37 @@ This call is used to listen and react to events that happen in Embark such as co
    * available events:
       * "contractsDeployed" - triggered when contracts have been deployed
       * "file-add", "file-change", "file-remove", "file-event" - triggered on a file change, args is (filetype, path)
-      * "code", "code-vanila", "code-contracts-vanila" - triggered when contracts have been deployed and returns the generated JS code
       *  "outputDone" - triggered when dapp is (re)generated
       * "firstDeploymentDone" - triggered when the dapp is deployed and generated for the first time
       * "check:backOnline:serviceName" - triggered when the service with ``serviceName`` comes back online
-      * "check:backOffline:serviceName" - triggered when the service with ``serviceName`` comes back offline
+      * "check:wentOffline:serviceName" - triggered when the service with ``serviceName`` goes offline
 
 ```Javascript
     module.exports = function(embark) {
         embark.events.on("contractsDeployed", function() {
           embark.logger.info("plugin says: your contracts have been deployed");
         });
-        embark.events.on("file-changed", function(filetype, path) {
+        embark.events.on("file-change", function(filetype, path) {
           if (type === 'contract') {
             embark.logger.info("plugin says: you just changed the contract at " + path);
           }
+        });
+    }
+```
+
+### embark.events.request(eventName, callback(*args))
+
+This call is used to request a certain resource from Embark
+
+* eventName - name of event to listen to
+   * available events:ile change, args is (filetype, path)
+      * "code", "code", "code" - returns the contracts' generated JS code
+        * Important: This request is only available after contracts have been deployed and the code has been generated
+
+```Javascript
+    module.exports = function(embark) {
+        embark.events.request("code", function(code) {
+          // Do something with the code
         });
     }
 ```
@@ -307,7 +329,7 @@ It will be displayed in the Embark Dashboard, and will also trigger events such 
 ### embark.registerUploadCommand(cmdName, callback)
 
 This call is used to add a new cmd to ``embark upload`` to upload the dapp to
-a new storage service
+a new storage service. In the example, `run` doesn't exist. You need to import a library that runs shell commands like [shelljs](https://www.npmjs.com/package/shelljs)
 
 ```Javascript
     module.exports = function(embark) {
