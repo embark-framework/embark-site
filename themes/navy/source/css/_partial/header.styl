@@ -17,14 +17,20 @@ logo-size = 50px
 
 #logo-wrap
   flex: 0 logo-size
+  .by-status
+    color: color-main-link
+    font-family: font-sans
+    text-decoration none
+    font-size: 16px
 
 #logo
   hide-text()
-  background: url("/logo.png")
+  background: url("/embark-logo.svg")
   width: 156px
   height: 45px
   background-size: @width @height
   display: block
+
 
 #main-nav
   display: none
@@ -39,7 +45,7 @@ logo-size = 50px
   line-height: logo-size
   opacity: 1.0
   transition: 0.2s
-  font-family: font-title
+  font-family: font-sans
   display: inline-block
   padding: 0 15px
   &:hover

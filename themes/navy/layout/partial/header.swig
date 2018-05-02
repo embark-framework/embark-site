@@ -2,6 +2,7 @@
   <div id="header-inner" class="inner">
     <h1 id="logo-wrap">
       <a href="{{ url_for_lang('') }}" id="logo">Embark</a>
+      <a href="https://status.im/" class="by-status" target="_blank">by Status</a>
     </h1>
     <nav id="main-nav">
       {{ header_menu('main-nav') }}
