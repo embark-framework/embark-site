@@ -7,8 +7,8 @@ The website for Embark.
 Install dependencies:
 
 ``` bash
-$ git clone https://github.com/embark-framework/embark-site.git
-$ cd site
+$ git clone https://github.com/status-im/embark-site.git
+$ cd embark-site
 $ npm install
 ```
 
