@@ -59,25 +59,49 @@ logo-size = 50px
 
 #search-input-wrap
   display: none
-  padding-left: 6px
-  padding-bottom: 2px
-  border-bottom: 1px solid color-gray
+  height: 40px
+  width: 180px
+  background-color: #2B2C4F
+  border-radius: 22px
+  padding: 0 12px
+  align-items: center
   &.on
-    display: inline-block
+    display: flex
+    @media(max-width: 780px)
+      display: none
 
 #search-input-icon
-  color: color-main-link
-  padding-right: 0.5em
+  color: rgba(255, 255, 255, 1)
+  height: 24px
+  width: 24px
+  margin: 0 2px 0 0
   display: inline-block
-  opacity: 0.7
+  opacity: 1
 
 #search-input
   background: none
-  font-size: inherit
-  font-family: font-title
+  width: 126px
+  height: 24px
+  font-size: 15px
   color: color-main-link
   outline: none
   -webkit-appearance: none
+
+#search-input::-webkit-input-placeholder {
+  color:rgba(255, 255, 255, .4)
+}
+
+#search-input::-moz-placeholder {
+  color:rgba(255, 255, 255, .4)
+}
+
+#search-input:-ms-input-placeholder {
+  color:rgba(255, 255, 255, .4)
+}
+
+#search-input:-moz-placeholder {
+  color:rgba(255, 255, 255, .4)
+}
 
 #lang-select-wrap
   display: none
