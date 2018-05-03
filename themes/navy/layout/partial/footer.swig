@@ -4,12 +4,12 @@
             <div class="community-item">
                 <h3>We’re All Open Source</h3>
                 <p>Check out the source code on GitHub and contribute</p>
-                <a href="https://status.im/" class="button" target="_blank">Github</a>
+                <a href="https://github.com/embark-framework/embark" class="button" target="_blank">Github</a>
             </div>
             <div class="community-item">
                 <h3>We’re here to help</h3>
                 <p>Contact us for support and join in on the conversation in gitter</p>
-                <a href="https://status.im/" class="button" target="_blank">Join Chat</a>
+                <a href="/chat/" class="button">Join Chat</a>
             </div>
         </div>
         <div class="mail">
