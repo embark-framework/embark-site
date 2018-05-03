@@ -67,7 +67,7 @@
                             <!-- Deploy only when truly needed and handle complex systems of interdependent contracts with one simple file. --></p>
                     </div>
                     <div class="features-button-wrap">
-                        <a class="button button--features button--light" href="/tutorials/token_factory_1.html" target="_blank">Tutorial
+                        <a class="button button--features button--light" href="/tutorials/token_factory_1.html">Tutorial
                             on Tokens</a>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                         <p>Deploy your DApp to IPFS or Swarm.</p>
                     </div>
                     <div class="features-button-wrap">
-                        <a class="button button--features button--light" href="/docs/storage.html" target="_blank">Tutorial
+                        <a class="button button--features button--light" href="/docs/storage.html" >Tutorial
                             on IPFS</a>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                         <p>Use Whisper or Orbit to fulfill your communication needs.</p>
                     </div>
                     <div class="features-button-wrap">
-                        <a class="button button--features button--light" href="/docs/messages.html" target="_blank">Tutorial
+                        <a class="button button--features button--light" href="/docs/messages.html">Tutorial
                             on messaging</a>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                         <p>Use any build pipeline or tool, including grunt, gulp and webpack.</p>
                     </div>
                     <div class="features-button-wrap">
-                        <a class="button button--features button--light" href="/docs/configuration.html" target="_blank">Learn
+                        <a class="button button--features button--light" href="/docs/configuration.html">Learn
                             More</a>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                         glance.</p>
                     <p>Even this part of Embark is configurable. Don’t like the dashboard? Just use <strong>embark run
                             --nodashboard</strong></p>
-                    <a class="section-link" href="/docs/quick_start.html" target="_blank">Learn More</a>
+                    <a class="section-link" href="/docs/quick_start.html">Learn More</a>
                 </div>
             </div>
             <div class="section__image">
@@ -151,7 +151,7 @@
                         needs to become a really powerful DApp.</p>
                     <p>Launch a blockchain of your own with one command. <strong>blockchain.json</strong> can be easily
                         set up to start your specified environment.</p>
-                    <a class="section-link" href="/docs/contracts.html" target="_blank">Learn More</a>
+                    <a class="section-link" href="/docs/contracts.html>Learn More</a>
                 </div>
             </div>
             <div class="section__image">
@@ -170,7 +170,7 @@
                         <!--Don’t like something and want to change it, or maybe there is some useful thing that you would like Embark to do? You can extend that too.--></p>
                     <p>The limit is only your imagination! Want a plugin that emails your boss every time your deploy to
                         production? Build it and we’ll share it.</p>
-                    <a class="section-link" href="/plugins" target="_blank">See Plugins</a>
+                    <a class="section-link" href="/plugins">See Plugins</a>
                 </div>
             </div>
             <div class="section__image">
@@ -188,9 +188,9 @@
                     <p>Swarm is also supported for deployment, just run a Swarm node and use <strong>embark upload
                             swarm</strong>.</p>
                     <!--p>Tests can readily be configured and use the well-known Mocha framework, though you can easily swap in any testing framework you prefer.</p -->
-                    <a class="section-link" href="/docs/storage.html" target="_blank">Storage</a> <a class="section-link"
+                    <a class="section-link" href="/docs/storage.html">Storage</a> <a class="section-link"
                                                                                                     href="/docs/messages.html"
-                                                                                                    target="_blank">Communication</a>
+                                                                                                   >Communication</a>
                 </div>
             </div>
             <div class="section__image">
