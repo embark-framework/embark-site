@@ -1,9 +1,11 @@
 <div class="home-cover">
     <div class="header">
         <div class="header-left">
-            <a class="logo" href="/">
-                <span class="logo-sign">By Status</span>
-            </a>
+            <div class="logo-wrap">
+                <a class="logo" href="/"></a>
+                <a class="logo-sign" target="_blank" href="https://status.im">By Status</a>
+            </div>
+
             <ul class="main-nav">
                 <li><a href="/docs/">Docs</a></li>
                 <li><a href="/tutorials/">Tutorials</a></li>
@@ -25,12 +27,11 @@
         </div>
     </div>
 
-
     <div class="intro">
         <h1>Build Powerful DApps Easily</h1>
         <p>Embark is a fast, simple and powerful framework to help you develop and deploy Decentralized Applications</p>
         <div class="intro-buttons">
-            <a class="button button--main" target="_blank" href="https://status.im">Get Started</a>
+            <a class="button button--main" href="/docs/quick_start.html">Get Started</a>
             <a class="button button--secondary" href="/docs/">Documentation</a>
         </div>
     </div>
@@ -61,10 +62,14 @@
                     <div class="features-item-top">
                         <h2>Ethereum Blockchains</h2>
                         <p>Automatically deploy contracts and access them with JS promises. Embark watches for changes,
-                            and will redeploy contracts or DApps when updated. Manage different chains and keep track of
-                            deployed contracts easily.</p>
+                            and will redeploy contracts or DApps when updated.</p>
+                        <p>Manage different chains and keep track of deployed contracts easily.
+                            <!-- Deploy only when truly needed and handle complex systems of interdependent contracts with one simple file. --></p>
                     </div>
-                    <a class="button button--features button--light" href="https://status.im">Tutorial on Tokens</a>
+                    <div class="features-button-wrap">
+                        <a class="button button--features button--light" href="https://status.im" target="_blank">Tutorial
+                            on Tokens</a>
+                    </div>
                 </div>
             </div>
             <div class="features-item">
@@ -75,7 +80,10 @@
                             too.</p>
                         <p>Deploy your DApp to IPFS or Swarm.</p>
                     </div>
-                    <a class="button button--features button--light" href="https://status.im">Tutorial on IPFS</a>
+                    <div class="features-button-wrap">
+                        <a class="button button--features button--light" href="https://status.im" target="_blank">Tutorial
+                            on IPFS</a>
+                    </div>
                 </div>
             </div>
             <div class="features-item">
@@ -85,7 +93,10 @@
                         <p>Easily send/receive messages through P2P channels.</p>
                         <p>Use Whisper or Orbit to fulfill your communication needs.</p>
                     </div>
-                    <a class="button button--features button--light" href="https://status.im">Tutorial on messaging</a>
+                    <div class="features-button-wrap">
+                        <a class="button button--features button--light" href="https://status.im" target="_blank">Tutorial
+                            on messaging</a>
+                    </div>
                 </div>
             </div>
             <div class="features-item">
@@ -95,7 +106,10 @@
                         <p>Integrate with any web technology, including React, Foundation, and Angular.</p>
                         <p>Use any build pipeline or tool, including grunt, gulp and webpack.</p>
                     </div>
-                    <a class="button button--features button--light" href="https://status.im">Learn More</a>
+                    <div class="features-button-wrap">
+                        <a class="button button--features button--light" href="https://status.im" target="_blank">Learn
+                            More</a>
+                    </div>
                 </div>
             </div>
 
@@ -116,8 +130,10 @@
                 <div class="text">
                     <p>Running Embark will reveal a dashboard right in your terminal that makes it easy to determine the
                         state of your contracts, the environment you are using, and what Embark is doing, all at a
-                        glance. Even this part of</p>
-                    <p>Embark is configurable. Don’t like the dashboard? Just use embark run --nodashboard!</p>
+                        glance.</p>
+                    <p>Even this part of Embark is configurable. Don’t like the dashboard? Just use <strong>embark run
+                            --nodashboard</strong></p>
+                    <a class="section-link" href="https://status.im" target="_blank">Learn More</a>
                 </div>
             </div>
             <div class="section__image">
@@ -128,10 +144,14 @@
                 <h2>Easy Configuration</h2>
                 <div class="text">
                     <p>Embark lets you manage complex systems of contracts easily, pass dynamic references to other
-                        contracts, deploy multiple instances, or access onDeploy or afterDeploy lifecycle hooks from
-                        with the same contracts.json file.</p>
-                    <p>Launch a blockchain of your own with one command. blockchain.json can be easily set up to start
-                        your specified environment.</p>
+                        contracts, deploy multiple instances, or access <strong>onDeploy</strong> or
+                        <strong>afterDeploy</strong> lifecycle hooks from with the same <strong>contracts.json</strong>
+                        file.</p>
+                    <p>Easily specify dependencies, deployer accounts, static addresses, and anything else your system
+                        needs to become a really powerful DApp.</p>
+                    <p>Launch a blockchain of your own with one command. <strong>blockchain.json</strong> can be easily
+                        set up to start your specified environment.</p>
+                    <a class="section-link" href="https://status.im" target="_blank">Learn More</a>
                 </div>
             </div>
             <div class="section__image">
@@ -144,8 +164,13 @@
                     <p>It’s all about extensibility. Use helpful pre-existing plugins for babel, webpack and a number of
                         other JS build tools.</p>
                     <p>Write your own plugins to suit your needs and share them with the whole community.</p>
-                    <p>Want to code in LLL? Use the LLL plugin. Want to support handlebars templates? Use the handlebars
-                        plugin. Want to develop DApps for Status easily? There’s a plugin for that.</p>
+                    <p>Want to code in LLL? Use the LLL plugin.
+                        <!-- Want to support handlebars templates? Use the handlebars plugin. --> Want to develop DApps
+                        for Status easily? There’s a plugin for that.
+                        <!--Don’t like something and want to change it, or maybe there is some useful thing that you would like Embark to do? You can extend that too.--></p>
+                    <p>The limit is only your imagination! Want a plugin that emails your boss every time your deploy to
+                        production? Build it and we’ll share it.</p>
+                    <a class="section-link" href="https://status.im" target="_blank">See Plugins</a>
                 </div>
             </div>
             <div class="section__image">
@@ -155,11 +180,18 @@
             <div class="section__text">
                 <h2>More Than Just a Blockchain Framework</h2>
                 <div class="text">
-                    <p>In addition to the simple contracts.json file, Embark also comes with a storage.json and a
-                        communication.json file that allows you to connect with IPFS for storage and Whisper or Orbit
-                        for messaging. </p>
-                    <p>To deploy a dapp to IPFS, all you need to do is run a local IPFS node and then run `embark upload
-                        ipfs`. It really is that simple.</p>
+                    <p>In addition to the simple <strong>contracts.json</strong> file, Embark also comes with a <strong>storage.json</strong>
+                        and a <strong>communication.json</strong> file that allows you to connect with IPFS for storage
+                        and Whisper or Orbit for messaging. </p>
+                    <p>To deploy a dapp to IPFS, all you need to do is run a local IPFS node and then run <strong>embark
+                            upload ipfs</strong>. It really is that simple.</p>
+                    <p>Swarm is also supported for deployment, just run a Swarm node and use <strong>embark upload
+                            swarm</strong>.</p>
+                    <!--p>Tests can readily be configured and use the well-known Mocha framework, though you can easily swap in any testing framework you prefer.</p -->
+                    <a class="section-link" href="https://status.im" target="_blank">Storage</a> <a class="section-link"
+                                                                                                    href="https://status.im"
+                                                                                                    target="_blank">Communication</a>
+                    <a class="section-link" href="https://status.im" target="_blank">Settings</a>
                 </div>
             </div>
             <div class="section__image">
@@ -167,6 +199,3 @@
         </div>
     </div>
 </div>
-
-
-<script src="./js/bundle.js?v=0.0.1"></script>
