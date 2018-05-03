@@ -15,14 +15,14 @@
   <meta name="msapplication-TileColor" content="#2f83cd">
   <meta name="msapplication-TileImage" content="{{ url_for('icon/mstile-144x144.png') }}">
 
-  <link rel="icon" type="image/png" href="./img/logo-16.png?v=0.0.5" sizes="16x16" />
-  <link rel="icon" type="image/png" href="./img/logo-32.png?v=0.0.5" sizes="32x32" />
+  <link rel="icon" type="image/png" href="/img/logo-16.png?v=0.0.5" sizes="16x16" />
+  <link rel="icon" type="image/png" href="/img/logo-32.png?v=0.0.5" sizes="32x32" />
 
-  <link rel="apple-touch-icon" sizes="76x76" href="./img/apple-touch-icon-76.png?v=0.0.5">
-  <link rel="apple-touch-icon" sizes="120x120" href="./img/apple-touch-icon-120.png?v=0.0.5">
-  <link rel="apple-touch-icon" sizes="152x152" href="./img/apple-touch-icon-152.png?v=0.0.5">
-  <link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon-180.png?v=0.0.5">
-  <link rel="apple-touch-icon" href="./img/apple-touch-icon-1024.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon-76.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/apple-touch-icon-120.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/apple-touch-icon-152.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon-180.png?v=0.0.5">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon-1024.png?v=0.0.5">
   <!-- CSS -->
   <!-- build:css build/css/navy.css -->
   {{ css('css/navy') }}
@@ -37,7 +37,7 @@
     fb_admins: config.fb_admins,
     twitter_site: config.twitter
   }) }}
-  <meta property="og:image" content="./img/share.png?v=0.0.5" />
+  <meta property="og:image" content="/img/share.png?v=0.0.5" />
   <!-- Google Analytics -->
   {{ partial('google_analytics') }}
 </head>
