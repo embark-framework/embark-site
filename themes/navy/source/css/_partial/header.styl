@@ -66,12 +66,13 @@ logo-size = 50px
   padding: 0 12px
   align-items: center
   transition: 0.2s
+  &.active
+    width: 180px
+    background-color: color-background-light
   @media mq-mobile
     display:block
     width: 40px
     cursor: pointer
-    &.active
-      width: 180px
     &.standalone
       position: absolute
       right: 20px
@@ -87,6 +88,12 @@ logo-size = 50px
   opacity: 1
   @media mq-mobile
     height: auto;
+
+#search-input-wrap.active #search-input-icon
+  color: color-navy
+
+#search-input-wrap.active #search-input
+  color: color-navy
 
 #search-input
   background: none
