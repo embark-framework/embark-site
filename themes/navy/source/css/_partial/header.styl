@@ -66,18 +66,17 @@ logo-size = 50px
   padding: 0 12px
   align-items: center
   transition: 0.2s
+  &.on
+    display: flex
+    @media mq-mobile
+      width: 40px
+      cursor: pointer
+      &.standalone
+        position: absolute
+        right: 20px
   &.active
     width: 180px
     background-color: color-background-light
-  @media mq-mobile
-    display:block
-    width: 40px
-    cursor: pointer
-    &.standalone
-      position: absolute
-      right: 20px
-  &.on
-    display: flex
 
 #search-input-icon
   color: rgba(255, 255, 255, 1)
@@ -124,6 +123,12 @@ logo-size = 50px
 #search-input:-moz-placeholder {
   color:rgba(255, 255, 255, .4)
 }
+
+#search-input-wrap .algolia-autocomplete .ds-dropdown-menu
+  @media (max-width: 560px)
+    min-width: 400px
+  @media (max-width: 470px)
+    min-width: 300px
 
 #lang-select-wrap
   display: none
