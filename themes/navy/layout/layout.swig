@@ -3,7 +3,9 @@
 {{ partial('partial/head') }}
 <body>
   <div id="container">
-    {{ partial('partial/header') }}
+    {% if page.source != 'index.md' %}
+      {{ partial('partial/header') }}
+    {% endif %}
     {{ body }}
     {{ partial('partial/footer') }}
   </div>

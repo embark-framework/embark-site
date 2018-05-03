@@ -1,9 +1,3 @@
-- name: embark-status
-  description: Status plugin to interact with embark
-  link: https://www.npmjs.com/package/embark-status
-  tags:
-    - status
-    - mobile
 - name: embark-solium
   description: The official Solium Plugin for the Embark Framework
   link: https://www.npmjs.com/package/embark-solium
@@ -11,7 +5,21 @@
     - linter
     - solidity
     - solium
-- name: embark-include-packages
-  description: Include other Solidity files not contained in src.
-  link: https://www.npmjs.com/package/embark-include-packages
+- name: embark-status
+  description: Status plugin to interact with embark
+  link: https://www.npmjs.com/package/embark-status
   tags:
+    - status
+    - mobile
+- name: embark-remix
+  description: Plugin to start Remix and Remix directly with Embark
+  link: https://www.npmjs.com/package/embark-remix
+  tags:
+    - remix
+    - debugger
+- name: embark-bamboo
+  description: Plugin to add Bamboo support to embark
+  link: https://www.npmjs.com/package/embark-bamboo
+  tags:
+    - language
+    - smart-contracts

@@ -2,6 +2,9 @@
   'use strict';
 
   var header = document.getElementById('header');
+  if (!header) {
+    return;
+  }
   var toc = document.getElementById('article-toc');
   var tocTop = document.getElementById('article-toc-top');
   var headerHeight = header.clientHeight;

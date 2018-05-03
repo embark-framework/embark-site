@@ -17,12 +17,22 @@ logo-size = 50px
 
 #logo-wrap
   flex: 0 logo-size
+  margin-top: 19px
+
+.by-status
+  color: rgba(255, 255, 255, .6)
+  display: block
+  font-family: font-sans
+  text-decoration none
+  font-size: 15px
+  line-height: 15px
+  margin-top: 6px
 
 #logo
   hide-text()
-  background: url("/logo.png")
-  width: 156px
-  height: 45px
+  background: url("/embark-logo.svg")
+  width: 116px
+  height: 26px
   background-size: @width @height
   display: block
 
@@ -34,12 +44,13 @@ logo-size = 50px
     display: block
 
 .main-nav-link
-  color: white
+  color: color-main-link
   text-decoration: none
   line-height: logo-size
   opacity: 1.0
   transition: 0.2s
-  font-family: font-title
+  font-family: font-sans
+  font-size: 15px
   display: inline-block
   padding: 0 15px
   &:hover
@@ -49,13 +60,13 @@ logo-size = 50px
 #search-input-wrap
   display: none
   padding-left: 6px
-  padding-bottom: 8px
+  padding-bottom: 2px
   border-bottom: 1px solid color-gray
   &.on
     display: inline-block
 
 #search-input-icon
-  color: white
+  color: color-main-link
   padding-right: 0.5em
   display: inline-block
   opacity: 0.7
@@ -64,7 +75,7 @@ logo-size = 50px
   background: none
   font-size: inherit
   font-family: font-title
-  color: white
+  color: color-main-link
   outline: none
   -webkit-appearance: none
 
@@ -75,7 +86,7 @@ logo-size = 50px
     display: block
 
 #lang-select-label
-  color: white
+  color: color-main-link
   opacity: 0.7
   font-family: font-title
   line-height: logo-size
