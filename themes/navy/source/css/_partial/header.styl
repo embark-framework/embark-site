@@ -65,10 +65,16 @@ logo-size = 50px
   border-radius: 22px
   padding: 0 12px
   align-items: center
+  @media mq-mobile
+    display:block
+    width: 40px
+    cursor: pointer
+    line-height: 40px
+    &.standalone
+      position: absolute
+      right: 20px
   &.on
     display: flex
-    @media(max-width: 780px)
-      display: none
 
 #search-input-icon
   color: rgba(255, 255, 255, 1)
@@ -77,6 +83,8 @@ logo-size = 50px
   margin: 0 2px 0 0
   display: inline-block
   opacity: 1
+  @media mq-mobile
+    height: auto;
 
 #search-input
   background: none
@@ -86,6 +94,8 @@ logo-size = 50px
   color: color-main-link
   outline: none
   -webkit-appearance: none
+  @media mq-mobile
+    display: none
 
 #search-input::-webkit-input-placeholder {
   color:rgba(255, 255, 255, .4)
