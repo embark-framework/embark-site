@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>How to create a Token Factory with Ethereum — Part 1 | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/tutorials/token_factory_1.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+
+  <link rel="icon" type="image/png" href="/img/logo-16.png?v=0.0.5" sizes="16x16" />
+  <link rel="icon" type="image/png" href="/img/logo-32.png?v=0.0.5" sizes="32x32" />
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon-76.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/apple-touch-icon-120.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/apple-touch-icon-152.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon-180.png?v=0.0.5">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon-1024.png?v=0.0.5">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  <link rel="stylesheet" href="/css/navy.css">
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <!-- Open Graph -->
+  <meta name="description" content="In this tutorial series we’ll create a Token Factory using Ethereum. In part 1 we’ll start by creating a DApp to interact with a single token, on part 2 we’ll adapt the application so it can deploy ne">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How to create a Token Factory with Ethereum — Part 1">
+<meta property="og:url" content="https://embark.status.im/tutorials/token_factory_1.html">
+<meta property="og:site_name" content="Embark">
+<meta property="og:description" content="In this tutorial series we’ll create a Token Factory using Ethereum. In part 1 we’ll start by creating a DApp to interact with a single token, on part 2 we’ll adapt the application so it can deploy ne">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://embark.status.im/tutorials/token_factory_1/dashboard.png">
+<meta property="og:image" content="https://embark.status.im/tutorials/token_factory_1/console_1.png">
+<meta property="og:image" content="https://embark.status.im/tutorials/token_factory_1/console_2.png">
+<meta property="og:image" content="https://embark.status.im/tutorials/token_factory_1/page_1.png">
+<meta property="og:image" content="https://embark.status.im/tutorials/token_factory_1/page_2.png">
+<meta property="og:image" content="https://embark.status.im/tutorials/token_factory_1/page_3.png">
+<meta property="og:image" content="https://embark.status.im/tutorials/token_factory_1/page_4.png">
+<meta property="og:updated_time" content="2018-05-03T20:01:15.478Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to create a Token Factory with Ethereum — Part 1">
+<meta name="twitter:description" content="In this tutorial series we’ll create a Token Factory using Ethereum. In part 1 we’ll start by creating a DApp to interact with a single token, on part 2 we’ll adapt the application so it can deploy ne">
+<meta name="twitter:image" content="https://embark.status.im/tutorials/token_factory_1/dashboard.png">
+<meta name="twitter:site" content="iurimatias">
+<meta property="fb:admins" content="100000247608790">
+  <meta property="og:image" content="/img/share.png?v=0.0.5" />
+  <!-- Google Analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48498357-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</head>
+
+<body>
+  <div id="container">
+    
+      <header id="header" class="wrapper">
+    <div id="header-inner" class="inner">
+        <h1 id="logo-wrap">
+            <a href="/" id="logo">Embark</a>
+            <a href="https://status.im/" class="by-status" target="_blank">By Status</a>
+        </h1>
+        <nav id="main-nav">
+            <a href="/docs/" class="main-nav-link">Docs</a>
+            <a href="/tutorials/" class="main-nav-link">Tutorials</a>
+            <a href="/plugins/" class="main-nav-link">Plugins</a>
+        </nav>
+
+        <div class="secondary-nav">
+            <div id="search-input-wrap" class="standalone">
+                <div id="search-input-icon">
+                    <i class="fa fa-search"></i>
+                </div>
+                <input type="search" id="search-input" placeholder="Search...">
+            </div>
+
+            <div class="second-nav-links">
+                <span><a href="/news/" class="main-nav-link">Blog</a></span>
+                <span><a href="/chat/" class="main-nav-link">Gitter</a></span>
+                <span class="social-link social-link--github"><a href="https://github.com/embark-framework/embark"
+                                                             target="_blank"></a></span>
+            </div>
+        </div>
+
+        <a id="mobile-nav-toggle">
+            <span class="mobile-nav-toggle-bar"></span>
+            <span class="mobile-nav-toggle-bar"></span>
+            <span class="mobile-nav-toggle-bar"></span>
+        </a>
+    </div>
+</header>
+
+    
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner-full">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">How to create a Token Factory with Ethereum — Part 1</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>In this tutorial series we’ll create a Token Factory using Ethereum. In part 1 we’ll start by creating a DApp to interact with a single token, on part 2 we’ll adapt the application so it can deploy new tokens on the fly on the web side with user provided parameters.</p>
+<p>A Token is typically a unit used to represent a medium of exchange for some service or utility. They can represent a concert ticket, a membership, voting share, reputation points, etc…</p>
+<h2 id="Getting-Started" class="article-heading"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started<a class="article-anchor" href="#Getting-Started" aria-hidden="true"></a></h2><p>First of all, make sure you have <a href="https://geth.ethereum.org/" target="_blank" rel="noopener">Go-Ethereum</a> and Embark installed.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm -g install embark</span><br></pre></td></tr></table></figure>
+<p>Now, let’s create a new dapp</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">embark new TokenFactory</span><br></pre></td></tr></table></figure>
+<p>This will create a directory called TokenFactory, cd to it and run:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">embark blockchain</span><br></pre></td></tr></table></figure>
+<p>In another console, in the same directory, run:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">embark run</span><br></pre></td></tr></table></figure>
+<p>You should see something like this:</p>
+<p><img src="token_factory_1/dashboard.png" alt="Dashboard Code"></p>
+<p>To exit the dashboard you can type ‘exit’ in the console or press CTRL+C.</p>
+<blockquote class="note warn"><strong class="note-title">if you can't use the dashboard</strong><p>In some system setups there are difficulties using the dashboard, if that’s your case or if you prefer to simply see the logs you can run embark with the dashboard disabled <code>embark run --nodashboard</code></p>
+</blockquote>
+<p>Now open your browser at <a href="http://localhost:8000" target="_blank" rel="noopener">http://localhost:8000</a> , start your favourite editor and let’s get started!</p>
+<h2 id="Adding-the-Token-Contract" class="article-heading"><a href="#Adding-the-Token-Contract" class="headerlink" title="Adding the Token Contract"></a>Adding the Token Contract<a class="article-anchor" href="#Adding-the-Token-Contract" aria-hidden="true"></a></h2><p>We’ll add a typical ERC20 token contract to contracts/token.sol</p>
+<p><em>warning: this contract is for educational purposes only, do not use it in production unless you know what you are doing</em><br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.8</span>;</span><br><span class="line">contract Token &#123;</span><br><span class="line"></span><br><span class="line">  event Transfer(address indexed <span class="keyword">from</span>, address indexed to, uint value);</span><br><span class="line">  event Approval( address indexed owner, address indexed spender, uint value);</span><br><span class="line"></span><br><span class="line">  mapping( <span class="function"><span class="params">address</span> =&gt;</span> uint ) _balances;</span><br><span class="line">  mapping( <span class="function"><span class="params">address</span> =&gt;</span> mapping( <span class="function"><span class="params">address</span> =&gt;</span> uint ) ) _approvals;</span><br><span class="line">  uint public _supply;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">Token</span>(<span class="params"> uint initial_balance </span>) </span>&#123;</span><br><span class="line">    _balances[msg.sender] = initial_balance;</span><br><span class="line">    _supply = initial_balance;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">totalSupply</span>(<span class="params"></span>) <span class="title">constant</span> <span class="title">returns</span> (<span class="params">uint supply</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> _supply;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params"> address who </span>) <span class="title">constant</span> <span class="title">returns</span> (<span class="params">uint value</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> _balances[who];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params"> address to, uint value</span>) <span class="title">returns</span> (<span class="params">bool ok</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>( _balances[msg.sender] &lt; value ) &#123;</span><br><span class="line">      <span class="keyword">throw</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>( !safeToAdd(_balances[to], value) ) &#123;</span><br><span class="line">      <span class="keyword">throw</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    _balances[msg.sender] -= value;</span><br><span class="line">    _balances[to] += value;</span><br><span class="line">    Transfer( msg.sender, to, value );</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transferFrom</span>(<span class="params"> address from, address to, uint value</span>) <span class="title">returns</span> (<span class="params">bool ok</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// if you don't have enough balance, throw</span></span><br><span class="line">    <span class="keyword">if</span>( _balances[<span class="keyword">from</span>] &lt; value ) &#123;</span><br><span class="line">      <span class="keyword">throw</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// if you don't have approval, throw</span></span><br><span class="line">    <span class="keyword">if</span>( _approvals[<span class="keyword">from</span>][msg.sender] &lt; value ) &#123;</span><br><span class="line">      <span class="keyword">throw</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>( !safeToAdd(_balances[to], value) ) &#123;</span><br><span class="line">      <span class="keyword">throw</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// transfer and return true</span></span><br><span class="line">    _approvals[<span class="keyword">from</span>][msg.sender] -= value;</span><br><span class="line">    _balances[<span class="keyword">from</span>] -= value;</span><br><span class="line">    _balances[to] += value;</span><br><span class="line">    Transfer( <span class="keyword">from</span>, to, value );</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">approve</span>(<span class="params">address spender, uint value</span>) <span class="title">returns</span> (<span class="params">bool ok</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> should increase instead</span></span><br><span class="line">    _approvals[msg.sender][spender] = value;</span><br><span class="line">    Approval( msg.sender, spender, value );</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">allowance</span>(<span class="params">address owner, address spender</span>) <span class="title">constant</span> <span class="title">returns</span> (<span class="params">uint _allowance</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> _approvals[owner][spender];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">safeToAdd</span>(<span class="params">uint a, uint b</span>) <span class="title">internal</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (a + b &gt;= a);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Once added, Embark will automatically detect the new file and deploy the contract. However we quickly notice a problem, in Embark’s we see:</p>
+<p><img src="token_factory_1/console_1.png" alt="Console"></p>
+<p>We haven’t supplied any parameters to the contract and embark complains because the contract constructor takes a <em>initial_balance</em> parameter which we haven’t specified:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Token</span>(<span class="params"> uint initial_balance </span>) </span>&#123;</span><br><span class="line">    _balances[msg.sender] = initial_balance;</span><br><span class="line">    _supply = initial_balance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Let’s rectify this by specifying the <em>initial_balance</em> value in <code>config/contracts.json</code></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"default"</span>: &#123;</span><br><span class="line">    <span class="attr">"gas"</span>: <span class="string">"auto"</span>,</span><br><span class="line">    <span class="attr">"contracts"</span>: &#123;</span><br><span class="line">      <span class="attr">"Token"</span>: &#123;</span><br><span class="line">        <span class="attr">"args"</span>: &#123;</span><br><span class="line">          <span class="attr">"initial_balance"</span>: <span class="number">1000</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Embark will detect the change and redeploy the contract with the new parameters, afterwards the token supply is 1000 as expected, type:</p>
+<p><img src="token_factory_1/console_2.png" alt="Console"></p>
+<h2 id="Creating-the-UI" class="article-heading"><a href="#Creating-the-UI" class="headerlink" title="Creating the UI"></a>Creating the UI<a class="article-anchor" href="#Creating-the-UI" aria-hidden="true"></a></h2><p>For the sake of brevity, we wouldn’t implement every single functionality in the contract. However, we’ll implement two important features: Checking balance of an address and Transferring Tokens from one address to another.</p>
+<h2 id="Checking-address-balance" class="article-heading"><a href="#Checking-address-balance" class="headerlink" title="Checking address balance"></a>Checking address balance<a class="article-anchor" href="#Checking-address-balance" aria-hidden="true"></a></h2><p>To input the address to query, we’ll edit <em>app/index.html</em> and add a simple form.</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line"><span class="code">    &lt;title&gt;Embark&lt;/title&gt;</span></span><br><span class="line"><span class="code">    &lt;link rel="stylesheet" href="css/app.css"&gt;</span></span><br><span class="line"><span class="code">    &lt;script src="js/app.js"&gt;&lt;/script&gt;</span></span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line"></span><br><span class="line"><span class="code">    &lt;div id="queryBalance"&gt;</span></span><br><span class="line"><span class="code">      &lt;h3&gt;Query Balance&lt;/h3&gt;</span></span><br><span class="line"><span class="code">      &lt;input placeholder="enter account address: e.g 0x123" /&gt;</span></span><br><span class="line"><span class="code">      &lt;button&gt;Query&lt;/button&gt;</span></span><br><span class="line"><span class="code">      &lt;div class="result"&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="code">    &lt;/div&gt;</span></span><br><span class="line"></span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>Adding jQuery</strong></p>
+<p>To simplify the code a bit in this tutorial, we’ll add the jQuery library to our DApp. </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install jquery@3 --save</span><br></pre></td></tr></table></figure>
+<p>Now edit the file <em>app/js/index.js</em> and add:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> $ <span class="keyword">from</span> <span class="string">'jquery'</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>Setting the default address</strong></p>
+<p>Let’s add to the input field field our own address as the default text so we can easily query our own balance. In the file <em>app/js/index.js</em> add:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> $ <span class="keyword">from</span> <span class="string">'jquery'</span>;</span><br><span class="line"></span><br><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  web3.eth.getAccounts(<span class="function"><span class="keyword">function</span>(<span class="params">err, accounts</span>) </span>&#123;</span><br><span class="line">    $(<span class="string">'#queryBalance input'</span>).val(accounts[<span class="number">0</span>]);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>This will get the address of the first account and set it as the default text in the input form.</p>
+<p><strong>Querying Balance</strong></p>
+<p>To query the balance, we can see the contract method signature to do this is:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params"> address who </span>) <span class="title">constant</span> <span class="title">returns</span> (<span class="params">uint value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> _balances[who];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This method will be available in the JS code automatically as a promise, like:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Token <span class="keyword">from</span> <span class="string">'Embark/contracts/Token'</span>;</span><br><span class="line"></span><br><span class="line">Token.balanceOf(address).then(<span class="function"><span class="keyword">function</span>(<span class="params">balance</span>) </span>&#123; &#125;);</span><br></pre></td></tr></table></figure>
+<p>So we can simply add a click event to the button, get the address, query the balance and set the result.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> $ <span class="keyword">from</span> <span class="string">'jquery'</span>;</span><br><span class="line"><span class="keyword">import</span> Token <span class="keyword">from</span> <span class="string">'Embark/contracts/Token'</span>;</span><br><span class="line"></span><br><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  web3.eth.getAccounts(<span class="function"><span class="keyword">function</span>(<span class="params">err, accounts</span>) </span>&#123;</span><br><span class="line">    $(<span class="string">'#queryBalance input'</span>).val(accounts[<span class="number">0</span>]);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  $(<span class="string">'#queryBalance button'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> address = $(<span class="string">'#queryBalance input'</span>).val();</span><br><span class="line">    Token.methods.balanceOf(address).call().then(<span class="function"><span class="keyword">function</span>(<span class="params">balance</span>) </span>&#123;</span><br><span class="line">      $(<span class="string">'#queryBalance .result'</span>).html(balance);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><img src="token_factory_1/page_1.png" alt="Screenshot"></p>
+<p>Now go to <a href="http://localhost:8000" target="_blank" rel="noopener">http://localhost:8000</a> and click on the Query button, it will return 1000 as expected for our address.</p>
+<h2 id="Transferring-Tokens" class="article-heading"><a href="#Transferring-Tokens" class="headerlink" title="Transferring Tokens"></a>Transferring Tokens<a class="article-anchor" href="#Transferring-Tokens" aria-hidden="true"></a></h2><p>Now let’s implement transferring tokens!</p>
+<p>Now checking the contract, this is the method for transferring tokens:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params"> address to, uint value</span>) <span class="title">returns</span> (<span class="params">bool ok</span>)</span></span><br></pre></td></tr></table></figure>
+<p>The method will take two parameters, an address and a value. Like in the previous step, let’s first add a simple form to the html page at <em>app/index.html</em>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;Embark&lt;/title&gt;</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;</span><br><span class="line">    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;h3&gt;Welcome to Embark!&lt;/h3&gt;</span><br><span class="line">    &lt;p&gt;See the &lt;a href=&quot;https://github.com/iurimatias/embark-framework/wiki&quot;&gt;Wiki&lt;/a&gt; to see what you can do with Embark!&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;queryBalance&quot;&gt;</span><br><span class="line">      &lt;h3&gt;Query Balance&lt;/h3&gt;</span><br><span class="line">      &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;</span><br><span class="line">      &lt;button&gt;Query&lt;/button&gt;</span><br><span class="line">      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;transfer&quot;&gt;</span><br><span class="line">      &lt;h3&gt;Transfer Tokens&lt;/h3&gt;</span><br><span class="line">      &lt;input class=&quot;address&quot; placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;</span><br><span class="line">      &lt;input class=&quot;num&quot; placeholder=&quot;enter amount to transfer&quot; /&gt;</span><br><span class="line">      &lt;button&gt;Transfer&lt;/button&gt;</span><br><span class="line">      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>Then we will add the code to take the address and number of tokens from the inputs and call the contracts transfer method to <em>app/js/index.js</em>:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> $ <span class="keyword">from</span> <span class="string">'jquery'</span>;</span><br><span class="line"><span class="keyword">import</span> Token <span class="keyword">from</span> <span class="string">'Embark/contracts/Token'</span>;</span><br><span class="line"></span><br><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  web3.eth.getAccounts(<span class="function"><span class="keyword">function</span>(<span class="params">err, accounts</span>) </span>&#123;</span><br><span class="line">    $(<span class="string">'#queryBalance input'</span>).val(accounts[<span class="number">0</span>]);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  $(<span class="string">'#queryBalance button'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> address = $(<span class="string">'#queryBalance input'</span>).val();</span><br><span class="line">    Token.methods.balanceOf(address).call().then(<span class="function"><span class="keyword">function</span>(<span class="params">balance</span>) </span>&#123;</span><br><span class="line">      $(<span class="string">'#queryBalance .result'</span>).html(balance);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  $(<span class="string">'#transfer button'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> address = $(<span class="string">'#transfer .address'</span>).val();</span><br><span class="line">    <span class="keyword">var</span> num = $(<span class="string">'#transfer .num'</span>).val();</span><br><span class="line"></span><br><span class="line">    Token.methods.transfer(address, num).send().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      $(<span class="string">'#transfer .result'</span>).html(<span class="string">'Done!'</span>);</span><br><span class="line">    &#125;);;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Let’s go to the UI and transfer 20 tokens to a random address, after clicking Transfer you should see the text ‘Done!’ when the transfer takes effect.</p>
+<p><img src="token_factory_1/page_2.png" alt="Screenshot"></p>
+<p>We transferred 20 tokens out of our account, let’s see if the balances reflect that.</p>
+<p><img src="token_factory_1/page_3.png" alt="Screenshot"></p>
+<p><img src="token_factory_1/page_4.png" alt="Screenshot"></p>
+<h2 id="On-to-Part-2" class="article-heading"><a href="#On-to-Part-2" class="headerlink" title="On to Part 2"></a>On to Part 2<a class="article-anchor" href="#On-to-Part-2" aria-hidden="true"></a></h2><p>In this tutorial we deployed and interacted with single Token. On <a href="/tutorials/token_factory_2.html">part 2</a> we will adapt this DApp and create a true factory so new tokens can be dynamically deployed on the application side.</p>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2018-05-03T20:01:15.478Z" itemprop="dateModified">Last updated: 2018-05-03</time>
+                
+              </footer>
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Getting-Started"><span class="toc-text">Getting Started</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Adding-the-Token-Contract"><span class="toc-text">Adding the Token Contract</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Creating-the-UI"><span class="toc-text">Creating the UI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Checking-address-balance"><span class="toc-text">Checking address balance</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Transferring-Tokens"><span class="toc-text">Transferring Tokens</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-to-Part-2"><span class="toc-text">On to Part 2</span></a></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+
+    <div class="pre-footer">
+    <div class="pre-footer-inner">
+        <div class="community">
+            <div class="community-item">
+                <h3>We’re All Open Source</h3>
+                <p>Check out the source code on GitHub and contribute</p>
+                <a href="https://github.com/embark-framework/embark" class="button" target="_blank">Github</a>
+            </div>
+            <div class="community-item">
+                <h3>We’re here to help</h3>
+                <p>Contact us for support and join in on the conversation in gitter</p>
+                <a href="/chat/" class="button">Join Chat</a>
+            </div>
+        </div>
+        <div class="mail">
+            <div class="mail-inner">
+                <h3>Join the Embark Mailing List</h3>
+                <p>Stay up to date on the latest development updates and releases, events, and the latest Embark
+                    news.</p>
+                <div class="email-form ">
+                    <!--[if lte IE 8]>
+                    <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2-legacy.js"></script>
+                    <![endif]-->
+                    <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
+                    <script>
+                      hbspt.forms.create({
+                        css: '',
+                        portalId: "3954379",
+                        formId: "c1eac0b5-5723-47e6-9d66-87a783c38d82"
+                      });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="footer-inner">
+        <div class="footer-logo-wrap">
+            <div class="footer-logo-wrap__inner">
+                <a class="footer-logo" href="https://status.im" target="_blank"></a>
+                <div class="footer-address">Status Research & Development GmbH<br/>Baarerstrasse 10<br/>Zug, Switzerland
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-79146816-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+
+  gtag('js', new Date());
+
+  gtag('config', 'UA-79146816-1');
+</script>
+<script src="/js/bundle.js?v=0.0.1"></script>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/docs/" class="mobile-nav-link">Docs</a><a href="/tutorials/" class="mobile-nav-link">Tutorials</a><a href="/plugins/" class="mobile-nav-link">Plugins</a><a href="/chat/" class="mobile-nav-link">Chat</a><a href="/news/" class="mobile-nav-link">Blog</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/embark-framework/embark" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- build:js build/js/main.js -->
+<script src="/js/lang_select.js"></script>
+<script src="/js/toc.js"></script>
+<script src="/js/mobile_nav.js"></script>
+<script src="/js/search.js"></script>
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+    });
+</script>
+
+
+</body>
+</html>
