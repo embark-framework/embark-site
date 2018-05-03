@@ -4,12 +4,12 @@
             <div class="community-item">
                 <h3>We’re All Open Source</h3>
                 <p>Check out the source code on GitHub and contribute</p>
-                <a href="https://github.com/embark-framework/embark" class="button" target="_blank">Github</a>
+                <a href="https://status.im/" class="button" target="_blank">Github</a>
             </div>
             <div class="community-item">
                 <h3>We’re here to help</h3>
                 <p>Contact us for support and join in on the conversation in gitter</p>
-                <a href="/chat/" class="button">Join Chat</a>
+                <a href="https://status.im/" class="button" target="_blank">Join Chat</a>
             </div>
         </div>
         <div class="mail">
@@ -39,10 +39,25 @@
     <div class="footer-inner">
         <div class="footer-logo-wrap">
             <div class="footer-logo-wrap__inner">
-                <div class="footer-logo"></div>
+                <a class="footer-logo" href="https://status.im" target="_blank"></a>
                 <div class="footer-address">Status Research & Development GmbH<br/>Baarerstrasse 10<br/>Zug, Switzerland
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-79146816-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+
+  gtag('js', new Date());
+
+  gtag('config', 'UA-79146816-1');
+</script>
+<script src="/js/bundle.js?v=0.0.1"></script>
