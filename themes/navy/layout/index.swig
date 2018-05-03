@@ -151,7 +151,7 @@
                         needs to become a really powerful DApp.</p>
                     <p>Launch a blockchain of your own with one command. <strong>blockchain.json</strong> can be easily
                         set up to start your specified environment.</p>
-                    <a class="section-link" href="/docs/contracts.html>Learn More</a>
+                    <a class="section-link" href="/docs/contracts.html">Learn More</a>
                 </div>
             </div>
             <div class="section__image">
