@@ -11,11 +11,17 @@
       </ul>
     </div>
 
-    <ul class="secondary-nav">
-      <li><a href="/news/">Blog</a></li>
-      <li><a href="/chat/">Gitter</a></li>
-      <li class="social-link social-link--github"><a href="https://github.com/embark-framework/embark" target="_blank"></a></li>
-    </ul>
+    <div class="secondary-nav">
+      <div id="search-input-wrap">
+        <div id="search-input-icon">
+          <i class="fa fa-search"></i>
+        </div>
+        <input type="search" id="search-input" placeholder="Search...">
+      </div>
+      <span><a href="/news/" class="main-nav-link">Blog</a></span>
+      <span><a href="/chat/" class="main-nav-link">Gitter</a></span>
+      <span class="social-link social-link--github"><a href="https://github.com/embark-framework/embark" target="_blank"></a></span>
+    </div>
   </div>
 
 
