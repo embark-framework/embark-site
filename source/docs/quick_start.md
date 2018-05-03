@@ -88,9 +88,3 @@ Will automatically be available in Javascript as:
     SimpleStorage.methods.storedData().call().then(function(value) { console.log(value) });
 ```
 
-### TO ADD
-
-browser screenshot, guide through
-
-js code walkthrough
-
