@@ -16,13 +16,15 @@ docs:
     installing_a_plugin: installing_plugins.html
     creating_a_plugin: creating_plugins.html
     plugin_reference: plugin_reference.html
-  advanced_topis:
-    webpack: webpack.html
+  #advanced_topis:
+    #adwebpack: webpack.html
   reference:
     console_commands: console_commands.html
     embark_commands: embark_commands.html
     web3js: web3js.html
     solidity: solidity.html
+    vyper: vyper.html
+    bamboo: bamboo.html
   miscellaneous:
     troubleshooting: troubleshooting.html
     contributing: contributing.html
