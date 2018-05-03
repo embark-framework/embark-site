@@ -65,11 +65,13 @@ logo-size = 50px
   border-radius: 22px
   padding: 0 12px
   align-items: center
+  transition: 0.2s
   @media mq-mobile
     display:block
     width: 40px
     cursor: pointer
-    line-height: 40px
+    &.active
+      width: 180px
     &.standalone
       position: absolute
       right: 20px
@@ -97,6 +99,9 @@ logo-size = 50px
   @media mq-mobile
     display: none
 
+#search-input-wrap.active #search-input
+  display: inline;
+    
 #search-input::-webkit-input-placeholder {
   color:rgba(255, 255, 255, .4)
 }
