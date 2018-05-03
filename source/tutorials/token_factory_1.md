@@ -36,6 +36,8 @@ You should see something like this:
 
 ![Dashboard Code](token_factory_1/dashboard.png)
 
+To exit the dashboard you can type 'exit' in the console or press CTRL+C.
+
 {% note warn if you can't use the dashboard %}
 In some system setups there are difficulties using the dashboard, if that's your case or if you prefer to simply see the logs you can run embark with the dashboard disabled `embark run --nodashboard `
 {% endnote %}
@@ -44,7 +46,7 @@ Now open your browser at http://localhost:8000 , start your favourite editor an
 
 ## Adding the Token Contract
 
-We’ll add a typical ERC20 token contract to app/contracts/token.sol
+We’ll add a typical ERC20 token contract to contracts/token.sol
 
 *warning: this contract is for educational purposes only, do not use it in production unless you know what you are doing*
 ```Javascript
@@ -113,15 +115,11 @@ contract Token {
 }
 ```
 
-Once added, Embark will automatically detect the new file and deploy the contract. However we quickly notice a problem, in Embark’s console type:
-
-```Javascript
-Token.methods._supply().call(console.log)
-```
+Once added, Embark will automatically detect the new file and deploy the contract. However we quickly notice a problem, in Embark’s we see:
 
 ![Console](token_factory_1/console_1.png)
 
-The supply is zero, that’s because the contract constructor takes a *initial_balance* parameter which we haven’t specified:
+We haven't supplied any parameters to the contract and embark complains because the contract constructor takes a *initial_balance* parameter which we haven’t specified:
 
 ```Javascript
 function Token( uint initial_balance ) {
@@ -147,7 +145,7 @@ Let’s rectify this by specifying the *initial_balance* value in `config/contra
 }
 ```
 
-Embark will detect the change and redeploy the contract with the new parameters, afterwards the token supply is 1000 as expected:
+Embark will detect the change and redeploy the contract with the new parameters, afterwards the token supply is 1000 as expected, type:
 
 ![Console](token_factory_1/console_2.png)
 

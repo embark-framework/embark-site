@@ -47,6 +47,8 @@ sidebar:
     embark_commands: Embark Commands
     web3js: Web3.js
     solidity: Solidity
+    vyper: Vyper
+    bamboo: Bamboo
     commands: Commands
     migration: Migration
     writing: Writing
