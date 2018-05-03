@@ -65,10 +65,18 @@ logo-size = 50px
   border-radius: 22px
   padding: 0 12px
   align-items: center
+  transition: 0.2s
   &.on
     display: flex
-    @media(max-width: 780px)
-      display: none
+    @media mq-mobile
+      width: 40px
+      cursor: pointer
+      &.standalone
+        position: absolute
+        right: 20px
+  &.active
+    width: 180px
+    background-color: color-background-light
 
 #search-input-icon
   color: rgba(255, 255, 255, 1)
@@ -77,6 +85,14 @@ logo-size = 50px
   margin: 0 2px 0 0
   display: inline-block
   opacity: 1
+  @media mq-mobile
+    height: auto;
+
+#search-input-wrap.active #search-input-icon
+  color: color-navy
+
+#search-input-wrap.active #search-input
+  color: color-navy
 
 #search-input
   background: none
@@ -86,7 +102,12 @@ logo-size = 50px
   color: color-main-link
   outline: none
   -webkit-appearance: none
+  @media mq-mobile
+    display: none
 
+#search-input-wrap.active #search-input
+  display: inline;
+    
 #search-input::-webkit-input-placeholder {
   color:rgba(255, 255, 255, .4)
 }
@@ -102,6 +123,12 @@ logo-size = 50px
 #search-input:-moz-placeholder {
   color:rgba(255, 255, 255, .4)
 }
+
+#search-input-wrap .algolia-autocomplete .ds-dropdown-menu
+  @media (max-width: 560px)
+    min-width: 400px
+  @media (max-width: 470px)
+    min-width: 300px
 
 #lang-select-wrap
   display: none
