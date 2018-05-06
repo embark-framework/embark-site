@@ -70,11 +70,11 @@ contract Token {
         return _supply;
     }
 
-    function balanceOf( address who ) public view returns (uint value) {
+    function balanceOf(address who) public view returns (uint value) {
         return _balances[who];
     }
 
-    function transfer( address to, uint value) public returns (bool ok) {
+    function transfer(address to, uint value) public returns (bool ok) {
         require(_balances[msg.sender] > value);
         require(safeToAdd(_balances[to], value));
         _balances[msg.sender] -= value;
@@ -83,7 +83,7 @@ contract Token {
         return true;
     }
 
-    function transferFrom( address from, address to, uint value) public returns (bool ok) {
+    function transferFrom(address from, address to, uint value) public returns (bool ok) {
         require(_balances[from] < value);
         require(_approvals[from][msg.sender] < value);
         require(safeToAdd(_balances[to], value));
