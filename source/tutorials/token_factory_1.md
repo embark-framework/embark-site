@@ -49,69 +49,65 @@ Now open your browser at http://localhost:8000 , start your favourite editor an
 We’ll add a typical ERC20 token contract to contracts/token.sol
 
 *warning: this contract is for educational purposes only, do not use it in production unless you know what you are doing*
-```Javascript
-pragma solidity ^0.4.8;
+```Solidity
+pragma solidity ^0.4.23;
+
 contract Token {
 
-  event Transfer(address indexed from, address indexed to, uint value);
-  event Approval( address indexed owner, address indexed spender, uint value);
+    event Transfer(address indexed from, address indexed to, uint value);
+    event Approval(address indexed owner, address indexed spender, uint value);
 
-  mapping( address => uint ) _balances;
-  mapping( address => mapping( address => uint ) ) _approvals;
-  uint public _supply;
-  function Token( uint initial_balance ) {
-    _balances[msg.sender] = initial_balance;
-    _supply = initial_balance;
-  }
-  function totalSupply() constant returns (uint supply) {
-    return _supply;
-  }
-  function balanceOf( address who ) constant returns (uint value) {
-    return _balances[who];
-  }
-  function transfer( address to, uint value) returns (bool ok) {
-    if( _balances[msg.sender] < value ) {
-      throw;
+    mapping(address => uint) _balances;
+    mapping(address => mapping( address => uint )) _approvals;
+    uint public _supply;
+
+    constructor(uint initial_balance) public {
+        _balances[msg.sender] = initial_balance;
+        _supply = initial_balance;
     }
-    if( !safeToAdd(_balances[to], value) ) {
-      throw;
+
+    function totalSupply() public view returns (uint supply) {
+        return _supply;
     }
-    _balances[msg.sender] -= value;
-    _balances[to] += value;
-    Transfer( msg.sender, to, value );
-    return true;
-  }
-  function transferFrom( address from, address to, uint value) returns (bool ok) {
-    // if you don't have enough balance, throw
-    if( _balances[from] < value ) {
-      throw;
+
+    function balanceOf( address who ) public view returns (uint value) {
+        return _balances[who];
     }
-    // if you don't have approval, throw
-    if( _approvals[from][msg.sender] < value ) {
-      throw;
+
+    function transfer( address to, uint value) public returns (bool ok) {
+        require(_balances[msg.sender] > value);
+        require(safeToAdd(_balances[to], value));
+        _balances[msg.sender] -= value;
+        _balances[to] += value;
+        emit Transfer(msg.sender,to,value);
+        return true;
     }
-    if( !safeToAdd(_balances[to], value) ) {
-      throw;
+
+    function transferFrom( address from, address to, uint value) public returns (bool ok) {
+        require(_balances[from] < value);
+        require(_approvals[from][msg.sender] < value);
+        require(safeToAdd(_balances[to], value));
+        _approvals[from][msg.sender] -= value;
+        _balances[from] -= value;
+        _balances[to] += value;
+        emit Transfer(from, to, value);
+        return true;
     }
-    // transfer and return true
-    _approvals[from][msg.sender] -= value;
-    _balances[from] -= value;
-    _balances[to] += value;
-    Transfer( from, to, value );
-    return true;
-  }
-  function approve(address spender, uint value) returns (bool ok) {
-    // TODO: should increase instead
-    _approvals[msg.sender][spender] = value;
-    Approval( msg.sender, spender, value );
-    return true;
-  }
-  function allowance(address owner, address spender) constant returns (uint _allowance) {
-    return _approvals[owner][spender];
-  }
-  function safeToAdd(uint a, uint b) internal returns (bool) {
-    return (a + b >= a);
-  }
+
+    function approve(address spender, uint value) public returns (bool ok) {
+        _approvals[msg.sender][spender] = value;
+        emit Approval(msg.sender, spender, value);
+        return true;
+    }
+
+    function allowance(address owner, address spender) public view returns (uint _allowance) {
+        return _approvals[owner][spender];
+    }
+    
+    function safeToAdd(uint a, uint b) internal pure returns (bool) {
+        return (a + b >= a);
+    }
+}
 }
 ```
 
