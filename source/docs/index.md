@@ -58,7 +58,7 @@ $ brew tap ethereum/ethereum
 $ brew install ethereum
 ```
 
-On a macOS:
+On linux:
 
 ``` linux
 $ sudo add-apt-repository -y ppa:ethereum/ethereum

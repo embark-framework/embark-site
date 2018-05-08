@@ -46,18 +46,3 @@
         </div>
     </div>
 </div>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-79146816-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-
-  gtag('js', new Date());
-
-  gtag('config', 'UA-79146816-1');
-</script>
-<script src="/js/bundle.js?v=0.0.1"></script>
