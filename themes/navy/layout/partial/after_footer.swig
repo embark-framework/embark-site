@@ -1,4 +1,5 @@
 <!-- Scripts -->
+<script src="/js/bundle.js?v=0.0.1"></script>
 <!-- build:js build/js/main.js -->
 {{ js('js/lang_select') }}
 {{ js('js/toc') }}
