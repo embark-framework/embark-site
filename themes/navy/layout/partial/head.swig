@@ -37,6 +37,7 @@
     fb_admins: config.fb_admins,
     twitter_site: config.twitter
   }) }}
+  <meta property="twitter:image" content="/img/share.png?v=0.0.5" />
   <meta property="og:image" content="/img/share.png?v=0.0.5" />
   <!-- Google Analytics -->
   {{ partial('google_analytics') }}
