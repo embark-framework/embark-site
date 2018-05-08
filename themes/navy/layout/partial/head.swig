@@ -32,11 +32,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
   <!-- RSS -->
   {{ feed_tag('atom.xml') }}
-  <!-- Open Graph -->
-  {{ open_graph({
-    fb_admins: config.fb_admins,
-    twitter_site: config.twitter
-  }) }}
   <meta property="og:image" content="/img/share.png?v=0.0.5" />
   <!-- Google Analytics -->
   {{ partial('google_analytics') }}
