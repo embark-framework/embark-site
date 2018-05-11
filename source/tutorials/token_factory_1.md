@@ -108,7 +108,6 @@ contract Token {
         return (a + b >= a);
     }
 }
-}
 ```
 
 Once added, Embark will automatically detect the new file and deploy the contract. However we quickly notice a problem, in Embark’s we see:
@@ -118,7 +117,7 @@ Once added, Embark will automatically detect the new file and deploy the contrac
 We haven't supplied any parameters to the contract and embark complains because the contract constructor takes a *initial_balance* parameter which we haven’t specified:
 
 ```Javascript
-function Token( uint initial_balance ) {
+constructor(uint initial_balance) public {
     _balances[msg.sender] = initial_balance;
     _supply = initial_balance;
 }
