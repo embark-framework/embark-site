@@ -146,6 +146,35 @@ Example:
             ...
 ```
 
+### Using accounts in a wallet
+
+You can use your own account in a wallet which will then be used for the contract deploy, for example.
+
+Using this feature in the development environment requires you to fund the account yourself. This will be fixed in a later release.
+
+```Json
+{
+  "testnet": {
+      "deployment": {
+        "accounts": [
+          {
+            "privateKey": "your_private_key"
+          },
+          {
+            "privateKeyFile": "path/to/file" // You can put more than one key, separated by , or ;
+          },
+          {
+            "mnemonic": "12 word mnemonic",
+            "addressIndex": "0", // Optionnal. The index to start getting the address
+            "numAddresses": "1", // Optionnal. The number of addresses to get
+            "hdpath": "m/44'/60'/0'/0/" // Optionnal. HD derivation path
+          }
+        ]
+      }
+  }
+}
+```
+
 ### Static Addresses
 
 Contracts addresses can be defined, If an address is defined the contract wouldn't be deployed but its defined address will be used instead.
