@@ -152,7 +152,7 @@ You can use your own account in a wallet which will then be used for the contrac
 
 Using this feature in the development environment requires you to fund the account yourself. This will be fixed in a later release.
 
-```Json
+```js
 {
   "testnet": {
       "deployment": {
