@@ -107,16 +107,16 @@ e.g :
 
 Available options are:
 
-Option | Type (default) | Value         
+Option | Type: `default` | Value         
 --- | --- | --- 
-`protocol`    | string (`http`) | Storage provider protocol, ie `http` or `https`
-`host`        | string (`localhost`) | Host value used to interact with the storage provider, ie `localhost` or `swarm-gateways.net`
-`port`        | integer (`5001`) | Port value used to interact with the storage provider, ie `5001` (IPFS local node) or `8500` (Swarm local node) or `80`
-`getUrl`      | string (`http://localhost:8080/ipfs/` | Only for IPFS. This sets the file/document retrieval URL, which is different than the host/port combination used to interact with the IPFS api.
+`protocol`    | string: `http` | Storage provider protocol, ie `http` or `https`
+`host`        | string: `localhost` | Host value used to interact with the storage provider, ie `localhost` or `swarm-gateways.net`
+`port`        | integer: `5001` | Port value used to interact with the storage provider, ie `5001` (IPFS local node) or `8500` (Swarm local node) or `80`
+`getUrl`      | string: `http://localhost:8080/ipfs/` | Only for IPFS. This sets the file/document retrieval URL, which is different than the host/port combination used to interact with the IPFS api.
 `enabled`    | boolean: `true` | Enables or completly disables storage support
-`ipfs_bin`    | string (`ipfs`) | Name or desired path to the ipfs binary
-`provider`    | string (`ipfs`) | desired provider to automatically connect to on the dapp. e.g in the example above, setting this to ``"ipfs"`` will automaticaly add ``EmbarkJS.setProvider('ipfs', {server: 'localhost', 5001})`` to the generated code (assuming `host` is set to `localhost` and `port` is set to `5001`).
-`available_providers`    | array (`["ipfs", "swarm"]`) | list of storages to be supported on the dapp. This will affect what's available with the EmbarkJS library on the dapp.
+`ipfs_bin`    | string: `ipfs` | Name or desired path to the ipfs binary
+`provider`    | string: `ipfs` | desired provider to automatically connect to on the dapp. e.g in the example above, setting this to ``"ipfs"`` will automaticaly add ``EmbarkJS.setProvider('ipfs', {server: 'localhost', 5001})`` to the generated code (assuming `host` is set to `localhost` and `port` is set to `5001`).
+`available_providers`    | array: `["ipfs", "swarm"]` | list of storages to be supported on the dapp. This will affect what's available with the EmbarkJS library on the dapp.
 `versions`    | object | key-value hash of library and its desired version
 
 ### Using a local node
@@ -177,7 +177,7 @@ To use a public gateway (instead of running a local node) for IPFS or Swarm, use
 Running a local swarm node (ie `localhost:8500`) is supported, however this has not proven to be stable yet. Instead, we recommend using swarm-gateways.net for now.
 Please see the [Swarm documentation](http://swarm-guide.readthedocs.io/en/latest/runninganode.html) for more information on running a Swarm node.
 
-### Troubleshooting
+### Troubleshooting <a name="troubleshooting"></a>
 
 If you are not running your DApp on `localhost`, the CORS needs to be set:
 
