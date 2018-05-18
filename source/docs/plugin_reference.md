@@ -272,6 +272,9 @@ This call is used to listen and react to events that happen in Embark such as co
       * "firstDeploymentDone" - triggered when the dapp is deployed and generated for the first time
       * "check:backOnline:serviceName" - triggered when the service with ``serviceName`` comes back online
       * "check:wentOffline:serviceName" - triggered when the service with ``serviceName`` goes offline
+      * "log" - triggered on a log, args is (logLevel, logMsg)
+      * "contractsState" - list of contracts, their deployment status, address, etc..
+      * "servicesState" - list of services and their state
 
 ```Javascript
     module.exports = function(embark) {
