@@ -54,8 +54,6 @@ $ embark blockchain [environment]
 
 Takes the config at `config/blockchain.json` for the `environment` specified and starts a blockchain node. If no `environment` is provider embark will use `development` by default.
 
-If you want, you can skip the step of running `embark blockchain`, as `embark run`, `build` and `upload` now all start a blockchain node in a separate process if there is not one already started using the same configurations.
-
 ## simulator
 
 ``` bash

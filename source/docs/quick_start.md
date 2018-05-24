@@ -8,7 +8,7 @@ $ embark demo
 $ cd embark_demo
 ```
 
-### Start a blockchain node or let Embark start it for you
+### Start a blockchain node
 
 You can run a REAL ethereum node for development purposes:
 
@@ -23,9 +23,6 @@ $ embark simulator
 ```
 
 By default Embark blockchain will mine a minimum amount of ether and will only mine when new transactions come in.
-
-
-If you want, you can skip this step, as `embark run`, `build` and `upload` now all start a blockchain node in a separate process if there is not one already started using the same configurations. 
 
 ### Start Embark
 

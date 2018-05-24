@@ -64,7 +64,7 @@ For example,
       EmbarkJS.Storage.getUrl(hash);
 ```
 
-### Check for storage provider availability
+### Check for storage provdier availability
 This will return true if the storage provider (IPFS or Swarm) is avaiable and running. 
 
 ```Javascript
@@ -119,35 +119,6 @@ Option | Type (default) | Value
 `available_providers`    | array (`["ipfs", "swarm"]`) | list of storages to be supported on the dapp. This will affect what's available with the EmbarkJS library on the dapp.
 `versions`    | object | key-value hash of library and its desired version
 
-### Using a local node
-
-Either for IPFS or Swarm, Embark will default to use a local node for development purposes
-
-Please note that you still need to setup the right port according to the storage platform you use.
-
-By default, IPFS runs on port `5001` and Swarm runs of `8500`.
-
-You can start your local storage node yourself or now you can also let Embark start the node itself in another node.
-
-Letting Embark do it for you let's you focus on developing faster while starting it yourself gives you more flexibility.
-
-You still need to have IPFS or Swarm installed locally for it to work, whatever the case.
-
-**Important configurations for swarm**:
-
-```json
-{
-  "development": {
-    "provider": "swarm",
-    "account": {
-      "address": "YOUR_ACCOUNT_ADDRESS",
-      "password": "PATH/TO/PASSWORD/FILE"
-    },
-    "swarmPath": "PATH/TO/SWARM/EXECUTABLE"
-  }
-}
-```
-
 ### Using a public gateway
 
 To use a public gateway (instead of running a local node) for IPFS or Swarm, use the following `config/storage.json` options:
@@ -167,7 +138,7 @@ To use a public gateway (instead of running a local node) for IPFS or Swarm, use
 ```json
 "development": {
     "enabled": true,
-    "provider": "swarm",
+    "provider": "ipfs",
     "host": "swarm-gateways.net",
     "port": 80
   }
