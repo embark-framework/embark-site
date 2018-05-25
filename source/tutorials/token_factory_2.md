@@ -217,7 +217,7 @@ $(document).ready(function() {
 });
 ```
 
-When the Deploy button is clicked, we’ll get the supply entered and deploy a new Token with `Token.deploy([supply])`. 
+When the Deploy button is clicked, we’ll get the supply entered and deploy a new Token with `Token.methods.deploy([supply])`. 
 The resulting promise `.then(function(deployedToken) {})` will contain the contract object of newly deployed contract. We’ll assign this new token object to the current one *currentToken* and also inform the user of the address;
 
 So let’s try this out! Entering the supply as 500 and clicking Deploy:
