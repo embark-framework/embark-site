@@ -64,17 +64,18 @@ First, we’ll add a simple form to *app/index.html* to get address of the token
 In *app/js/index.js* we’ll get the address given in the input, initialize a new contract object for that address and the Token ABI, and then assign it to a variable. We’ll also update the rest of code to use *currentToken* instead of *Token*. This way the existing code will work with the token we will be loading.
 
 ```Plain
+import EmbarkJS from 'Embark/EmbarkJS';
 import $ from 'jquery';
 import Token from 'Embark/contracts/Token';
 
-$(document).ready(function() {
+let currentToken;
 
-  var currentToken;
+$(document).ready(function() {
 
   $("#useToken button").click(function() {
     var address = $('#useToken input').val();
     currentToken = new EmbarkJS.Contract({
-      abi: Token.abi,
+      abi: Token.options.jsonInterface,
       address: address
     });
   });
@@ -108,7 +109,7 @@ Now you can input the address of an existing token in chain, and interact with i
 I can see the address of the deployed token in my case is *0x0703da89fc6c3ff20b8787a23d3340b41258dba7*. Copy paste your equivalent address into the UI.
 
 {% note help copying the address %}
-*There are several ways to copy the address, in most systems pressing the ALT key while dragging with the mouse will enable text selection in the console, followed by CMD+C or right-click->copy. Alternatively you can also go to your DApp at http://localhost:8000 and type Token.address in the browser dev tools.*
+*There are several ways to copy the address, in most systems pressing the ALT key while dragging with the mouse will enable text selection in the console, followed by CMD+C or right-click->copy.*
 {% endnote %}
 
 ![Screenshot](token_factory_2/page_1.png)
@@ -179,28 +180,28 @@ $(document).ready(function() {
   var currentToken;
 
   $("#deployToken button").click(function() {
-      var supply = $('#deployToken input').val();
-      Token.deploy([supply]).then(function(deployedToken) {
-        currentToken = deployedToken;
-        $("#deployToken .result").append("<br>Token deployed with address: " + deployedToken.address);
-      });
+    var supply = $('#deployToken input').val();
+    Token.deploy({arguments: [supply], data: Token.options.data}).send({gas: 400000}).then(function(deployedToken) {
+      currentToken = deployedToken;
+      $("#deployToken .result").append("<br>Token deployed with address: " + deployedToken.options.address);
+    });
   });
 
   $("#useToken button").click(function() {
-      var address = $('#useToken input').val();
-      currentToken = new EmbarkJS.Contract({
-        abi: Token.abi,
-        address: address
-      });
+    var address = $('#useToken input').val();
+    currentToken = new EmbarkJS.Contract({
+      abi: Token.options.jsonInterface,
+      address: address
+    });
   });
 
   web3.eth.getAccounts(function(err, accounts) {
-      $('#queryBalance input').val(accounts[0]);
-    });
+    $('#queryBalance input').val(accounts[0]);
+  });
 
   $('#queryBalance button').click(function() {
     var address = $('#queryBalance input').val();
-    currentToken.balanceOf(address).then(function(balance) {
+    currentToken.methods.balanceOf(address).then(function(balance) {
       $('#queryBalance .result').html(balance.toString());
     });
   });
@@ -208,7 +209,7 @@ $(document).ready(function() {
   $('#transfer button').click(function() {
     var address = $('#transfer .address').val();
     var num = $('#transfer .num').val();
-    currentToken.transfer(address, num).then(function() {
+    currentToken.methods.transfer(address, num).then(function() {
       $('#transfer .result').html('Done!');
     });;
   });
