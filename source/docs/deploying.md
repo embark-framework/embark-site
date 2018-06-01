@@ -6,7 +6,7 @@ Once the config is set, run
 ```
 embark upload
 ```
-If you want to deploy to the livenet then after configuring you account on `config/blockchain.json` on the `livenet` environment then you can deploy to that chain by specifying the environment: 
+If you want to deploy to the livenet, just configure your account in `config/blockchain.json` under the `livenet` environment. Then, you can deploy to that chain with the following command:
 ```
 embark upload livenet
 ```
