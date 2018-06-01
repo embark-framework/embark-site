@@ -88,10 +88,17 @@ e.g :
       "default": {
         "enabled": true,
         "ipfs_bin": "ipfs",
-        "provider": "ipfs",
         "available_providers": ["ipfs", "swarm"],
-        "host": "localhost",
-        "port": 5001,
+        "upload":{
+          "provider": "ipfs",
+          "host": "localhost",
+          "port": 5001,
+          "getUrl": "http://localhost:8080/ipfs"
+        },
+        "dappConnection":[
+          {"provider": "swarm", "host": "localhost", "port": 8500, "getUrl": "http://localhost:8500/bzz:/"},
+          {"provider": "ipfs", "host": "localhost", "port": 5001, "getUrl": "http://localhost:8080/ipfs/"}
+        ],
         "versions": {
           "ipfs-api": "17.2.4"
         }
@@ -109,14 +116,21 @@ Available options are:
 
 Option | Type: `default` | Value         
 --- | --- | --- 
-`protocol`    | string: `http` | Storage provider protocol, ie `http` or `https`
-`host`        | string: `localhost` | Host value used to interact with the storage provider, ie `localhost` or `swarm-gateways.net`
-`port`        | integer: `5001` | Port value used to interact with the storage provider, ie `5001` (IPFS local node) or `8500` (Swarm local node) or `80`
-`getUrl`      | string: `http://localhost:8080/ipfs/` | Only for IPFS. This sets the file/document retrieval URL, which is different than the host/port combination used to interact with the IPFS api.
 `enabled`    | boolean: `true` | Enables or completly disables storage support
 `ipfs_bin`    | string: `ipfs` | Name or desired path to the ipfs binary
-`provider`    | string: `ipfs` | desired provider to automatically connect to on the dapp. e.g in the example above, setting this to ``"ipfs"`` will automaticaly add ``EmbarkJS.setProvider('ipfs', {server: 'localhost', 5001})`` to the generated code (assuming `host` is set to `localhost` and `port` is set to `5001`).
 `available_providers`    | array: `["ipfs", "swarm"]` | list of storages to be supported on the dapp. This will affect what's available with the EmbarkJS library on the dapp.
+`upload`      | | The upload element specifies storage provider settings used for uploading your dapp.
+`upload.provider`    | string: `ipfs` | desired provider to use when uploading dapp.
+`upload.protocol`    | string: `http` | Storage provider protocol for upload, ie `http` or `https`
+`upload.host`        | string: `localhost` | Host value used to interact with the storage provider for upload, ie `localhost` or `swarm-gateways.net`
+`upload.port`        | integer: `5001` | Port value used to interact with the storage provider for upload, ie `5001` (IPFS local node) or `8500` (Swarm local node) or `80`
+`upload.getUrl`      | string: `http://localhost:8080/ipfs/` | Only for IPFS. This sets the file/document retrieval URL, which is different than the host/port combination used to interact with the IPFS api.
+`dappConnection`     | | List of storage providers to attempt connection to in the dapp. Each conneciton listed will be tried in order, until one is avaialable. Can also specify `$BZZ` to attempt to connect to an injected swarm object.
+`dappConnection.provider` | string: `ipfs` | desired provider to use for dapp storage. 
+`dappConnection.protocol`    | string: `http` | Storage provider protocol used in the dapp, ie `http` or `https`
+`dappConnection.host`        | string | Host value used to interact with the storage provider in the dapp, ie `localhost` or `swarm-gateways.net`
+`dappConnection.port`        | integer | Port value used to interact with the storage provider in the dapp, ie `5001` (IPFS local node) or `8500` (Swarm local node) or `80`. Can specify `false` if a port should not be included in the connection URL (ie for a public gateway like `http://swarm-gateways.net`).
+`dappConnection.getUrl`      | string | Only for IPFS. This sets the file/document retrieval URL, which is different than the host/port combination used to interact with the IPFS api.
 `versions`    | object | key-value hash of library and its desired version
 
 ### Using a local node
