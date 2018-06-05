@@ -119,13 +119,13 @@ Option | Type: `default` | Value
 `enabled`    | boolean: `true` | Enables or completly disables storage support
 `ipfs_bin`    | string: `ipfs` | Name or desired path to the ipfs binary
 `available_providers`    | array: `["ipfs", "swarm"]` | list of storages to be supported on the dapp. This will affect what's available with the EmbarkJS library on the dapp.
-`upload`      | | The upload element specifies storage provider settings used for uploading your dapp.
+`upload`      | | The upload element specifies storage provider settings used for uploading your dapp. A swarm node will be automatically launched in a child process using these settings.
 `upload.provider`    | string: `ipfs` | desired provider to use when uploading dapp.
 `upload.protocol`    | string: `http` | Storage provider protocol for upload, ie `http` or `https`
 `upload.host`        | string: `localhost` | Host value used to interact with the storage provider for upload, ie `localhost` or `swarm-gateways.net`
 `upload.port`        | integer: `5001` | Port value used to interact with the storage provider for upload, ie `5001` (IPFS local node) or `8500` (Swarm local node) or `80`
 `upload.getUrl`      | string: `http://localhost:8080/ipfs/` | Only for IPFS. This sets the file/document retrieval URL, which is different than the host/port combination used to interact with the IPFS api.
-`dappConnection`     | | List of storage providers to attempt connection to in the dapp. Each conneciton listed will be tried in order, until one is avaialable. Can also specify `$BZZ` to attempt to connect to an injected swarm object.
+`dappConnection`     | | List of storage providers to attempt connection to in the dapp. Each provider process will be launched in a child process. Each connection listed will be tried in order on the dapp, until one is avaialable. Can also specify `$BZZ` to attempt to connect to an injected swarm object.
 `dappConnection.provider` | string: `ipfs` | desired provider to use for dapp storage. 
 `dappConnection.protocol`    | string: `http` | Storage provider protocol used in the dapp, ie `http` or `https`
 `dappConnection.host`        | string | Host value used to interact with the storage provider in the dapp, ie `localhost` or `swarm-gateways.net`
@@ -169,11 +169,13 @@ To use a public gateway (instead of running a local node) for IPFS or Swarm, use
 ```json
 "development": {
     "enabled": true,
-    "provider": "ipfs",
-    "host": "ipfs.infura.io",
-    "port": 80,
-    "protocol": "https",
-    "getUrl": "https://ipfs.infura.io/ipfs/"
+    "upload":{
+      "provider": "ipfs",
+      "host": "ipfs.infura.io",
+      "port": 80,
+      "protocol": "https",
+      "getUrl": "https://ipfs.infura.io/ipfs/"
+    }
   }
 ```
 
@@ -181,27 +183,28 @@ To use a public gateway (instead of running a local node) for IPFS or Swarm, use
 ```json
 "development": {
     "enabled": true,
-    "provider": "swarm",
-    "host": "swarm-gateways.net",
-    "port": 80
+    "upload": {
+      "provider": "swarm",
+      "host": "localhost",
+      "port": 8500
+    }
   }
 ```
 
-### Using swarm
-Running a local swarm node (ie `localhost:8500`) is supported, however this has not proven to be stable yet. Instead, we recommend using swarm-gateways.net for now.
-Please see the [Swarm documentation](http://swarm-guide.readthedocs.io/en/latest/runninganode.html) for more information on running a Swarm node.
-
 ### Troubleshooting <a name="troubleshooting"></a>
 
-If you are not running your DApp on `localhost`, the CORS needs to be set:
+If you are running your own processes for IPFS or Swarm, the CORS needs to be set to the domain of your DApp, to the geth domain, and to the domain of the storage used inside the DApp. If you are using the built in webserver, the CORS would need to be set to `http://localhost:8000`, however if you are using `embark upload`, the domain of the decentralised storage host should be included in CORS. Depending on your `upload` settings in `storage.json`, this could be `http://localhost:8080` or `http://ipfs.infura.io` for IPFS or it could be `http://localhost:8500` or `http://swarm-gateways.net` for Swarm. Of course, if you are hosting your DApp on a different domain (ie not `localhost`, then that would need to be included in CORS as well. Examples of how to include multiple domains for each are below:
 
 ```
-ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://dapptastic.com"]'
+# Configure local IPFS node that has the local swarm node whitelisted for CORS
+# Works in the case where IPFS hosts the DApp, but you are running your storage inside the DApp on Swarm (or IPFS, since it doesn't need to whitelist itself)
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"http://localhost:8000\", \"http://localhost:8500\", \"http://localhost:8545\", \"ws://localhost:8546\"]"
 ```
-
-If running a local Swarm node, the CORS needs to be set to be used with your DApp domain using the --corsdomain http://dapptastic.com option. An example swarm command would be:
+NOTE: `http://localhost:8545` and `ws://localhost:8546` are for geth.
 
 ```
-swarm --bzzaccount fedda09fd9218d1ea4fd41ad44694fa4ccba1878 --datadir ~/.bzz-data/ --password config/development/password --corsdomain http://localhost:8000 --ens-api ''
+# Run local Swarm node that has the local IPFS node whitelisted for CORS
+# Works in the case where Swarm hosts the DApp, but you are running your storage inside the DApp on IPFS (or Swarm, since it doesn't need to whitelist itself)
+swarm --bzzaccount=fedda09fd9218d1ea4fd41ad44694fa4ccba1878 --datadir=~/.bzz-data/ --password=config/development/password --corsdomain=http://localhost:8000,http://localhost:8080,http://localhost:8545,ws://localhost:8546 --ens-api=''
 ```
 
