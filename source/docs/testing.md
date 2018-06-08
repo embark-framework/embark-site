@@ -137,36 +137,24 @@ That callback is optional. If you do not need the accounts, you do not have to s
 
 ## Creating contract instances in your tests
 
-// TODO Change this section after it is possible to do that
-
 Embark handles the deployment of your contracts through the function ``config``. 
-However you can use ``web3.eth.contract`` for creating instances of your contracts manually.
+However you can use the contract's deploy function to deploy it manually.
 
 ```Javascript
-    var simpleStorageJson = require('../dist/contracts/SimpleStorage.json');
-    var accountArr;
-    var simpleStorage;
-    
-    describe("SimpleStorage", function() {
-      this.timeout(0);
-      before(function(done) {
-        EmbarkSpec.deployAll({}, (accounts) => {
-          accountArr = accounts;
-          done();
-        });
-      });
-    
-      it("should deploy a contract instance", function(done) {
-        var simpleStorageContract = new web3.eth.Contract(simpleStorageJson.abi);
-        simpleStorageContract.deploy({data: simpleStorageJson.code, arguments: [100]})
-          .send({from: accountArr[0], gas: 5000000, gasPrice: 1})
-          .then(function(contractInstance){
-            simpleStorage = contractInstance;
-            simpleStorage.setProvider(web3.currentProvider);
-            assert(simpleStorage.options.address != null);
-           })
-          .finally(done);
-      });
-    });
+   /*global contract, it, assert, before*/
+   const SimpleStorage = require('Embark/contracts/SimpleStorage');
+   
+   contract("SimpleStorage Deploy", function () {
+     let SimpleStorageInstance;
+   
+     before(async function() {
+       SimpleStorageInstance = await SimpleStorage.deploy({arguments: [150]}).send();
+     });
+   
+     it("should set constructor value", async function () {
+       let result = await SimpleStorageInstance.methods.storedData().call();
+       assert.strictEqual(parseInt(result, 10), 150);
+     });
+   });
 ```
 
