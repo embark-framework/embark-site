@@ -46,6 +46,18 @@ EVM.
 
 ```
 
+## Global variables
+
+Embark makes a couple variables available for you globally:
+
+- `contract`: Same as Mocha's `describe`
+- `config`: Function to deploy your contracts using custom configurations. Calls back with accounts
+- `web3`: Web3 object
+- `assert`: Node's assert
+- Mocha functions: `describe`, `it`, `before`, etc.
+
+You can require your contracts using `require('Embark/contracts/YOUR_CONTRACT_NAME');`
+
 ## Configuring accounts
 
 You can use the same account settings that you would use in [contracts.json](https://embark.status.im/docs/contracts.html#Using-accounts-in-a-wallet)
