@@ -57,7 +57,7 @@ Takes the config at `config/blockchain.json` for the `environment` specified and
 ## simulator
 
 ``` bash
-$ embark blockchain [environment]
+$ embark simulator [environment]
 ```
 
 Takes the config at `config/blockchain.json` for the `environment` specified and starts a blockchain simulator. If no `environment` is provider embark will use `development` by default.
