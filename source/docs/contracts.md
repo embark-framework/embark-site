@@ -3,7 +3,7 @@ title: Contracts
 
 ### Basic Contract Configuration
 
-You can specify for each contract and environment its gas costs and
+You can specify for each contract and environment its gas costs (in wei) and
 arguments:
 
 ```Json
