@@ -50,7 +50,7 @@ Contains the configuration used for embark to run a node with go-ethereum or a s
 
 **contracts.json**
 Configuration for contracts, including their arguments, relationship between them. It's also possible to specify where to deploy the contracts and how the dapp should attempt to connect to a node.
-Please see [Configuring Contracts](configuring-contracts.html) for more details.
+Please see [Configuring Contracts](contracts.html) for more details.
 
 **storage.json**
 
@@ -74,9 +74,9 @@ The build output of your dapp will be put here. You can then distribute your app
 
 ### chains.json
 
-This file is used to keep track of the deployed contracts in each chain. See [chains file](chains-file.html) documentation for more information
+This file is used to keep track of the deployed contracts in each chain. See chains file documentation for more information
 
 ### embark.json
 
-Embark is quite flexible and you can configure your own directory structure using ``embark.json``. This file is also used to specify embark plugins and other configurations. More information can be found in [configuring embark.json](configuring-embark-json.html)
+Embark is quite flexible and you can configure your own directory structure using ``embark.json``. This file is also used to specify embark plugins and other configurations. More information can be found in [configuring embark.json](configuration.html)
 
