@@ -86,7 +86,7 @@ $(document).ready(function() {
 
   $('#queryBalance button').click(function() {
     var address = $('#queryBalance input').val();
-    currentToken.methods.balanceOf(address).send().then(function(balance) {
+    currentToken.methods.balanceOf(address).call().then(function(balance) {
       $('#queryBalance .result').html(balance.toString());
     });
   });
