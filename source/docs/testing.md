@@ -71,7 +71,7 @@ If the unit is not specified, Embark will assume weis.
     // test/simple_storage_spec.js
 
     config({
-    "deployment": {
+      "deployment": {
         "accounts": [
           {
             "privateKey": "your_private_key",
@@ -107,8 +107,8 @@ specify a node to connect to and run the tests there, just like in contracts.jso
     config({
       deployment: {
         "host": "localhost",
-         "port": 8545,
-         "type": "rpc"
+        "port": 8545,
+        "type": "rpc"
       }
     });
 
