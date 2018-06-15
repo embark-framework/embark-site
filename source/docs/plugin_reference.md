@@ -272,6 +272,14 @@ This call is used to listen and react to events that happen in Embark such as co
       * "firstDeploymentDone" - triggered when the dapp is deployed and generated for the first time
       * "check:backOnline:serviceName" - triggered when the service with ``serviceName`` comes back online
       * "check:wentOffline:serviceName" - triggered when the service with ``serviceName`` goes offline
+      * "exit": - triggered when embark is terminating
+      * "deploy:contract:deployed": - triggered when a contract is deployed, the callback will contain the contract object
+      * "deploy:contract:undeployed": - triggered when a contract was not deployed (typically because there is no need), the callback will contain the contract object
+      * "deploy:contract:error": - triggered when a contract couldn't be deployed due to an error, the callback will contain the contract object
+      * "deploy:contract:receipt": - triggered on a contract deployment (succefull or not), the callback will contain the resulting receipt
+      * "contractsState": - triggered often, whenever there are changes to contracts, the callback will contain an object containing the contract names, address and state, etc..
+      * "deploy:beforeAll": - triggered before contract deployment starts
+      * "contracts:deploy:afterAll": - triggered after contract deployment starts
 
 ```Javascript
     module.exports = function(embark) {
@@ -286,14 +294,19 @@ This call is used to listen and react to events that happen in Embark such as co
     }
 ```
 
-### embark.events.request(eventName, callback(*args))
+### embark.events.request(requestName, callback(*args))
 
 This call is used to request a certain resource from Embark
 
-* eventName - name of event to listen to
-   * available events:ile change, args is (filetype, path)
-      * "code", "code", "code" - returns the contracts' generated JS code
-        * Important: This request is only available after contracts have been deployed and the code has been generated
+* requestName - name of request to listen to
+   * available requests:
+     * ("deploy:contract", contractObj) - deploys a particular contract through embark
+     * ("runcode:eval", code) - runs js code in the Embark engine.
+     * ("runcode:register", cmdName, cmdObj) - 'registers' a variable cmdName to correspond to a js object cmdObj (note: this should be done thourgh an emit);
+     * ("contracts:list") - returns a list a callback containing (err, contractList) containing a collection of available contracts
+     * ("compiler:contracts", contractFiles) - requests embark to compile a list of files, will return a compiled object in the callback
+     * ("services:register", serviceName, checkCallback) - requests embark to register a service, it will execute checkCallback every 5 seconds, the callback should return an object containing the service name and status (See embark.registerServiceCheck)
+     * ("console:command", cmd) - execute a command in the console
 
 ```Javascript
     module.exports = function(embark) {
