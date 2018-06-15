@@ -150,8 +150,6 @@ Example:
 
 You can use your own account in a wallet which will then be used for the contract deploy, for example.
 
-Using this feature in the development environment requires you to fund the account yourself. This will be fixed in a later release.
-
 ```js
 {
   "testnet": {
@@ -165,9 +163,26 @@ Using this feature in the development environment requires you to fund the accou
           },
           {
             "mnemonic": "12 word mnemonic",
-            "addressIndex": "0", // Optionnal. The index to start getting the address
-            "numAddresses": "1", // Optionnal. The number of addresses to get
-            "hdpath": "m/44'/60'/0'/0/" // Optionnal. HD derivation path
+            "addressIndex": "0", // Optional. The index to start getting the address
+            "numAddresses": "1", // Optional. The number of addresses to get
+            "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
+          }
+        ]
+      }
+  }
+}
+```
+
+When in development you can also specify the balance of each account as well, for e.g
+
+```js
+{
+  "development": {
+      "deployment": {
+        "accounts": [
+          {
+            "mnemonic": "12 word mnemonic",
+            "balance": "5 ether"
           }
         ]
       }
