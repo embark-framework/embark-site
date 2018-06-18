@@ -190,6 +190,8 @@ When in development you can also specify the balance of each account as well, fo
 }
 ```
 
+You can specify the balance using a unit as "5 ether" of "200 finney", if no unit is specified the value will be in wei.
+
 ### Static Addresses
 
 Contracts addresses can be defined, If an address is defined the contract wouldn't be deployed but its defined address will be used instead.
