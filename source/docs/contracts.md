@@ -199,12 +199,10 @@ testnet: {
     deployment:{
       accounts: [
         {
-          "mnemonic": "wave pigeon sustain sock boring monitor left sight hedgehog weapon champion session",
-          "addressIndex": "0", // Optional. The index to start getting the address
-          "numAddresses": "2", // Optional. The number of addresses to get
+         // your accounts here, see above for details
         }
       ],
-      host: "rinkeby.infura.io/nmY8WtT4QfEwz2S7wTbl",
+      host: "rinkeby.infura.io/INFURA_TOKEN_HERE",
       port: false,
       protocol: 'https', // <=== must be specified for infura, can also be http, or ws
       type: "rpc"
