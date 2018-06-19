@@ -14,7 +14,7 @@ For example,
 ```Javascript
       EmbarkJS.Storage.setProvider('ipfs', {server: 'localhost', port: '5001'});
       // OR
-      EmbarkJS.Storage.setProvider('ipfs', {server: 'swarm-gateways.net', port: '80'});
+      EmbarkJS.Storage.setProvider('swarm', {server: 'swarm-gateways.net', port: '80'});
 ```
 
 ### Save Text/Data
