@@ -171,6 +171,30 @@ Contracts addresses can be defined, If an address is defined the contract wouldn
     }
 ```
 
+### Specifying Deployment Environment with Javascript
+
+There are times when you want to get your environment specified just the way you want it. Embark enables you to modify your deployment environment for your accounts and your web3 provider completely in javascript like this example for Infura deployment:
+
+```javascript
+testnet: {
+    deployment:{
+      accounts: [
+        {
+          "mnemonic": "wave pigeon sustain sock boring monitor left sight hedgehog weapon champion session",
+          "addressIndex": "0", // Optional. The index to start getting the address
+          "numAddresses": "2", // Optional. The number of addresses to get
+          "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
+        }
+      ],
+      host: "rinkeby.infura.io/yourInfuraTokenHere",
+      port: false,
+      protocol: 'https', // <=== Needed for Infura, can also be http, ws
+      type: "rpc"
+    }
+  }
+
+```
+
 ### onDeploy Actions
 
 You can specify actions to do after the deployment of a contract using the "onDeploy" parameter.
