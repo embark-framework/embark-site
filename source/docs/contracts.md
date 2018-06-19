@@ -188,7 +188,7 @@ testnet: {
       ],
       host: "rinkeby.infura.io/yourInfuraTokenHere",
       port: false,
-      protocol: 'https', // <=== Needed for Infura, can be http, ws
+      protocol: 'https', // <=== Needed for Infura, can also be http, ws
       type: "rpc"
     }
   }
