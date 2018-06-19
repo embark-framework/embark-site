@@ -44,7 +44,7 @@ e.g :
       "default": {
         "enabled": true,
         "provider": "whisper",
-        "available_providers": ["whisper", "orbit"]
+        "available_providers": ["whisper"]
       }
     }
 ```
@@ -52,5 +52,5 @@ e.g :
 options available:
   * ``enabled`` (boolean: true/false) to enable or completly disable communication support
   * ``provider`` (string: "wisper" or "orbit") desired provider to automatically connect to on the dapp. e.g in the example above, seting this to ``"whisper"`` will automaticaly add ``EmbarkJS.setProvider('whisper')`` to the generated code
-  * ``available_providers`` (array: ["whisper", "orbit"]) list of communication platforms to be supported on the dapp. This will affect what's available with the EmbarkJS library on the dapp so if you don't need Orbit for e.g, removing it from this will considerably reduce the file size of the generated JS code.
+  * ``available_providers`` (array: ["whisper"]) list of communication platforms to be supported on the dapp. This will affect what's available with the EmbarkJS library on the dapp so if you don't need Whisper for e.g, removing it from this will considerably reduce the file size of the generated JS code.
 
