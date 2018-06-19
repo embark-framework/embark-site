@@ -192,6 +192,24 @@ When in development you can also specify the balance of each account as well, fo
 
 You can specify the balance using a unit as "5 ether" of "200 finney", if no unit is specified the value will be in wei.
 
+If you are using Infura.io to connect to a blockchain node, this is also possible to connect to from Embark like so. The following specifies the configuration for the web3 provider, not the blockchain node configuration itself.
+
+```js
+testnet: {
+    deployment:{
+      accounts: [
+        {
+         // your accounts here, see above for details
+        }
+      ],
+      host: "rinkeby.infura.io/INFURA_TOKEN_HERE",
+      port: false,
+      protocol: 'https', // <=== must be specified for infura, can also be http, or ws
+      type: "rpc"
+    }
+  }
+  ```
+
 ### Static Addresses
 
 Contracts addresses can be defined, If an address is defined the contract wouldn't be deployed but its defined address will be used instead.
