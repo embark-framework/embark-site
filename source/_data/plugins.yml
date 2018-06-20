@@ -1,3 +1,16 @@
+- name: embark-bamboo
+  description: Plugin to add Bamboo support to embark
+  link: https://www.npmjs.com/package/embark-bamboo
+  tags:
+    - language
+    - smart-contracts
+- name: embark-solc
+  description: Uses the command line Solidity Compiler for light-speed compile times
+  link: https://www.npmjs.com/package/embark-solc
+  tags:
+    - solidity
+    - language
+    - smart-contracts
 - name: embark-solium
   description: The official Solium Plugin for the Embark Framework
   link: https://www.npmjs.com/package/embark-solium
@@ -17,9 +30,3 @@
   tags:
     - remix
     - debugger
-- name: embark-bamboo
-  description: Plugin to add Bamboo support to embark
-  link: https://www.npmjs.com/package/embark-bamboo
-  tags:
-    - language
-    - smart-contracts
