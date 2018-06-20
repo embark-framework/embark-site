@@ -5,7 +5,7 @@
         <h1 id="plugin-list-title">{{ page.title }}</h1>
       </header>
       <ul id="plugin-list">
-        {% for plugin in _.sortBy(site.data[page.data], 'name') %}
+        {% for plugin in site.data[page.data] %}
           {{ partial('partial/' + page.partial, {plugin: plugin}) }}
         {% endfor %}
       </ul>
