@@ -146,6 +146,70 @@ Example:
             ...
 ```
 
+### Using accounts in a wallet
+
+You can use your own account in a wallet which will then be used for the contract deploy, for example.
+
+```js
+{
+  "testnet": {
+      "deployment": {
+        "accounts": [
+          {
+            "privateKey": "your_private_key"
+          },
+          {
+            "privateKeyFile": "path/to/file" // You can put more than one key, separated by , or ;
+          },
+          {
+            "mnemonic": "12 word mnemonic",
+            "addressIndex": "0", // Optional. The index to start getting the address
+            "numAddresses": "1", // Optional. The number of addresses to get
+            "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
+          }
+        ]
+      }
+  }
+}
+```
+
+When in development you can also specify the balance of each account as well, for e.g
+
+```js
+{
+  "development": {
+      "deployment": {
+        "accounts": [
+          {
+            "mnemonic": "12 word mnemonic",
+            "balance": "5 ether"
+          }
+        ]
+      }
+  }
+}
+```
+
+You can specify the balance using a unit as "5 ether" of "200 finney", if no unit is specified the value will be in wei.
+
+If you are using Infura.io to connect to a blockchain node, this is also possible to connect to from Embark like so. The following specifies the configuration for the web3 provider, not the blockchain node configuration itself.
+
+```js
+testnet: {
+    deployment:{
+      accounts: [
+        {
+         // your accounts here, see above for details
+        }
+      ],
+      host: "rinkeby.infura.io/INFURA_TOKEN_HERE",
+      port: false,
+      protocol: 'https', // <=== must be specified for infura, can also be http, or ws
+      type: "rpc"
+    }
+  }
+  ```
+
 ### Static Addresses
 
 Contracts addresses can be defined, If an address is defined the contract wouldn't be deployed but its defined address will be used instead.
