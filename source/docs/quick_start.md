@@ -10,6 +10,8 @@ $ cd embark_demo
 
 ### Start a blockchain node or let Embark start it for you
 
+Note: starting in Embark 3.1 the command `embark run` will automatically start a blockchain node if one is not already started, you may therefore skip this step.
+
 You can run a REAL ethereum node for development purposes:
 
 ```Bash
