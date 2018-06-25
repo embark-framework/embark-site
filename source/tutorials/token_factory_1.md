@@ -22,10 +22,6 @@ embark new TokenFactory
 
 This will create a directory called TokenFactory, cd to it and run:
 
-```Bash
-embark blockchain
-```
-
 In another console, in the same directory, run:
 
 ```Bash
