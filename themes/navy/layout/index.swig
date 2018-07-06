@@ -10,6 +10,7 @@
                 <li><a href="/docs/">Docs</a></li>
                 <li><a href="/tutorials/">Tutorials</a></li>
                 <li><a href="/plugins/">Plugins</a></li>
+                <li><a href="/templates/">Templates</a></li>
             </ul>
         </div>
 

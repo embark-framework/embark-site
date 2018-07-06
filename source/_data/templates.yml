@@ -1,0 +1,6 @@
+- name: Embark Vortex Template
+  description: A React Application showing what can be done with Vortex when using Embark.
+  link: https://github.com/Horyus/vortex-demo-embark/
+  tags:
+    - react
+

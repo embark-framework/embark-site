@@ -8,6 +8,7 @@
             <a href="/docs/" class="main-nav-link">Docs</a>
             <a href="/tutorials/" class="main-nav-link">Tutorials</a>
             <a href="/plugins/" class="main-nav-link">Plugins</a>
+            <a href="/templates/" class="main-nav-link">Templates</a>
         </nav>
 
         <div class="secondary-nav">
