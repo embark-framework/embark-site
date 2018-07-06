@@ -39,7 +39,7 @@ It only takes a few minutes to set up Embark. If you encounter a problem and can
 
 Installing Embark is quite easy. However, you do need to have a couple of other things installed first:
 
-- [Node.js](http://nodejs.org/) 8.10 or higher
+- [Node.js](http://nodejs.org/) 8.11.3 LTS or higher
 
 After installing nodejs you can install embark with:
 
