@@ -30,3 +30,21 @@
   tags:
     - remix
     - debugger
+- name: embark-fortune
+  description: Displays a fortune message after every build
+  link: https://www.npmjs.com/package/embark-fortune
+  tags:
+    - fun
+- name: embark-pug
+  description: Embark plugin to support pug / jade templates
+  link: https://www.npmjs.com/package/embark-pug
+  tags:
+    - pug
+    - jade
+    - templates
+- name: embark-haml
+  description: Embark plugin to support haml templates
+  link: https://www.npmjs.com/package/embark-haml
+  tags:
+    - haml
+    - templates
