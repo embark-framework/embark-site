@@ -12,3 +12,17 @@
     - tests
     - fun
 
+- name: Vyper Template
+  description: Template to demonstrate use of the Vyper contracts
+  link: https://github.com/embark-framework/embark-vyper-template
+  tags:
+    - vyper
+    - contracts
+
+- name: Bamboo Template
+  description: Template to demonstrate use of the Bamboo contracts
+  link: https://github.com/embark-framework/embark-bamboo-template
+  tags:
+    - bamboo
+    - contracts
+
