@@ -4,3 +4,11 @@
   tags:
     - react
 
+- name: Solidity Gas Golfing Contest Template
+  description: Boilerplate and tests for the first Solidity Gas Golfing Contest
+  link: https://github.com/embark-framework/sggc
+  tags:
+    - solidity
+    - tests
+    - fun
+
