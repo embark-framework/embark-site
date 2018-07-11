@@ -29,3 +29,9 @@ JS-YAML: bad indentation of a mapping entry at line 18, column 31:
 Make sure you are using soft tabs and add a space after colons.
 
 -->
+
+## EACCES / npm ERR Permission denied
+
+Issues typically occur if NodeJS and/or Embark are installed using `sudo`, avoid using it possible.
+There are [several options](https://docs.npmjs.com/getting-started/fixing-npm-permissions) to fix this. We recommend installing node using [NVM](https://github.com/creationix/nvm/blob/master/README.md)
+
