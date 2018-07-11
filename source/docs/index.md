@@ -41,11 +41,17 @@ Installing Embark is quite easy. However, you do need to have a couple of other 
 
 - [Node.js](http://nodejs.org/) 8.11.3 LTS or higher
 
+We recommend installing node using [NVM](https://github.com/creationix/nvm/blob/master/README.md)
+
 After installing nodejs you can install embark with:
 
 ``` bash
 $ npm install -g embark
 ```
+
+{% note warn Do not use sudo %}
+Avoid using `sudo` to install NodeJS or Embark as it can cause permission errors down the line.
+{% endnote %}
 
 ### With Ethereum Support
 
