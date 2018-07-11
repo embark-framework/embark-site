@@ -13,7 +13,7 @@
     - fun
 
 - name: Vyper Template
-  description: Template to demonstrate use of the Vyper contracts
+  description: Template to demonstrate the use of the Vyper contracts
   link: https://github.com/embark-framework/embark-vyper-template
   tags:
     - vyper
