@@ -84,7 +84,7 @@ To use IPFS you need first to install a IPFS node and run it. There two availabl
 
 **GO-IPFS**
 
-Instalation instructions are available [here](https://github.com/ipfs/go-ipfs#install).
+Installation instructions are available [here](https://github.com/ipfs/go-ipfs#install).
 
 Once installed and setup you will need to make sure the headers are setup
 properly for your app.
