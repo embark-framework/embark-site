@@ -119,11 +119,12 @@ constructor(uint initial_balance) public {
 }
 ```
 
-Let’s rectify this by specifying the *initial_balance* value in `config/contracts.json`
+Let’s rectify this by specifying the *initial_balance* value in `config/contracts.js`
 
-```Json
-{
+```Javascript
+module.exports = {
   "default": {
+    // .....
     "gas": "auto",
     "contracts": {
       "Token": {
@@ -132,6 +133,7 @@ Let’s rectify this by specifying the *initial_balance* value in `config/contra
         }
       }
     }
+    // .....
   }
 }
 ```
@@ -148,7 +150,7 @@ For the sake of brevity, we wouldn’t implement every single functionality in t
 
 To input the address to query, we’ll edit *app/index.html* and add a simple form.
 
-```Markdown
+```Html
 <html>
   <head>
     <title>Embark</title>
@@ -254,7 +256,7 @@ function transfer( address to, uint value) returns (bool ok)
 
 The method will take two parameters, an address and a value. Like in the previous step, let’s first add a simple form to the html page at *app/index.html*:
 
-```Plain
+```Html
 <html>
   <head>
     <title>Embark</title>

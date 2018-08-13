@@ -22,11 +22,11 @@ Once initialised, here's what your project folder will look like:
 ├── app/
 ├── contracts/
 ├── config
-|   ├── blockchain.json
-|   └── contracts.json
-|   └── storage.json
-|   └── communication.json
-|   └── webserver.json
+|   ├── blockchain.js
+|   └── contracts.js
+|   └── storage.js
+|   └── communication.js
+|   └── webserver.js
 └── test/
 └── dist/
 └── chains.json
@@ -45,22 +45,22 @@ Smart Contracts go here. When active, Embark will automatically compile, deploy 
 
 The configuration files for the different components of the stack can be found here.
 
-**blockchain.json**
+**blockchain.js**
 Contains the configuration used for embark to run a node with go-ethereum or a simulator.
 
-**contracts.json**
+**contracts.js**
 Configuration for contracts, including their arguments, relationship between them. It's also possible to specify where to deploy the contracts and how the dapp should attempt to connect to a node.
 Please see [Configuring Contracts](contracts.html) for more details.
 
-**storage.json**
+**storage.js**
 
 You can configure what storage component to use (e.g IPFS) and its config details including what node to connect to, get & uplaod files from, etc..
 
-**communication.json**
+**communication.js**
 
 You can configure what communication component to use (e.g Whisper) and its config details including what node to connect to.
 
-**webserver.json**
+**webserver.js**
 
 Dev web server config, specifically the host and port to listen to.
 

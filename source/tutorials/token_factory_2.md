@@ -24,7 +24,7 @@ We’ll start by generalizing the previous UI so we can input the address of a E
 
 First, we’ll add a simple form to *app/index.html* to get address of the token we wish to interact with.
 
-```Plain
+```Html
 <html>
   <head>
     <title>Embark</title>
@@ -63,7 +63,7 @@ First, we’ll add a simple form to *app/index.html* to get address of the token
 
 In *app/js/index.js* we’ll get the address given in the input, initialize a new contract object for that address and the Token ABI, and then assign it to a variable. We’ll also update the rest of code to use *currentToken* instead of *Token*. This way the existing code will work with the token we will be loading.
 
-```Plain
+```Javascript
 import EmbarkJS from 'Embark/EmbarkJS';
 import $ from 'jquery';
 import Token from 'Embark/contracts/Token';
@@ -126,7 +126,7 @@ Now that we have an UI to interact with an existing Token given its address, we�
 
 First we’ll add a simple form to *app/index.html* to get the desired supply of the new token to deploy.
 
-```Plain
+```Html
 <html>
   <head>
     <title>Embark</title>
@@ -174,7 +174,7 @@ Embark makes the contract objects available in the js side, each contract object
 
 In *app/js/index.js* we’ll add the code to deploy new tokens client side using this functionality:
 
-```Plain
+```Javascript
 $(document).ready(function() {
 
   var currentToken;
@@ -247,11 +247,12 @@ And it’s *500* as expected since that’s the initial supply defined for the f
 
 ## Disabling the Token Deploy from Embarks side
 
-Now that your DApp can deploy Tokens on the fly, It’s unnecessary for Embark to deploy the Token contract like it did in [part 1](/tutorials/token_factory_1.html), however you still need Embark to make the Token contract available on the client side.  To achieve this, go to config/contracts.json and set "deploy": false for that contract
+Now that your DApp can deploy Tokens on the fly, It’s unnecessary for Embark to deploy the Token contract like it did in [part 1](/tutorials/token_factory_1.html), however you still need Embark to make the Token contract available on the client side.  To achieve this, go to config/contracts.js and set "deploy": false for that contract
 
-```Plain
-{
+```Javascript
+module.exports = {
   "default": {
+    // .....
     "gas": "auto",
     "contracts": {
       "Token": {
@@ -261,6 +262,7 @@ Now that your DApp can deploy Tokens on the fly, It’s unnecessary for Embark t
         ]
       }
     }
+    // .....
   }
 }
 ```

@@ -6,9 +6,9 @@ title: Contracts
 You can specify for each contract and environment its gas costs (in wei) and
 arguments:
 
-```Json
-    # config/contracts.json
-    {
+```Javascript
+    # config/contracts.js
+    module.exports = {
       "development": {
         "gas": "auto",
         "contracts": {
@@ -26,9 +26,9 @@ arguments:
 
 If you prefer it's also possible to specify the contract arguments by their variable name instead of a list:
 
-```Json
-    # config/contracts.json
-    {
+```Javascript
+    # config/contracts.js
+    module.exports = {
       "development": {
         "contracts": {
           "SimpleStorage": {
@@ -46,9 +46,9 @@ If you prefer it's also possible to specify the contract arguments by their vari
 If you are using multiple contracts, you can pass a reference to another contract as ``$ContractName``, Embark will automatically replace this with the correct address for the contract.
 You can also specify interfaces and choose to not deploy contracts (for e.g in case they are interfaces)
 
-```Json
-    # config/contracts.json
-    {
+```Javascript
+    # config/contracts.js
+    module.exports = {
       ...
       "development": {
         "contracts": {
@@ -81,9 +81,9 @@ You can also specify interfaces and choose to not deploy contracts (for e.g in c
 
 You can deploy many instances of the same contract. e.g
 
-```Json
-    # config/contracts.json
-    {
+```Javascript
+    # config/contracts.js
+    module.exports = {
       "development": {
         "contracts": {
           "Currency": {
@@ -121,10 +121,10 @@ If both "from" and "fromIndex" are specified, the "from" will be used.
 
 Example:
 
-```Json
+```Javascript
 
-          # config/contracts.json
-          {
+          # config/contracts.js
+          module.exports = {
             "development": {
               "contracts": {
                 "Currency": {
@@ -150,8 +150,8 @@ Example:
 
 You can use your own account in a wallet which will then be used for the contract deploy, for example.
 
-```js
-{
+```Javascript
+module.exports = {
   "testnet": {
       "deployment": {
         "accounts": [
@@ -175,8 +175,8 @@ You can use your own account in a wallet which will then be used for the contrac
 
 When in development you can also specify the balance of each account as well, for e.g
 
-```js
-{
+```Javascript
+module.exports = {
   "development": {
       "deployment": {
         "accounts": [
@@ -214,10 +214,10 @@ testnet: {
 
 Contracts addresses can be defined, If an address is defined the contract wouldn't be deployed but its defined address will be used instead.
 
-```Json
+```Javascript
 
-    # config/contracts.json
-    {
+    # config/contracts.js
+    module.exports = {
       ...
       "development": {
         "contracts": {
@@ -241,10 +241,10 @@ You can specify actions to do after the deployment of a contract using the "onDe
 
 | "onDeploy" - should be an array of javascript instructions that will be evaluated and executed
 
-```Json
+```Javascript
 
-    # config/contracts.json
-    {
+    # config/contracts.js
+    module.exports = {
       "development": {
         "gas": "auto",
         "contracts": {
@@ -265,9 +265,9 @@ You can specify actions to do after ALL contracts have been deployed by using th
 
 | "afterDeploy" - should be an array of javascript instructions that will be evaluated and executed
 
-```Json
+```Javascript
     # config/contracts.json
-    {
+    module.exports = {
       "development": {
         "gas": "auto",
         "contracts": {
@@ -289,9 +289,9 @@ You can specify actions to do after ALL contracts have been deployed by using th
 By default embark will look for the contracts inside the folder defined in "contracts"` property in embark.json.
 However it's possible to specify the contract filepath:
 
-```Json
-    # config/contracts.json
-    {
+```Javascript
+    # config/contracts.js
+    module.exports = {
       "development": {
         "gas": "auto",
         "contracts": {
@@ -307,9 +307,9 @@ However it's possible to specify the contract filepath:
 ```
 
 You can even specify files on Git, Github or over HTTP(S):
-```Json
-    # config/contracts.json
-    {
+```Javascript
+    # config/contracts.js
+    module.exports = {
       "development": {
         "contracts": {
           "ERC725": {
@@ -330,9 +330,9 @@ You can even specify files on Git, Github or over HTTP(S):
 
 It's also possible to specify a contract file from a npm package:
 
-```Json
-    # config/contracts.json
-    {
+```Javascript
+    # config/contracts.js
+    module.exports = {
       "development": {
         "gas": "auto",
         "contracts": {
