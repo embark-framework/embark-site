@@ -8,6 +8,10 @@ note-warn = hsl(0, 100%, 50%)
 
 #content-inner
   clearfix()
+  @media mq-normal
+    margin-left: sidebar-width
+  @media screen and (min-width: 1680px)
+    margin-left: 0px
 
 #content-inner-full
   clearfix()
@@ -37,6 +41,8 @@ note-warn = hsl(0, 100%, 50%)
   opacity: 0.8
   @media mq-normal
     display: block
+  @media screen and (max-width: 1280px)
+    display: none
   &.fixed
     position: absolute
     top: 0
