@@ -1,10 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, a, abbr, acronym, address, big, cite, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
   vertical-align: baseline;
 }
 
@@ -250,6 +249,7 @@ select[multiple] {
 .main-nav a {
   color: #FFFFFF;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .main-nav a:hover {
@@ -270,6 +270,7 @@ select[multiple] {
 .secondary-nav a {
   color: #FFFFFF;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .secondary-nav a:hover {
@@ -440,6 +441,10 @@ select[multiple] {
   color: black;
   font-size: 21px;
   text-align: center;
+
+  font-weight: bold;
+  color: white;
+  background-color: #232323;
 }
 
 .command-description {
@@ -1054,7 +1059,7 @@ body {
   background-color: #f2f2f5;
   font-family: "PostGrotesk-Book", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 24px;
   color: #000000;
   background-color: #363763;
@@ -1158,7 +1163,7 @@ body {
 
 .section {
   width: 976px;
-  height: 420px;
+  height: 300px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -1277,6 +1282,17 @@ body {
 
 .section:nth-child(even) .section__image {
   order: 0;
+}
+
+pre {
+  background-color: white;
+  padding: 0px;
+
+  code {
+    padding: 1em !important;
+    border-radius: 8px;
+    font-size: 1em;
+  } 
 }
 
 @media (max-width: 1072px) {

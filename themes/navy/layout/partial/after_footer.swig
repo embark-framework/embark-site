@@ -1,4 +1,5 @@
 <!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/js/bundle.js?v=0.0.1"></script>
 <!-- build:js build/js/main.js -->
 {{ js('js/lang_select') }}
@@ -15,6 +16,28 @@
 {{ js('js/plugins') }}
 <!-- endbuild -->
 {% endif %}
+<script async src="/js/highlight.pack.js"></script>
+<script async src="/js/solidity.js"></script>
+<script>
+
+function highlight() {
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+}
+
+$(document).ready(function() {
+    try {
+      highlight();
+    } catch(err) {
+      console.log("retrying...")
+      setTimeout(function() {
+        highlight();
+      }, 2500)
+    }
+});
+
+</script>
 <!-- Algolia -->
 {% if config.algolia[page.lang] %}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>

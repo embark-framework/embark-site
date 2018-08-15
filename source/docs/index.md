@@ -45,9 +45,9 @@ We recommend installing node using [NVM](https://github.com/creationix/nvm/blob/
 
 After installing nodejs you can install embark with:
 
-``` bash
-$ npm install -g embark
-```
+<pre><code class="shell">$ npm -g install embark
+</code></pre>
+
 
 {% note warn Do not use sudo %}
 Avoid using `sudo` to install NodeJS or Embark as it can cause permission errors down the line.
@@ -59,24 +59,20 @@ If you want to use Embark with Ethereum and want embark to run a node for you (w
 
 On macOS:
 
-``` bash
-$ brew tap ethereum/ethereum
+<pre><code class="shell">$ brew tap ethereum/ethereum
 $ brew install ethereum
-```
+</code></pre>
 
 On linux:
 
-``` linux
-$ sudo add-apt-repository -y ppa:ethereum/ethereum
+<pre><code class="shell">$ sudo add-apt-repository -y ppa:ethereum/ethereum
 $ sudo apt-get update
 $ sudo apt-get install ethereum
-```
+</code></pre>
 
 Alternatively you can also install a simulator such as testrpc:
 
-``` bash
-$ npm -g install ethereumjs-testrpc
-```
+<pre><code class="shell">$ npm -g install ethereumjs-testrpc</code></pre>
 
 ### With IPFS Support
 
@@ -89,21 +85,10 @@ Installation instructions are available [here](https://github.com/ipfs/go-ipfs#i
 Once installed and setup you will need to make sure the headers are setup
 properly for your app.
 
-``` bash
-ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"http://example.com\"]"
-ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials "[\"true\"]"
-ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]"
-```
+<pre><code class="shell">$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"http://example.com\"]"
+$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials "[\"true\"]"
+$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]"
+</code></pre>
 
 You would want to launch it with: ``ipfs daemon --enable-pubsub-experiment``
-
-**JS-IPFS**
-
-While it's not 100% on parity with GO-IPFS it seems good enough for most use cases. You can install it with:
-
-``` bash
-$ npm i -g ipfs
-```
-
-To launch you would need to use ``jsipfs`` instead ``ipfs``
 

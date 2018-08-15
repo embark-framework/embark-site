@@ -3,9 +3,7 @@ title: Embark Commands
 
 ## new
 
-``` bash
-$ embark new <dappName>
-```
+<pre><code class="shell">$ embark new dappName</code></pre>
 
 Creates a new empty DApp project. If no `dappName` is provided, Embark will ask for the dappName.
 
@@ -15,25 +13,19 @@ Option | Description
 
 ## demo
 
-``` bash
-$ embark demo
-```
+<pre><code class="shell">$ embark demo</code></pre>
 
 Generates a demo Embark Project with a working contract and examples of working with contracts, IPFS and Whisper.
 
 ## build
 
-``` bash
-$ embark build [environment]
-```
+<pre><code class="shell">$ embark build [environment]</code></pre>
 
 Deploys and Builds the DApp at dist/. If no `environment` is provider embark will use `development` by default.
 
 ## run
 
-``` bash
-$ embark run [environment]
-```
+<pre><code class="shell">$ embark run [environment]</code></pre>
 
 Deploys and Builds the DApp at `dist/`. By default will launch a dashboard and start a dev server at `http://localhost:4000/`. If no `environment` is provider embark will use `development` by default.  
 
@@ -48,9 +40,7 @@ Option | Description
 
 ## blockchain
 
-``` bash
-$ embark blockchain [environment]
-```
+<pre><code class="shell">$ embark blockchain [environment]</code></pre>
 
 Takes the config at `config/blockchain.json` for the `environment` specified and starts a blockchain node. If no `environment` is provider embark will use `development` by default.
 
@@ -58,9 +48,7 @@ If you want, you can skip the step of running `embark blockchain`, as `embark ru
 
 ## simulator
 
-``` bash
-$ embark simulator [environment]
-```
+<pre><code class="shell">$ embark simulator [environment]</code></pre>
 
 Takes the config at `config/blockchain.json` for the `environment` specified and starts a blockchain simulator. If no `environment` is provider embark will use `development` by default.
 
@@ -74,41 +62,31 @@ Option | Description
 
 ## test
 
-``` bash
-$ embark test [file]
-```
+<pre><code class="shell">$ embark test [file]</code></pre>
 
 Runs Tests. If `file` is not specified then it will run all the tests inside the `test/` directory.
 
 ## reset
 
-``` bash
-$ embark reset
-```
+<pre><code class="shell">$ embark reset</code></pre>
 
 Resets embarks state on this dapp including clearing cache.
 
 ## upload
 
-``` bash
-$ embark upload [platform] [environment]
-```
+<pre><code class="shell">$ embark upload [platform] [environment]</code></pre>
 
 Uploads the DApp to a decentralized storage such as IPFS. `platform` can be `ipfs` or `swarm` or another parameter if supported by a plugin. If no `environment` is provider embark will use `development` by default.
 
 ## graph
 
-``` bash
-$ embark graph
-```
+<pre><code class="shell">$ embark graph</code></pre>
 
 Generates documentation based on the smart contracts configured
 
 ## version
 
-``` bash
-$ embark version
-```
+<pre><code class="shell">$ embark version</code></pre>
 
 Displays version information.
 

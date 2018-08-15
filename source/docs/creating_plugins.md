@@ -3,18 +3,19 @@ title: Creating Plugins
 
 **Creating a plugin:**
 
-1. ``mkdir yourpluginname``
-2. ``cd yourpluginname``
-3. ``npm init``
-4. create and edit ``index.js``
-5. add the following code:
 
-```Javascript
-    module.exports = function(embark) {
-    }
-```
+<pre><code class="shell">$ mkdir yourpluginname
+$ cd yourpluginname
+$ npm init
+</code></pre>
 
-The ``embark`` object then provides an api to extend different functionality of embark.
+Create and edit ``index.js`` and add the following code:
+
+<pre><code class="javascript">module.exports = function(embark) {
+}
+</code></pre>
+
+The ``embark`` object then provides an api to extend different functionality of embark which can be found in the [plugin api reference](plugin_reference.html)
 
 **Usecases examples**
 
