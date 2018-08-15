@@ -3,17 +3,15 @@ title: Setup
 
 Once Embark is installed, you can create a demo DApp with:
 
-``` bash
-$ embark demo
+<pre><code class="shell">$ embark demo
 $ cd embark_demo
-```
+</code></pre>
 
 If you want to create a blank DApp then:
 
-``` bash
-$ embark new <YourDAppName>
+<pre><code class="shell">$ embark new <YourDAppName>
 $ cd <YourDAppName>
-```
+</code></pre>
 
 Once initialised, here's what your project folder will look like:
 

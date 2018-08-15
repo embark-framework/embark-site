@@ -3,114 +3,106 @@ title: Storage
 
 ### Setup
 
-By default Embark will automatically initialize EmbarkJS with the provider configured at `config/storage.json`. However if you are using EmbarkJS directly or wish to change the provider configuration on the fly you can do:
+By default Embark will automatically initialize EmbarkJS with the provider configured at `config/storage.js`. However if you are using EmbarkJS directly or wish to change the provider configuration on the fly you can do:
 
-```Javascript
-    EmbarkJS.Storage.setProvider('swarm', options);
-```
-Options are optional and if provided, will override the values in `storage.json`. 
+<pre><code class="javascript">EmbarkJS.Storage.setProvider('swarm', options);
+</code></pre>
+
+Options are optional and if provided, will override the values in `storage.js`. 
 
 For example,
-```Javascript
-      EmbarkJS.Storage.setProvider('ipfs', {server: 'localhost', port: '5001'});
-      // OR
-      EmbarkJS.Storage.setProvider('swarm', {server: 'swarm-gateways.net', port: '80'});
-```
+<pre><code class="javascript">EmbarkJS.Storage.setProvider('ipfs', {server: 'localhost', port: '5001'});
+// OR
+EmbarkJS.Storage.setProvider('swarm', {server: 'swarm-gateways.net', port: '80'});
+</code></pre>
 
 ### Save Text/Data
 
-```Javascript
-      EmbarkJS.Storage.saveText("hello world")
-        .then(function(hash) {})
-        .catch(function(err) {
-            if(err){
-              console.log("IPFS saveText Error => " + err.message);
-            }
-        });
-```
+<pre><code class="javascript">EmbarkJS.Storage.saveText("hello world")
+  .then(function(hash) {})
+  .catch(function(err) {
+      if(err){
+        console.log("IPFS saveText Error => " + err.message);
+      }
+  });
+</code></pre>
 
 ### Retrieve Text/Data
 
-```Javascript
-      EmbarkJS.Storage.get(hash)
-        .then(function(content) {})
-        .catch(function(err) {
-            if(err){
-              console.log("IPFS get Error => " + err.message);
-            }
-        });
-```
+<pre><code class="javascript">EmbarkJS.Storage.get(hash)
+  .then(function(content) {})
+  .catch(function(err) {
+      if(err){
+        console.log("IPFS get Error => " + err.message);
+      }
+  });
+</code></pre>
 
 ### Upload a file
 
-```Html
-      <input type="file">
-```
-
-```Javascript
-      var input = $("input[type=file"]);
-      EmbarkJS.Storage.uploadFile(input)
-        .then(function(hash) {})
-        .catch(function(err) {
-            if(err){
-              console.log("IPFS uploadFile Error => " + err.message);
-            }
-        });
-```
+<pre><code class="xml">&lt;input type=&quot;file&quot;&gt;
+</code></pre>
+<br>
+<pre><code class="javascript">var input = $("input[type=file"]);
+EmbarkJS.Storage.uploadFile(input)
+  .then(function(hash) {})
+  .catch(function(err) {
+      if(err){
+        console.log("IPFS uploadFile Error => " + err.message);
+      }
+  });
+</code></pre>
 
 ### Display a file
 
-```Javascript
-      EmbarkJS.Storage.getUrl(hash);
-```
+<pre><code class="javascript">EmbarkJS.Storage.getUrl(hash);
+</code></pre>
 
 ### Check for storage provider availability
 This will return true if the storage provider (IPFS or Swarm) is avaiable and running. 
 
-```Javascript
-      EmbarkJS.Storage.isAvailable()
-        .then(isAvailable => { alert(`The storage provider is: ${isAvailable ? 'available' : 'not available'}`) })
-        .catch(function(err) {
-            if(err){
-              console.log("Error getting storage provider availability => " + err.message);
-            }
-        });
-```
+<pre><code class="javascript">EmbarkJS.Storage.isAvailable()
+  .then(isAvailable => { alert(`The storage provider is: ${isAvailable ? 'available' : 'not available'}`) })
+  .catch(function(err) {
+      if(err){
+        console.log("Error getting storage provider availability => " + err.message);
+      }
+  });
+</code></pre>
 
 ### Configuration basics
 
-Embark will check your prefered storage configuration in the file ``config/storage.json``. This file will contain the prefered configuration for each environment. With ``default`` being the configuration fields that applies to every environment. Each of those can be individually overriden in a per environment basis.
+Embark will check your prefered storage configuration in the file ``config/storage.js``. This file will contain the prefered configuration for each environment. With ``default`` being the configuration fields that applies to every environment. Each of those can be individually overriden in a per environment basis.
 
 e.g :
 
-```Javascript
-    {
-      "default": {
-        "enabled": true,
-        "ipfs_bin": "ipfs",
-        "available_providers": ["ipfs", "swarm"],
-        "upload":{
-          "provider": "ipfs",
-          "host": "localhost",
-          "port": 5001,
-          "getUrl": "http://localhost:8080/ipfs"
-        },
-        "dappConnection":[
-          {"provider": "swarm", "host": "localhost", "port": 8500, "getUrl": "http://localhost:8500/bzz:/"},
-          {"provider": "ipfs", "host": "localhost", "port": 5001, "getUrl": "http://localhost:8080/ipfs/"}
-        ],
-        "versions": {
-          "ipfs-api": "17.2.4"
-        }
-      },
-      "development": {
-        "enabled": true,
-        "provider": "ipfs",
-        "host": "localhost",
-        "port": 5001
-      }
+<pre><code class="javascript"> module.exports = {
+  "default": {
+    "enabled": true,
+    "ipfs_bin": "ipfs",
+    "available_providers": ["ipfs", "swarm"],
+    "upload":{
+      "provider": "ipfs",
+      "host": "localhost",
+      "port": 5001,
+      "getUrl": "http://localhost:8080/ipfs"
+    },
+    "dappConnection":[
+      {"provider": "swarm", "host": "localhost", "port": 8500, "getUrl": "http://localhost:8500/bzz:/"},
+      {"provider": "ipfs", "host": "localhost", "port": 5001, "getUrl": "http://localhost:8080/ipfs/"}
+    ],
+    "versions": {
+      "ipfs-api": "17.2.4"
     }
-```
+  },
+  "development": {
+    "enabled": true,
+    "provider": "ipfs",
+    "host": "localhost",
+    "port": 5001
+  }
+}
+</code></pre>
 
 Available options are:
 
@@ -149,8 +141,7 @@ You still need to have IPFS or Swarm installed locally for it to work, whatever 
 
 **Important configurations for swarm**:
 
-```json
-{
+<pre><code class="json">{
   "development": {
     "provider": "swarm",
     "account": {
@@ -160,40 +151,38 @@ You still need to have IPFS or Swarm installed locally for it to work, whatever 
     "swarmPath": "PATH/TO/SWARM/EXECUTABLE"
   }
 }
-```
+</code></pre>
 
 ### Using a public gateway
 
-To use a public gateway (instead of running a local node) for IPFS or Swarm, use the following `config/storage.json` options:
+To use a public gateway (instead of running a local node) for IPFS or Swarm, use the following `config/storage.js` options:
 #### IPFS
-```json
-"development": {
-    "enabled": true,
-    "upload":{
-      "provider": "ipfs",
-      "host": "ipfs.infura.io",
-      "port": 80,
-      "protocol": "https",
-      "getUrl": "https://ipfs.infura.io/ipfs/"
-    }
+<pre><code class="json">"development": {
+  "enabled": true,
+  "upload":{
+    "provider": "ipfs",
+    "host": "ipfs.infura.io",
+    "port": 80,
+    "protocol": "https",
+    "getUrl": "https://ipfs.infura.io/ipfs/"
   }
-```
+}
+</code></pre>
 
 #### Swarm
-```json
-"development": {
-    "enabled": true,
-    "upload": {
-      "provider": "swarm",
-      "host": "localhost",
-      "port": 8500
-    }
+<pre><code class="json">"development": {
+  "enabled": true,
+  "upload": {
+    "provider": "swarm",
+    "host": "localhost",
+    "port": 8500
   }
-```
+}
+</code></pre>
 
 ### Troubleshooting <a name="troubleshooting"></a>
 
-If you are running your own processes for IPFS or Swarm, the CORS needs to be set to the domain of your DApp, to the geth domain, and to the domain of the storage used inside the DApp. If you are using the built in webserver, the CORS would need to be set to `http://localhost:8000`, however if you are using `embark upload`, the domain of the decentralised storage host should be included in CORS. Depending on your `upload` settings in `storage.json`, this could be `http://localhost:8080` or `http://ipfs.infura.io` for IPFS or it could be `http://localhost:8500` or `http://swarm-gateways.net` for Swarm. Of course, if you are hosting your DApp on a different domain (ie not `localhost`, then that would need to be included in CORS as well. Examples of how to include multiple domains for each are below:
+If you are running your own processes for IPFS or Swarm, the CORS needs to be set to the domain of your DApp, to the geth domain, and to the domain of the storage used inside the DApp. If you are using the built in webserver, the CORS would need to be set to `http://localhost:8000`, however if you are using `embark upload`, the domain of the decentralised storage host should be included in CORS. Depending on your `upload` settings in `storage.js`, this could be `http://localhost:8080` or `http://ipfs.infura.io` for IPFS or it could be `http://localhost:8500` or `http://swarm-gateways.net` for Swarm. Of course, if you are hosting your DApp on a different domain (ie not `localhost`, then that would need to be included in CORS as well. Examples of how to include multiple domains for each are below:
 
 ```
 # Configure local IPFS node that has the local swarm node whitelisted for CORS

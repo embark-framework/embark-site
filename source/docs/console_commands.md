@@ -19,8 +19,7 @@ Some commands available include:
 It's possible to extend Embark to include custom commands. See [how to create
 a plugin](creating_plugins.html)
 
-```Javascript
-    module.exports = function(embark) {
+<pre><code class="javascript">module.exports = function(embark) {
         embark.registerConsoleCommand(function(cmd, options) {
           if (cmd === "hello") {
             return "hello there!";
@@ -29,5 +28,5 @@ a plugin](creating_plugins.html)
           return false;
         });
     }
-```
+</code></pre>
 

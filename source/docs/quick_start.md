@@ -3,10 +3,9 @@ title: Quick Start
 
 ### Create demo app
 
-```Bash
-$ embark demo
+<pre><code class="shell">$ embark demo
 $ cd embark_demo
-```
+</code></pre>
 
 ### Start a blockchain node or let Embark start it for you
 
@@ -14,15 +13,13 @@ Note: starting in Embark 3.1, the command `embark run` will automatically start 
 
 You can run a REAL ethereum node for development purposes:
 
-```Bash
-$ embark blockchain
-```
+<pre><code class="shell">$ embark blockchain
+</code></pre>
 
 Alternatively, to use an ethereum rpc simulator simply run:
 
-```Bash
-$ embark simulator
-```
+<pre><code class="shell">$ embark simulator
+</code></pre>
 
 By default Embark blockchain will mine a minimum amount of ether and will only mine when new transactions come in.
 
@@ -33,9 +30,8 @@ If you want, you can skip this step, as `embark run`, `build` and `upload` now a
 
 Then, in another command line:
 
-```Bash
-$ embark run
-```
+<pre><code class="shell">$ embark run
+</code></pre>
 
 This will open up the embark Dashboard
 
@@ -64,32 +60,30 @@ Note that if you update your code, it will automatically be re-deployed, contrac
 Embark will automatically take care of deployment for you and set all
 needed JS bindings. For example, the contract below:
 
-```Javascript
-    # app/contracts/simple_storage.sol
-    contract SimpleStorage {
-      uint public storedData;
+<pre><code class="solidity">// app/contracts/simple_storage.sol
+contract SimpleStorage {
+  uint public storedData;
 
-      function SimpleStorage(uint initialValue) {
-        storedData = initialValue;
-      }
+  function SimpleStorage(uint initialValue) {
+    storedData = initialValue;
+  }
 
-      function set(uint x) {
-        storedData = x;
-      }
-      function get() constant returns (uint retVal) {
-        return storedData;
-      }
-    }
-```
+  function set(uint x) {
+    storedData = x;
+  }
+  function get() constant returns (uint retVal) {
+    return storedData;
+  }
+}
+</code></pre>
 
 Will automatically be available in Javascript as:
 
-```Javascript
-    # app/js/index.js
-    import SimpleStorage from 'Embark/contracts/SimpleStorage';
+<pre><code class="javascript">// app/js/index.js
+import SimpleStorage from 'Embark/contracts/SimpleStorage';
 
-    SimpleStorage.methods.set(100).send();
-    SimpleStorage.methods.get().call().then(function(value) { console.log(value) });
-    SimpleStorage.methods.storedData().call().then(function(value) { console.log(value) });
-```
+SimpleStorage.methods.set(100).send();
+SimpleStorage.methods.get().call().then(function(value) { console.log(value) });
+SimpleStorage.methods.storedData().call().then(function(value) { console.log(value) });
+</code></pre>
 

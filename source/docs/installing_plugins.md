@@ -3,11 +3,14 @@ title: Installing Plugins
 
 **To add a plugin to embark:**
 
-1. Add the npm package to package.json
-   e.g ``npm install embark-solium --save``
-2. Then add the package to ``plugins:`` in embark.json
-   e.g ``"plugins": { "embark-solium": {} }``
-
+1. Add the npm package to `package.json`
+for e.g:
+<pre><code class="shell">npm install embark-solium --save
+</code></pre>
+2. Then add the package to `plugins:` in `embark.json`
+for e.g:
+<pre><code class="json">"plugins": { "embark-solium": {} }
+</code></pre>
 
 **context**
 
@@ -26,9 +29,8 @@ Additionally, you can also specify the context a plugin should run in the plugin
 
 e.g
 
-```Json
-"plugins": { "embark-solium": {"context": ["build", "run"]} } 
-```
+<pre><code class="json">"plugins": { "embark-solium": {"context": ["build", "run"]} } 
+</code></pre>
 
 This can be quite useful to limit plugins to run only in certain contextes.  (note: newer plugins can use an API to automatically detect the context)
 

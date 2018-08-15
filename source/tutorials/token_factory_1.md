@@ -10,23 +10,17 @@ A Token is typically a unit used to represent a medium of exchange for some serv
 
 First of all, make sure you have [Go-Ethereum](https://geth.ethereum.org/) and Embark installed.
 
-```Bash
-npm -g install embark
-```
+<pre><code class="shell">$ npm -g install embark</code></pre>
 
 Now, let’s create a new dapp
 
-```Bash
-embark new TokenFactory
-```
+<pre><code class="shell">$ embark new TokenFactory</code></pre>
 
 This will create a directory called TokenFactory, cd to it and run:
 
 In another console, in the same directory, run:
 
-```Bash
-embark run
-```
+<pre><code class="shell">$ embark run</code></pre>
 
 You should see something like this:
 
@@ -45,7 +39,8 @@ Now open your browser at http://localhost:8000 , start your favourite editor an
 We’ll add a typical ERC20 token contract to contracts/token.sol
 
 *warning: this contract is for educational purposes only, do not use it in production unless you know what you are doing*
-```Solidity
+
+<pre><code class="solidity">module.exports = {
 pragma solidity ^0.4.23;
 
 contract Token {
@@ -104,7 +99,7 @@ contract Token {
         return (a + b >= a);
     }
 }
-```
+</code></pre>
 
 Once added, Embark will automatically detect the new file and deploy the contract. However we quickly notice a problem, in Embark’s we see:
 
@@ -112,31 +107,29 @@ Once added, Embark will automatically detect the new file and deploy the contrac
 
 We haven't supplied any parameters to the contract and embark complains because the contract constructor takes a *initial_balance* parameter which we haven’t specified:
 
-```Javascript
-constructor(uint initial_balance) public {
+<pre><code class="solidity">constructor(uint initial_balance) public {
     _balances[msg.sender] = initial_balance;
     _supply = initial_balance;
 }
-```
+</code></pre>
 
 Let’s rectify this by specifying the *initial_balance* value in `config/contracts.js`
 
-```Javascript
-module.exports = {
-  "default": {
+<pre><code class="javascript">module.exports = {
+  default: {
     // .....
-    "gas": "auto",
-    "contracts": {
-      "Token": {
-        "args": {
-          "initial_balance": 1000
+    gas: "auto",
+    contracts: {
+      Token: {
+        args: {
+          initial_balance: 1000
         }
       }
     }
     // .....
   }
 }
-```
+</code></pre>
 
 Embark will detect the change and redeploy the contract with the new parameters, afterwards the token supply is 1000 as expected, type:
 
@@ -150,53 +143,47 @@ For the sake of brevity, we wouldn’t implement every single functionality in t
 
 To input the address to query, we’ll edit *app/index.html* and add a simple form.
 
-```Html
-<html>
-  <head>
-    <title>Embark</title>
-    <link rel="stylesheet" href="css/app.css">
-    <script src="js/app.js"></script>
-  </head>
-  <body>
+<pre><code class="xml">&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Embark&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
+    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
 
-    <div id="queryBalance">
-      <h3>Query Balance</h3>
-      <input placeholder="enter account address: e.g 0x123" />
-      <button>Query</button>
-      <div class="result"></div>
-    </div>
+    &lt;div id=&quot;queryBalance&quot;&gt;
+      &lt;h3&gt;Query Balance&lt;/h3&gt;
+      &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
+      &lt;button&gt;Query&lt;/button&gt;
+      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
 
-  </body>
-</html>
-```
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 
 **Adding jQuery**
 
 To simplify the code a bit in this tutorial, we’ll add the jQuery library to our DApp. 
 
-```Bash
-npm install jquery@3 --save
-```
+<pre><code class="shell">$ npm install jquery@3 --save</code></pre>
 
 Now edit the file *app/js/index.js* and add:
 
-```Javascript
-import $ from 'jquery';
-```
+<pre><code class="javascript">import $ from 'jquery';</code></pre>
 
 **Setting the default address**
 
 Let’s add to the input field field our own address as the default text so we can easily query our own balance. In the file *app/js/index.js* add:
 
-```Javascript
-import $ from 'jquery';
+<pre><code class="javascript">import $ from 'jquery';
 
 $(document).ready(function() {
   web3.eth.getAccounts(function(err, accounts) {
     $('#queryBalance input').val(accounts[0]);
   });
 });
-```
+</code></pre>
 
 This will get the address of the first account and set it as the default text in the input form.
 
@@ -204,24 +191,21 @@ This will get the address of the first account and set it as the default text in
 
 To query the balance, we can see the contract method signature to do this is:
 
-```Javascript
-function balanceOf( address who ) constant returns (uint value) {
+<pre><code class="solidity">function balanceOf( address who ) constant returns (uint value) {
   return _balances[who];
 }
-```
+</code></pre>
 
 This method will be available in the JS code automatically as a promise, like:
 
-```Javascript
-import Token from 'Embark/contracts/Token';
+<pre><code class="solidity">import Token from 'Embark/contracts/Token';
 
 Token.balanceOf(address).then(function(balance) { });
-```
+</code></pre>
 
 So we can simply add a click event to the button, get the address, query the balance and set the result.
 
-```Javascript
-import $ from 'jquery';
+<pre><code class="javascript">import $ from 'jquery';
 import Token from 'Embark/contracts/Token';
 
 $(document).ready(function() {
@@ -238,7 +222,7 @@ $(document).ready(function() {
   });
 
 });
-```
+</code></pre>
 
 ![Screenshot](token_factory_1/page_1.png)
 
@@ -250,46 +234,42 @@ Now let’s implement transferring tokens!
 
 Now checking the contract, this is the method for transferring tokens:
 
-```Javascript
-function transfer( address to, uint value) returns (bool ok)
-```
+<pre><code class="solidity">function transfer( address to, uint value) returns (bool ok)</code></pre>
 
 The method will take two parameters, an address and a value. Like in the previous step, let’s first add a simple form to the html page at *app/index.html*:
 
-```Html
-<html>
-  <head>
-    <title>Embark</title>
-    <link rel="stylesheet" href="css/app.css">
-    <script src="js/app.js"></script>
-  </head>
-  <body>
-    <h3>Welcome to Embark!</h3>
-    <p>See the <a href="https://github.com/iurimatias/embark-framework/wiki">Wiki</a> to see what you can do with Embark!</p>
+<pre><code class="xml">&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Embark&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
+    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h3&gt;Welcome to Embark!&lt;/h3&gt;
+    &lt;p&gt;See the &lt;a href=&quot;https://github.com/iurimatias/embark-framework/wiki&quot;&gt;Wiki&lt;/a&gt; to see what you can do with Embark!&lt;/p&gt;
 
-    <div id="queryBalance">
-      <h3>Query Balance</h3>
-      <input placeholder="enter account address: e.g 0x123" />
-      <button>Query</button>
-      <div class="result"></div>
-    </div>
+    &lt;div id=&quot;queryBalance&quot;&gt;
+      &lt;h3&gt;Query Balance&lt;/h3&gt;
+      &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
+      &lt;button&gt;Query&lt;/button&gt;
+      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
 
-    <div id="transfer">
-      <h3>Transfer Tokens</h3>
-      <input class="address" placeholder="enter account address: e.g 0x123" />
-      <input class="num" placeholder="enter amount to transfer" />
-      <button>Transfer</button>
-      <div class="result"></div>
-    </div>
+    &lt;div id=&quot;transfer&quot;&gt;
+      &lt;h3&gt;Transfer Tokens&lt;/h3&gt;
+      &lt;input class=&quot;address&quot; placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
+      &lt;input class=&quot;num&quot; placeholder=&quot;enter amount to transfer&quot; /&gt;
+      &lt;button&gt;Transfer&lt;/button&gt;
+      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
 
-  </body>
-</html>
-```
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 
 Then we will add the code to take the address and number of tokens from the inputs and call the contracts transfer method to *app/js/index.js*:
 
-```Javascript
-import $ from 'jquery';
+<pre><code class="javascript">import $ from 'jquery';
 import Token from 'Embark/contracts/Token';
 
 $(document).ready(function() {
@@ -315,7 +295,7 @@ $(document).ready(function() {
   });
 
 });
-```
+</code></pre>
 
 Let’s go to the UI and transfer 20 tokens to a random address, after clicking Transfer you should see the text ‘Done!’ when the transfer takes effect.
 

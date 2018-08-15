@@ -1,8 +1,8 @@
 title: Configuring Embark
 ---
 
-```Javascript
-{
+`embark.json`
+<pre><code class="json">{
   "contracts": ["contracts/**"],
   "app": {
     "js/dapp.js": ["app/dapp.js"],
@@ -19,7 +19,7 @@ title: Configuring Embark
   "plugins": {
   }
 }
-```
+</code></pre>
 
 ### contracts
 
