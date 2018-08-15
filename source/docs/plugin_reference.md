@@ -19,8 +19,8 @@ This call will return the content of the current asset file so the plugin can tr
 ``matchingFiles`` is an array of matching files the plugin should be called for e.g [``**/*.js``, ``!vendor/jquery.js``] matches all javascript files except vendor/jquery.js
 
 options available:
- * `targetFile - filename to be generated
- * `source - content of the file
+ * `targetFile` - filename to be generated
+ * `source` - content of the file
 
 expected return: ``string``
 
