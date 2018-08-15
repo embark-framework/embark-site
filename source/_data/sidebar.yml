@@ -8,6 +8,7 @@ docs:
     smart_contracts: contracts.html
     storage: storage.html
     messages: messages.html
+    naming: naming.html
     testing: testing.html
     configuration: configuration.html
   distributing:
