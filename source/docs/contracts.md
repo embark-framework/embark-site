@@ -29,9 +29,9 @@ module.exports = {
   "development": {
     "contracts": {
       "SimpleStorage": {
-        "args": {
+        <mark class="highlight-inline">"args": {
           "initial_value": 100
-        }
+        }</mark>
       }
     }
   }
@@ -51,7 +51,7 @@ module.exports = {
       "SimpleStorage": {
         "args": [
           100,
-          "$MyStorage"
+          <mark class="highlight-inline">"$MyStorage"</mark>
         ]
       },
       "MyStorage": {
@@ -61,7 +61,7 @@ module.exports = {
       },
       "MyMainContract": {
         "args": [
-          "$SimpleStorage"
+          <mark class="highlight-inline">"$SimpleStorage"</mark>
         ]
       },
       "MyContractInteface": {
@@ -88,13 +88,13 @@ module.exports = {
         ]
       },
       "Usd": {
-        "instanceOf": "Currency",
+        <mark class="highlight-inline">"instanceOf": "Currency",</mark>
         "args": [
           200
         ]
       },
       "MyCoin": {
-        "instanceOf": "Currency",
+        <mark class="highlight-inline">"instanceOf": "Currency",</mark>
         "args": [
           200
         ]
@@ -121,13 +121,13 @@ module.exports = {
     "contracts": {
       "Currency": {
         "deploy": true,
-        "from": '0xfeedaa0e295b09cd84d6ea2cce390eb443bcfdfc',
+        <mark class="highlight-inline">"from": '0xfeedaa0e295b09cd84d6ea2cce390eb443bcfdfc',</mark>
         "args": [
           100
         ]
       },
       "MyStorage": {
-        "fromIndex": 0,
+        <mark class="highlight-inline">"fromIndex": 0,</mark>
         "args": [
           "initial string"
         ]
@@ -146,7 +146,7 @@ You can use your own account in a wallet which will then be used for the contrac
 module.exports = {
   "testnet": {
       "deployment": {
-        "accounts": [
+        <mark class="highlight-inline">"accounts": [
           {
             "privateKey": "your_private_key"
           },
@@ -160,7 +160,7 @@ module.exports = {
             "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
           }
         ]
-      }
+      }</mark>
   }
 }
 </code></pre>
@@ -173,7 +173,7 @@ When in development you can also specify the balance of each account as well, fo
         "accounts": [
           {
             "mnemonic": "12 word mnemonic",
-            "balance": "5 ether"
+            <mark class="highlight-inline">"balance": "5 ether"</mark>
           }
         ]
       }
@@ -193,10 +193,10 @@ If you are using Infura.io to connect to a blockchain node, this is also possibl
          // your accounts here, see above for details
         }
       ],
-      host: "rinkeby.infura.io/INFURA_TOKEN_HERE",
+      <mark class="highlight-inline">host: "rinkeby.infura.io/INFURA_TOKEN_HERE",
       port: false,
       protocol: 'https',
-      type: "rpc"
+      type: "rpc"</mark>
     }
   }
 }
@@ -212,7 +212,7 @@ module.exports = {
   "development": {
     "contracts": {
       "UserStorage": {
-        "address": "0x123456"
+        <mark class="highlight-inline">"address": "0x123456"</mark>
       },
       "UserManagement": {
         "args": [
@@ -240,7 +240,7 @@ module.exports = {
         "args": [
           100
         ],
-        "onDeploy": ["SimpleStorage.methods.set(150).send()"]
+        <mark class="highlight-inline">"onDeploy": ["SimpleStorage.methods.set(150).send()"]</mark>
       }
     }
   }
@@ -263,9 +263,9 @@ module.exports = {
           100
         ]
       },
-      "afterDeploy": [
+      <mark class="highlight-inline">"afterDeploy": [
         "SimpleStorage.methods.set(150).send()"
-      ]
+      ]</mark>
     }
   }
 }
@@ -282,7 +282,7 @@ module.exports = {
     "gas": "auto",
     "contracts": {
       "SimpleStorage": {
-        "file": "./some_folder/simple_storage.sol",
+        <mark class="highlight-inline">"file": "./some_folder/simple_storage.sol",</mark>
         "args": [
           100
         ]
@@ -298,13 +298,13 @@ module.exports = {
   "development": {
     "contracts": {
       "ERC725": {
-        "file": "git://github.com/status/contracts/contracts/identity/ERC725.sol#develop"
+        <mark class="highlight-inline">"file": "git://github.com/status/contracts/contracts/identity/ERC725.sol#develop"</mark>
       },
       "ERC725": {
-        "file": "github.com/status/contracts/contracts/identity/ERC725.sol"
+        <mark class="highlight-inline">"file": "github.com/status/contracts/contracts/identity/ERC725.sol"</mark>
       },
       "Ownable": {
-        "file": "https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/ownership/Ownable.sol"
+        <mark class="highlight-inline">"file": "https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/ownership/Ownable.sol"</mark>
       }
     }
   }
@@ -321,7 +321,7 @@ module.exports = {
     "gas": "auto",
     "contracts": {
       "ERC20": {
-        "file": "zeppelin-solidity/contracts/token/ERC20/ERC20.sol",
+        <mark class="highlight-inline">"file": "zeppelin-solidity/contracts/token/ERC20/ERC20.sol"</mark>
       }
     }
   }

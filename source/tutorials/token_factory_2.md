@@ -31,14 +31,14 @@ First, we’ll add a simple form to *app/index.html* to get address of the token
   &lt;body&gt;
     &lt;h3&gt;Welcome to Embark!&lt;/h3&gt;
     &lt;p&gt;See the &lt;a href=&quot;https://github.com/iurimatias/embark-framework/wiki&quot;&gt;Wiki&lt;/a&gt; to see what you can do with Embark!&lt;/p&gt;
-
+<mark class="highlight-inline">
     &lt;div id=&quot;useToken&quot;&gt;
       &lt;h3&gt;Token Address&lt;/h3&gt;
       &lt;input placeholder=&quot;enter token address&quot; /&gt;
       &lt;button&gt;Use this Token&lt;/button&gt;
       &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
-
+</mark>
     &lt;div id=&quot;queryBalance&quot;&gt;
       &lt;h3&gt;Query Balance&lt;/h3&gt;
       &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
@@ -67,7 +67,7 @@ import Token from 'Embark/contracts/Token';
 let currentToken;
 
 $(document).ready(function() {
-
+<mark class="highlight-inline">
   $("#useToken button").click(function() {
     var address = $('#useToken input').val();
     currentToken = new EmbarkJS.Contract({
@@ -75,7 +75,7 @@ $(document).ready(function() {
       address: address
     });
   });
-
+</mark>
   web3.eth.getAccounts(function(err, accounts) {
     $('#queryBalance input').val(accounts[0]);
   });
@@ -132,14 +132,14 @@ First we’ll add a simple form to *app/index.html* to get the desired supply of
   &lt;body&gt;
     &lt;h3&gt;Welcome to Embark!&lt;/h3&gt;
     &lt;p&gt;See the &lt;a href=&quot;https://github.com/iurimatias/embark-framework/wiki&quot;&gt;Wiki&lt;/a&gt; to see what you can do with Embark!&lt;/p&gt;
-
+<mark class="highlight-inline">
     &lt;div id=&quot;deployToken&quot;&gt;
       &lt;h3&gt;Deploy new Token&lt;/h3&gt;
       &lt;input placeholder=&quot;enter token supply&quot; /&gt;
       &lt;button&gt;Deploy&lt;/button&gt;
       &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
-
+</mark>
     &lt;div id=&quot;useToken&quot;&gt;
       &lt;h3&gt;Token Address&lt;/h3&gt;
       &lt;input placeholder=&quot;enter token address&quot; /&gt;
@@ -173,7 +173,7 @@ In *app/js/index.js* we’ll add the code to deploy new tokens client side using
 <pre><code class="javascript">$(document).ready(function() {
 
   var currentToken;
-
+<mark class="highlight-inline">
   $("#deployToken button").click(function() {
     var supply = $('#deployToken input').val();
     Token.deploy({arguments: [supply], data: Token.options.data}).send({gas: 400000}).then(function(deployedToken) {
@@ -181,7 +181,7 @@ In *app/js/index.js* we’ll add the code to deploy new tokens client side using
       $("#deployToken .result").append("<br>Token deployed with address: " + deployedToken.options.address);
     });
   });
-
+</mark>
   $("#useToken button").click(function() {
     var address = $('#useToken input').val();
     currentToken = new EmbarkJS.Contract({
@@ -250,7 +250,7 @@ Now that your DApp can deploy Tokens on the fly, It’s unnecessary for Embark t
     "gas": "auto",
     "contracts": {
       "Token": {
-        "deploy": false,
+        <mark class="highlight-inline">"deploy": false,</mark>
         "args": [
           1000
         ]
