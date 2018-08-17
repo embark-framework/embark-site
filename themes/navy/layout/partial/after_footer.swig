@@ -38,6 +38,13 @@ $(document).ready(function() {
 });
 
 </script>
+<style>
+  mark {
+    background: #232323;
+    color: white;
+    font-weight: bold;
+  }
+</style>
 <!-- Algolia -->
 {% if config.algolia[page.lang] %}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>

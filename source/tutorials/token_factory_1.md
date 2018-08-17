@@ -120,11 +120,11 @@ Let’s rectify this by specifying the *initial_balance* value in `config/contra
     // .....
     gas: "auto",
     contracts: {
-      Token: {
+      <mark class="highlight-inline">Token: {
         args: {
           initial_balance: 1000
         }
-      }
+      }</mark>
     }
     // .....
   }
@@ -150,14 +150,14 @@ To input the address to query, we’ll edit *app/index.html* and add a simple fo
     &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
   &lt;/head&gt;
   &lt;body&gt;
-
+  <mark class="highlight-inline">
     &lt;div id=&quot;queryBalance&quot;&gt;
       &lt;h3&gt;Query Balance&lt;/h3&gt;
       &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
       &lt;button&gt;Query&lt;/button&gt;
       &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
-
+  </mark>
   &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
@@ -177,12 +177,12 @@ Now edit the file *app/js/index.js* and add:
 Let’s add to the input field field our own address as the default text so we can easily query our own balance. In the file *app/js/index.js* add:
 
 <pre><code class="javascript">import $ from 'jquery';
-
+<mark class="highlight-inline">
 $(document).ready(function() {
   web3.eth.getAccounts(function(err, accounts) {
     $('#queryBalance input').val(accounts[0]);
   });
-});
+});</mark>
 </code></pre>
 
 This will get the address of the first account and set it as the default text in the input form.
@@ -213,14 +213,14 @@ $(document).ready(function() {
   web3.eth.getAccounts(function(err, accounts) {
     $('#queryBalance input').val(accounts[0]);
   });
-
+<mark class="highlight-inline">
   $('#queryBalance button').click(function() {
     var address = $('#queryBalance input').val();
     Token.methods.balanceOf(address).call().then(function(balance) {
       $('#queryBalance .result').html(balance);
     });
   });
-
+</mark>
 });
 </code></pre>
 
@@ -254,7 +254,7 @@ The method will take two parameters, an address and a value. Like in the previou
       &lt;button&gt;Query&lt;/button&gt;
       &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
-
+<mark class="highlight-inline">
     &lt;div id=&quot;transfer&quot;&gt;
       &lt;h3&gt;Transfer Tokens&lt;/h3&gt;
       &lt;input class=&quot;address&quot; placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
@@ -262,7 +262,7 @@ The method will take two parameters, an address and a value. Like in the previou
       &lt;button&gt;Transfer&lt;/button&gt;
       &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
-
+</mark>
   &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
@@ -284,7 +284,7 @@ $(document).ready(function() {
       $('#queryBalance .result').html(balance);
     });
   });
-
+<mark class="highlight-inline">
   $('#transfer button').click(function() {
     var address = $('#transfer .address').val();
     var num = $('#transfer .num').val();
@@ -293,7 +293,7 @@ $(document).ready(function() {
       $('#transfer .result').html('Done!');
     });;
   });
-
+</mark>
 });
 </code></pre>
 
