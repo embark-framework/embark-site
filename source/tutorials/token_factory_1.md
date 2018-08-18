@@ -120,12 +120,12 @@ Let’s rectify this by specifying the *initial_balance* value in `config/contra
 
 <pre>
 <button class="btn" data-clipboard-target="#code-3"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code id="code-3" class="javascript">module.exports = {
+<code class="javascript">module.exports = {
   default: {
     // .....
     gas: "auto",
     contracts: {
-      <mark class="highlight-inline">Token: {
+      <mark id="code-3" class="highlight-inline">Token: {
         args: {
           initial_balance: 1000
         }

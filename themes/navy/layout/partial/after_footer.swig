@@ -39,6 +39,11 @@ $(document).ready(function() {
 
   var clipboard = new ClipboardJS(".btn");
   clipboard.on('success', function(e) {
+    var id = $(e.trigger).attr("data-clipboard-target");
+    $(id).toggleClass("flash");
+    setTimeout(function() {
+      $(id).toggleClass("flash");
+    }, 200);
     e.clearSelection();
   })
 });
@@ -49,6 +54,10 @@ $(document).ready(function() {
     background: #232323;
     color: white;
     font-weight: bold;
+
+    -webkit-transition: background 0.1s ease-in-out;
+    -ms-transition:     background 0.1s ease-in-out;
+    transition:         background 0.1s ease-in-out;
   }
 
   .clippy {
@@ -81,6 +90,10 @@ $(document).ready(function() {
     -webkit-appearance: none;
     top: 34px;
     right: 12px;
+  }
+
+  .flash {
+    background-color: grey;
   }
 
 </style>
