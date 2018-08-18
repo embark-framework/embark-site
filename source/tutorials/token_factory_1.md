@@ -10,17 +10,23 @@ A Token is typically a unit used to represent a medium of exchange for some serv
 
 First of all, make sure you have [Go-Ethereum](https://geth.ethereum.org/) and Embark installed.
 
-<pre><code class="shell">$ npm -g install embark</code></pre>
+<pre>
+<button class="btn" data-clipboard-target="#cmd-1"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="shell">$ <mark id="cmd-1">npm -g install embark</mark></code></pre>
 
 Now, let’s create a new dapp
 
-<pre><code class="shell">$ embark new TokenFactory</code></pre>
+<pre>
+<button class="btn" data-clipboard-target="#cmd-2"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="shell">$ <mark id="cmd-2" >embark new TokenFactory</mark></code></pre>
 
 This will create a directory called TokenFactory, cd to it and run:
 
 In another console, in the same directory, run:
 
-<pre><code class="shell">$ embark run</code></pre>
+<pre>
+<button class="btn" data-clipboard-target="#cmd-3"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="shell">$ <mark id="cmd-3">embark run</mark></code></pre>
 
 You should see something like this:
 
