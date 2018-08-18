@@ -16,6 +16,7 @@
 {{ js('js/plugins') }}
 <!-- endbuild -->
 {% endif %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <script async src="/js/highlight.pack.js"></script>
 <script async src="/js/solidity.js"></script>
 <script>
@@ -27,14 +28,19 @@ function highlight() {
 }
 
 $(document).ready(function() {
-    try {
+  try {
+    highlight();
+  } catch(err) {
+    console.log("retrying...")
+    setTimeout(function() {
       highlight();
-    } catch(err) {
-      console.log("retrying...")
-      setTimeout(function() {
-        highlight();
-      }, 2500)
-    }
+    }, 2500)
+  }
+
+  var clipboard = new ClipboardJS(".btn");
+  clipboard.on('success', function(e) {
+    e.clearSelection();
+  })
 });
 
 </script>
@@ -44,6 +50,39 @@ $(document).ready(function() {
     color: white;
     font-weight: bold;
   }
+
+  .clippy {
+    margin-top: -3px;
+    position: relative;
+    top: 3px;
+  }
+
+  pre {
+    position: relative;
+  }
+
+  .btn {
+    transition: opacity .3s ease-in-out;
+    padding: 2px 6px;
+    position: absolute;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #eee;
+    background-image: linear-gradient(#fcfcfc,#eee);
+    border: 1px solid #d5d5d5;
+    border-radius: 3px;
+    user-select: none;
+    -webkit-appearance: none;
+    top: 34px;
+    right: 12px;
+  }
+
 </style>
 <!-- Algolia -->
 {% if config.algolia[page.lang] %}

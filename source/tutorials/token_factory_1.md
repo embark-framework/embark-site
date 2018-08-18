@@ -40,8 +40,9 @@ We’ll add a typical ERC20 token contract to contracts/token.sol
 
 *warning: this contract is for educational purposes only, do not use it in production unless you know what you are doing*
 
-<pre><code class="solidity">module.exports = {
-pragma solidity ^0.4.23;
+<pre>
+<button class="btn" data-clipboard-target="#code-1"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code id="code-1" class="solidity">pragma solidity ^0.4.23;
 
 contract Token {
 
@@ -107,7 +108,9 @@ Once added, Embark will automatically detect the new file and deploy the contrac
 
 We haven't supplied any parameters to the contract and embark complains because the contract constructor takes a *initial_balance* parameter which we haven’t specified:
 
-<pre><code class="solidity">constructor(uint initial_balance) public {
+<pre>
+<button class="btn" data-clipboard-target="#code-2"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code id="code-2" class="solidity">constructor(uint initial_balance) public {
     _balances[msg.sender] = initial_balance;
     _supply = initial_balance;
 }
@@ -115,7 +118,9 @@ We haven't supplied any parameters to the contract and embark complains because 
 
 Let’s rectify this by specifying the *initial_balance* value in `config/contracts.js`
 
-<pre><code class="javascript">module.exports = {
+<pre>
+<button class="btn" data-clipboard-target="#code-3"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code id="code-3" class="javascript">module.exports = {
   default: {
     // .....
     gas: "auto",
@@ -143,14 +148,16 @@ For the sake of brevity, we wouldn’t implement every single functionality in t
 
 To input the address to query, we’ll edit *app/index.html* and add a simple form.
 
-<pre><code class="xml">&lt;html&gt;
+<pre>
+<button class="btn" data-clipboard-target="#code-4"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="xml">&lt;html&gt;
   &lt;head&gt;
     &lt;title&gt;Embark&lt;/title&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
     &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
   &lt;/head&gt;
   &lt;body&gt;
-  <mark class="highlight-inline">
+  <mark id="code-4" class="highlight-inline">
     &lt;div id=&quot;queryBalance&quot;&gt;
       &lt;h3&gt;Query Balance&lt;/h3&gt;
       &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
@@ -166,18 +173,24 @@ To input the address to query, we’ll edit *app/index.html* and add a simple fo
 
 To simplify the code a bit in this tutorial, we’ll add the jQuery library to our DApp. 
 
-<pre><code class="shell">$ npm install jquery@3 --save</code></pre>
+<pre>
+<button class="btn" data-clipboard-target="#code-5"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="shell">$ <marc id="code-5">npm install jquery@3 --save</mark></code></pre>
 
 Now edit the file *app/js/index.js* and add:
 
-<pre><code class="javascript">import $ from 'jquery';</code></pre>
+<pre>
+<button class="btn" data-clipboard-target="#code-6"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code id="code-6" class="javascript">import $ from 'jquery';</code></pre>
 
 **Setting the default address**
 
 Let’s add to the input field field our own address as the default text so we can easily query our own balance. In the file *app/js/index.js* add:
 
-<pre><code class="javascript">import $ from 'jquery';
-<mark class="highlight-inline">
+<pre>
+<button class="btn" data-clipboard-target="#code-7"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="javascript">import $ from 'jquery';
+<mark id="code-7" class="highlight-inline">
 $(document).ready(function() {
   web3.eth.getAccounts(function(err, accounts) {
     $('#queryBalance input').val(accounts[0]);
@@ -198,14 +211,18 @@ To query the balance, we can see the contract method signature to do this is:
 
 This method will be available in the JS code automatically as a promise, like:
 
-<pre><code class="solidity">import Token from 'Embark/contracts/Token';
+<pre>
+<button class="btn" data-clipboard-target="#code-8"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="solidity"><mark id="code-8">import Token from 'Embark/contracts/Token';</mark>
 
 Token.balanceOf(address).then(function(balance) { });
 </code></pre>
 
 So we can simply add a click event to the button, get the address, query the balance and set the result.
 
-<pre><code class="javascript">import $ from 'jquery';
+<pre>
+<button class="btn" data-clipboard-target="#code-9"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="javascript">import $ from 'jquery';
 import Token from 'Embark/contracts/Token';
 
 $(document).ready(function() {
@@ -213,7 +230,7 @@ $(document).ready(function() {
   web3.eth.getAccounts(function(err, accounts) {
     $('#queryBalance input').val(accounts[0]);
   });
-<mark class="highlight-inline">
+<mark id="code-9" class="highlight-inline">
   $('#queryBalance button').click(function() {
     var address = $('#queryBalance input').val();
     Token.methods.balanceOf(address).call().then(function(balance) {
@@ -238,7 +255,9 @@ Now checking the contract, this is the method for transferring tokens:
 
 The method will take two parameters, an address and a value. Like in the previous step, let’s first add a simple form to the html page at *app/index.html*:
 
-<pre><code class="xml">&lt;html&gt;
+<pre>
+<button class="btn" data-clipboard-target="#code-10"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="xml">&lt;html&gt;
   &lt;head&gt;
     &lt;title&gt;Embark&lt;/title&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
@@ -254,7 +273,7 @@ The method will take two parameters, an address and a value. Like in the previou
       &lt;button&gt;Query&lt;/button&gt;
       &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
-<mark class="highlight-inline">
+<mark id="code-10" class="highlight-inline">
     &lt;div id=&quot;transfer&quot;&gt;
       &lt;h3&gt;Transfer Tokens&lt;/h3&gt;
       &lt;input class=&quot;address&quot; placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
@@ -269,7 +288,9 @@ The method will take two parameters, an address and a value. Like in the previou
 
 Then we will add the code to take the address and number of tokens from the inputs and call the contracts transfer method to *app/js/index.js*:
 
-<pre><code class="javascript">import $ from 'jquery';
+<pre>
+<button class="btn" data-clipboard-target="#code-11"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="javascript">import $ from 'jquery';
 import Token from 'Embark/contracts/Token';
 
 $(document).ready(function() {
@@ -284,7 +305,7 @@ $(document).ready(function() {
       $('#queryBalance .result').html(balance);
     });
   });
-<mark class="highlight-inline">
+<mark id="code-11" class="highlight-inline">
   $('#transfer button').click(function() {
     var address = $('#transfer .address').val();
     var num = $('#transfer .num').val();
