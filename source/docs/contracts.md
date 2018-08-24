@@ -156,6 +156,7 @@ You can use your own account in a wallet which will then be used for the contrac
       "deployment": {
         "accounts": [
           {
+             // If privateKey is set to `random`, will generate a random account (can be useful for tests)
             "privateKey": "your_private_key"
           },
           {
