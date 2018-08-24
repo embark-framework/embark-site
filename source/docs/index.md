@@ -41,13 +41,21 @@ Installing Embark is quite easy. However, you do need to have a couple of other 
 
 - [Node.js](http://nodejs.org/) 8.11.3 LTS or higher
 
-We recommend installing node using [NVM](https://github.com/creationix/nvm/blob/master/README.md)
+
+{% note info Installing Node %}
+_**We recommend installing node using [NVM](https://github.com/creationix/nvm/blob/master/README.md)**_
+
+You can find instructions on how to install NVM [here](https://github.com/creationix/nvm/blob/master/README.md#install-script)
+
+Afterwards, install and select a node version, for e.g:
+`nvm install 8.11`
+`nvm use 8.11`
+{% endnote %}
 
 After installing nodejs you can install embark with:
 
 <pre><code class="shell">$ npm -g install embark
 </code></pre>
-
 
 {% note warn Do not use sudo %}
 Avoid using `sudo` to install NodeJS or Embark as it can cause permission errors down the line.
