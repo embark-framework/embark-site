@@ -151,7 +151,8 @@ module.exports = {
             "privateKey": "your_private_key"
           },
           {
-            "privateKeyFile": "path/to/file" // You can put more than one key, separated by , or ;
+            "privateKeyFile": "path/to/file", // Either a keystore or a list of keys, separated by , or ;
+            "password": "passwordForTheKeystore" // Needed to decrypt the keystore file
           },
           {
             "mnemonic": "12 word mnemonic",
@@ -165,7 +166,8 @@ module.exports = {
 }
 </code></pre>
 
-When in development you can also specify the balance of each account as well, for e.g
+#### Account balance (dev)
+When in development, you can also specify the balance of each account as well, for e.g
 
 <pre><code class="javascript">module.exports = {
   "development": {
@@ -183,7 +185,30 @@ When in development you can also specify the balance of each account as well, fo
 
 You can specify the balance using a unit as "5 ether" of "200 finney", if no unit is specified the value will be in wei.
 
-If you are using Infura.io to connect to a blockchain node, this is also possible to connect to from Embark like so. The following specifies the configuration for the web3 provider, not the blockchain node configuration itself.
+### Using your accounts in arguments
+
+You can specify an account the same way you would a contract to set the account's address as a contract argument.
+
+<pre><code class="javascript">// config/contracts.js
+module.exports = {
+  "development": {
+    "contracts": {
+      "MyContractThatNeedsAccountAddresses": {
+        "args": [
+          "$account[0]", // Sets the first accounts's address as an argument
+          "$account[4]" // Same thing for the 5th account (account needs to exist)
+        ]
+      }
+    }
+  }
+}
+
+</code></pre>
+
+### Connection to Infura
+If you are using Infura.io to connect to a blockchain node, it is also possible to connect from Embark like so. 
+
+*The following specifies the configuration for the web3 provider, not the blockchain node configuration itself.
 
 <pre><code class="javascript">module.exports = {
   testnet: {
