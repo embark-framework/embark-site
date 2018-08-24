@@ -23,15 +23,15 @@ page:
 sidebar:
   docs:
     getting_started: Getting Started
-    overview: Overview
-    setup: Setup
+    overview: Overview & Installation
+    structure: Structure
     what_is_dapp: What is a DApp
     quick_start: Quick Start
     tutorials_&_guides: Tutorials & Guides
     basic_usage: Basic Usage
     smart_contracts: Smart Contracts
-    storage: Storage
-    messages: Messages
+    storage: Decentralized Storage
+    messages: Decentralized Messages
     testing: Testing
     configuration: Configuration
     distributing: Distributing your DApp
@@ -70,6 +70,20 @@ sidebar:
     miscellaneous: Miscellaneous
     troubleshooting: Troubleshooting
     contributing: Contributing
+    contracts_configuration: Configuration
+    contracts_javascript: Javascript Usage
+    contracts_deployment: Accounts & Deployment
+    contracts_imports: Solidity Imports
+    contracts_testing: Testing
+    storage_configuration: Configuration
+    storage_javascript: Javascript Usage
+    storage_troubleshooting: Troubleshooting
+    storage_deployment: Deploying to IPFS/Swarm
+    messages_configuration: Configuration
+    messages_javascript: Javascript Usage
+    messages_troubleshooting: Troubleshooting
+    general_usage: General Usage
+    environments: Environments
   api:
     core: Core
     overview: Overview

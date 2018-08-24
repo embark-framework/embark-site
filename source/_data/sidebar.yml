@@ -1,17 +1,29 @@
 docs:
   getting_started:
     overview: index.html
-    setup: setup.html
-    what_is_dapp: what_dapp.html
     quick_start: quick_start.html
-  basic_usage:
-    smart_contracts: contracts.html
-    storage: storage.html
-    messages: messages.html
-    testing: testing.html
+
+  general_usage:
+    structure: structure.html
+    environments: environments.html
     configuration: configuration.html
-  distributing:
-    deploying: deploying.html
+
+  smart_contracts:
+    contracts_configuration: contracts_configuration.html
+    contracts_deployment: contracts_deployment.html
+    contracts_javascript: contracts_javascript.html
+    contracts_imports: contracts_imports.html
+    contracts_testing: contracts_testing.html
+
+  storage:
+    storage_configuration: storage_configuration.html
+    storage_javascript: storage_javascript.html
+    storage_deployment: storage_deployment.html
+
+  messages:
+    messages_configuration: messages_configuration.html
+    messages_javascript: messages_javascript.html
+
   plugins:
     installing_a_plugin: installing_plugins.html
     creating_a_plugin: creating_plugins.html

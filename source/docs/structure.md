@@ -1,4 +1,4 @@
-title: Setup
+title: Structure
 ---
 
 Once Embark is installed, you can create a demo DApp with:
