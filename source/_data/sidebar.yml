@@ -4,6 +4,7 @@ docs:
     quick_start: quick_start.html
 
   general_usage:
+    creating_project: create_project.html
     structure: structure.html
     environments: environments.html
     configuration: configuration.html

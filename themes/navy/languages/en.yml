@@ -24,6 +24,7 @@ sidebar:
   docs:
     getting_started: Getting Started
     overview: Overview & Installation
+    creating_project: Creating a Project
     structure: Structure
     what_is_dapp: What is a DApp
     quick_start: Quick Start
@@ -62,7 +63,6 @@ sidebar:
     customization: Customization
     permalinks: Permalinks
     themes: Themes
-    structure: Structure
     templates: Templates
     variables: Variables
     helpers: Helpers
