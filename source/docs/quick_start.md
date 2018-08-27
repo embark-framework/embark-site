@@ -1,6 +1,10 @@
 title: Quick Start
 ---
 
+### Installation
+
+First make sure you have installed Embark, preferably using NVM. See [install instructions](index.html#Requirements)
+
 ### Create demo app
 
 <pre><code class="shell">$ embark demo

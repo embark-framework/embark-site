@@ -84,6 +84,9 @@ sidebar:
     messages_troubleshooting: Troubleshooting
     general_usage: General Usage
     environments: Environments
+    javascript_usage: Javascript Usage
+    naming: Naming Systems
+    naming_javascript: Javascript Usage
   api:
     core: Core
     overview: Overview

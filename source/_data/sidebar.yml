@@ -8,6 +8,7 @@ docs:
     structure: structure.html
     environments: environments.html
     configuration: configuration.html
+    javascript_usage: javascript_usage.html
 
   smart_contracts:
     contracts_configuration: contracts_configuration.html
@@ -24,6 +25,9 @@ docs:
   messages:
     messages_configuration: messages_configuration.html
     messages_javascript: messages_javascript.html
+
+  naming:
+    naming_javascript: naming_javascript.html
 
   plugins:
     installing_a_plugin: installing_plugins.html

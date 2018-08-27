@@ -32,3 +32,4 @@ SimpleStorage.methods.get().call().then(function(value) { console.log(value) });
 SimpleStorage.methods.storedData().call().then(function(value) { console.log(value) });
 </code></pre>
 
+The syntax used is <a href="http://web3js.readthedocs.io/en/1.0/" target="_blank">web3.js 1.0</a>

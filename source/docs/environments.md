@@ -1,11 +1,12 @@
 title: Environments
 ---
 
-Embark has the concept of environments, all config files have entries for each environment that can be specified in most embark commands.
+Developing on Ethereum require you to #buidl everything locally, then deploy it on various test networks, and only then get to the big show. Setting up connections and deploying contracts easily to all these different environments is a pain. But do not fear, Embark has you covered. We use the concept of `environments`, which means that every config files has entries for each environment so you can control them all sensibly from one place that can be specified in most embark commands.
 
 ### Configuration
 
-`default` is a special environment whose configs applies to all environments. Each config is then **merged** with `default`, this way you can specify the most common options in default, and then only override what's really needed on a per environment basis.
+`default` is a special environment - the values you use here will apply to all environments unless you have set specific values for the environments you want to work in.
+Every other config block is then merged with `default`, which means that you can specify the most common options in default and then only override what's really needed on a per environment basis.
 
 Example:
 

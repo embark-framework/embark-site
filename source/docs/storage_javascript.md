@@ -1,21 +1,6 @@
 title: Storage Usage in Javscript
 ---
 
-### Setup
-
-By default Embark will automatically initialize EmbarkJS with the provider configured at `config/storage.js`. However if you are using EmbarkJS directly or wish to change the provider configuration on the fly you can do:
-
-<pre><code class="javascript">EmbarkJS.Storage.setProvider('swarm', options);
-</code></pre>
-
-Options are optional and if provided, will override the values in `storage.js`. 
-
-For example,
-<pre><code class="javascript">EmbarkJS.Storage.setProvider('ipfs', {server: 'localhost', port: '5001'});
-// OR
-EmbarkJS.Storage.setProvider('swarm', {server: 'swarm-gateways.net', port: '80'});
-</code></pre>
-
 ### Save Text/Data
 
 <pre><code class="javascript">EmbarkJS.Storage.saveText("hello world")
@@ -68,5 +53,20 @@ This will return true if the storage provider (IPFS or Swarm) is avaiable and ru
         console.log("Error getting storage provider availability => " + err.message);
       }
   });
+</code></pre>
+
+### Setup
+
+By default Embark will automatically initialize EmbarkJS with the provider configured at `config/storage.js`. However if you are using EmbarkJS directly or wish to change the provider configuration on the fly you can do:
+
+<pre><code class="javascript">EmbarkJS.Storage.setProvider('swarm', options);
+</code></pre>
+
+Options are optional and if provided, will override the values in `storage.js`. 
+
+For example,
+<pre><code class="javascript">EmbarkJS.Storage.setProvider('ipfs', {server: 'localhost', port: '5001'});
+// OR
+EmbarkJS.Storage.setProvider('swarm', {server: 'swarm-gateways.net', port: '80'});
 </code></pre>
 
