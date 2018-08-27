@@ -35,8 +35,11 @@ The directory to which embark should output the dapp. (default is `dist/`)
 
 ### config
 
-Location of config files, if this is a string (e.g `"config/"`) will it assumed to the directory in which the config are located. However, you can also specify an object with the
-location of each config file, if set to `false` then that component will be disabled in embark. for e.g
+This is the location of the config files, If it is:
+* A string (e.g `"config/"`) will it assumed to the directory in which the config are located.
+* An object:
+  * Can be the location of each config file
+  * Can be set to false to disable a component in embark. for e.g
 
 <pre><code class="json">...
   "config": {

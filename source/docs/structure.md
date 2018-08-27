@@ -81,7 +81,7 @@ If you create the project with the `--simple` option, then the template will be 
 └── embark.json
 ```
 
-Most components will be disabled except the contracts but you can still re-enable in `embark.json` if you so need. The `contracts.js` config file is in the top directory since that's what is defined in the config.
+Most components will be disabled except the contracts, but you can still re-enable in `embark.json` if you so need. The `contracts.js` config file is in the top directory since that's what is defined in the config.
 
 <pre><code class="json">...
   "config": {

@@ -78,7 +78,7 @@ When in development you can also specify the balance of each account as well, fo
 }
 </code></pre>
 
-You can specify the balance using a unit as "5 ether" of "200 finney", if no unit is specified the value will be in wei.
+You can specify the balance using a unit such as "5 ether" of "200 finney". If no unit is specified the value will be in wei.
 
 If you are using Infura.io to connect to a blockchain node, this is also possible to connect to from Embark like so. The following specifies the configuration for the web3 provider, not the blockchain node configuration itself.
 

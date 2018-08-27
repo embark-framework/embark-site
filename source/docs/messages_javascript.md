@@ -10,17 +10,17 @@ title: Messages Usage in Javacript
 
 ### sending messages
 
-you can send plain text
+You can send plain text
 
 <pre><code class="javascript">EmbarkJS.Messages.sendMessage({topic: "sometopic", data: 'hello world'})
 </code></pre>
 
-or an object
+Or an object
 
 <pre><code class="javascript">EmbarkJS.Messages.sendMessage({topic: "sometopic", data: {msg: 'hello world'}})
 </code></pre>
 
-note: array of topics are considered an AND. In Whisper you can use another array for OR combinations of several topics e.g ``["topic1", ["topic2", "topic3"]]`` => ``topic1 AND (topic2 OR topic 3)``
+Note: array of topics are considered an AND. In Whisper you can use another array for OR combinations of several topics e.g ``["topic1", ["topic2", "topic3"]]`` => ``topic1 AND (topic2 OR topic 3)``
 
 ### Setup
 
