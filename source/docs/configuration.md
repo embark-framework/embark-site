@@ -12,7 +12,7 @@ title: Configuring Embark
   "buildDir": "dist/",
   "config": "config/",
   "versions": {
-    "web3": "1.0.0-beta",
+    "web3": "1.0.0-beta.34",
     "solc": "0.4.17",
     "ipfs-api": "17.2.4"
   },
@@ -23,19 +23,34 @@ title: Configuring Embark
 
 ### contracts
 
-List of directories in which embark should look for contracts. These typically are GLOB expressions (e.g ["contracts/**/*.sol"] will match all sol files inside any folders inside contracts/)
+List of directories in which embark should look for contracts. These typically are GLOB expressions (e.g `["contracts/**/*.sol"]` will match all sol files inside any folders inside contracts/)
 
 ### pipeline
 
-The mapping between the output files and the source. e.g "js/dapp.js": ["app/dapp.js"] will run app/dapp.js though the embark pipeline, and output the result into dist/js/dapp.js
+The mapping between the output files and the source. e.g `"js/dapp.js": ["app/dapp.js"]` will run `app/dapp.js` though the embark pipeline, and output the result into `dist/js/dapp.js`
 
 ### build directory
 
-The directory to which embark should output the dapp. (default is dist/)
+The directory to which embark should output the dapp. (default is `dist/`)
 
 ### config
 
-Location of config files
+This is the location of the config files, If it is:
+* A string (e.g `"config/"`) will it assumed to the directory in which the config are located.
+* An object:
+  * Can be the location of each config file
+  * Can be set to false to disable a component in embark. for e.g
+
+<pre><code class="json">...
+  "config": {
+    "contracts": "contracts.js",
+    "blockchain": false,
+    "storage": false,
+    "communication": false,
+    "webserver": false
+  },
+...
+</code></pre>
 
 ### library versions
 
@@ -43,5 +58,5 @@ Here you can optionaly specify the versions of the library to be used by Embark.
 
 ### plugins
 
-List of plugins. (see plugin section)
+List of plugins. (see [plugin section](installing_plugins.html))
 

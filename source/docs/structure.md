@@ -1,17 +1,5 @@
-title: Setup
+title: Structure
 ---
-
-Once Embark is installed, you can create a demo DApp with:
-
-<pre><code class="shell">$ embark demo
-$ cd embark_demo
-</code></pre>
-
-If you want to create a blank DApp then:
-
-<pre><code class="shell">$ embark new <YourDAppName>
-$ cd <YourDAppName>
-</code></pre>
 
 Once initialised, here's what your project folder will look like:
 
@@ -64,7 +52,7 @@ Dev web server config, specifically the host and port to listen to.
 
 ### test/
 
-Tests Folder. This where you typically put the code to test smart contracts. Embark includes a [testing framework](testing.html)
+Tests Folder. This where you typically put the code to test smart contracts. Embark includes a [testing framework](contracts_testing.html)
 
 ### dist/
 
@@ -77,4 +65,32 @@ This file is used to keep track of the deployed contracts in each chain. See cha
 ### embark.json
 
 Embark is quite flexible and you can configure your own directory structure using ``embark.json``. This file is also used to specify embark plugins and other configurations. More information can be found in [configuring embark.json](configuration.html)
+
+<br>
+## Simple template structure
+
+If you create the project with the `--simple` option, then the template will be simpler.
+
+``` plain
+.
+├── contracts/
+└── test/
+└── dist/
+├── contracts.js
+└── chains.json
+└── embark.json
+```
+
+Most components will be disabled except the contracts, but you can still re-enable in `embark.json` if you so need. The `contracts.js` config file is in the top directory since that's what is defined in the config.
+
+<pre><code class="json">...
+  "config": {
+    "contracts": "contracts.js",
+    "blockchain": false,
+    "storage": false,
+    "communication": false,
+    "webserver": false
+  },
+...
+</code></pre>
 

@@ -1,4 +1,4 @@
-title: Testing
+title: Contracts Testing
 ---
 
 Testing Ethereum Contracts
@@ -149,4 +149,5 @@ contract("SimpleStorage Deploy", function () {
   });
 });
 </code></pre>
+
 
