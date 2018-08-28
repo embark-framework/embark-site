@@ -78,9 +78,9 @@ $ sudo apt-get update
 $ sudo apt-get install ethereum
 </code></pre>
 
-Alternatively you can also install a simulator such as testrpc:
+Alternatively you can also install a simulator such as ganache-cli (former testrpc):
 
-<pre><code class="shell">$ npm -g install ethereumjs-testrpc</code></pre>
+<pre><code class="shell">$ npm -g install ganache-cli</code></pre>
 
 ### With IPFS Support
 
