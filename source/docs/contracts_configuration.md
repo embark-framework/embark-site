@@ -206,7 +206,7 @@ module.exports = {
         <mark class="highlight-inline">"file": "github.com/status/contracts/contracts/identity/ERC725.sol"</mark>
       },
       "Ownable": {
-        <mark class="highlight-inline">"file": "https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/ownership/Ownable.sol"</mark>
+        <mark class="highlight-inline">"file": "https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/ownership/Ownable.sol"</mark>
       }
     }
   }
@@ -223,7 +223,7 @@ module.exports = {
     "gas": "auto",
     "contracts": {
       "ERC20": {
-        <mark class="highlight-inline">"file": "zeppelin-solidity/contracts/token/ERC20/ERC20.sol"</mark>
+        <mark class="highlight-inline">"file": "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol"</mark>
       }
     }
   }
