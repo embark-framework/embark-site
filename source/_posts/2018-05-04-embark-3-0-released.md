@@ -84,7 +84,7 @@ Embark is smart enough to take care of the dependencies of the resources and pre
         "file": "github.com/status/contracts/contracts/identity/ERC725.sol"
       },
       "Ownable": {
-        "file": "https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/ownership/Ownable.sol"
+        "file": "https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/ownership/Ownable.sol"
       },
       "SimpleStorage": {
         "file": "./some_folder/simple_storage.sol"
@@ -101,7 +101,7 @@ You can also import the same URIs directly in solidity which is quite useful for
 ```Javascript
 import "git://github.com/status/contracts/contracts/identity/ERC725.sol#develop";
 import "github.com/status/contracts/contracts/identity/ERC725.sol";
-import "https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/ownership/Ownable.sol"
+import "https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/ownership/Ownable.sol"
 
 contract MyContract is Ownable {
   ...
@@ -117,7 +117,7 @@ You can now install npm packages that contain contracts (e.g `npm install --save
   "development": {
     "contracts": {
       "ERC20": {
-        file: "zeppelin-solidity/contracts/token/ERC20/ERC20.sol"
+        file: "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol"
       }
     }
   }
