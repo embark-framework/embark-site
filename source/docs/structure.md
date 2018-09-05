@@ -40,7 +40,7 @@ Please see [Configuring Contracts](contracts.html) for more details.
 
 **storage.js**
 
-You can configure what storage component to use (e.g IPFS) and its config details including what node to connect to, get & uplaod files from, etc..
+You can configure what storage component to use (e.g IPFS) and its config details including what node to connect to, get & upload files from, etc..
 
 **communication.js**
 
