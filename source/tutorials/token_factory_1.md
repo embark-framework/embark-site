@@ -352,6 +352,11 @@ We transferred 20 tokens out of our account, let’s see if the balances reflect
 
 ![Screenshot](token_factory_1/page_4.png)
 
+You can even see in the Console a receipt of the transaction:
+
+![Screenshot](token_factory_1/page_5.png)
+
+
 ## On to Part 2
 
 In this tutorial we deployed and interacted with single Token. On [part 2](/tutorials/token_factory_2.html) we will adapt this DApp and create a true factory so new tokens can be dynamically deployed on the application side.
