@@ -115,7 +115,6 @@ Once added, Embark will automatically detect the new file and deploy the contrac
 We haven't supplied any parameters to the contract and embark complains because the contract constructor takes a *initial_balance* parameter which we haven’t specified:
 
 <pre>
-<button class="btn" data-clipboard-target="#code-2"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
 <code id="code-2" class="solidity">constructor(uint initial_balance) public {
     _balances[msg.sender] = initial_balance;
     _supply = initial_balance;
@@ -131,7 +130,8 @@ Let’s rectify this by specifying the *initial_balance* value in `config/contra
     // .....
     gas: "auto",
     contracts: {
-      <mark id="code-3" class="highlight-inline">Token: {
+      <mark id="code-3" class="highlight-inline">
+      Token: {
         args: {
           initial_balance: 1000
         }
@@ -142,7 +142,13 @@ Let’s rectify this by specifying the *initial_balance* value in `config/contra
 }
 </code></pre>
 
-Embark will detect the change and redeploy the contract with the new parameters, afterwards the token supply is 1000 as expected, type:
+Embark will detect the change and redeploy the contract with the new parameters.
+
+You can confirm that the token supply is 1000 by typing:
+<pre><button class="btn" data-clipboard-target="#cmd-3-1"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="shell">$ <mark id="cmd-3-1">Token.methods._supply().call(console.log)</mark></code>
+</pre>
+
 
 ![Console](token_factory_1/console_2.png)
 
@@ -197,14 +203,21 @@ Let’s add to the input field field our own address as the default text so we c
 <button class="btn" data-clipboard-target="#code-7"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
 <code class="javascript">import $ from 'jquery';
 <mark id="code-7" class="highlight-inline">
+import EmbarkJS from 'Embark/EmbarkJS';
+
 $(document).ready(function() {
-  web3.eth.getAccounts(function(err, accounts) {
-    $('#queryBalance input').val(accounts[0]);
+  EmbarkJS.onReady(() => {
+    web3.eth.getAccounts(function(err, accounts) {
+      $('#queryBalance input').val(accounts[0]);
+    });
+    
   });
 });</mark>
 </code></pre>
 
 This will get the address of the first account and set it as the default text in the input form.
+
+`EmbarkJS.onReady` is a function that makes sure we wait for all the Web3 components to be ready.
 
 **Querying Balance**
 
@@ -229,21 +242,23 @@ So we can simply add a click event to the button, get the address, query the bal
 <pre>
 <button class="btn" data-clipboard-target="#code-9"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
 <code class="javascript">import $ from 'jquery';
+import EmbarkJS from 'Embark/EmbarkJS';
 import Token from 'Embark/contracts/Token';
 
 $(document).ready(function() {
-
-  web3.eth.getAccounts(function(err, accounts) {
-    $('#queryBalance input').val(accounts[0]);
-  });
-<mark id="code-9" class="highlight-inline">
-  $('#queryBalance button').click(function() {
-    var address = $('#queryBalance input').val();
-    Token.methods.balanceOf(address).call().then(function(balance) {
-      $('#queryBalance .result').html(balance);
+  EmbarkJS.onReady(() => {
+    web3.eth.getAccounts(function(err, accounts) {
+      $('#queryBalance input').val(accounts[0]);
     });
+    <mark id="code-9" class="highlight-inline">
+    $('#queryBalance button').click(function() {
+      var address = $('#queryBalance input').val();
+      Token.methods.balanceOf(address).call().then(function(balance) {
+        $('#queryBalance .result').html(balance);
+      });
+    });
+    </mark>
   });
-</mark>
 });
 </code></pre>
 
@@ -296,35 +311,38 @@ Then we will add the code to take the address and number of tokens from the inpu
 
 <pre>
 <button class="btn" data-clipboard-target="#code-11"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="javascript">import $ from 'jquery';
+<code class="javascript">
+import $ from 'jquery';
+import EmbarkJS from 'Embark/EmbarkJS';
 import Token from 'Embark/contracts/Token';
 
 $(document).ready(function() {
-
-  web3.eth.getAccounts(function(err, accounts) {
-    $('#queryBalance input').val(accounts[0]);
-  });
-
-  $('#queryBalance button').click(function() {
-    var address = $('#queryBalance input').val();
-    Token.methods.balanceOf(address).call().then(function(balance) {
-      $('#queryBalance .result').html(balance);
+  EmbarkJS.onReady(() => {
+    web3.eth.getAccounts(function(err, accounts) {
+      $('#queryBalance input').val(accounts[0]);
     });
+    $('#queryBalance button').click(function() {
+      var address = $('#queryBalance input').val();
+      Token.methods.balanceOf(address).call().then(function(balance) {
+        $('#queryBalance .result').html(balance);
+      });
+    });
+    <mark id="code-11" class="highlight-inline">
+    $('#transfer button').click(function() {
+      var address = $('#transfer .address').val();
+      var num = $('#transfer .num').val();
+    
+      Token.methods.transfer(address, num).send().then(function() {
+        $('#transfer .result').html('Done!');
+      });
+    });
+    </mark>
   });
-<mark id="code-11" class="highlight-inline">
-  $('#transfer button').click(function() {
-    var address = $('#transfer .address').val();
-    var num = $('#transfer .num').val();
-
-    Token.methods.transfer(address, num).send().then(function() {
-      $('#transfer .result').html('Done!');
-    });;
-  });
-</mark>
 });
 </code></pre>
 
-Let’s go to the UI and transfer 20 tokens to a random address, after clicking Transfer you should see the text ‘Done!’ when the transfer takes effect.
+Let’s go to the UI and transfer 20 tokens to a random address (try `0x00e13219655759df4f2c15e1fe0b949d43a3c45e`).
+After clicking Transfer you should see the text ‘Done!’ when the transfer takes effect.
 
 ![Screenshot](token_factory_1/page_2.png)
 
@@ -333,6 +351,11 @@ We transferred 20 tokens out of our account, let’s see if the balances reflect
 ![Screenshot](token_factory_1/page_3.png)
 
 ![Screenshot](token_factory_1/page_4.png)
+
+You can even see in the Console a receipt of the transaction:
+
+![Screenshot](token_factory_1/page_5.png)
+
 
 ## On to Part 2
 
