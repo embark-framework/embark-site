@@ -392,3 +392,18 @@ import "github.com/status/contracts/contracts/identity/ERC725.sol";
 import "https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/ownership/Ownable.sol";
 ```
 
+### Solc compiler options
+
+You can specify some options ofr the solidity compiler in `embark.json`
+You can find more details here: https://solidity.readthedocs.io/en/v0.4.24/using-the-compiler.html?highlight=optimize
+
+<pre><code class="json">// embark.json
+{
+  "options": {
+    "solc": {
+      "optimize": true, // When set to true, will optimize the contracts to lower their size
+      "optimize-runs": 200 // The lower the number, the higher the optimization
+    }
+  }
+}
+</code></pre>
