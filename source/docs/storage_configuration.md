@@ -111,6 +111,36 @@ To use a public gateway (instead of running a local node) for IPFS or Swarm, use
 }
 </code></pre>
 
+### IPNS registration
+
+You can register your IPFS hash using IPNS. 
+
+*It can take up to a minute to register.
+
+#### Register
+
+```Javascript
+EmbarkJS.Storage.register('IPFS_hash', (err, name) => {
+    if(err){
+        console.log("Error registering", err.message);
+        return;
+    }
+    console.log('Registred to the following hash:', name);
+});
+```
+
+#### Resolve
+
+```Javascript
+EmbarkJS.Storage.resolve('IPNS_hash', (err, path) => {
+    if(err){
+        console.log("Error resolving", err.message);
+        return;
+    }
+    console.log('Resolved to the following IPFS path:', name);
+});
+```
+
 ### Troubleshooting <a name="troubleshooting"></a>
 
 If you are running your own processes for IPFS or Swarm, the CORS needs to be set to the domain of your DApp, to the geth domain, and to the domain of the storage used inside the DApp. If you are using the built in webserver, the CORS would need to be set to `http://localhost:8000`, however if you are using `embark upload`, the domain of the decentralised storage host should be included in CORS. Depending on your `upload` settings in `storage.js`, this could be `http://localhost:8080` or `http://ipfs.infura.io` for IPFS or it could be `http://localhost:8500` or `http://swarm-gateways.net` for Swarm. Of course, if you are hosting your DApp on a different domain (i.e. not `localhost`, then that would need to be included in CORS as well. Examples of how to include multiple domains for each are below:
