@@ -55,7 +55,7 @@ module.exports = {
             "privateKeyFile": "path/to/file" // Can contain more than one key, separated by , or ;
           },
           {
-            "mnemonic": "12 word mnemonic",
+            "mnemonic": "12 word mnemonic", // Not recommended, as it may be checked into source control
             "addressIndex": "0", // Optional. The index to start getting the address
             "numAddresses": "1", // Optional. The number of addresses to get
             "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
