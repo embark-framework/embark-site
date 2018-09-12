@@ -45,10 +45,14 @@ module.exports = {
       "deployment": {
         <mark class="highlight-inline">"accounts": [
           {
-            "privateKey": "your_private_key"
+            "privateKey": "your_private_key" // Not recommended, as it may be checked into source control
           },
           {
-            "privateKeyFile": "path/to/file" // You can put more than one key, separated by , or ;
+            "privateKey": process.env.DAPP_PRIVATE_KEY // Better
+          },
+          {
+            // Ensure file isn't checked into source control
+            "privateKeyFile": "path/to/file" // Can contain more than one key, separated by , or ;
           },
           {
             "mnemonic": "12 word mnemonic",
