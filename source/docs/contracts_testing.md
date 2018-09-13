@@ -6,9 +6,9 @@ Testing Ethereum Contracts
 
 ## How to
 
-You can run specs with ``embark test``, it will run all the test files under ``test/``. You can run a specific test file with `embark test <path/test_filename.js>`.
+You can run specs with ``embark test``. Invoking this command runs all the test files under ``test/``. You can also run a specific test file with `embark test <path/test_filename.js>`.
 
-Embark includes a testing lib to quickly run & test your contracts in a EVM. You can also get a coverage report by adding `--coverage` to the `embark test` command. This only works for Solidity contracts right now, but will be improved on and expended in future releases.
+Embark includes a testing library to run & test your contracts in EVM quickly. You can also get a coverage report by adding `--coverage` to the `embark test` command. Coverage is only captured for Solidity contracts right now but will be improved on and expanded on in future releases.
 
 <pre><code class="javascript">// test/simple_storage_spec.js
 /*global contract, config, it, embark, assert, web3*/
