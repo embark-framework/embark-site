@@ -69,6 +69,7 @@ Runs Tests. If `file` is not specified then it will run all the tests inside the
 Option | Description
 --- | ---
 `--coverage` | generate solidity coverage report
+`--node` | node to connect to (default: vm)
 
 ## reset
 
