@@ -45,10 +45,12 @@ module.exports = {
       "deployment": {
         <mark class="highlight-inline">"accounts": [
           {
+            // If privateKey is set to `random`, will generate a random account (can be useful for tests)
             "privateKey": "your_private_key"
           },
           {
-            "privateKeyFile": "path/to/file" // You can put more than one key, separated by , or ;
+            "privateKeyFile": "path/to/file", // Either a keystore or a list of keys, separated by , or ;
+            "password": "passwordForTheKeystore" // Needed to decrypt the keystore file
           },
           {
             "mnemonic": "12 word mnemonic",
@@ -62,6 +64,7 @@ module.exports = {
 }
 </code></pre>
 
+#### Account balance (dev)
 When in development you can also specify the balance of each account as well, for e.g
 
 <pre><code class="javascript">module.exports = {
@@ -99,3 +102,21 @@ If you are using Infura.io to connect to a blockchain node, this is also possibl
 }
 </code></pre>
 
+### Using your accounts in arguments
+
+You can specify an account the same way you would a contract to set the account's address as a contract argument.
+
+<pre><code class="javascript">// config/contracts.js
+module.exports = {
+  "development": {
+    "contracts": {
+      "MyContractThatNeedsAccountAddresses": {
+        "args": [
+          "<mark class="highlight-inline">$account[0]", // Sets the first accounts's address as an argument
+          "$account[4]" // Same thing for the 5th account (account needs to exist)</mark>
+        ]
+      }
+    }
+  }
+}
+</code></pre>
