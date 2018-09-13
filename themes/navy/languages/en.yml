@@ -86,6 +86,7 @@ sidebar:
     environments: Environments
     javascript_usage: Javascript Usage
     naming: Naming Systems
+    naming_configuration: Configuration
     naming_javascript: Javascript Usage
   api:
     core: Core
