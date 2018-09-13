@@ -29,8 +29,8 @@ Additionally, you can also specify the context a plugin should run in the plugin
 
 e.g
 
-<pre><code class="json">"plugins": { "embark-solium": {"context": ["build", "run"]} } 
+<pre><code class="json">"plugins": { "embark-solium": {"context": ["build", "run"]} }
 </code></pre>
 
-This can be quite useful to limit plugins to run only in certain contextes.  (note: newer plugins can use an API to automatically detect the context)
+This can be quite useful to limit plugins to run only in certain contexts (note: newer plugins can use an API to automatically detect the context.)
 
