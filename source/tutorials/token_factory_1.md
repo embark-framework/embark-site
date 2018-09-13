@@ -206,7 +206,11 @@ Let’s add to the input field field our own address as the default text so we c
 import EmbarkJS from 'Embark/EmbarkJS';
 
 $(document).ready(function() {
-  EmbarkJS.onReady(() => {
+  EmbarkJS.onReady((error) => {
+    if (error) {
+      console.error('Error while connecting to web3', error);
+      return;
+    }
     web3.eth.getAccounts(function(err, accounts) {
       $('#queryBalance input').val(accounts[0]);
     });
@@ -246,7 +250,11 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import Token from 'Embark/contracts/Token';
 
 $(document).ready(function() {
-  EmbarkJS.onReady(() => {
+  EmbarkJS.onReady((error) => {
+    if (error) {
+      console.error('Error while connecting to web3', error);
+      return;
+    }
     web3.eth.getAccounts(function(err, accounts) {
       $('#queryBalance input').val(accounts[0]);
     });
@@ -317,7 +325,11 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import Token from 'Embark/contracts/Token';
 
 $(document).ready(function() {
-  EmbarkJS.onReady(() => {
+  EmbarkJS.onReady((error) => {
+    if (error) {
+      console.error('Error while connecting to web3', error);
+      return;
+    }
     web3.eth.getAccounts(function(err, accounts) {
       $('#queryBalance input').val(accounts[0]);
     });
