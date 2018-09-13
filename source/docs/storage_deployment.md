@@ -72,3 +72,14 @@ To deploy a dapp to the public IPFS gateway:
 
 Please see the [Storage troubleshooting](./storage#troubleshooting) to resolve CORS issues.
 
+Associating to an ENS domain
+==================
+
+You can specify the `--ens` option when uploading to associate the upload hash to an ENS domain.
+
+Eg: `embark upload --ens=embark.eth` will upload your Dapp to IPFS or Swarm (depending on your config. See above) and then associate to the domain.
+This means that going to `embark.eth` will then show you your Dapp.
+
+*Important*: You need to be the owner of that domain for it to work.
+
+
