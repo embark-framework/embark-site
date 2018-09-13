@@ -7,6 +7,7 @@ docs:
     creating_project: create_project.html
     structure: structure.html
     environments: environments.html
+    naming: naming.html
     configuration: configuration.html
     javascript_usage: javascript_usage.html
 
