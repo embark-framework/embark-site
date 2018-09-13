@@ -66,6 +66,10 @@ Option | Description
 
 Runs Tests. If `file` is not specified then it will run all the tests inside the `test/` directory.
 
+Option | Description
+--- | ---
+`--coverage` | generate solidity coverage report
+
 ## reset
 
 <pre><code class="shell">$ embark reset</code></pre>
