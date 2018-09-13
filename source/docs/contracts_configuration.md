@@ -231,7 +231,7 @@ module.exports = {
 </code></pre>
 
 ### Solc compiler options
- You can specify some options ofr the solidity compiler in `embark.json`
+ You can specify some options for the solidity compiler in `embark.json`
 You can find more details here: https://solidity.readthedocs.io/en/v0.4.24/using-the-compiler.html?highlight=optimize
  <pre><code class="json">// embark.json
 {

@@ -28,6 +28,7 @@ docs:
     messages_javascript: messages_javascript.html
 
   naming:
+    naming_configuration: naming_configuration.html
     naming_javascript: naming_javascript.html
 
   plugins:
