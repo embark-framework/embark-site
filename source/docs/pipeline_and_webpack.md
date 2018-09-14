@@ -22,8 +22,8 @@ Embark has a internal default webpack config, this config allows you out of the 
 
 ### Ejecting & Customizing the Webpack config
 
-If you want to configure Embark's webpack for your own needs you can run:
+If you want to override Embark's default webpack configuration, you can run:
 
 <pre><code class="shell">$ embark eject-webpack</code></pre>
 
-This will output the webpack file to `webpack.config.js`, you can then customize this file to suit your needs.
+This command outputs the webpack file named `webpack.config.js` to the root directory of your dApp. You can then customize it to suit your specific needs.
