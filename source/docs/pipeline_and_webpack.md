@@ -16,10 +16,12 @@ You can also specify a particular mode with `--pipeline`, for e.g
 
 Embark has a internal default webpack config, this config allows you out of the box to:
 
-* ES6 modules & imports
+* ES6 module `import` and `export` syntax
 * Importing CSS, SCSS, PNG, SVG & Fonts in JS
 * Support for React & JSX
 * Automatic support for older browsers via babel's preset-env. By default, Embark's uses a Browserlist setting of `['last 1 version', 'not dead', '> 0.2%']`
+* Sourcemaps (when in development mode)
+* Optmization: minification and tree shaking (when in production mode)
 
 ### Ejecting & Customizing the Webpack config
 
