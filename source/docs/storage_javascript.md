@@ -70,3 +70,33 @@ For example,
 EmbarkJS.Storage.setProvider('swarm', {server: 'swarm-gateways.net', port: '80'});
 </code></pre>
 
+### IPNS registration
+
+You can register your IPFS hash using IPNS.
+
+*It can take up to a minute to register.
+
+#### IPNS - Register
+
+```Javascript
+EmbarkJS.Storage.register('IPFS_hash', (err, name) => {
+    if(err){
+        console.log("Error registering", err.message);
+        return;
+    }
+    console.log('Registred to the following hash:', name);
+});
+```
+
+#### IPNS - Resolve
+
+```Javascript
+EmbarkJS.Storage.resolve('IPNS_hash', (err, path) => {
+    if(err){
+        console.log("Error resolving", err.message);
+        return;
+    }
+    console.log('Resolved to the following IPFS path:', name);
+});
+```
+
