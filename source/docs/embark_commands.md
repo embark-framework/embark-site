@@ -41,7 +41,7 @@ Deploys and Builds the DApp at dist/. If no `environment` is provider embark wil
 
 <pre><code class="shell">$ embark run [environment]</code></pre>
 
-Deploys and Builds the DApp at `dist/`. By default will launch a dashboard and start a dev server at `http://localhost:4000/`. If no `environment` is provider embark will use `development` by default.  
+Deploys and Builds the DApp at `dist/`. By default will launch a dashboard and start a dev server at `http://localhost:4000/`. If no `environment` is provider embark will use `development` by default.
 
 Option | Description
 --- | ---
@@ -108,4 +108,3 @@ Generates documentation based on the smart contracts configured
 <pre><code class="shell">$ embark version</code></pre>
 
 Displays version information.
-
