@@ -35,6 +35,7 @@ sidebar:
     messages: Decentralized Messages
     testing: Testing
     configuration: Configuration
+    pipeline_and_webpack: Pipeline & Webpack
     distributing: Distributing your DApp
     deploying: Deploying to IPFS/Swarm
     plugins: Plugins

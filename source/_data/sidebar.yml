@@ -8,6 +8,7 @@ docs:
     structure: structure.html
     environments: environments.html
     configuration: configuration.html
+    pipeline_and_webpack: pipeline_and_webpack.html
     javascript_usage: javascript_usage.html
 
   smart_contracts:
