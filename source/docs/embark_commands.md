@@ -41,7 +41,7 @@ Deploys and Builds the DApp at dist/. If no `environment` is provider embark wil
 
 <pre><code class="shell">$ embark run [environment]</code></pre>
 
-Deploys and Builds the DApp at `dist/`. By default will launch a dashboard and start a dev server at `http://localhost:4000/`. If no `environment` is provider embark will use `development` by default.  
+Deploys and Builds the DApp at `dist/`. By default will launch a dashboard and start a dev server at `http://localhost:8000/`. If no `environment` is provider embark will use `development` by default.
 
 Option | Description
 --- | ---
@@ -51,6 +51,12 @@ Option | Description
 `--nodashboard` | simple mode, disables the dashboard
 `--no-color` | no colors in case it's needed for compatbility purposes
 `--logfile` | `filename` to output logs (default: none)
+
+## eject-webpack
+
+<pre><code class="shell">$ embark eject-webpack</code></pre>
+
+Copies Embark's default `webpack.config.js` file into your DApp so that you can customize it. If a file named `webpack.config.js` is present in your top-level DApp directory, Embark will use your webpack config file instead of its own.
 
 ## blockchain
 
@@ -108,4 +114,3 @@ Generates documentation based on the smart contracts configured
 <pre><code class="shell">$ embark version</code></pre>
 
 Displays version information.
-
