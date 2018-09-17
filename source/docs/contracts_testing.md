@@ -8,8 +8,7 @@ Testing Ethereum Contracts
 
 You can run specs with ``embark test``. Invoking this command runs all the test files under ``test/``. You can also run a specific test file with `embark test <path/test_filename.js>`.
 
-Embark includes a testing library to run & test your contracts in <abbr title="Ethereum Virtual Machine">EVM</abbr> quickly. You can also get a coverage report by adding `--coverage` to the `embark test` command. Coverage is only captured for Solidity contracts right now but will be improved on and expanded on in future releases.
-
+Embark includes a testing library to run & test your contracts in <abbr title="Ethereum Virtual Machine">EVM</abbr> quickly.
 <pre><code class="javascript">// test/simple_storage_spec.js
 /*global contract, config, it, embark, assert, web3*/
 const SimpleStorage = embark.require('Embark/contracts/SimpleStorage');
@@ -58,7 +57,7 @@ You can require your contracts using `require('Embark/contracts/YOUR_CONTRACT_NA
 
 You can use the same account settings that you would use in [contracts.js](https://embark.status.im/docs/contracts.html#Using-accounts-in-a-wallet)
 
-That way, you can use a specific account for your test. 
+That way, you can use a specific account for your test.
 
 You can even optionally set the balance of each account using real units eg: "5eth", "125gwei", "500 szabo".
 If the unit is not specified, Embark will assume weis.
@@ -87,7 +86,7 @@ config({
 });
 
 describe("SimpleStorage", function() {
-  
+
 });
 </code></pre>
 
@@ -111,8 +110,8 @@ describe("SimpleStorage", function() {
 
 ## Accessing accounts
 
-The callback used in the function ``config`` will let you access the accounts configured in the EVM. 
-You can assign them to a variable and use them in your tests. 
+The callback used in the function ``config`` will let you access the accounts configured in the EVM.
+You can assign them to a variable and use them in your tests.
 That callback is optional. If you do not need the accounts, you do not have to supply it.
 
 <pre><code class="javascript">let accounts;
@@ -130,7 +129,7 @@ config({
 
 ## Creating contract instances in your tests
 
-Embark handles the deployment of your contracts through the function ``config``. 
+Embark handles the deployment of your contracts through the function ``config``.
 However you can use the contract's deploy function to deploy it manually.
 
 <pre><code class="javascript">/*global contract, it, assert, before*/
@@ -149,3 +148,13 @@ contract("SimpleStorage Deploy", function () {
   });
 });
 </code></pre>
+
+## Code coverage
+
+Embark allows you to generate a coverage report for your Solidity contracts by passing the `--coverage` option on the `embark test` command. The generated report looks like this:
+
+![Coverage Report: Files](/coverage-files.png)
+
+This gives us a birds-eye view on the state of the coverage of our contracts: how many of the functions were called, how many lines were hit, even whether all the branch cases were executed. When selecting a file, a more detailed report is produced. Here's what it looks like:
+
+![Coverage Report: Detailed](/coverage-report.png)
