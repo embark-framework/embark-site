@@ -230,6 +230,24 @@ module.exports = {
 }
 </code></pre>
 
+### Conditional Deployment
+
+You can specify a conditional of whenever a contract should be deployed or not using the `deployIf` field. If this field is present then the contract will deploy only if its value expression returns true.
+
+<pre><code class="javascript">// config/contracts.js
+module.exports = {
+  "development": {
+    "contracts": {
+      "ERC20": {
+        <mark class="highlight-inline">"deployIf": "await Manager.methods.isUpdateApproved()"</mark>
+      },
+      "Manager": {
+      },
+    }
+  }
+}
+</code></pre>
+
 ### Solc compiler options
  You can specify some options for the solidity compiler in `embark.json`
 You can find more details here: https://solidity.readthedocs.io/en/v0.4.24/using-the-compiler.html?highlight=optimize
