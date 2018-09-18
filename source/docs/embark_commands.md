@@ -90,6 +90,7 @@ Option | Description
 --- | ---
 `--coverage` | generate solidity coverage report
 `--node` | node to connect to (default: vm)
+`-d`, `--gasDetails` | print the gas cost for each contract deployment
 
 ## reset
 

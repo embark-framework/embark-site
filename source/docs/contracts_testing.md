@@ -8,6 +8,8 @@ Testing Ethereum Contracts
 
 You can run specs with ``embark test``. Invoking this command runs all the test files under ``test/``. You can also run a specific test file with `embark test <path/test_filename.js>`.
 
+Pass the `--gasDetails` option to `embark test` to have the gas cost printed for each contract deployment.
+
 Embark includes a testing library to run & test your contracts in <abbr title="Ethereum Virtual Machine">EVM</abbr> quickly.
 <pre><code class="javascript">// test/simple_storage_spec.js
 /*global contract, config, it, embark, assert, web3*/
