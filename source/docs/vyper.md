@@ -1,7 +1,7 @@
 title: Vyper Documentation
 ---
 
-As of Embark 3.0, Vyper is supported out of the box. You only need to [install the compiler](https://github.com/ethereum/vyper/blob/master/docs/installing-vyper.rst) yourself.
+As of Embark 3.0, Vyper is supported out of the box. You only need to [install the compiler](https://vyper.readthedocs.io/en/latest/installing-vyper.html) yourself.
 
 Embark's Vyper support means that any files with the extension `.vy` in the contracts directory will be deployed with the file name as the contract name, so, for instance, `contracts/Crowdfunding.vy` will be deployed as `Crowdfunding`.
 
