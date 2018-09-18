@@ -28,3 +28,30 @@ $ cd &lt;YourDAppName&gt;
 </code></pre>
 
 This will create a simple project with all components disabled except the blockchain/contracts component.
+
+
+### Creating a project from a template
+
+If you want to start from a pre-existing template, then you can use the `--template` option:
+
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template angular
+$ cd &lt;YourDAppName&gt;
+</code></pre>
+
+##### Using template with URL
+
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template https://github.com/embark-framework/embark-vue-template
+$ cd &lt;YourDAppName&gt;
+</code></pre>
+
+##### Using template with Github
+
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template embark-framework/embark-typescript-template
+$ cd &lt;YourDAppName&gt;
+</code></pre>
+
+It is even possible to specify the branch:
+
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template git@github.com/status-im/dappcon-workshop-dapp#start-here
+$ cd &lt;YourDAppName&gt;
+</code></pre>
