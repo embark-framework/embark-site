@@ -9,7 +9,7 @@ Creates a new empty DApp project. If no `dappName` is provided, Embark will ask 
 
 Option | Description
 --- | ---
-`--simple` | create a barebones project meant only for contract development 
+`--simple` | create a barebones project meant only for contract development
 `--template` | download template from a GitHub repository
 
 The `--template` option supports several URL styles and shortcuts for GitHub repositories:
@@ -49,6 +49,7 @@ Option | Description
 `-b`, `--host` | `host` to run the dev webserver (default: localhost)
 `--noserver` | disable the development webserver
 `--nodashboard` | simple mode, disables the dashboard
+`--nobrowser` | prevent the development webserver from automatically opening a web browser
 `--no-color` | no colors in case it's needed for compatbility purposes
 `--logfile` | `filename` to output logs (default: none)
 
