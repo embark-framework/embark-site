@@ -1,4 +1,4 @@
-title: Vyper Documentation
+title: Vyper
 ---
 
 As of Embark 3.0, Vyper is supported out of the box. You only need to [install the compiler](https://vyper.readthedocs.io/en/latest/installing-vyper.html) yourself.
