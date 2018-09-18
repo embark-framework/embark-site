@@ -38,13 +38,13 @@ If you want to start from a pre-existing template, then you can use the `--templ
 $ cd &lt;YourDAppName&gt;
 </code></pre>
 
-##### Using template with URL
+##### Using template with GitHub URL
 
 <pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template https://github.com/embark-framework/embark-vue-template
 $ cd &lt;YourDAppName&gt;
 </code></pre>
 
-##### Using template with Github
+##### Using template with GitHub shortcut
 
 <pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template embark-framework/embark-typescript-template
 $ cd &lt;YourDAppName&gt;
