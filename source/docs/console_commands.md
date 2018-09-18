@@ -30,4 +30,3 @@ a plugin](creating_plugins.html)
         });
     }
 </code></pre>
-
