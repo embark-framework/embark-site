@@ -8,7 +8,7 @@ Testing Ethereum Contracts
 
 You can run specs with ``embark test``. Invoking this command runs all the test files under ``test/``. You can also run a specific test file with `embark test <path/test_filename.js>`.
 
-Pass the `--gasDetails` option to `embark test` to have the gas cost printed for each contract deployment.
+Pass the `--gasDetails` option to `embark test` to have the gas cost printed for each contract deployment when running the tests.
 
 By default, tests are run using an Ethereum simulator (ganache). You can use the `--node` option to change that behavior. Passing `--node embark` to `embark test` will use the Ethereum node associated with an already running embark process. You can also specify a custom endpoint, for example:
 `embark test --node ws://localhost:8556`.
