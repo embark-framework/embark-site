@@ -88,9 +88,19 @@ Runs Tests. If `file` is not specified then it will run all the tests inside the
 
 Option | Description
 --- | ---
-`--coverage` | generate solidity coverage report
-`--node` | node to connect to (default: vm)
+`-n`, `--node` | node to connect to (default: vm)
 `-d`, `--gasDetails` | print the gas cost for each contract deployment
+`-c`, `--coverage` | generate solidity coverage report
+
+The `--node` option supports several values:
+
+Value | Description
+--- | ---
+`vm` | starts an Ethereum simulator (ganache) and runs the tests using the simulator
+`embark` | uses the node associated with an already running embark process
+`<endpoint>` | connects to a running node available at the endpoint and uses it to run the tests
+
+Example of endpoint usage: `embark test --node ws://localhost:8556`
 
 ## reset
 

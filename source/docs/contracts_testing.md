@@ -10,6 +10,9 @@ You can run specs with ``embark test``. Invoking this command runs all the test 
 
 Pass the `--gasDetails` option to `embark test` to have the gas cost printed for each contract deployment.
 
+By default, tests are run using an Ethereum simulator (ganache). You can use the `--node` option to change that behavior. Passing `--node embark` to `embark test` will use the Ethereum node associated with an already running embark process. You can also specify a custom endpoint, for example:
+`embark test --node ws://localhost:8556`.
+
 Embark includes a testing library to run & test your contracts in <abbr title="Ethereum Virtual Machine">EVM</abbr> quickly.
 <pre><code class="javascript">// test/simple_storage_spec.js
 /*global contract, config, it, embark, assert, web3*/
