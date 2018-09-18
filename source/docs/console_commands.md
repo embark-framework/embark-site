@@ -13,6 +13,7 @@ Some commands available include:
 * ``quit`` or ``exit`` - to immediatly exit (you can also use ctrl + c)
 * ``webserver start`` - start the dev webserver
 * ``webserver stop`` - stop the dev webserver
+* ``browser open`` - open a web browser and load your DApp from the dev webserver
 
 ### Custom Commands
 

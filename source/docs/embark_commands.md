@@ -49,6 +49,7 @@ Option | Description
 `-b`, `--host` | `host` to run the dev webserver (default: localhost)
 `--noserver` | disable the development webserver
 `--nodashboard` | simple mode, disables the dashboard
+`--nobrowser` | prevent the development webserver from automatically opening a web browser
 `--no-color` | no colors in case it's needed for compatbility purposes
 `--logfile` | `filename` to output logs (default: none)
 
