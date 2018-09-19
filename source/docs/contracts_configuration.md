@@ -232,7 +232,7 @@ module.exports = {
 
 ### Conditional Deployment
 
-You can specify a conditional of whenever a contract should be deployed or not using the `deployIf` field. If this field is present then the contract will deploy only if its value expression returns true.
+You can specify a condition that decides whether a contract should be deployed by using the `deployIf` field. If this field is present then the contract will deploy only if its value expression returns true.
 
 <pre><code class="javascript">// config/contracts.js
 module.exports = {
