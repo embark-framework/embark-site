@@ -89,17 +89,17 @@ Runs Tests. If `file` is not specified then it will run all the tests inside the
 
 Option | Description
 --- | ---
-`-n`, `--node` | node to connect to (default: vm)
-`-d`, `--gasDetails` | print the gas cost for each contract deployment
-`-c`, `--coverage` | generate solidity coverage report
+`-n`, `--node` | node for running the tests (default: vm)
+`-d`, `--gasDetails` | print the gas cost for each contract deployment when running the tests
+`-c`, `--coverage` | generate a coverage report after running the tests (vm only)
 
 The `--node` option supports several values:
 
 Value | Description
 --- | ---
-`vm` | starts an Ethereum simulator (ganache) and runs the tests using the simulator
-`embark` | uses the node associated with an already running embark process
-`<endpoint>` | connects to a running node available at the endpoint and uses it to run the tests
+`vm` | start and use an Ethereum simulator (ganache)
+`embark` | use the node of a running embark process
+`<endpoint>` | connect to and use the specified node
 
 Example of endpoint usage: `embark test --node ws://localhost:8556`
 
