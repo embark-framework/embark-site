@@ -238,7 +238,7 @@ This method will be available in the JS code automatically as a promise, like:
 <button class="btn" data-clipboard-target="#code-8"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
 <code class="solidity"><mark id="code-8">import Token from 'Embark/contracts/Token';</mark>
 
-Token.balanceOf(address).then(function(balance) { });
+Token.methods.balanceOf(address).call().then(function(balance) { });
 </code></pre>
 
 So we can simply add a click event to the button, get the address, query the balance and set the result.
