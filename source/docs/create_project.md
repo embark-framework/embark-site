@@ -38,13 +38,13 @@ If you want to start from a pre-existing template, then you can use the `--templ
 $ cd &lt;YourDAppName&gt;
 </code></pre>
 
-##### Using template with GitHub URL
+##### Using `--template` with a git host URL
 
 <pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template https://github.com/embark-framework/embark-vue-template
 $ cd &lt;YourDAppName&gt;
 </code></pre>
 
-##### Using template with GitHub shortcut
+##### Using `--template` with a GitHub shortcut
 
 <pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template embark-framework/embark-typescript-template
 $ cd &lt;YourDAppName&gt;
@@ -52,6 +52,6 @@ $ cd &lt;YourDAppName&gt;
 
 It is even possible to specify the branch:
 
-<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template git@github.com/status-im/dappcon-workshop-dapp#start-here
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template status-im/dappcon-workshop-dapp#start-here
 $ cd &lt;YourDAppName&gt;
 </code></pre>

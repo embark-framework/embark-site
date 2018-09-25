@@ -10,20 +10,30 @@ Creates a new empty DApp project. If no `dappName` is provided, Embark will ask 
 Option | Description
 --- | ---
 `--simple` | create a barebones project meant only for contract development
-`--template` | download template from a GitHub repository
+`--template` | download a template using a known name or a git host URL
 
-The `--template` option supports several URL styles and shortcuts for GitHub repositories:
+The `--template` option supports several URL styles and shortcuts for git hosts:
 
-<pre>  git@github.com/ghuser/repo_name</pre>
+<pre>  git@github.com:ghuser/repo_name</pre>
 <pre>  https://github.com/ghuser/repo_name</pre>
-<pre>  github.com/ghuser/repo_name</pre>
+<pre>  github:ghuser/repo_name</pre>
 <pre>  ghuser/repo_name</pre>
 
 It's possible to append a branch name to any of the above, for example:
 
 <pre>  https://github.com/ghuser/repo_name#branch_name</pre>
+<pre>  ghuser/repo_name#branch_name</pre>
 
-Please see our list of [officially supported templates](https://embark.status.im/templates/).
+Bitbucket and GitLab URLs and shortcuts are also supported, for example:
+
+<pre>  bitbucket:bbuser/repo_name#branch_name</pre>
+<pre>  gitlab:gluser/repo_name#branch_name</pre>
+
+A short name can be used for templates maintained in the Embark GitHub organization, for example:
+
+<pre>  embark new --template typescript</pre>
+
+Please see our list of [officially supported templates](/templates/).
 
 ## demo
 
