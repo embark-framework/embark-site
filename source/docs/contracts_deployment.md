@@ -69,21 +69,20 @@ module.exports = {
 There are special security considerations to have when deploying to production. Chiefly, no private keys, private key files or mnemonics should be present in source control. Instead, we recommend using environment variables to pass those values in, like so:
 
 <pre><code class="javascript">// config/contracts.js
+const secrets = require('secrets.json'); // should NOT be in source control
+
 module.exports = {
   "mainnet": {
       "deployment": {
         <mark class="highlight-inline">"accounts": [
           {
-            "privateKey": process.env.DAPP_PRIVATE_KEY
+            "privateKeyFile": secrets.privateKeyFilePath,
+            "password": secrets.password
           },
           {
-            "privateKeyFile": "path/to/file/not/in/source/control", // Either a keystore or a list of keys, separated by , or ;
-            "password": process.env.DAPP_PRIVATE_KEY_PASSWORD
-          },
-          {
-            "mnemonic": process.env.DAPP_MNEMONIC,
+            "mnemonic": secrets.mnemonic,
             "addressIndex": "0", // Optional. The index to start getting the address
-            "numAddresses": "1", // Optional. The number of addresses to get
+            "numAddresses": "10", // Optional. The number of addresses to get
             "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
           }
         ]
