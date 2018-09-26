@@ -194,10 +194,10 @@ Expected doneCallback arguments: ``err`` and  ``hash`` of compiled contracts
       * code - [required] contract bytecode (string)      
       * abiDefinition - [required] contract abi (array of objects)
         * e.g ``[{"constant":true,"inputs":[],"name":"storedData","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"}, etc...``
-      * runtimeBytecode - [optionnal] contract runtimeBytecode (string)
-      * gasEstimates - [optionnal] gas estimates for constructor and methods (hash)
+      * runtimeBytecode - [optional] contract runtimeBytecode (string)
+      * gasEstimates - [optional] gas estimates for constructor and methods (hash)
         * e.g ``{"creation":[20131,38200],"external":{"get()":269,"set(uint256)":20163,"storedData()":224},"internal":{}}``
-      * functionHashes - [optionnal] object with methods and their corresponding hash identifier (hash)
+      * functionHashes - [optional] object with methods and their corresponding hash identifier (hash)
         * e.g ``{"get()":"6d4ce63c","set(uint256)":"60fe47b1","storedData()":"2a1afcd9"}``
 
 
