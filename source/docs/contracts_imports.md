@@ -3,11 +3,11 @@ title: Solidity Imports
 
 ### Importing files in contracts
 
-If using solidity it's also possible to directly import contract files inside the dapp from folders that are not explicity defined in the "contracts" propery of embark.json.
+If using Solidity it's also possible to directly import contract files inside the dapp from folders that are not explicity defined in the `contracts` propery of `embark.json`.
 
 <pre><code class="solidity">import "another_folder/another_test.sol";</code></pre>
 
-You can also import a contract file from a npm package:
+You can also import a contract file from an npm package:
 
 <pre><code class="solidity">import "openzeppelin-solidity/contracts/ownership/Ownable.sol";</code></pre>
 
