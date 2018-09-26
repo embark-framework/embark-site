@@ -206,7 +206,11 @@ Let’s add to the input field field our own address as the default text so we c
 import EmbarkJS from 'Embark/EmbarkJS';
 
 $(document).ready(function() {
-  EmbarkJS.onReady(() => {
+  EmbarkJS.onReady((error) => {
+    if (error) {
+      console.error('Error while connecting to web3', error);
+      return;
+    }
     web3.eth.getAccounts(function(err, accounts) {
       $('#queryBalance input').val(accounts[0]);
     });
@@ -234,7 +238,7 @@ This method will be available in the JS code automatically as a promise, like:
 <button class="btn" data-clipboard-target="#code-8"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
 <code class="solidity"><mark id="code-8">import Token from 'Embark/contracts/Token';</mark>
 
-Token.balanceOf(address).then(function(balance) { });
+Token.methods.balanceOf(address).call().then(function(balance) { });
 </code></pre>
 
 So we can simply add a click event to the button, get the address, query the balance and set the result.
@@ -246,7 +250,11 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import Token from 'Embark/contracts/Token';
 
 $(document).ready(function() {
-  EmbarkJS.onReady(() => {
+  EmbarkJS.onReady((error) => {
+    if (error) {
+      console.error('Error while connecting to web3', error);
+      return;
+    }
     web3.eth.getAccounts(function(err, accounts) {
       $('#queryBalance input').val(accounts[0]);
     });
@@ -317,7 +325,11 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import Token from 'Embark/contracts/Token';
 
 $(document).ready(function() {
-  EmbarkJS.onReady(() => {
+  EmbarkJS.onReady((error) => {
+    if (error) {
+      console.error('Error while connecting to web3', error);
+      return;
+    }
     web3.eth.getAccounts(function(err, accounts) {
       $('#queryBalance input').val(accounts[0]);
     });

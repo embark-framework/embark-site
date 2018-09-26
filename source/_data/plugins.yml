@@ -44,6 +44,7 @@
 - name: embark-pug
   description: Embark plugin to support pug / jade templates
   link: https://www.npmjs.com/package/embark-pug
+  legacy: true
   thumbnail: pug.png
   tags:
     - pug
@@ -52,6 +53,7 @@
 - name: embark-haml
   description: Embark plugin to support haml templates
   link: https://www.npmjs.com/package/embark-haml
+  legacy: true
   thumbnail: haml.png
   tags:
     - haml

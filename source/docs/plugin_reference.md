@@ -173,15 +173,17 @@ expected return: ``string``
 
 This call is used to extend the console with custom commands.
 
-expected return: ``string`` (output to print in console) or ``boolean`` (skip command if false)
+Expected result: an `object` with 2 functions:
+* `match`: return a boolean, `true` if the command must be processed.
+* `process`: the callback expects 2 arguments, the `error` (`null` if none) 
+and the result as a `string` (output to print in console)
 
 <pre><code class="javascript">module.exports = function(embark) {
   embark.registerConsoleCommand(function(cmd, options) {
-    if (cmd === "hello") {
-      return "hello there!";
-    }
-    // continue to embark or next plugin;
-    return false;
+      return {
+        match: () => cmd === "hello",
+        process: (callback) => callback(null, "hello there!")
+      };
   });
 }
 </code></pre>
