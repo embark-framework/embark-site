@@ -8,7 +8,7 @@ Testing Ethereum Contracts
 
 You can run specs with ``embark test``, it will run all the test files under ``test/``. You can run a specific test file with `embark test <path/test_filename.js>`
 
-Embark includes a testing lib to fastly run & test your contracts in a EVM.
+Embark includes a testing lib to quickly run and test your contracts in an EVM.
 
 <pre><code class="javascript">// test/simple_storage_spec.js
 /*global contract, config, it, embark, assert, web3*/
@@ -44,7 +44,7 @@ contract("SimpleStorage", function () {
 
 ## Global variables
 
-Embark makes a couple variables available for you globally:
+Embark makes a couple of variables available for you globally:
 
 - `contract`: Same as Mocha's `describe`
 - `config`: Function to deploy your contracts using custom configurations. Calls back with accounts
@@ -93,7 +93,7 @@ describe("SimpleStorage", function() {
 
 ## Configuring node
 
-By default Embark will use an internal VM to run the tests, however you can also specify a node to connect to and run the tests there, just like in contracts.js.
+By default Embark will use an internal VM to run the tests, however you can also specify a node to connect to and run the tests there, just like in `contracts.js`.
 
 <pre><code class="javascript">// test/simple_storage_spec.js
 
