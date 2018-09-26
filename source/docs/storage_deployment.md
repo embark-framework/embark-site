@@ -4,7 +4,9 @@ To upload your Dapp to IPFS or Swarm, first ensure you have correctly set up you
 
 Once the config is set, run
 <pre><code class="shell">$ embark upload</code></pre>
+
 If you want to deploy to the livenet, just configure your account in `config/blockchain.json` under the `livenet` environment. Then, you can deploy to that chain with the following command:
+
 <pre><code class="shell">$ embark upload livenet</code></pre>
 
 Deploying to IPFS
@@ -25,7 +27,7 @@ To deploy a dapp to a local IPFS node:
 3. Run <pre><code class="shell">$ embark upload</code></pre>
 
 To deploy a dapp to the public IPFS gateway:
-1. Configure your `config/storage.js` config with the correct settings, ie
+1. Configure your `config/storage.js` config with the correct settings, i.e.
 <pre><code class="javascript">module.exports = {
     "development": {
       "enabled": true,
@@ -38,13 +40,13 @@ To deploy a dapp to the public IPFS gateway:
 </code></pre>
 2. Run <pre><code class="shell">$ embark upload</code></pre>
 
-Please see the [Storage troubleshooting](./storage#troubleshooting) to resolve CORS issues.
+Please see the [Storage troubleshooting](./storage_configuration#Troubleshooting) to resolve CORS issues.
 
 Deploying to SWARM
 ==================
 To deploy a dapp to a local Swarm node:
 1. First [run a local Swarm node](http://swarm-guide.readthedocs.io/en/latest/runninganode.html).
-2. Configure your `storage.json` config with the correct settings, ie
+2. Configure your `storage.json` config with the correct settings, i.e.
 <pre><code class="javascript">module.exports = {
     "development": {
       "enabled": true,
@@ -58,7 +60,7 @@ To deploy a dapp to a local Swarm node:
 3. Run <pre><code class="shell">$ embark upload</code></pre>
 
 To deploy a dapp to the public IPFS gateway:
-1. Configure your `storage.json` config with the correct settings, ie
+1. Configure your `storage.json` config with the correct settings, i.e.
 <pre><code class="javascript">module.exports = {
     "development": {
       "enabled": true,
@@ -70,5 +72,5 @@ To deploy a dapp to the public IPFS gateway:
 </code></pre>
 2. Run <pre><code class="shell">$ embark upload</code></pre>
 
-Please see the [Storage troubleshooting](./storage#troubleshooting) to resolve CORS issues.
+Please see the [Storage troubleshooting](./storage_configuration#Troubleshooting) to resolve CORS issues.
 
