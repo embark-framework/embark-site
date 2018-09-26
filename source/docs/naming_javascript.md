@@ -7,7 +7,7 @@ Let's take a look at how this is done.
 
 ### Resolving a Domain to an address
 
-Resolving a domain to its corresponding address is done by calling `EmbarkJS.Names.resolve`, which takes the domain in question as first argument and a callback function that has access to the resolve address, as a second argument.and turns a promise that resolves with an address or an error message.
+Resolving a domain to its corresponding address is done by calling `EmbarkJS.Names.resolve`, which takes the domain in question as first argument and a callback function that has access to the resolved address as a second argument, and returns a promise that resolves with an address or an error message.
 
 <pre><code class="javascript">EmbarkJS.Names.resolve("ethereum.eth", (address) => {
   console.log("the address for ethereum.eth is: " + address);
@@ -23,7 +23,7 @@ If you prefer using Promises, Embark has got you covered! `EmbarkJS.Names.resolv
 
 ### Looking up domains
 
-Similar to resolving addresses, looking up domains is really just a matter of calling `EmbarkJS.Names.lookup`, which takes an address as argument. Just like `EmbarkJS.Names.resolve`, a callback can be used to get notified for when the lookup was successful (or not):
+Similar to resolving addresses, looking up domains is really just a matter of calling `EmbarkJS.Names.lookup`, which takes an address as argument. Just like `EmbarkJS.Names.resolve`, a callback can be used to get notified whether the lookup was successful or not:
 
 <pre><code class="javascript">EmbarkJS.Names.lookup("0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359", (name) => {
   console.log("the domain is: " + name);
