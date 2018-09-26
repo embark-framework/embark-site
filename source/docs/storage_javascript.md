@@ -1,4 +1,4 @@
-title: Storage Usage in Javscript
+title: Storage Usage in JavaScript
 ---
 
 ### Save Text/Data
@@ -44,7 +44,7 @@ EmbarkJS.Storage.uploadFile(input)
 </code></pre>
 
 ### Check for storage provider availability
-This will return true if the storage provider (IPFS or Swarm) is avaiable and running. 
+This will return true if the storage provider (IPFS or Swarm) is available and running. 
 
 <pre><code class="javascript">EmbarkJS.Storage.isAvailable()
   .then(isAvailable => { alert(`The storage provider is: ${isAvailable ? 'available' : 'not available'}`) })
