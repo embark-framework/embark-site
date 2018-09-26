@@ -82,7 +82,7 @@ module.exports = {
           {
             "mnemonic": secrets.mnemonic,
             "addressIndex": "0", // Optional. The index to start getting the address
-            "numAddresses": "10", // Optional. The number of addresses to get
+            "numAddresses": "1", // Optional. The number of addresses to get
             "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
           }
         ]
