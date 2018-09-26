@@ -48,7 +48,7 @@ You can configure what communication component to use (e.g Whisper) and its conf
 
 **webserver.js**
 
-Dev web server config, specifically the host and port to listen to.
+Dev webserver config, specifically the host and port to listen to, and whether to automatically open a web browser when the server first starts.
 
 ### test/
 
@@ -93,4 +93,3 @@ Most components will be disabled except the contracts, but you can still re-enab
   },
 ...
 </code></pre>
-

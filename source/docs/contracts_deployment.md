@@ -37,7 +37,7 @@ module.exports = {
 
 ### Using accounts in a wallet
 
-You can use your own account in a wallet which will then be used for the contract deploy, for example.
+You can use your own account in a wallet which will then be used for the contract deploy, for example:
 
 <pre><code class="javascript">// config/contracts.js
 module.exports = {
@@ -45,10 +45,12 @@ module.exports = {
       "deployment": {
         <mark class="highlight-inline">"accounts": [
           {
+            // If privateKey is set to `random`, will generate a random account (can be useful for tests)
             "privateKey": "your_private_key"
           },
           {
-            "privateKeyFile": "path/to/file" // You can put more than one key, separated by , or ;
+            "privateKeyFile": "path/to/file", // Either a keystore or a list of keys, separated by , or ;
+            "password": "passwordForTheKeystore" // Needed to decrypt the keystore file
           },
           {
             "mnemonic": "12 word mnemonic",
@@ -62,7 +64,35 @@ module.exports = {
 }
 </code></pre>
 
-When in development you can also specify the balance of each account as well, e.g.
+#### Deploying to Mainnet
+
+There are special security considerations to have when deploying to production. Chiefly, no private keys, private key files or mnemonics should be present in source control. Instead, we recommend using environment variables to pass those values in, like so:
+
+<pre><code class="javascript">// config/contracts.js
+const secrets = require('secrets.json'); // should NOT be in source control
+
+module.exports = {
+  "mainnet": {
+      "deployment": {
+        <mark class="highlight-inline">"accounts": [
+          {
+            "privateKeyFile": secrets.privateKeyFilePath,
+            "password": secrets.password
+          },
+          {
+            "mnemonic": process.env.DAPP_MNEMONIC, // An environment variable is also possible
+            "addressIndex": "0", // Optional. The index to start getting the address
+            "numAddresses": "1", // Optional. The number of addresses to get
+            "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
+          }
+        ]
+      }</mark>
+  }
+}
+</code></pre>
+
+#### Account balance (dev)
+When in development, you can also specify the balance of each account. Here's how you do it:
 
 <pre><code class="javascript">module.exports = {
   "development": {
@@ -99,3 +129,21 @@ You can also connect to a remote Infura.io blockchain node as per instructions b
 }
 </code></pre>
 
+### Using your accounts in arguments
+
+You can specify an account the same way you would a contract to set the account's address as a contract argument.
+
+<pre><code class="javascript">// config/contracts.js
+module.exports = {
+  "development": {
+    "contracts": {
+      "MyContractThatNeedsAccountAddresses": {
+        "args": [
+          "<mark class="highlight-inline">$account[0]", // Sets the first accounts's address as an argument
+          "$account[4]" // Same thing for the 5th account (account needs to exist)</mark>
+        ]
+      }
+    }
+  }
+}
+</code></pre>

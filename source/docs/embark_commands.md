@@ -9,7 +9,31 @@ Creates a new empty DApp project. If no `dappName` is provided, Embark will ask 
 
 Option | Description
 --- | ---
-`--simple` | create a barebones project meant only for contract development 
+`--simple` | create a barebones project meant only for contract development
+`--template` | download a template using a known name or a git host URL
+
+The `--template` option supports several URL styles and shortcuts for git hosts:
+
+<pre>  git@github.com:ghuser/repo_name</pre>
+<pre>  https://github.com/ghuser/repo_name</pre>
+<pre>  github:ghuser/repo_name</pre>
+<pre>  ghuser/repo_name</pre>
+
+It's possible to append a branch name to any of the above, for example:
+
+<pre>  https://github.com/ghuser/repo_name#branch_name</pre>
+<pre>  ghuser/repo_name#branch_name</pre>
+
+Bitbucket and GitLab URLs and shortcuts are also supported, for example:
+
+<pre>  bitbucket:bbuser/repo_name#branch_name</pre>
+<pre>  gitlab:gluser/repo_name#branch_name</pre>
+
+A short name can be used for templates maintained in the Embark GitHub organization, for example:
+
+<pre>  embark new --template typescript</pre>
+
+Please see our list of [officially supported templates](/templates/).
 
 ## demo
 
@@ -27,7 +51,7 @@ Deploys and Builds the DApp at dist/. If no `environment` is provider embark wil
 
 <pre><code class="shell">$ embark run [environment]</code></pre>
 
-Deploys and Builds the DApp at `dist/`. By default will launch a dashboard and start a dev server at `http://localhost:4000/`. If no `environment` is provider embark will use `development` by default.  
+Deploys and Builds the DApp at `dist/`. By default will launch a dashboard and start a dev server at `http://localhost:8000/`. If no `environment` is provider embark will use `development` by default.
 
 Option | Description
 --- | ---
@@ -35,8 +59,15 @@ Option | Description
 `-b`, `--host` | `host` to run the dev webserver (default: localhost)
 `--noserver` | disable the development webserver
 `--nodashboard` | simple mode, disables the dashboard
+`--nobrowser` | prevent the development webserver from automatically opening a web browser
 `--no-color` | no colors in case it's needed for compatbility purposes
 `--logfile` | `filename` to output logs (default: none)
+
+## eject-webpack
+
+<pre><code class="shell">$ embark eject-webpack</code></pre>
+
+Copies Embark's default `webpack.config.js` file into your DApp so that you can customize it. If a file named `webpack.config.js` is present in your top-level DApp directory, Embark will use your webpack config file instead of its own.
 
 ## blockchain
 
@@ -66,6 +97,22 @@ Option | Description
 
 Runs Tests. If `file` is not specified then it will run all the tests inside the `test/` directory.
 
+Option | Description
+--- | ---
+`-n`, `--node` | node for running the tests (default: vm)
+`-d`, `--gasDetails` | print the gas cost for each contract deployment when running the tests
+`-c`, `--coverage` | generate a coverage report after running the tests (vm only)
+
+The `--node` option supports several values:
+
+Value | Description
+--- | ---
+`vm` | start and use an Ethereum simulator (ganache)
+`embark` | use the node of a running embark process
+`<endpoint>` | connect to and use the specified node
+
+Example of endpoint usage: `embark test --node ws://localhost:8556`
+
 ## reset
 
 <pre><code class="shell">$ embark reset</code></pre>
@@ -89,4 +136,3 @@ Generates documentation based on the smart contracts configured
 <pre><code class="shell">$ embark version</code></pre>
 
 Displays version information.
-

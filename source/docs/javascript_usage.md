@@ -13,14 +13,18 @@ Embark will automatically initialize EmbarkJS with the configurations set for yo
 
 ### Utilities
 
-EmbarkJS also includes a `onReady` function, this is very useful to ensure that your dapp only starts interacting with contracts when the proper connection to web3 has been made and ready to use.
+EmbarkJS also includes a `onReady` function. This is very useful to ensure that your Dapp only starts interacting with contracts when the proper connection to web3 has been made and ready to use.
 
 <pre><code class="javascript">import EmbarkJS from 'Embark/EmbarkJS';
 import SimpleStorage from 'Embark/contracts/SimpleStorage';
 
-EmbarkJS.onReady(function() {
+EmbarkJS.onReady(function(error) {
+  if (error) {
+    console.error('Error while connecting to web3', error);
+    return;
+  }
   // start using contracts
   SimpleStorage.methods.set(100).send();
-})
+});
 </code></pre>
 

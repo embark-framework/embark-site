@@ -17,6 +17,8 @@ title: Configuring Embark
     "ipfs-api": "17.2.4"
   },
   "plugins": {
+  },
+  "options": {
   }
 }
 </code></pre>
@@ -60,4 +62,19 @@ Here you can optionaly specify the versions of the library to be used by Embark.
 ### plugins
 
 List of plugins. (see [plugin section](installing_plugins.html))
+
+### options
+
+You can specify some options for specific components here.
+
+For example to specify options for the solc compiler:
+<pre><code class="json">...
+  "options": {
+    "solc": {
+      "optimize": true,
+      "optimize-runs": 200
+    }
+  }
+...
+</code></pre>
 
