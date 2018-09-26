@@ -23,7 +23,7 @@ title: Configuring Embark
 
 ### contracts
 
-List of directories in which embark should look for contracts. These typically are GLOB expressions (e.g `["contracts/**/*.sol"]` will match all sol files inside any folders inside contracts/)
+List of directories in which embark should look for contracts. These typically are GLOB expressions (e.g `["contracts/**/*.sol"]` will match all sol files inside any folders inside `contracts/`)
 
 ### pipeline
 
@@ -35,11 +35,12 @@ The directory to which embark should output the dapp. (default is `dist/`)
 
 ### config
 
-This is the location of the config files, If it is:
-* A string (e.g `"config/"`) will it assumed to the directory in which the config are located.
+This is the location of the config files, if it is:
+
+* A string (e.g `"config/"`) will assume the directory in which the config files are located.
 * An object:
   * Can be the location of each config file
-  * Can be set to false to disable a component in embark. for e.g
+  * Can be set to false to disable a component in embark. e.g
 
 <pre><code class="json">...
   "config": {
