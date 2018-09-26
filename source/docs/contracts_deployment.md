@@ -80,7 +80,7 @@ module.exports = {
             "password": secrets.password
           },
           {
-            "mnemonic": process.env.DAPP_MNEMONIC, // An environmental variable is also possible
+            "mnemonic": process.env.DAPP_MNEMONIC, // An environment variable is also possible
             "addressIndex": "0", // Optional. The index to start getting the address
             "numAddresses": "1", // Optional. The number of addresses to get
             "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
