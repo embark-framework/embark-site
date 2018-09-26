@@ -41,7 +41,7 @@ module.exports = {
 ### Specifying Contract Dependencies
 
 If you are using multiple contracts, you can pass a reference to another contract as ``$ContractName``, Embark will automatically replace this with the correct address for the contract.
-You can also specify interfaces and choose to not deploy contracts (for e.g in case they are interfaces)
+You can also specify interfaces and choose to not deploy contracts (e.g. in case they are interfaces)
 
 <pre><code class="javascript">// config/contracts.js
 module.exports = {
@@ -75,7 +75,7 @@ module.exports = {
 
 ### Multiple Instances
 
-You can deploy many instances of the same contract. e.g
+You can deploy many instances of the same contract. E.g.
 
 <pre><code class="javascript">// config/contracts.js
 module.exports = {
@@ -106,7 +106,7 @@ module.exports = {
 
 ### Static Addresses
 
-Contracts addresses can be defined, If an address is defined the contract wouldn't be deployed but its defined address will be used instead.
+Contracts' addresses can be defined. If an address is defined the contract wouldn't be deployed but its defined address will be used instead.
 
 <pre><code class="javascript">// config/contracts.js
 module.exports = {
@@ -131,7 +131,7 @@ module.exports = {
 
 You can specify actions to do after the deployment of a contract using the "onDeploy" parameter.
 
-| `onDeploy` - should be an array of javascript instructions that will be evaluated and executed
+| `onDeploy` - should be an array of JavaScript instructions that will be evaluated and executed
 
 <pre><code class="javascript">// config/contracts.js
 module.exports = {
@@ -153,7 +153,7 @@ module.exports = {
 
 You can specify actions to do after ALL contracts have been deployed by using the "afterDeploy" parameter.
 
-| `afterDeploy` - should be an array of javascript instructions that will be evaluated and executed
+| `afterDeploy` - should be an array of JavaScript instructions that will be evaluated and executed
 
 <pre><code class="javascript">// config/contracts.js
 module.exports = {
@@ -175,8 +175,8 @@ module.exports = {
 
 ### Specify contract file
 
-By default embark will look for the contracts inside the folder defined in "contracts"` property in embark.json.
-However it's possible to specify the contract filepath:
+By default embark will look for the contracts inside the folder defined in the `"contracts"` property in `embark.json`.
+However, it's possible to specify the contract filepath:
 
 <pre><code class="javascript">// config/contracts.js
 module.exports = {
@@ -215,7 +215,7 @@ module.exports = {
 
 ### Specify contract file from package
 
-It's also possible to specify a contract file from a npm package:
+It's also possible to specify a contract file from an npm package:
 
 <pre><code class="javascript">// config/contracts.js
 module.exports = {
