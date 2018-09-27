@@ -3,7 +3,7 @@ title: Quick Start
 
 ### Installation
 
-First make sure you have installed Embark, preferably using NVM. See [install instructions](index.html#Requirements)
+First make sure you have installed Embark, preferably using NVM. See [install instructions](installation.html)
 
 ### Create demo app
 

@@ -23,7 +23,8 @@ page:
 sidebar:
   docs:
     getting_started: Getting Started
-    overview: Overview & Installation
+    overview: Overview
+    installation: Installation
     creating_project: Creating a Project
     structure: Structure
     what_is_dapp: What is a DApp

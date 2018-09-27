@@ -1,6 +1,7 @@
 docs:
   getting_started:
     overview: index.html
+    installation: installation.html
     quick_start: quick_start.html
 
   general_usage:
