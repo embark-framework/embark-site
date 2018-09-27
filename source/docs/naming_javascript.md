@@ -7,7 +7,7 @@ Let's take a look at how this is done.
 
 ### Resolving a Domain to an address
 
-Resolving a domain to its corresponding address is done by calling `EmbarkJS.Names.resolve`, which takes the domain in question as first argument and a callback function that has access to the resolved address as a second argument, and returns a promise that resolves with an address or an error message.
+Resolving a domain to its corresponding address is done by calling `EmbarkJS.Names.resolve`, which takes the domain in question as first argument and a callback function that has access to the resolved address as a second argument:
 
 <pre><code class="javascript">EmbarkJS.Names.resolve('ethereum.eth', (err, result) => {
   if (err) {
@@ -41,8 +41,10 @@ Guess what, `EmbarkJS.Names.lookup` also returns a Promise in case you prefer us
 <pre><code class="javascript">EmbarkJS.Names.lookup("0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359").then(name => {
   console.log("the domain is: " + name);
 })
+</code></pre>
 
 ### Register a sub-domain
+
 This enables you to register some others sub-domains.
 This is mostly for demo purposes as it is only available in development.
 
