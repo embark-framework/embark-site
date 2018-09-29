@@ -83,7 +83,7 @@
                         <p>Deploy your DApp to IPFS or Swarm.</p>
                     </div>
                     <div class="features-button-wrap">
-                        <a class="button button--features button--light" href="/docs/storage.html" >Tutorial
+                        <a class="button button--features button--light" href="/docs/storage_configuration.html" title="Decentralized storage tutorial">Tutorial
                             on IPFS</a>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                         <p>Use Whisper or Orbit to fulfill your communication needs.</p>
                     </div>
                     <div class="features-button-wrap">
-                        <a class="button button--features button--light" href="/docs/messages.html">Tutorial
+                        <a class="button button--features button--light" href="/docs/messages_configuration.html" title="Decentralized messaging tutorial">Tutorial
                             on messaging</a>
                     </div>
                 </div>
@@ -190,8 +190,9 @@
                     <p>Swarm is also supported for deployment, just run a Swarm node and use <strong>embark upload
                             swarm</strong>.</p>
                     <!--p>Tests can readily be configured and use the well-known Mocha framework, though you can easily swap in any testing framework you prefer.</p -->
-                    <a class="section-link" href="/docs/storage.html">Storage</a> <a class="section-link"
-                                                                                                    href="/docs/messages.html"
+                    <a class="section-link" href="/docs/storage_configuration.html" title="Using storages in Embark">Storage</a> <a class="section-link"
+                                                                                                    href="/docs/messages_configuration.html"
+                                                                                                    title="Using message protocols in Embark"
                                                                                                    >Communication</a>
                 </div>
             </div>
