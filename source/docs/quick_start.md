@@ -23,7 +23,7 @@ Once executed, we'll notice that Embark opens up a dashboard view inside our ter
 
 Notice that the dashboard comes with sections for **Contracts**, **Environment**, **Status**, **Available Services**, **Logs** and **Console**. While most of them are self explanatory, we'll take a closer look at those in the [dashboard guide](dashboard.html).
 
-![Dashboard](http://i.imgur.com/s4OQZpu.jpg)
+![Dashboard](/assets/images/embark-dashboard.png)
 
 For now, let's focus on what has happened in the meantime. Embark has compiled and deployed the Smart Contracts that come with the demo application to a custom blockchain on your local machine. It has also compiled the web app that's part of the demo and deployed that to a local web server, which is listening on `http://localhost:8000`. In fact, Embark has probably already opened a browser window for you. 
 
