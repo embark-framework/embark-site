@@ -1,20 +1,30 @@
-title: Working with the dashboard
+title: Using the dashboard
 ---
 
-![Dashboard](http://i.imgur.com/s4OQZpu.jpg)
+Embark provides a very useful dashboard view that aims to make it easier for developers to keep track of things, such as running services, compilation and deployments. In this guide, we'll take a closer look at the dashboard and its features.
 
-The dashboard will tell you the state of your contracts, the environment you are using, and what Embark is doing at the moment.
+## Overview
 
-**available services**
+Embark spins up the dashboard view automatically for us, whenever we run `embark run` inside an Embark project. Here's what it looks like:
 
-Available Services will display the services available to your dapp in green. If a service is down, then it will be displayed in red.
+![Dashboard](/assets/images/embark-dashboard.png)
 
-**logs and console**
+The dashboard is separated into different sections, each with their own responsibility. The sections are:
 
-There is a console at the bottom which can be used to interact with contracts or with Embark itself. Type ``help`` to see a list of available commands.  More commands will be added with each version of Embark.
+- **Contracts** - This section shows you not only all the Smart Contracts within your project, but also their status on whether they are being deployed at the moment or not. Notice that, as we make changes to our Smart Contracts, the dashboard will reflect the automatic redeployment in this section as well, making it very easy to stay on top of things.
 
-{% note for without the dashboard %}
-if you prefer to only see the logs, you can disable the dashboard with the nodashboard option ``embark run --nodashboard``
-{% endnote %}
+- **Environment** - This is the name of the [environment](environments.html) we're running Embark in at the moment. If we don't specify an environment when running `embark run`, Embark will default to `development`.
 
-Note that if you update your code, it will automatically be re-deployed, contracts included. There is no need to restart embark, refreshing the page on the browser will do.
+- **Status** - As mentioned, Embark watches for changes in our application's source code and will recompile, rebuild and redeploy components accordingly. The status section tells us what status Embark is currently in. Which could be one of the following:
+
+  - **Compiling** - Compiles application's Smart Contracts
+  - **Building** - Builds application's front-end
+  - **Ready** - Ready and IDLE
+
+- **Available Services** - This section displays all services available to our application. If a service is down or unreachable, it will show up in red.
+
+- **Logs and Console** - While the logs section simply prints out all of Embark's output, the console can be used to either interact with our application's Smart Contracts or Embark itself. Use the `help` command to get a list of all available commands supported by Embark's console.
+
+## Running Embark without a dashboard
+
+Embark can be run without spinning up the dashboard view using the `--nodashboard` option. Head over to our guide on [running apps](running_apps.html#Running-an-app-without-the-dashboard) for more information.
