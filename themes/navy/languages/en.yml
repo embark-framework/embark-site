@@ -23,9 +23,12 @@ page:
 sidebar:
   docs:
     getting_started: Getting Started
-    overview: Overview & Installation
-    creating_project: Creating a Project
-    structure: Structure
+    overview: Overview
+    installation: Installation
+    creating_project: Creating apps
+    structure: App structure
+    running_apps: Running apps
+    dashboard: Using the dashboard
     what_is_dapp: What is a DApp
     quick_start: Quick Start
     tutorials_&_guides: Tutorials & Guides

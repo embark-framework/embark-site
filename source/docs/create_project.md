@@ -1,57 +1,46 @@
-title: Creating a new Embark Project
+title: Creating apps with Embark
 ---
 
-Once Embark is installed, you can create a new Embark project, you have many options to do so:
+Once Embark is installed, there are different ways to create a new decentralized application. Whether we intent to create an application that uses only Smart Contracts, or we want to take advantage of other decentralized features like storages and messaging, Embark provides options and templates for various scenarios. Let's take a look!
 
-### Creating a Demo Project
+## Using the `demo` command
 
-If you are first starting & exploring Embark you can create a demo project:
+As discussed in our [quickstart guide](quick-start.html), the fastest way to get up and running with Embark is using its `demo` command. This will scaffold a new demo application and its needed environment in a folder called `embark_demo`. The demo application lets you play with Embark's APIs through a pre-built web interface.
 
-<pre><code class="shell">$ embark demo
-$ cd embark_demo
-</code></pre>
+<pre><code class="shell">$ embark demo</code></pre>
 
-### Creating a Blank Project
+## Creating a new app
 
-To create a brand new project you can use:
+If you prefer starting entirely from scratch, while still getting a ready to use environment, Embark's `new` command has got you covered. Similar to the `demo` command, it will scaffold a new project folder. However, it will not include the demo application. The green field is all yours.
 
-<pre><code class="shell">$ embark new &lt;YourDAppName&gt;
-$ cd &lt;YourDAppName&gt;
-</code></pre>
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt;</code></pre>
 
-### Creating a "contracts-only" project
+## Creating apps from templates
 
-If you only intend to develop, test & deploy smart contracts and don't intend to develop a UI nor use other decentralized components, then you can use the `--simple` option:
+Another possible scenario to start from is taking advantage of a template. Embark [comes with templates](/templates) for various environments and frameworks, but you can also use any template created by the community. In order to create a new app from a template, use the `--template` option and either specify a supported template name, or a Git host URL.
 
-<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --simple
-$ cd &lt;YourDAppName&gt;
-</code></pre>
+The following example creates a new application from [Embark's TypeScript template](https://github.com/embark-framework/embark-typescript-template):
 
-This will create a simple project with all components disabled except the blockchain/contracts component.
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template typescript</code></pre>
 
+To learn more about supported templates, head over to our [templates](/templates) or look out for `embark-[template_name]-template` [repositories](https://github.com/embark-framework?utf8=%E2%9C%93&q=template&type=&language=). 
 
-### Creating a project from a template
+Templates can also be fetched from external resources as long as they can be referred to via Git host URLs. The following example fetches a template from a GitHub repository and uses that to create that app:
 
-If you want to start from a pre-existing template, then you can use the `--template` option:
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template https://github.com/embark-framework/embark-vue-template</code></pre>
 
-<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template angular
-$ cd &lt;YourDAppName&gt;
-</code></pre>
+In fact, in case of GitHub, the same can be done with the username/repository shortcut:
 
-##### Using `--template` with a git host URL
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template embark-framework/embark-vue-template</code></pre>
 
-<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template https://github.com/embark-framework/embark-vue-template
-$ cd &lt;YourDAppName&gt;
-</code></pre>
+It is even possible to specify the branch by appending a `#` and the branch name you're interested in:
 
-##### Using `--template` with a GitHub shortcut
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template status-im/dappcon-workshop-dapp#start-here</code></pre>
 
-<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template embark-framework/embark-typescript-template
-$ cd &lt;YourDAppName&gt;
-</code></pre>
+## Creating "contracts-only" apps
 
-It is even possible to specify the branch:
+Sometimes, all we really want to do is creating, developing and deploying Smart Contracts without introducing an actual front-end that talks to them. Embark lets us scaffold apps that come with the most minimal setup needed to build and deploy our Smart Contracts, using the `--simple` option.
 
-<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --template status-im/dappcon-workshop-dapp#start-here
-$ cd &lt;YourDAppName&gt;
-</code></pre>
+The following command will create a project with all Embark services disabled except the blockchain service.
+
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --simple</code></pre>

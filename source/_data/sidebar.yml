@@ -1,11 +1,14 @@
 docs:
   getting_started:
     overview: index.html
+    installation: installation.html
     quick_start: quick_start.html
 
   general_usage:
     creating_project: create_project.html
     structure: structure.html
+    running_apps: running_apps.html
+    dashboard: dashboard.html
     environments: environments.html
     configuration: configuration.html
     pipeline_and_webpack: pipeline_and_webpack.html

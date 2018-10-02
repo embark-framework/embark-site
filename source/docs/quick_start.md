@@ -1,61 +1,38 @@
 title: Quick Start
 ---
 
-### Installation
+In this guide we'll explore how easy it is to quickly get up and running with Embark to build our first decentralized application. We assume you've been through our [installation guide](installation.html) and have everything you need to get started. If not, please head over there first and get your machine ready.
 
-First make sure you have installed Embark, preferably using NVM. See [install instructions](index.html#Requirements)
+## Creating your first app
 
-### Create demo app
+In order to get results as quickly as possible, Embark comes with a `demo` command that scaffolds and sets up a complete application for us to play with. Open up a terminal of your choice and run:
 
 <pre><code class="shell">$ embark demo
 $ cd embark_demo
 </code></pre>
 
-### Start a blockchain node or let Embark start it for you
+This will create a demo application. Feel free to look around to get familiar with the project's structure, but don't worry. We'll take a closer look at it later in one of our [dedicated guides](structure.html).
 
-Note: starting in Embark 3.1, the command `embark run` will automatically start a blockchain node if one isn't already running. You may, therefore, skip this step.
+## Running your app
 
-You can run a REAL ethereum node for development purposes:
+The fastest way to get your app running is to use Embark's `run` command. It takes care of a lot of things, such as spinning up an Ethereum and IPFS node, or keeping an eye on file changes to recompile your code. There's other ways to [run your app](running_apps.html), in case you need more control over different processes, but let's not get ahead of ourselves.
 
-<pre><code class="shell">$ embark blockchain
-</code></pre>
+<pre><code class="shell">$ embark run</code></pre>
 
-Alternatively, to use an ethereum rpc simulator simply run:
+Once executed, we'll notice that Embark opens up a dashboard view inside our terminal. This is the place where we monitor running processes such as compilation of our sources as well as deployments. As everything in Embark, the dashboard usage is configurable. If we prefer Embark to just output logs of whatever it's doing, this can be easily done by running the same command with the `--nodashboard` option.
 
-<pre><code class="shell">$ embark simulator
-</code></pre>
+Notice that the dashboard comes with sections for **Contracts**, **Environment**, **Status**, **Available Services**, **Logs** and **Console**. While most of them are self explanatory, we'll take a closer look at those in the [dashboard guide](dashboard.html).
 
-By default Embark blockchain will mine a minimum amount of ether and will only mine when new transactions come in.
+![Dashboard](/assets/images/embark-dashboard.png)
 
+For now, let's focus on what has happened in the meantime. Embark has compiled and deployed the Smart Contracts that come with the demo application to a custom blockchain on your local machine. It has also compiled the web app that's part of the demo and deployed that to a local web server, which is listening on `http://localhost:8000`. In fact, Embark has probably already opened a browser window for you. 
 
-If you want, you can skip this step, as `embark run`, `build` and `upload` now all start a blockchain node in a separate process if there is not one already started using the same configurations. 
+If not, give it a try yourself and open [localhost:8000](http://localhost:8000) in your browser of choice!
 
-### Start Embark
+## Getting help
 
-Then, in another command line:
+**Congratulations!** You've just created your first decentralized application. Now it's a good time to explore what else Embark has to offer. To get started, type `help` into the running console to get a list of commands you can run inside the dashboard.
 
-<pre><code class="shell">$ embark run
-</code></pre>
+Also, make sure to check out the other guides and let us know if you miss anything! If you run into any problems, the [guide on troubleshooting](troubleshooting.html) is here to help.
 
-This will open up the embark Dashboard
-
-![Dashboard](http://i.imgur.com/s4OQZpu.jpg)
-
-The dashboard will tell you the state of your contracts, the environment you are using, and what Embark is doing at the moment.
-
-**available services**
-
-Available Services will display the services available to your dapp in green. If a service is down, then it will be displayed in red.
-
-**logs and console**
-
-There is a console at the bottom which can be used to interact with contracts or with Embark itself. Type ``help`` to see a list of available commands.  More commands will be added with each version of Embark.
-
-Embark will then compile & deploy the contracts, update their JS bindings and deploy your DApp to a local server at http://localhost:8000
-
-{% note for without the dashboard %}
-if you prefer to only see the logs, you can disable the dashboard with the nodashboard option ``embark run --nodashboard``
-{% endnote %}
-
-Note that if you update your code, it will automatically be re-deployed, contracts included. There is no need to restart embark, refreshing the page on the browser will do.
 
