@@ -248,6 +248,25 @@ module.exports = {
 }
 </code></pre>
 
+### Deployment tracking
+
+Embark's contract deployment mechanism prevents deployment if contract code was already deployed.
+It is possible to disable this feature for a given contract by setting `track` configuration field to `false`. This way the contract will be always deployed.
+
+<pre><code class="javascript">// config/contracts.js
+module.exports = {
+  "development": {
+    "contracts": {
+      "ERC20": {
+        <mark class="highlight-inline">"track": false</mark>
+      },
+      "Manager": {
+      },
+    }
+  }
+}
+</code></pre>
+
 ### Solc compiler options
  You can specify some options for the solidity compiler in `embark.json`
 You can find more details here: https://solidity.readthedocs.io/en/v0.4.24/using-the-compiler.html?highlight=optimize
