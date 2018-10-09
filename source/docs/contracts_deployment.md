@@ -64,6 +64,30 @@ module.exports = {
 }
 </code></pre>
 
+
+### Node accounts + user accounts
+
+If you still wish to use your Ethereum node' account(s) along with your custom accounts, just use the following:
+
+<pre><code class="javascript">// config/contracts.js
+module.exports = {
+  "testnet": {
+      "deployment": {
+        "accounts": [
+          <mark class="highlight-inline">{
+            "nodeAccounts": true
+          }</mark>,
+          {
+            // One of you own account
+          }
+        ]
+      }
+  }
+}
+</code></pre>
+
+The order in the `accounts` array is important. So putting `nodeAccounts` as first, as above, will make the Node's account as the `defaultAccount` for deployment.
+
 #### Deploying to Mainnet
 
 There are special security considerations to have when deploying to production. Chiefly, no private keys, private key files or mnemonics should be present in source control. Instead, we recommend using environment variables to pass those values in, like so:
