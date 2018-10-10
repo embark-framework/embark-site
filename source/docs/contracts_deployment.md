@@ -64,7 +64,6 @@ module.exports = {
 }
 </code></pre>
 
-
 ### Node accounts + user accounts
 
 If you still wish to use your Ethereum node's account(s) along with your custom accounts, just use the following:
@@ -86,7 +85,8 @@ module.exports = {
 }
 </code></pre>
 
-The order in the accounts array is important. This means that using nodeAccounts first, as above, will set the node's account as the defaultAccount for deployment.
+The order in the accounts array is important. This means that using `nodeAccounts` first, as above, will set the node's account as the `defaultAccount` for deployment.
+
 #### Deploying to Mainnet
 
 There are special security considerations to have when deploying to production. Chiefly, no private keys, private key files or mnemonics should be present in source control. Instead, we recommend using environment variables to pass those values in, like so:
