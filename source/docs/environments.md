@@ -1,7 +1,7 @@
 title: Environments
 ---
 
-Developing on Ethereum require you to #buidl everything locally, then deploy it on various test networks, and only then get to the big show. Setting up connections and deploying contracts easily to all these different environments is a pain. But do not fear, Embark has you covered. We use the concept of `environments`, which means that every config file has entries for each environment so you can control them all sensibly from one place that can be specified in most embark commands.
+Developing on Ethereum requires you to #buidl everything locally, then deploy it on various test networks, and only then get to the big show. Setting up connections and deploying contracts easily to all these different environments is a pain. But do not fear, Embark has you covered. We use the concept of `environments`, which means that every config file has entries for each environment so you can control them all sensibly from one place that can be specified in most embark commands.
 
 ### Configuration
 
