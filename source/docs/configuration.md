@@ -57,7 +57,7 @@ This is the location of the config files, if it is:
 
 ### library versions
 
-Here you can optionaly specify the versions of the library to be used by Embark. Embark will automatically download the specific library version if necessary. It's possible to override this in other config files such as `contracts.json` on a per enviroment basis.
+Here you can optionally specify the versions of the library to be used by Embark. Embark will automatically download the specific library version if necessary. It's possible to override this in other config files such as `contracts.json` on a per enviroment basis.
 
 ### plugins
 
