@@ -139,8 +139,8 @@ module.exports = {
     "contracts": {
       "MyContractThatNeedsAccountAddresses": {
         "args": [
-          "<mark class="highlight-inline">$account[0]", // Sets the first accounts's address as an argument
-          "$account[4]" // Same thing for the 5th account (account needs to exist)</mark>
+          "<mark class="highlight-inline">$accounts[0]", // Sets the first accounts's address as an argument
+          "$accounts[4]" // Same thing for the 5th account (account needs to exist)</mark>
         ]
       }
     }
