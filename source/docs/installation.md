@@ -67,6 +67,10 @@ We can install Embark using the Node Package Manager (no worries, that one comes
 
 <pre><code class="shell">$ npm -g install embark</code></pre>
 
+If you want to have access to Embark 4 alpha, do this instead:
+
+<pre><code class="shell">$ npm -g install embark@next</code></pre>
+
 After that, `embark` should be available as a global command in your terminal of choice. Let's verify this by running the following command:
 
 <pre><code class="shell">$ embark --version</code></pre>
