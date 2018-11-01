@@ -441,15 +441,33 @@ select[multiple] {
   color: black;
   font-size: 21px;
   text-align: center;
+  position: relative;
 
   font-weight: bold;
   color: white;
   background-color: #232323;
 }
 
+.command.next {
+  height: 40px
+  font-size: 16px;
+}
+
+.command-description, .command-description a {
+  color: #777f86;
+}
+
+.command .btn {
+  top: auto;
+  display: none;
+}
+
+.command:hover .btn {
+  display: block;
+}
+
 .command-description {
   text-align: center;
-  color: #777f86;
   padding: 8px 0 0 0;
 }
 

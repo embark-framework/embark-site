@@ -31,7 +31,6 @@ $(document).ready(function() {
   try {
     highlight();
   } catch(err) {
-    console.log("retrying...")
     setTimeout(function() {
       highlight();
     }, 2500)
@@ -45,7 +44,7 @@ $(document).ready(function() {
       $(id).toggleClass("flash");
     }, 200);
     e.clearSelection();
-  })
+  });
 });
 
 </script>

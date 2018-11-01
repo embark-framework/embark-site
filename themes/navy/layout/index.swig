@@ -1,5 +1,5 @@
 <div class="home-cover">
-    <a href="https://github.com/embark-framework/embark"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a><Paste>
+    <a href="https://github.com/embark-framework/embark"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
     <div class="header">
         <div class="header-left">
             <div class="logo-wrap">
@@ -44,10 +44,18 @@
 
     <div class="command-wrap">
         <div class="command">
-            npm install -g embark
+            <span id="npm-current">npm install -g embark</span>
+            <button class="btn" data-clipboard-target="#npm-current"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
         </div>
         <div class="command-description">
-            Install Embark via NPM
+            Install Embark via <a href="https://github.com/creationix/nvm" target="_blank">NPM</a>
+        </div>
+        <div class="command-description">
+            To get access to Embark 4 alpha:
+        </div>
+        <div class="command next">
+            <span id="npm-next">npm install -g embark@next</span>
+            <button class="btn" data-clipboard-target="#npm-next"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
         </div>
     </div>
 
