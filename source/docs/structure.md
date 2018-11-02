@@ -1,10 +1,15 @@
-title: Structure
+title: Application Structure
 ---
 
-Once initialised, here's what your project folder will look like:
+Once a [project is initialized](/docs/create_project.html), it's a good time to take a look at the resulting project structure, to get a better idea of what's going on. In this guide we'll explore an Embark project's structure and learn where to find different file types and configurations.
+
+Notice that this [guide covers](#Simple-template-structure) projects that have been created with the [`--simple` option](create_project.html#Creating-“contracts-only”-apps) as well.
+
+## Overview
+
+An Embark project's structure is pretty straight forward. It contains a `config`, a `test`, an `app`, a `contracts` and a `dist` folder for their dedicated purposes. Most of them are self explanatory, but let's take a look at the overall file tree.
 
 ``` plain
-.
 ├── app/
 ├── contracts/
 ├── config
@@ -21,58 +26,52 @@ Once initialised, here's what your project folder will look like:
 
 ### app/
 
-DApp Web code goes here. See embark.json on how you customize the pipeline.
+This is where the frontend of our decentralized application lives. It doesn't matter whether we prefer using one of the amazing frameworks out there, like Angular or Vue, or if we like writing vanilla JavaScript. Embark will build our application with all the source files it can find inside `app`.
 
 ### contracts/
 
-Smart Contracts go here. When active, Embark will automatically compile, deploy & track contracts in this directory. Embark will detect changes made to a contract and re-deploy it and its dependencies if necessary.
+Smart Contracts go here. Embark will automatically compile, deploy & track our Smart Contracts from this directory. While Embark is running, it'll detect changes made to any Smart Contract and re-deploy it and its dependencies if necessary.
 
 ### config/
 
-The configuration files for the different components of the stack can be found here.
+There are many different components inside a decentralized application that can be configured. Embark offers different configuration files for each of those components and gives us full control over how the different parts are behaving. The configuration files for the different components of the stack can be found here.
 
-**blockchain.js**
-Contains the configuration used for embark to run a node with go-ethereum or a simulator.
+* **blockchain.js**
+This file contains the configuration used for Embark to run a blockchain node with an Ethereum client such as go-ethereum, Parity, or a simulator like Ganache.
 
-**contracts.js**
-Configuration for contracts, including their arguments, relationship between them. It's also possible to specify where to deploy the contracts and how the dapp should attempt to connect to a node.
-Please see [Configuring Contracts](contracts.html) for more details.
+* **contracts.js**
+This file contains the configuration for Smart Contracts, including their arguments and relationships between them, such as dependencies. Here we can also specify where to deploy our Smart Contracts and how the application should attempt to connect to a node. Please see [Configuring Contracts](contracts.html) for more details.
 
-**storage.js**
+* **storage.js**
+This file lets us configure what storage component to use (e.g IPFS), including what node to connect to, to upload and retrieve data through the application. Head over to our guide on [configuring decentralized storage](storage_configuration.html) for details configuring a decentralized storage system for our application.
 
-You can configure what storage component to use (e.g IPFS) and its config details including what node to connect to, get & upload files from, etc..
+* **communication.js**
+Similar to the other configuration files, this file can be used to configure what communication component should be used (e.g Whisper) and what node it should connect to. Check out our guide [message configuration](messages_configuration.html) to learn more about the available configuration options.
 
-**communication.js**
-
-You can configure what communication component to use (e.g Whisper) and its config details including what node to connect to.
-
-**webserver.js**
-
-Dev webserver config, specifically the host and port to listen to, and whether to automatically open a web browser when the server first starts.
+* **webserver.js**
+This file contains the configuration for the webserver that Embark starts when developing our application. Configuration options are the host, port and other useful options, such as whether a browser window should be opened on start up or not.
 
 ### test/
 
-Tests Folder. This where you typically put the code to test smart contracts. Embark includes a [testing framework](contracts_testing.html)
+Embark lets us write tests for our Smart Contracts in JavaScript as well as [Solidity](https://github.com/ethereum/remix/tree/master/remix-tests). All of our tests are located here. To learn more about testing with Embark head over to our [guide on testing](contracts_testing.html).
 
 ### dist/
 
-The build output of your dapp will be put here. You can then distribute your app with this folder
+The build output of our application will be put here. Everything inside this folder can be considered a production ready build artifact. This folder also gets uploaded to a decentralized storage using `embark upload`.
 
 ### chains.json
 
-This file is used to keep track of the deployed contracts in each chain. See chains file documentation for more information
+This file is used to keep track of the deployed contracts in each chain. This is a super useful feature as it lets Embark figure out all by itself if and when a Smart Contract needs to be (re)deployed. See chains file documentation for more information
 
 ### embark.json
 
-Embark is quite flexible and you can configure your own directory structure using ``embark.json``. This file is also used to specify embark plugins and other configurations. More information can be found in [configuring embark.json](configuration.html)
+In order to provide as much flexibility for our users as possible, Embark comes with an `embark.json` file that lets us configure our own directory structure. This file is also used to specify Embark plugins and other configurations. More information on how to use this configuration file, can be found in [configuring embark.json](configuration.html).
 
-<br>
 ## Simple template structure
 
-If you create the project with the `--simple` option, then the template will be simpler.
+When creating a project using the `--simple` option, the resulting structure is a little bit simpler. Let's take quick look:
 
-``` plain
-.
+```
 ├── contracts/
 └── test/
 └── dist/
@@ -81,15 +80,19 @@ If you create the project with the `--simple` option, then the template will be 
 └── embark.json
 ```
 
-Most components will be disabled except the contracts, but you can still re-enable in `embark.json` if you so need. The `contracts.js` config file is in the top directory since that's what is defined in the config.
+Most components or services that our application could take advantage of are disabled with the exception of Smart Contracts support, but we can still re-enable them in the `embark.json` configuration file if needed. Notice that this time, the `contracts.js` config file is in the root of the project's directory. This is because in the `embark.json` config file,`contracts` points to a path in the same folder.
 
 <pre><code class="json">...
-  "config": {
-    "contracts": "contracts.js",
-    "blockchain": false,
-    "storage": false,
-    "communication": false,
-    "webserver": false
-  },
+"config": {
+  "contracts": "contracts.js",
+  "blockchain": false,
+  "storage": false,
+  "communication": false,
+  "webserver": false
+},
 ...
 </code></pre>
+
+As mentioned earlier, other services like storage and blockchain support can be easily re-enabled by changing them to path values as well.
+
+Awesome, now that we have a better understanding of what a project in Embark looks like, let's head over to the next guide and explore the different ways of running an application with Embark!
