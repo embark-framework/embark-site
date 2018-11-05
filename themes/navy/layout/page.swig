@@ -1,11 +1,11 @@
-<div id="content-wrap">
+<div id="content-wrap" class="doc">
+  <div id="tracks" style="position: relative">
+    <strong>Track:</strong> <a href="/docs/" class="{{is_active_track('docs')}}">DApp Developer</a> | <a href="/docs_contracts/" class="{{is_active_track('docs_contracts')}}">Smart Contract Developer</a>
+  </div>
   <div id="content" class="wrapper">
     <div id="content-inner">
       <article class="article-container" itemscope itemtype="http://schema.org/Article">
-        <div class="article-inner doc">
-          <div id="tracks">
-            I am a <a href="/docs/" class="{{is_active_track('docs')}}">DApp Developer</a> | <a href="/docs_contracts/" class="{{is_active_track('docs_contracts')}}">Smart Contract Developer</a>
-          </div>
+        <div class="article-inner">
           <div class="article">
             <div class="inner">
               <header class="article-header">

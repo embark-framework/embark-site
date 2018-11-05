@@ -19,12 +19,26 @@ note-warn = hsl(0, 100%, 50%)
     margin-left: 0
 
 #tracks
-  padding-top: 10px;
-  padding-left: 20px;
+  padding-top: 10px
+  padding-left: 20px
+  float: left
+  width: 100%
+  margin-left: 230px
+  z-index: 1000
+  font-size: 15px
+  strong
+    font-weight: bold
+    font-size: 14px
+  a
+    text-decoration: none
+    color: #40444b
   a.active
     font-weight: bold
     text-decoration: none
-    color: black
+    background-color: blueviolet
+    color: white
+    border-radius: 10px
+    padding: 1px 7px
 
 .article-container
   @media mq-normal
@@ -44,6 +58,8 @@ note-warn = hsl(0, 100%, 50%)
 .doc
   .article
     padding-top: 10px
+  #sidebar
+    margin-top: -30px
 
 #article-toc
   display: none
