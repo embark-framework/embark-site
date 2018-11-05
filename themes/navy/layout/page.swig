@@ -3,6 +3,9 @@
     <div id="content-inner">
       <article class="article-container" itemscope itemtype="http://schema.org/Article">
         <div class="article-inner">
+          <div id="tracks">
+            I am a <a href="/docs/" data-track="dapp">DApp Developer</a> | <a href="/docs_contracts/" data-track="contract">Smart Contract Developer</a>
+          </div>
           <div class="article">
             <div class="inner">
               <header class="article-header">

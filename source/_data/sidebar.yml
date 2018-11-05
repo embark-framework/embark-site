@@ -51,6 +51,45 @@ docs:
     troubleshooting: troubleshooting.html
     contributing: contributing.html
 
+docs_contracts:
+  getting_started:
+    overview: index.html
+    installation: installation.html
+    quick_start: quick_start.html
+
+  general_usage:
+    creating_project: create_project.html
+    structure: structure.html
+    running_apps: running_apps.html
+    dashboard: dashboard.html
+    environments: environments.html
+    configuration: configuration.html
+
+  smart_contracts:
+    contracts_configuration: contracts_configuration.html
+    contracts_deployment: contracts_deployment.html
+    contracts_javascript: contracts_javascript.html
+    contracts_imports: contracts_imports.html
+    contracts_testing: contracts_testing.html
+
+  plugins:
+    installing_a_plugin: installing_plugins.html
+    creating_a_plugin: creating_plugins.html
+    plugin_reference: plugin_reference.html
+  #advanced_topis:
+    #adwebpack: webpack.html
+  reference:
+    console_commands: console_commands.html
+    embark_commands: embark_commands.html
+    web3js: web3js.html
+    solidity: solidity.html
+    vyper: vyper.html
+    bamboo: bamboo.html
+  miscellaneous:
+    troubleshooting: troubleshooting.html
+    contributing: contributing.html
+
+
 api:
   core:
     overview: index.html
