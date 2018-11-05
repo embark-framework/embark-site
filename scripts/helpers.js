@@ -13,6 +13,11 @@ function startsWith(str, start) {
   return str.substring(0, start.length) === start;
 }
 
+hexo.extend.helper.register('is_active_track', function(track) {
+  var type = this.page.canonical_path.split('/')[0];
+	return (type === track ? 'active': '');
+});
+
 hexo.extend.helper.register('page_nav', function() {
   var type = this.page.canonical_path.split('/')[0];
   var sidebar = this.site.data.sidebar[type];

@@ -2,9 +2,9 @@
   <div id="content" class="wrapper">
     <div id="content-inner">
       <article class="article-container" itemscope itemtype="http://schema.org/Article">
-        <div class="article-inner">
+        <div class="article-inner doc">
           <div id="tracks">
-            I am a <a href="/docs/" data-track="dapp">DApp Developer</a> | <a href="/docs_contracts/" data-track="contract">Smart Contract Developer</a>
+            I am a <a href="/docs/" class="{{is_active_track('docs')}}">DApp Developer</a> | <a href="/docs_contracts/" class="{{is_active_track('docs_contracts')}}">Smart Contract Developer</a>
           </div>
           <div class="article">
             <div class="inner">
