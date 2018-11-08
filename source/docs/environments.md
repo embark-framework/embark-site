@@ -1,83 +1,67 @@
-title: Environments
+title: Understanding Environments
 ---
 
-Developing on Ethereum requires you to #buidl everything locally, then deploy it on various test networks, and only then get to the big show. Setting up connections and deploying contracts easily to all these different environments is a pain. But do not fear, Embark has you covered. We use the concept of `environments`, which means that every config file has entries for each environment so you can control them all sensibly from one place that can be specified in most embark commands.
+Embark comes with the concept of "Environments", which make it easy to switch between different configurations of various parts of our applications that alter how the application is being built and deployed. For example, during development we probably prefer deploying our Smart Contracts on a local blockchain or testnet, until we're sure the code is ready for prime time and can be deployed in a production environment.
 
-### Configuration
+In this guide we'll discuss how to take advantage of environments within various configuration files of our Embark application.
 
-`default` is a special environment - the values you use here will apply to all environments unless you have set specific values for the environments you want to work in.
-Every other config block is then merged with `default`, which means that you can specify the most common options in default and then only override what's really needed on a per environment basis.
+## Default environment
 
-Example:
+In our guide covering [application structures](structure.html) in Embark, we've talked about that every component of our decentralized application, such as IPFS as a storage solution and Geth as a blockchain client, can be configured using a dedicated configuration file. We'll dive more into what each configuration looks like in our guides on [configuring Smart Contracts](contracts_configuration.html), [configuring decentralized storages](storage_configuration.html) and [configuring communication channels](messages_configuration.html). For now, we'll focus on the concept of **default environments**.
+
+Environments can be defined as part of a configuration file for a dedicated service or component of our application. We can introduce as many environments as we like. It is important to understand that `default` is a special environment that can be **extended** by other environments.
+
+Let's take a look at the `config/contracts.js` file that we've created in the [Quickstart](quick_start.html):
+<pre><code class="javascript">module.exports = {
+  default: {
+    deployment: {
+      host: "localhost",
+      port: 8546,
+      type: "ws"
+    },
+    dappConnection: [
+      "$WEB3",
+      "ws://localhost:8546",
+      "http://localhost:8545"
+    ],
+    gas: "auto",
+    contracts: {
+      SimpleStorage: {
+        args: [100]
+      }
+    }
+  }
+}</code></pre>
+
+Don't get too overwhelmed by all the different options and what they mean. We'll discuss those in-depth in [configuring Smart Contracts](contracts_configuration.html). The important part here is that `contracts.js` exports an object that provides a `default` configuration. This configuration is the default environment and can be overwritten or extended by other environments. 
+
+If we execute `$ embark run`, Embark will use the `default` configuration to deploy our application's Smart Contracts.
+
+## Adding and extending environments
+
+As mentioned earlier, the `default` environment can be easily extended and overwritten by other configurations. Let's say we had a `custom` environment as well, which should come with the same configuration as `default`, but deploy `SimpleStorage` with a different constructor parameter value. We can do that by simply introducing a configuration for `custom` and specify the options as we need:
 
 <pre><code class="javascript">module.exports = {
-  "default": {
-    "gas": "auto",
-    "contracts": {
-      "Foo": {
-        "args": [ 200 ]
-      }
-    }
-  },
-  "development": {
-    "contracts": {
-      "Token": {
-        "args": [ 100 ]
-      }
-    }
-  },
-  "myenvironment": {
-    "contracts": {
-      "Token": {
-        "address": "0x420be61af1dea86646269f9f892a1b2a57fe24f2"
+  ...
+  custom: {
+    contracts: {
+      SimpleStorage: {
+        args: [200]
       }
     }
   }
-}
-</code></pre>
+}</code></pre>
 
-If the `development` environment is specified, then the `development` config will merge with `default` and the config used will be:
+Now, when running Embark with the `custom` environment as discussed in our guide on [Running applications](running_apps.html#Switching-environments), Embark will merge the `custom` configuration with `default` and use the resulting configuration object accordingly:
 
-<pre><code class="json">{
-  "gas": "auto",
-  "contracts": {
-    "Foo": {
-      "args": [ 200 ]
-    },
-    "Token": {
-      "args": [ 100 ]
-    }
-  }
-}
+<pre><code class="shell">$ embark run custom
 </code></pre>
 
 
-If the `myenvironment` environment is specified, then the `myenvironment` config will merge with `default` and the config used will be:
+{% note info Quick tip: %}
+Notice that Embark usually already provides an additional `development` configuration. As a matter of fact, when no environment is specified in `embark run`, Embark will use the `development` configuration. 
 
-<pre><code class="json">{
-  "gas": "auto",
-  "contracts": {
-    "Foo": {
-      "args": [ 200 ]
-    },
-    "Token": {
-      "address": "0x420be61af1dea86646269f9f892a1b2a57fe24f2"
-    }
-  }
-}
-</code></pre>
-
-### Specifying an environment
-
-<pre><code class="shell">$ embark &lt;cmd_name&gt; &lt;environment&gt;
-</code></pre>
-
-For example, if you want to specify the 'testnet' environment in the `embark run` command you would do:
-
-<pre><code class="shell">$ embark run testnet
-</code></pre>
-
-If no environment is specified, Embark assumes `development` to be the intended environment, so 
+This means that
 
 <pre><code class="shell">$ embark run
 </code></pre>
@@ -87,4 +71,6 @@ is the same as
 <pre><code class="shell">$ embark run development
 </code></pre>
 
+{% endnote %}
 
+In the next chapter, we'll take a closer look at how our application can be configured using the `embark.json` configuration file.
