@@ -88,7 +88,7 @@ If we're interested in getting whatever has landed last in the code base, we can
 <pre><code class="shell">$ npm -g install embark-framework/embark</code></pre>
 
 {% note warn Warning: %}
-Installations with `@next` or directly from the `develop` branch on GitHub are considered unstable and may have bugs, so please proceed with caution.
+Installations with `@next` or directly from the `master` branch on GitHub are considered unstable and may have bugs, so please proceed with caution.
 {% endnote %}
 
 Awesome! We're all set up. Let's build our first decentralized application!
