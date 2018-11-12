@@ -39,8 +39,12 @@ It is even possible to specify the branch by appending a `#` and the branch name
 
 ## Creating "contracts-only" apps
 
-Sometimes, all we really want to do is creating, developing and deploying Smart Contracts without introducing an actual front-end that talks to them. Embark lets us scaffold apps that come with the most minimal setup needed to build and deploy our Smart Contracts, using the `--simple` option.
+Sometimes, all we really want to do is creating, developing, compiling and deploying Smart Contracts without introducing an actual front-end that talks to them. Embark lets us scaffold apps that come with the most minimal setup needed to build and deploy our Smart Contracts, using the `--contracts-only` option.
 
 The following command will create a project with all Embark services disabled except the blockchain service.
 
-<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --simple</code></pre>
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt; --contracts-only</code></pre>
+
+{% note info A note on --simple %}
+In earlier versions of Embark the same could be achieved using the `--simple` option. This option is still supported but will be deprecated and likely be removed in future versions of Embark.
+{% endnote %}
