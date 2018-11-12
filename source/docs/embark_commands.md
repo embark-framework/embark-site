@@ -9,7 +9,8 @@ Creates a new empty DApp project. If no `dappName` is provided, Embark will ask 
 
 Option | Description
 --- | ---
-`--simple` | create a barebones project meant only for contract development
+`--contracts-only` | create a barebones project meant only for contract development
+`--simple` | an alias for `--contracts-only`
 `--template` | download a template using a known name or a git host URL
 
 The `--template` option supports several URL styles and shortcuts for git hosts:
