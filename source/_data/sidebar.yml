@@ -3,6 +3,7 @@ docs:
     overview: index.html
     installation: installation.html
     quick_start: quick_start.html
+    faq: faq.html
 
   general_usage:
     creating_project: create_project.html
