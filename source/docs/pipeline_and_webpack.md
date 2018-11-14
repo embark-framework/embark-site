@@ -1,32 +1,48 @@
-title: Asset Pipeline & Webpack
+title: Building & Asset Pipeline
 ---
 
-### Specifying a mode
+As discussed in [Running Apps](running_apps.html#Using-the-run-command), Embark takes care of quite a few things developing applications, including compiling Smart Contracts, JavaScript and other assets. In this guide we'll learn how to take full advantage of Embark's flexibility to build our Smart Contracts or even replace the entire build pipeline for our application's assets.
 
-Embark has by default two modes for the building assets:
+## Building your app
 
-* `development` - Is faster to build, produces sourcemaps, but also outputs bigger js filesizes. Is the default mode of `embark run` and `embark console`
-* `production` - Is slower to build but also outputs much smaller js filesizes. Is the default mode of `embark build` and `embark upload`
+Embark's `build` command enables us to build our decentralized application and deploy it accordingly. Similar to `embark run`, it compiles our Smart Contracts, deploys them to a blockchain network that our app is connected to, processes our app's assets and uploads them to the configured decentralized storage (e.g. IPFS).
 
-You can also specify a particular mode with `--pipeline`, for e.g
+By default, `embark build` will use the `production` mode to build our application.
 
-<pre><code class="shell">$ embark run --pipeline production</code></pre>
+<pre><code class="shell">$ embark build</code></pre>
 
-### Default webpack config
+### Specifying a mode using `--pipeline`
 
-Embark has a internal default webpack config, this config allows you out of the box to:
+Embark comes with two modes for building our application:
 
-* ES6 module `import` and `export` syntax
-* Importing CSS, SCSS, PNG, SVG & Fonts in JS
+* **development** - This mode is for development purposes and produces sourcemaps as well as unoptimized client-side code. Whenever we use `embark run` or `embark console`, this mode is used by default. Since this mode skips code optimizations, it's also the faster mode.
+* **production** - Unsurprisingly, this mode is used to create production artifacts of our application. It produces optimized code and is therefore slower as well. However, client-side code will be highly optimized and therefore smaller in file size This mode is the default for `embark build` and `embark upload` commands.
+
+We can specify a mode using the `--pipeline` option. This is available for both, `embark run` and `embark build` commands:
+
+<pre><code class="shell">$ embark build --pipeline development</code></pre>
+
+## Compiling Smart Contracts only
+
+If we're building a [Smart Contract only application](http://localhost:4000/docs/create_project.html#Creating-%E2%80%9Ccontracts-only%E2%80%9D-apps), or we're simply not interested in building the entire application and deploying it, but just want to compile our Smart Contracts, we can use the `build` command's `--contracts` option:
+
+<pre><code class="shell">$ embark build --contracts</code></pre>
+
+## Understanding the build pipeline
+
+Embark uses [webpack](https://webpack.js.org/) to bundle and post processes all kinds of assets of our decentralized application. This also includes things like:
+
+* ES2015+ syntax using Babel
+* Importing of CSS, SCSS, PNG, SVG & Fonts in JavaScript
 * Support for React & JSX
-* Automatic support for older browsers via babel's preset-env. By default, Embark's uses a Browserlist setting of `['last 1 version', 'not dead', '> 0.2%']`
-* Sourcemaps (when in development mode)
-* Optmization: minification and tree shaking (when in production mode)
+* Automatic support for older browsers via Babel's preset-env (by default, Embark uses a browser list setting of `['last 1 version', 'not dead', '> 0.2%']`
+* Sourcemaps generation (when in development mode)
+* Minification and tree shaking (when in production mode)
 
-### Ejecting & Customizing the Webpack config
+### Customizing the build process
 
-If you want to override Embark's default webpack configuration, you can run:
+Sometimes we run into scenarios where our setup is so specific that the build process for our application needs further customization. For those cases, where Embark's built-in build pipeline isn't enough, it enables us to "eject" the internally used `webpack.config.js` file, so we can change it to our needs and fully bypass Embark's internal build process.
+
+Ejecting the internally used config file is as simple as using Embark's `eject-webpack` command like this:
 
 <pre><code class="shell">$ embark eject-webpack</code></pre>
-
-This command outputs the webpack file named `webpack.config.js` to the root directory of your dApp. You can then customize it to suit your specific needs.

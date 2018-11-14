@@ -39,7 +39,7 @@ sidebar:
     messages: Decentralized Messages
     testing: Testing
     configuration: Configuration
-    pipeline_and_webpack: Pipeline & Webpack
+    pipeline_and_webpack: Building & Asset Pipeline
     distributing: Distributing your DApp
     deploying: Deploying to IPFS/Swarm
     plugins: Plugins
