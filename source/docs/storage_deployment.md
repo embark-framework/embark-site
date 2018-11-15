@@ -45,7 +45,7 @@ Please see the [Storage troubleshooting](./storage_configuration#Troubleshooting
 Deploying to SWARM
 ==================
 To deploy a dapp to a local Swarm node:
-1. First [run a local Swarm node](http://swarm-guide.readthedocs.io/en/latest/runninganode.html).
+1. First [run a local Swarm node](https://swarm-guide.readthedocs.io/en/latest/gettingstarted.html#running-swarm).
 2. Configure your `storage.json` config with the correct settings, i.e.
 <pre><code class="javascript">module.exports = {
     "development": {
