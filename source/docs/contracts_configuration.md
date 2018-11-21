@@ -164,11 +164,11 @@ module.exports = {
         "args": [
           100
         ]
-      },
-      <mark class="highlight-inline">"afterDeploy": [
-        "SimpleStorage.methods.set(150).send()"
-      ]</mark>
-    }
+      }
+    },
+    <mark class="highlight-inline">"afterDeploy": [
+      "SimpleStorage.methods.set(150).send()"
+    ]</mark>
   }
 }
 </code></pre>
