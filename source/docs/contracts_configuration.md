@@ -306,11 +306,11 @@ module.exports = {
     contracts: {
       SimpleStorage: {
         args: [100]
-      },
-      <mark class="highlight-inline">afterDeploy: (dependencies) => {
-        dependencies.contracts.SimpleStorage.methods.set(150).send();
-      }</mark>
+      }
     }
+    <mark class="highlight-inline">afterDeploy: (dependencies) => {
+      dependencies.contracts.SimpleStorage.methods.set(150).send();
+    }</mark>
   }
 }
 </code></pre>
