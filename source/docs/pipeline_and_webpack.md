@@ -16,7 +16,7 @@ By default, `embark build` will use the `production` mode to build our applicati
 Embark comes with two modes for building our application:
 
 * **development** - This mode is for development purposes and produces sourcemaps as well as unoptimized client-side code. Whenever we use `embark run` or `embark console`, this mode is used by default. Since this mode skips code optimizations, it's also the faster mode.
-* **production** - Unsurprisingly, this mode is used to create production artifacts of our application. It produces optimized code and is therefore slower as well. However, client-side code will be highly optimized and therefore smaller in file size This mode is the default for `embark build` and `embark upload` commands.
+* **production** - Unsurprisingly, this mode is used to create production artifacts of our application. It produces optimized code and therefore, takes longer to build. However, client-side code will be highly optimized, thus smaller in file size. This mode is the default for `embark build` and `embark upload` commands.
 
 We can specify a mode using the `--pipeline` option. This is available for both, `embark run` and `embark build` commands:
 
@@ -30,7 +30,7 @@ If we're building a [Smart Contract only application](http://localhost:4000/docs
 
 ## Understanding the build pipeline
 
-Embark uses [webpack](https://webpack.js.org/) to bundle and post processes all kinds of assets of our decentralized application. This also includes things like:
+Embark uses [webpack](https://webpack.js.org/) to bundle and postprocess all kinds of assets of our decentralized application. This also includes things like:
 
 * ES2015+ syntax using Babel
 * Importing of CSS, SCSS, PNG, SVG & Fonts in JavaScript
