@@ -42,6 +42,14 @@ If we aren't interested in Embark starting a web server in the first place, we c
 
 <pre><code class="shell">$ embark run --noserver</code></pre>
 
+## Running apps in different modes
+
+Embark comes with different "modes" when building applications. `embark run` uses the `development` mode by default. However, this can be overwritten using the `--pipeline` option. The following command run our application in `production` mode.
+
+<pre><code class="shell">$ embark run --pipeline production</code></pre>
+
+For more information about modes, head over to our guide on [building apps](pipeline_and_webpack.html).
+
 ## Switching environments
 
 Embark allows for configuring different environments to run our app against. This can be useful if we want to deploy our app to test networks or even private networks. In order to run our application in a specified environment, we first have to add a dedicated configuration to our project's `blockchain.js` file. 
