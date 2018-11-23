@@ -198,6 +198,30 @@ contracts: {
 ...
 </code></pre>
 
+## Providing ABIs
+
+In order to use Smart Contract instances created by web3 either in [deployment hooks](Deployment-hooks) or in [Embark's JavaScript client](contracts_javascript.html), Embark needs to get hold of the Smart Contracts' ABIs and pass those on to web3.
+
+This is not a problem when dealing with Smart Contracts that we own, or at least have [access to their sources](#Configuring-source-files) so we Embark can compile them accordingly. However, if we don't have either the source, nor do we want to create a Solidity interface ourselves for Embark to compile, we can provide an already defined ABI for a dedicated Smart Contract using the `abiDefinition` property, so Embark can make use of that.
+
+The following example configures `SimpleStorage` to be already deployed somewhere, but we'd still like to use the web3 instance in our `afterDeploy` hook.
+
+<pre><code class="javascript">...
+contracts: {
+  SimpleStorage: {
+    address: '0x0bFb07f9144729EEF54A9057Af0Fcf87aC7Cbba9',
+    abiDefinition: [...]
+  }
+},
+afterDeploy: async (deps) => {
+  const val = await deps.contracts.SimpleStorage.methods.get().call();
+  console.log(value);
+}
+...
+</code></pre>
+
+`afterDeploy` and other deployment hooks are covered in [Deployment Hooks](#Deployment-hooks).
+
 ## Deployment tracking
 
 Embark's Smart Contract deployment mechanism prevents the deployment of Smart Contracts that have already been deployed. This turns out to be a powerful feature as you don't have to worry about keeping track of it. If we prefer to have full control over the deployment process and don't want Embark to keep track of individual Smart Contracts deployments, we use the `track` configuration and set it `false`.
