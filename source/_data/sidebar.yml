@@ -21,6 +21,9 @@ docs:
     contracts_imports: contracts_imports.html
     contracts_testing: contracts_testing.html
 
+  blockchain_configuration:
+    basic_configuration: blockchain_configuration.html
+
   storage:
     storage_configuration: storage_configuration.html
     storage_javascript: storage_javascript.html
