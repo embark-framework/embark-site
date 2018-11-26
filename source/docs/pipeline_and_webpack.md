@@ -43,6 +43,12 @@ Embark uses [webpack](https://webpack.js.org/) to bundle and postprocess all kin
 
 Sometimes we run into scenarios where our setup is so specific that the build process for our application needs further customization. For those cases, where Embark's built-in build pipeline isn't enough, it enables us to "eject" the internally used `webpack.config.js` file, so we can change it to our needs and fully bypass Embark's internal build process.
 
-Ejecting the internally used config file is as simple as using Embark's `eject-webpack` command like this:
+Ejecting the internally used config file is as simple as using Embark's `eject-build-config` command like this:
 
-<pre><code class="shell">$ embark eject-webpack</code></pre>
+<pre><code class="shell">$ embark eject-build-config</code></pre>
+
+{% note info On --eject-webpack option %}
+
+In older versions of Embark, the same could be achieved using the `--eject-webpack` option. This option still works, but is now considered deprecated and will be removed in future versions of Embark.
+{% endnote %}
+
