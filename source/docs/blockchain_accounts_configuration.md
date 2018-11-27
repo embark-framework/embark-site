@@ -5,6 +5,14 @@ As you might have seen in a few sections above, there is also an `accounts` para
 
 This parameter let's us customize what the `accounts` will be for our deployment, as well as the accounts that will be created and unlocked by our blockchain client.
 
+{% note info Old parameters %}
+In Embark 3.2 and older, there used to be `account` and `simulatorMnemonic`.
+
+`account` is replaced by `nodeAccounts`.
+
+`simulatorMnemonic` is replaced by adding a `mnemonic` account in the `accounts` array. This works both for the simulator and for clients.
+{% endnote %}
+
 ## Accounts parameters
 
 <pre><code class="javascript">accounts: [
