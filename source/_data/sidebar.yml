@@ -23,7 +23,11 @@ docs:
     contracts_testing: contracts_testing.html
 
   blockchain_configuration:
-    basic_configuration: blockchain_configuration.html
+    blokchain_basic_configuration: blockchain_basic_configuration.html
+    blokchain_privatenet_configuration: blockchain_privatenet_configuration.html
+    blokchain_testnet_configuration: blockchain_testnet_configuration.html
+    blokchain_mainnet_configuration: blockchain_mainnet_configuration.html
+    blokchain_accounts_configuration: blockchain_accounts_configuration.html
 
   storage:
     storage_configuration: storage_configuration.html

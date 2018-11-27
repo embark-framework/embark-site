@@ -81,7 +81,11 @@ sidebar:
     contracts_imports: Solidity Imports
     contracts_testing: Testing
     blockchain_configuration: Blockchain Configuration
-    basic_configuration: Basic Configuration
+    blokchain_basic_configuration: Basic Configuration
+    blokchain_privatenet_configuration: Privatenet Configuration
+    blokchain_testnet_configuration: Testnet Configuration
+    blokchain_mainnet_configuration: Mainnet Configuration
+    blokchain_accounts_configuration: Accounts Configuration
     storage_configuration: Configuration
     storage_javascript: Javascript Usage
     storage_troubleshooting: Troubleshooting
