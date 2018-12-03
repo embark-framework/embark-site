@@ -16,7 +16,7 @@ By default, tests are run using an Ethereum simulator (ganache). You can use the
 Embark includes a testing library to run & test your contracts in <abbr title="Ethereum Virtual Machine">EVM</abbr> quickly.
 <pre><code class="javascript">// test/simple_storage_spec.js
 /*global contract, config, it, embark, assert, web3*/
-const SimpleStorage = embark.require('Embark/contracts/SimpleStorage');
+const SimpleStorage = require('Embark/contracts/SimpleStorage');
 let accounts;
 
 config({
@@ -48,15 +48,23 @@ contract("SimpleStorage", function () {
 
 ## Global variables
 
-Embark makes a couple of variables available for you globally:
+Embark makes a couple of variables and functions available for you globally:
 
-- `contract`: Same as Mocha's `describe`
-- `config`: Function to deploy your contracts using custom configurations. Calls back with accounts
+- `contract()`: Same as Mocha's `describe`
+- `config()`: Function to deploy your contracts using custom configurations. Calls back with accounts
 - `web3`: Web3 object
 - `assert`: Node's assert
-- Mocha functions: `describe`, `it`, `before`, etc.
+- Mocha functions: `describe()`, `it()`, `before()`, etc.
+
+### Contracts
 
 You can require your contracts using `require('Embark/contracts/YOUR_CONTRACT_NAME');`
+
+The returned object is the fully deployed contract that you can interact with.
+
+{% note info About required contracts %}
+The contracts that you require at the top of the file will not be populated until you run `config()`, since it is `config()` that deploys the contracts.
+{% endnote %}
 
 ### EmbarkJS
 
@@ -66,7 +74,7 @@ It possesses all the great features that you are used to.
 
 ## Configuring accounts
 
-You can use the same account settings that you would use in [contracts.js](https://embark.status.im/docs/contracts.html#Using-accounts-in-a-wallet)
+You can use the same account settings that you would use in [contracts.js](/docs/contracts_deployment.html#Using-accounts-in-a-wallet)
 
 That way, you can use a specific account for your test.
 
