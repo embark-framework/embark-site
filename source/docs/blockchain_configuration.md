@@ -1,11 +1,13 @@
 title: Blockchain configuration
 ---
 
-When in development phase, it is necessary to use a local Ethereum node to deploy our contracts to, either using a simulator or client like Geth or Parity.
+When in development phase, to interact with the blockchain, it is necessary to use a local Ethereum node, either using a simulator or a client like Geth or Parity.
 
-To set this node, Embark looks at `blockchain.js`, which by default is at `config/blockchain.js`.
+In this guide we'll explore how to configure the blockchain node we want Embark to connect to.
 
-It is a complex file, but Embark, when using the `embark new` and `embark demo` command, creates a default `blockchain.js` file for you that contains all the basic parameters for you to start a Geth node or a Ganache simulator.
+To set this blockchain node, Embark looks at `blockchain.js`, which by default is at `config/blockchain.js`.
+
+Embark offers a lot of configuration options and most of them already come with a decent default so we can start right away.
 
 ## Common Parameters
 
@@ -37,7 +39,7 @@ Here are the common parameters:
 }
 </code></pre>
 
-As with `contracts.js`, this config contains environments that help configuring certain parameters differently depending of the environment. You can read more about [environments here](https://embark.status.im/docs/environments.html).
+Similar to [configuring Smart Contracts](/docs/contracts_configuration.html), this config contains environments that help configuring certain parameters differently depending of the environment. You can read more about [environments here](https://embark.status.im/docs/environments.html).
 
 ### Parameter descriptions
 
