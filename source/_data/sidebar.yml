@@ -21,7 +21,7 @@ docs:
     contracts_imports: contracts_imports.html
     contracts_testing: contracts_testing.html
 
-  blockchain_configuration:
+  blockchain_node:
     blockchain_configuration: blockchain_configuration.html
     blokchain_accounts_configuration: blockchain_accounts_configuration.html
 
