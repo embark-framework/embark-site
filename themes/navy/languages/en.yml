@@ -80,8 +80,10 @@ sidebar:
     contracts_deployment: Accounts & Deployment
     contracts_imports: Solidity Imports
     contracts_testing: Testing
-    blockchain_configuration: Blockchain Configuration
-    blokchain_accounts_configuration: Accounts Configuration
+    blockchain_node: Blockchain Node
+    blockchain_configuration: Configuration
+    blokchain_basic_configuration: Basic Configuration
+    blokchain_accounts_configuration: Managing Accounts
     storage_configuration: Configuration
     storage_javascript: Javascript Usage
     storage_troubleshooting: Troubleshooting
