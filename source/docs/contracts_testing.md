@@ -58,6 +58,12 @@ Embark makes a couple of variables available for you globally:
 
 You can require your contracts using `require('Embark/contracts/YOUR_CONTRACT_NAME');`
 
+### EmbarkJS
+
+You can require `EmbarkJS` using `require('Embark/EmbarkJS');`
+
+It possesses all the great features that you are used to.
+
 ## Configuring accounts
 
 You can use the same account settings that you would use in [contracts.js](https://embark.status.im/docs/contracts.html#Using-accounts-in-a-wallet)
