@@ -11,3 +11,10 @@
     - token
     - ethereum
     - client-side-deployment
+- name: How to deploy to a testnet with Infura
+  description: Deploy and interact with your Dapp on a testnet with the use of Infura
+  link: /tutorials/infura_guide.html
+  tags:
+    - ethereum
+    - deployment
+    - testnet
