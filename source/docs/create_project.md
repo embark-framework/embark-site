@@ -13,7 +13,12 @@ As discussed in our [quickstart guide](quick-start.html), the fastest way to get
 
 If you prefer starting entirely from scratch, while still getting a ready to use environment, Embark's `new` command has got you covered. Similar to the `demo` command, it will scaffold a new project folder. However, it will not include the demo application. The green field is all yours.
 
-<pre><code class="shell">$ embark new &lt;YourDAppName&gt;</code></pre>
+<pre><code class="shell">$ embark new &lt;YourDAppName&gt;
+</code></pre>
+
+{% note info Quick tip: Smart Contract only apps %}
+Smart Contract developers that mainly want to focus on building and deploying Smart Contracts can take advantage of `new` command's `--contracts-only` option, as described [here](create_project.html#Creating-“contracts-only”-apps).
+{% endnote %}
 
 ## Creating apps from templates
 
@@ -44,6 +49,8 @@ Sometimes, all we really want to do is creating, developing, compiling and deplo
 The following command will create a project with all Embark services disabled except the blockchain service.
 
 <pre><code class="shell">$ embark new &lt;YourDAppName&gt; --contracts-only</code></pre>
+
+This will also affect the generated application structure, as Smart Contract only apps are less complex. Learn more about the application structure of Smart Contract only apps [here](structure.html#Simple-template-structure).
 
 {% note info A note on --simple %}
 In earlier versions of Embark the same could be achieved using the `--simple` option. This option is still supported but will be deprecated and likely be removed in future versions of Embark.

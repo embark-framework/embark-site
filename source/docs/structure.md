@@ -3,7 +3,7 @@ title: Application Structure
 
 Once a [project is initialized](/docs/create_project.html), it's a good time to take a look at the resulting project structure, to get a better idea of what's going on. In this guide we'll explore an Embark project's structure and learn where to find different file types and configurations.
 
-Notice that this [guide covers](#Simple-template-structure) projects that have been created with the [`--simple` option](create_project.html#Creating-“contracts-only”-apps) as well.
+**For Smart Contract developers**: This [guide covers](#Smart-Contracts-only-template-structure) projects that have been created with the [`--contracts-only` option](create_project.html#Creating-“contracts-only”-apps) as well.
 
 ## Overview
 
@@ -67,9 +67,9 @@ This file is used to keep track of the deployed contracts in each chain. This is
 
 In order to provide as much flexibility for our users as possible, Embark comes with an `embark.json` file that lets us configure our own directory structure. This file is also used to specify Embark plugins and other configurations. More information on how to use this configuration file, can be found in [configuring embark.json](configuration.html).
 
-## Simple template structure
+## Smart Contracts only template structure
 
-When creating a project using the `--simple` option, the resulting structure is a little bit simpler. Let's take quick look:
+When creating a project using the `--contracts-only` option, the resulting structure is a little bit simpler. Let's take quick look:
 
 ```
 ├── contracts/
