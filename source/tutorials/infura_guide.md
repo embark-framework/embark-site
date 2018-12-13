@@ -20,9 +20,9 @@ Afterwards, you will get an API KEY by email. Save this key, you will need it to
 To deploy to Infura, we need to configure Embark with an account containing funds.
 
 In this example we will use a mnemonic.
-It is also possible to use a private key (the documentation for the accounts functionality can be found [here](https://embark.status.im/docs/contracts.html#Using-accounts-in-a-wallet)).
+It is also possible to use a private key (the documentation for the accounts functionality can be found [here](/docs/contracts.html#Using-accounts-in-a-wallet)).
 
-Make sure to read our recommendations on how to make sure your credentials stay secure [here](http://localhost:4000/docs/contracts_deployment.html#Deploying-to-Mainnet).
+Make sure to read our recommendations on how to make sure your credentials stay secure [here](/docs/contracts_deployment.html#Deploying-to-Mainnet).
 
 Edit your contract configuration (usually found at `config/contracts.js`) and add a new environment, which we will name `infura`:
 
