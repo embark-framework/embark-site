@@ -127,51 +127,6 @@ module.exports = {
 }
 </code></pre>
 
-### onDeploy Actions
-
-You can specify actions to do after the deployment of a contract using the "onDeploy" parameter.
-
-| `onDeploy` - should be an array of JavaScript instructions that will be evaluated and executed
-
-<pre><code class="javascript">// config/contracts.js
-module.exports = {
-  "development": {
-    "gas": "auto",
-    "contracts": {
-      "SimpleStorage": {
-        "args": [
-          100
-        ],
-        <mark class="highlight-inline">"onDeploy": ["SimpleStorage.methods.set(150).send()"]</mark>
-      }
-    }
-  }
-}
-</code></pre>
-
-### afterDeploy Actions
-
-You can specify actions to do after ALL contracts have been deployed by using the "afterDeploy" parameter.
-
-| `afterDeploy` - should be an array of JavaScript instructions that will be evaluated and executed
-
-<pre><code class="javascript">// config/contracts.js
-module.exports = {
-  "development": {
-    "gas": "auto",
-    "contracts": {
-      "SimpleStorage": {
-        "args": [
-          100
-        ]
-      }
-    },
-    <mark class="highlight-inline">"afterDeploy": [
-      "SimpleStorage.methods.set(150).send()"
-    ]</mark>
-  }
-}
-</code></pre>
 
 ### Specify contract file
 
@@ -230,24 +185,6 @@ module.exports = {
 }
 </code></pre>
 
-### Conditional Deployment
-
-You can specify a condition that decides whether a contract should be deployed by using the `deployIf` field. If this field is present then the contract will deploy only if its value expression returns true.
-
-<pre><code class="javascript">// config/contracts.js
-module.exports = {
-  "development": {
-    "contracts": {
-      "ERC20": {
-        <mark class="highlight-inline">"deployIf": "await Manager.methods.isUpdateApproved()"</mark>
-      },
-      "Manager": {
-      },
-    }
-  }
-}
-</code></pre>
-
 ### Deployment tracking
 
 Embark's contract deployment mechanism prevents deployment if contract code was already deployed.
@@ -280,3 +217,115 @@ You can find more details here: https://solidity.readthedocs.io/en/v0.4.24/using
   }
 }
 </code></pre>
+
+## Deployment life cycle hooks
+
+Sometimes we want to execute certain logic when Smart Contracts are being deployed or after all of them have been deployed. In other cases, we'd even like to control whether a Smart Contract should be deployed in the first place. For those scenarios, Embark lets us define the deployment life cycle hooks `deployIf`, `onDeploy` and `afterDeploy`.
+
+Life cycle hooks have access to a `dependencies` object that comes with instances of all Smart Contracts that are defined as dependency of the hooks using the `deps` property of the Smart Contract in question, and the Smart Contract itself. In addition to all relevant Smart Contract instances, this object also exposes the current `web3` instance as shown in the examples below.
+
+### Conditional Deployment with `deployIf`
+
+We can specify a condition that decides whether a contract should be deployed by using the `deployIf` life cycle hook. `deployIf` is a function that either returns a promise or is created using `async/await` syntax and has to resolve to a boolean value. If the resolve value is `true`, the Smart Contract in question will be deployed. If it's `false`, Embark will skip deploying the Smart Contract in question.
+
+<pre><code class="javascript">// config/contracts.js
+module.exports = {
+  development: {
+    contracts: {
+      ERC20: {
+        <mark class="highlight-inline">deployIf: async (dependencies) => {
+          return await dependencies.contracts.Manager.methods.isUpdateApproved().call();
+        }</mark>,
+        deps: ['Manager']
+      },
+      Manager: {...},
+    }
+  }
+}
+</code></pre>
+
+Notice how `dependencies.contracts` gives access to the `Manager` contract instance. This however, is only possible because `Manager` has been defined as dependency of `ERC20` using the `deps` property. If we're using a Node version that doesn't support async/await, the same can be achieved using promises like this (web3 APIs already return promises):
+
+<pre><code class="javascript">...
+ERC20: {
+  <mark class="highlight-inline">deployIf: (dependencies) => {
+    return dependencies.contracts.Manager.methods.isUpdateApproved().call();
+  }</mark>,
+  deps: ['Manager']
+},
+...
+</code></pre>
+
+### `onDeploy` Life cycle hook
+
+We can specify the `onDeploy` life cycle hook to execute code, right after a contract has been deployed. Just like `deployIf` and `afterDeploy`, `onDeploy` is a function that has access to the Smart Contract's dependencies defined in its `deps` property. The following example executes `SimpleStorage`'s `set()` method, once deployed.
+
+<pre><code class="javascript">// config/contracts.js
+module.exports = {
+  development: {
+    contracts: {
+      SimpleStorage: {
+        args: [100],
+        <mark class="highlight-inline">onDeploy: async (dependencies) => {
+					const simpleStorage = dependencies.contracts.SimpleStorage
+          const web3 = dependences.web3;
+          
+          await simpleStorage.methods.setRegistar(web3.eth.defaultAccount).send()
+          await simpleStorage.methods.set(150).send();
+        }</mark>
+      }
+    }
+  }
+}
+</code></pre>
+
+As mentioned above, every life cycle hook works with plain promises as well:
+
+<pre><code class="javascript">...
+SimpleStorage: {
+  args: [100],
+  <mark class="highlight-inline">onDeploy: (dependencies) => {
+    const simpleStorage = dependencies.contracts.SimpleStorage
+    const web3 = dependences.web3;
+
+    return simpleStorage.methods
+      .setRegistar(web3.eth.defaultAccount).send()
+      .then(_ => simpleStorage.methods.set(150).send());
+  }</mark>
+}
+...
+</code></pre>
+
+### `afterDeploy` life cycle hook
+
+If we want to execute code once all of our Smart Contracts have been deployed, Embark has got us covered with the `afterDeploy` life cycle hook. The same rules apply here. `afterDeploy` has access to all deployed contract instances through the `dependencies` object.
+
+<pre><code class="javascript">// config/contracts.js
+module.exports = {
+  development: {
+    contracts: {
+      SimpleStorage: {
+        args: [100]
+      },
+      <mark class="highlight-inline">afterDeploy: (dependencies) => {
+        dependencies.contracts.SimpleStorage.methods.set(150).send();
+      }</mark>
+    }
+  }
+}
+</code></pre>
+
+{% note info A note on Life cycle hook string syntax %}
+In older versions of Embark, life cycle hooks have been defined as an array of strings. This is due historical reasons where configuration files used to be JSON files that don't support functions.
+
+The examples above can be therefore written as:
+
+<pre><code class="javascript">afterDeploy: ['SimpleStorage.methods.set(150).send()']
+onDeploy: ['SimpleStorage.methods.set(150).send()']
+deployIf: 'await Manager.methods.isUpdateApproved()'
+</code></pre>
+
+
+This string syntax is still supported but will be deprecated and likely be removed in future versions of Embark.
+{% endnote %}
+
