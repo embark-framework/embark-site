@@ -14,4 +14,7 @@
   searchInput.onblur = function(e) {
     searchWrap.classList.remove(className);
   };
+
+  // Version selector
+  // TODO move that to a better file
 }());
