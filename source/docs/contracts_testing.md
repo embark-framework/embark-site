@@ -66,6 +66,12 @@ The returned object is the fully deployed contract that you can interact with.
 The contracts that you require at the top of the file will not be populated until you run `config()`, since it is `config()` that deploys the contracts.
 {% endnote %}
 
+### EmbarkJS
+
+You can require `EmbarkJS` using `require('Embark/EmbarkJS');`
+
+It possesses all the great features that you are used to.
+
 ## Configuring accounts
 
 You can use the same account settings that you would use in [contracts.js](/docs/contracts_deployment.html#Using-accounts-in-a-wallet)
