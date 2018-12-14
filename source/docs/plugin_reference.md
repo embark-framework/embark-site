@@ -169,21 +169,37 @@ expected return: ``string``
 });
 </code></pre>
 
-### embark.registerConsoleCommand(callback(options))
+### embark.registerConsoleCommand(options)
 
 This call is used to extend the console with custom commands.
 
-Expected result: an `object` with 2 functions:
-* `match`: return a boolean, `true` if the command must be processed.
-* `process`: the callback expects 2 arguments, the `error` (`null` if none) 
-and the result as a `string` (output to print in console)
+The function takes an `object` with the following options:
+
+- `description`: Description of the command (used by the help command)
+- `matches`: Either an `array` of strings corresponding to exact matches for the command or a `function` where the only parameter in the command
+  - The `function` must return a `boolean`. True if it matches, `false` if not.
+- `usage`: Usage of the command that will be outputed by the help command
+  - Adding `usage` is optional in the case where `matches` is an `array`
+- `process`: `function` that will be executed to process the command. The `function` receives two parameters:
+  - `command`: The `string` command that the user entered
+  - `callback`: Callback `function` to be called at the end of the process
+    - This callback takes one parameter which is the output of the command. The output will be displayed in the console
 
 <pre><code class="javascript">module.exports = function(embark) {
-  embark.registerConsoleCommand(function(cmd, options) {
-      return {
-        match: () => cmd === "hello",
-        process: (callback) => callback(null, "hello there!")
-      };
+  embark.registerConsoleCommand({
+    description: "Salutes the world",
+    matches: ["hello", "hellowWorld"],
+    // OR a function for more complex cases
+    matches: (cmd) => {
+      const [commandName, name] = cmd.split(' '); // You can use `split` for commands that receive parameters
+      return commandName === 'hello' || commandName === 'hellowWorld'; 
+    },
+    usage: "hello &lt;name&gt; or helloWorld &lt;name&gt;",
+    process: (cmd, callback) => {
+      const [commandName, name] = cmd.split(' ');
+      name = name || "noName"; // Default to "noName" when nothing is specified
+      callback(`Hello ${name}`); // Call back with the message. This will be outputed in the console
+    }
   });
 }
 </code></pre>
