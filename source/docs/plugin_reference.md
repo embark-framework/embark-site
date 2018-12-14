@@ -183,7 +183,7 @@ The function takes an `object` with the following options:
 - `process`: `function` that will be executed to process the command. The `function` receives two parameters:
   - `command`: The `string` command that the user entered
   - `callback`: Callback `function` to be called at the end of the process
-    - This callback takes one parameter which is the output of the command. The output will be displayed in the console
+    - This callback takes two parameters. The first an error, the second the output of the command. The output will be displayed in the console
 
 <pre><code class="javascript">module.exports = function(embark) {
   embark.registerConsoleCommand({
@@ -198,7 +198,7 @@ The function takes an `object` with the following options:
     process: (cmd, callback) => {
       const [commandName, name] = cmd.split(' ');
       name = name || "noName"; // Default to "noName" when nothing is specified
-      callback(`Hello ${name}`); // Call back with the message. This will be outputed in the console
+      callback(null, `Hello ${name}`); // Call back with the message. This will be outputed in the console
     }
   });
 }
