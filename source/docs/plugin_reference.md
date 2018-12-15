@@ -1,7 +1,7 @@
 title: Plugin Reference
 ---
 
-### embark.pluginConfig
+### .pluginConfig
 
 Object containing the config for the plugin specified in embark.json, for e.g with:
 
@@ -12,7 +12,7 @@ Object containing the config for the plugin specified in embark.json, for e.g wi
 
 ``embark.pluginConfig`` will contain ``{ "files": ["**/*.js", "!**/jquery.min.js"], "presets": ["es2015", "react"] }``
 
-### embark.registerPipeline(matchingFiles, callback(options))
+### .registerPipeline(matchingFiles, callback(options))
 
 This call will return the content of the current asset file so the plugin can transform it in some way. Typically this is used to implement pipeline plugins such as Babel, JSX, sass to css, etc..
 
@@ -34,7 +34,7 @@ module.exports = function(embark) {
 }
 </code></pre>
 
-### embark.registerContractConfiguration(contractsConfig)
+### .registerContractConfiguration(contractsConfig)
 
 This call is used to specify a configure of one or more contracts in one or several environments. This is useful for specifying the different configurations a contract might have depending on the enviroment. For instance in the code bellow, the ``DGDToken`` contract code will redeployed with the arguments ``100`` in any environment, except for the livenet since it's already deployed there at a particular address.
 
@@ -64,7 +64,7 @@ Typically this call is used in combination with ``embark.addContractFile``
 }
 </code></pre>
 
-### embark.addContractFile(file)
+### .addContractFile(file)
 
 Typically this call is used in combination with ``embark.registerContractConfiguration``. If you want to make the contract available but not automatically deployed without the user specifying so you can use ``registerContractConfiguration`` to set the contract config to ``deploy: false``, this is particularly useful for when the user is meant to extend the contract being given (e.g ``contract MyToken is StandardToken``)
 
@@ -75,7 +75,7 @@ Typically this call is used in combination with ``embark.registerContractConfigu
 }
 </code></pre>
 
-### embark.addFileToPipeline(file, options)
+### .addFileToPipeline(file, options)
 
 This call is used to add a file to the pipeline so it's included with the dapp on the client side.
 
@@ -93,7 +93,7 @@ This call is used to add a file to the pipeline so it's included with the dapp o
 }
 </code></pre>
 
-### embark.registerBeforeDeploy(callback(options), [callback])
+### .registerBeforeDeploy(callback(options), [callback])
 
 This call can be used to add handler to process contract code after it was generated, but immediately before it is going to be deployed.
 It is useful to replace placeholders with dynamic values.
@@ -120,7 +120,7 @@ example:
 }
 </code></pre>
 
-### embark.registerClientWeb3Provider(callback(options))
+### .registerClientWeb3Provider(callback(options))
 
 This call can be used to override the default web3 object generation in the dapp. it's useful if you want to add a plugin to interact with services like http://infura.io or if you want to use your own web3.js library extension.
 
@@ -141,7 +141,7 @@ example:
 </code></pre>
 
 
-### embark.registerContractsGeneration(callback(options))
+### .registerContractsGeneration(callback(options))
 
 By default Embark will use EmbarkJS to declare contracts in the dapp. You can override and use your own client side library.
 
@@ -169,26 +169,42 @@ expected return: ``string``
 });
 </code></pre>
 
-### embark.registerConsoleCommand(callback(options))
+### .registerConsoleCommand(options)
 
 This call is used to extend the console with custom commands.
 
-Expected result: an `object` with 2 functions:
-* `match`: return a boolean, `true` if the command must be processed.
-* `process`: the callback expects 2 arguments, the `error` (`null` if none) 
-and the result as a `string` (output to print in console)
+The function takes an `object` with the following options:
+
+- `description`: Description of the command (used by the help command)
+- `matches`: Either an `array` of strings corresponding to exact matches for the command or a `function` where the only parameter in the command
+  - The `function` must return a `boolean`. True if it matches, `false` if not.
+- `usage`: Usage of the command that will be outputed by the help command
+  - Adding `usage` is optional in the case where `matches` is an `array`
+- `process`: `function` that will be executed to process the command. The `function` receives two parameters:
+  - `command`: The `string` command that the user entered
+  - `callback`: Callback `function` to be called at the end of the process
+    - This callback takes two parameters. The first an error, the second the output of the command. The output will be displayed in the console
 
 <pre><code class="javascript">module.exports = function(embark) {
-  embark.registerConsoleCommand(function(cmd, options) {
-      return {
-        match: () => cmd === "hello",
-        process: (callback) => callback(null, "hello there!")
-      };
+  embark.registerConsoleCommand({
+    description: "Salutes the world",
+    matches: ["hello", "hellowWorld"],
+    // OR a function for more complex cases
+    matches: (cmd) => {
+      const [commandName, name] = cmd.split(' '); // You can use `split` for commands that receive parameters
+      return commandName === 'hello' || commandName === 'hellowWorld'; 
+    },
+    usage: "hello &lt;name&gt; or helloWorld &lt;name&gt;",
+    process: (cmd, callback) => {
+      const [commandName, name] = cmd.split(' ');
+      name = name || "noName"; // Default to "noName" when nothing is specified
+      callback(null, `Hello ${name}`); // Call back with the message. This will be outputed in the console
+    }
   });
 }
 </code></pre>
 
-### embark.registerCompiler(extension, callback(contractFiles, doneCallback))
+### .registerCompiler(extension, callback(contractFiles, doneCallback))
 
 Expected doneCallback arguments: ``err`` and  ``hash`` of compiled contracts
 
@@ -238,13 +254,13 @@ module.exports = function(embark) {
 }
 </code></pre>
 
-### embark.logger
+### .logger
 
 To print messages to the embark log is it better to use ``embark.logger`` instead of ``console``.
 
 e.g ``embark.logger.info("hello")``
 
-### embark.events.on(eventName, callback(*args))
+### .events.on(eventName, callback(*args))
 
 This call is used to listen and react to events that happen in Embark such as contract deployment
 
@@ -280,7 +296,7 @@ This call is used to listen and react to events that happen in Embark such as co
 }
 </code></pre>
 
-### embark.events.request(requestName, callback(*args))
+### .events.request(requestName, callback(*args))
 
 This call is used to request a certain resource from Embark
 
@@ -301,7 +317,7 @@ This call is used to request a certain resource from Embark
 }
 </code></pre>
 
-### embark.registerServiceCheck(serviceName, callback({name, status}), time)
+### .registerServiceCheck(serviceName, callback({name, status}), time)
 
 This call is used to register a service in embark so it's periodically checked.
 It will be displayed in the Embark Dashboard, and will also trigger events such as ``check:backOnline:yourServiceName`` and ``check:backOffline:yourServiceName``
@@ -323,7 +339,7 @@ It will be displayed in the Embark Dashboard, and will also trigger events such 
 }
 </code></pre>
 
-### embark.registerUploadCommand(cmdName, callback)
+### .registerUploadCommand(cmdName, callback)
 
 This call is used to add a new cmd to ``embark upload`` to upload the dapp to a new storage service. In the example, `run` doesn't exist. You need to import a library that runs shell commands like [shelljs](https://www.npmjs.com/package/shelljs)
 
@@ -334,7 +350,7 @@ This call is used to add a new cmd to ``embark upload`` to upload the dapp to a 
 }
 </code></pre>
 
-### embark.addCodeToEmbarkJS(code)
+### .addCodeToEmbarkJS(code)
 
 This call is used to add code to the embark.js library. It's typically used to extend it with new functionality, new storage providers, new communication providers, etc..
 
@@ -343,7 +359,7 @@ This call is used to add code to the embark.js library. It's typically used to e
 }
 </code></pre>
 
-### embark.addProviderInit(providerType, code, initCondition(config))
+### .addProviderInit(providerType, code, initCondition(config))
 
 This call is used to add code to be executed in the initialization under the condition that ``initCondition`` returns true. For example this can be used to set the storage provider of EmbarkJS to ipfs if ipfs is enabled as a provider in the config
 
@@ -360,7 +376,7 @@ This call is used to add code to be executed in the initialization under the con
 }
 </code></pre>
 
-### embark.registerImportFile(importName, importLocation)
+### .registerImportFile(importName, importLocation)
 
 This call is used so the plugin can make a certain file available as a library to a user
 
@@ -370,4 +386,3 @@ module.exports = function(embark) {
   embark.registerImportFile("my-lib", path.join(__dirname, "my-lib.js"));
 }
 </code></pre>
-
