@@ -170,3 +170,21 @@ module.exports = {
   }
 }
 </code></pre>
+
+## Testnet and Mainnet API Endpoints
+
+Alchemy Insights are offering a preview of their API that we can use for deploying to and interacting with our contracts on testnet (Rinkeby, Ropsten, and Kovan) and mainnet. The following endpoints are available for our use.
+
+{% note info No websockets support %}
+Please note that these endpoints currently do not support websockets. There are plans to support websockets in the future.
+
+If your dApp relies on websockets use, please use another API endpoint such as Infura.
+{% endnote %}
+
+#### Alchemy Insights Endpoints
+<pre><code class="javascript">
+Mainnet: https://eth-mainnet.alchemyapi.io/jsonrpc/8a9fRmi8wx5BrSOOqKa6-3nFHMHYRvmH
+Kovan: https://eth-kovan.alchemyapi.io/jsonrpc/8a9fRmi8wx5BrSOOqKa6-3nFHMHYRvmH
+Rinkeby: https://eth-rinkeby.alchemyapi.io/jsonrpc/8a9fRmi8wx5BrSOOqKa6-3nFHMHYRvmH
+Ropsten: https://eth-ropsten.alchemyapi.io/jsonrpc/8a9fRmi8wx5BrSOOqKa6-3nFHMHYRvmH
+</code></pre>
