@@ -214,7 +214,7 @@ contracts: {
   }
 },
 afterDeploy: async (deps) => {
-  const val = await deps.contracts.SimpleStorage.methods.get().call();
+  const value = await deps.contracts.SimpleStorage.methods.get().call();
   console.log(value);
 }
 ...
