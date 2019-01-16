@@ -206,25 +206,40 @@ The function takes an `object` with the following options:
 
 ### .registerCompiler(extension, callback(contractFiles, doneCallback))
 
-Expected doneCallback arguments: ``err`` and  ``hash`` of compiled contracts
+Registers a new compiler for a specific contract extension.
 
-  * Hash of objects containing the compiled contracts. (key: contractName, value: contract object)
-      * code - [required] contract bytecode (string)      
-      * abiDefinition - [required] contract abi (array of objects)
-        * e.g ``[{"constant":true,"inputs":[],"name":"storedData","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"}, etc...``
-      * runtimeBytecode - [optional] contract runtimeBytecode (string)
-      * gasEstimates - [optional] gas estimates for constructor and methods (hash)
-        * e.g ``{"creation":[20131,38200],"external":{"get()":269,"set(uint256)":20163,"storedData()":224},"internal":{}}``
-      * functionHashes - [optional] object with methods and their corresponding hash identifier (hash)
-        * e.g ``{"get()":"6d4ce63c","set(uint256)":"60fe47b1","storedData()":"2a1afcd9"}``
+Arguments:
+
+- **extension**: The file extension (e.g: `.sol`)
+- **callback**: Function called by Embark with the contract files that the plugin should process
+ - **contractFiles**: Array of files that need to be compiled
+ - **doneCallback(error, result)**: The final callback to call once every file is compiled or when there is an error
+   - **error**: Error string or object when something goes wrong
+   - **result**: An object containing the compiled contracts result (key: contractName, value: contract object) or, `false` if your plugin is not compatible
+    - **code** - [required] contract bytecode (string)      
+    - **abiDefinition** - [required] contract abi (array of objects)
+      - e.g ``[{"constant":true,"inputs":[],"name":"storedData","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"}, etc...``
+    - **runtimeBytecode** - [optional] contract runtimeBytecode (string)
+    - **gasEstimates** - [optional] gas estimates for constructor and methods (hash)
+      - e.g ``{"creation":[20131,38200],"external":{"get()":269,"set(uint256)":20163,"storedData()":224},"internal":{}}``
+    - **functionHashes** - [optional] object with methods and their corresponding hash identifier (hash)
+      - e.g ``{"get()":"6d4ce63c","set(uint256)":"60fe47b1","storedData()":"2a1afcd9"}``
 
 
-Below a possible implementation of a solcjs plugin:
+Below a possible implementation of a solcjs plugin.
+Note that the plugin checks the version and returns `false` as the result if it is not compatible:
 
 <pre><code class="javascript">var solc = require('solc');
 
 module.exports = function(embark) {
   embark.registerCompiler(".sol", function(contractFiles, cb) {
+    const wantedVersion = embark.config.embarkConfig.versions.solc.split('.').map(ver => parseInt(ver, 10));
+    if (wantedVersion[1] > 5) {
+      // We do not support greater that solidity version 0.5.x
+      // This let's Embark know that we are not compatible, that way Embark will fallback to another compiler
+      return cb(null, false);
+    }
+  
     // prepare input for solc
     var input = {};
     for (var i = 0; i < contractFiles.length; i++) {
