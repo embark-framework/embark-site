@@ -4,6 +4,39 @@ title: Usage in Javascript
 Embark includes in your dapp the EmbarkJS library. This library abstracts different functionality so you can easily & quickly build powerful dapps that leverage different decentralized technologies.
 Embark will automatically initialize EmbarkJS with the configurations set for your particular environment.
 
+### Provider
+
+As of [EIP1102](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1102.md), decentralized applications MUST request account access. Embark offers several options on how to implement this.
+
+An Embark application's Smart Contract configuration file (typically located in `config/contracts.js`) comes with a `dappAutoEnable` property which controls whether or not EmbarkJS should automatically try to request account access:
+<pre><code class="javascript">
+...
+  // Automatically call `ethereum.enable` if true.
+  // If false, the following code must run before sending any transaction: `await EmbarkJS.enableEthereum();`
+  // Default value is true.
+  // dappAutoEnable: true,
+...
+</code></pre>
+
+By default, the value of `dappAutoEnable` is true which means that Embark will call `ethereum.enable` for you to request account access when the first page of the dapp is loaded.
+
+If you want more control, you can set `dappAutoEnable` to false.
+Then, if you want to request account access, you can use the following code: 
+
+<pre><code class="javascript">
+...
+  try {
+    const accounts = await EmbarkJS.enableEthereum();
+    // access granted
+  } catch() {
+    // access non granted
+  }
+...
+</code></pre>
+
+This will request account access and if the user grant access to his accounts, you will be able to make transaction calls.
+
+
 ### Components
 
 * [EmbarkJS.Contract](contracts_javascript.html) - To interact with smart contracts. Typically Embark automatically initializes all your deployed contracts with this. uses web3.js 1.0
@@ -27,4 +60,3 @@ EmbarkJS.onReady(function(error) {
   SimpleStorage.methods.set(100).send();
 });
 </code></pre>
-
