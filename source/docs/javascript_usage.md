@@ -34,7 +34,7 @@ Then, if you want to request account access, you can use the following code:
 ...
 </code></pre>
 
-This will request account access and if the user grant access to his accounts, you will be able to make transaction calls.
+This will request account access and if the user grants access to his accounts, you will be able to make transaction calls.
 
 
 ### Components
