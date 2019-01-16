@@ -29,7 +29,7 @@ Then, if you want to request account access, you can use the following code:
     const accounts = await EmbarkJS.enableEthereum();
     // access granted
   } catch() {
-    // access non granted
+    // access not granted
   }
 ...
 </code></pre>
