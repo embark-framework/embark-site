@@ -229,13 +229,14 @@ Arguments:
 Below a possible implementation of a solcjs plugin.
 Note that the plugin checks the version and returns `false` as the result if it is not compatible:
 
-<pre><code class="javascript">var solc = require('solc');
+<pre><code class="javascript">const solc = require('solc');
+const semver = require('semver');
 
 module.exports = function(embark) {
   embark.registerCompiler(".sol", function(contractFiles, cb) {
-    const wantedVersion = embark.config.embarkConfig.versions.solc.split('.').map(ver => parseInt(ver, 10));
-    if (wantedVersion[1] > 5) {
-      // We do not support greater that solidity version 0.5.x
+    const wantedVersion = embark.config.embarkConfig.versions.solc;
+    if (semver.gt(wantedVersion, '0.5.0')) {
+      // We do not support greater than solidity version 0.5.0
       // This let's Embark know that we are not compatible, that way Embark will fallback to another compiler
       return cb(null, false);
     }
