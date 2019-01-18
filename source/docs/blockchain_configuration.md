@@ -18,9 +18,15 @@ Here are the common parameters:
     enabled: true,
     rpcHost: "localhost",
     rpcPort: 8545,
-    rpcCorsDomain: "auto",
+    rpcCorsDomain: {
+      auto: true,
+      additionalCors: ['localhost:9999']
+    },
     wsRPC: true,
-    wsOrigins: "auto",
+    wsOrigins: {
+      auto: true,
+      additionalCors: []
+    },
     wsHost: "localhost", 
     wsPort: 8546
   },
@@ -47,7 +53,8 @@ Similar to [configuring Smart Contracts](/docs/contracts_configuration.html), th
 - **rpcHost**: Host the RPC server listens to
 - **rpcPort**: Port the RPC server listens to
 - **rpcCorsDomain**: The CORS domains the node accepts
-  - By using **"auto"`, Embark checks the other configurations to set the CORS domains. This only adds the required domains.
+  - **auto**: When set to true, Embark checks your other configurations to set the CORS domains. This only adds the required domains.
+  - **additionalCors**: Manual list of CORS domains to accept. If `auto` is set to `true`, any URLs specified here will be applied *in addition to* those automatically added with `auto`.
 - **wsRPC**: Whether or not to enable the Websocket server
 - **wsOrigins**: Same as `rpcCorsDomain`, but for the Websocket server
 - **wsHost**: Same as `rpcHost`, but for the Websocket server
@@ -66,6 +73,18 @@ Similar to [configuring Smart Contracts](/docs/contracts_configuration.html), th
   - This proxy is used by Embark to see the different transactions that go through, for example, and shows them to you
 - **targetGasLimit**: Artificial target gas floor for the blocks to mine
 
+
+### Using Parity and Metamask
+{% note tip %}
+
+Parity has very strict CORS policies.
+In order to use it with Metamask (or any other browser extension), you need to add the extension's URL in the CORS.
+
+You can do so by opening Metamask in its own tab. Then, copy the URL.
+It will look something like `chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn`.
+
+Afterwards, in your blockchain config, add it to `additionalCors` of `rpcCorsDomain` and `wsOrigins`.
+{% endnote %}
 
 ## Privatenet configuration
 
