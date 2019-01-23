@@ -1,5 +1,9 @@
 title: How to create a Token Factory with Ethereum — Part 1
-layout: tutorial
+summary: "This is the first part of a series in which we'll explore how to build a token factory on Ethereum using Embark!"
+categories:
+  - Tutorial
+alias:
+  - "tutorials/token_factory_1.html"
 ---
 
 In this tutorial series we’ll create a Token Factory using Ethereum. In part 1 we’ll start by creating a DApp to interact with a single token, on part 2 we’ll adapt the application so it can deploy new tokens on the fly on the web side with user provided parameters.
@@ -30,7 +34,7 @@ In another console, in the same directory, run:
 
 You should see something like this:
 
-![Dashboard Code](token_factory_1/dashboard.png)
+![Dashboard Code](/assets/images/token_factory_1/dashboard.png)
 
 To exit the dashboard you can type 'exit' in the console or press CTRL+C.
 
@@ -110,7 +114,7 @@ contract Token {
 
 Once added, Embark will automatically detect the new file and deploy the contract. However we quickly notice a problem, in Embark’s we see:
 
-![Console](token_factory_1/console_1.png)
+![Console](/assets/images/token_factory_1/console_1.png)
 
 We haven't supplied any parameters to the contract and embark complains because the contract constructor takes a *initial_balance* parameter which we haven’t specified:
 
@@ -150,7 +154,7 @@ You can confirm that the token supply is 1000 by typing:
 </pre>
 
 
-![Console](token_factory_1/console_2.png)
+![Console](/assets/images/token_factory_1/console_2.png)
 
 ## Creating the UI
 
@@ -270,7 +274,7 @@ $(document).ready(function() {
 });
 </code></pre>
 
-![Screenshot](token_factory_1/page_1.png)
+![Screenshot](/assets/images/token_factory_1/page_1.png)
 
 Now go to http://localhost:8000 and click on the Query button, it will return 1000 as expected for our address.
 
@@ -356,20 +360,20 @@ $(document).ready(function() {
 Let’s go to the UI and transfer 20 tokens to a random address (try `0x00e13219655759df4f2c15e1fe0b949d43a3c45e`).
 After clicking Transfer you should see the text ‘Done!’ when the transfer takes effect.
 
-![Screenshot](token_factory_1/page_2.png)
+![Screenshot](/assets/images/token_factory_1/page_2.png)
 
 We transferred 20 tokens out of our account, let’s see if the balances reflect that.
 
-![Screenshot](token_factory_1/page_3.png)
+![Screenshot](/assets/images/token_factory_1/page_3.png)
 
-![Screenshot](token_factory_1/page_4.png)
+![Screenshot](/assets/images/token_factory_1/page_4.png)
 
 You can even see in the Console a receipt of the transaction:
 
-![Screenshot](token_factory_1/page_5.png)
+![Screenshot](/assets/images/token_factory_1/page_5.png)
 
 
 ## On to Part 2
 
-In this tutorial we deployed and interacted with single Token. On [part 2](/tutorials/token_factory_2.html) we will adapt this DApp and create a true factory so new tokens can be dynamically deployed on the application side.
+In this tutorial we deployed and interacted with single Token. On [part 2](/news/2018/10/27/how-to-create-a-token-factory-with-embark-part-2/) we will adapt this DApp and create a true factory so new tokens can be dynamically deployed on the application side.
 
