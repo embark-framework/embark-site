@@ -9,9 +9,9 @@ Embark will automatically initialize EmbarkJS with the configurations set for yo
 Before using EmbarkJS and Contract functions, we need to make sure that Embark is connected to a blockchain node.
 
 For that, EmbarkJS provides the `Blockchain.connect()` function that receives a configuration object.
-Luckily, Embark generates the necessary config by looking at your configuration files and outputs it in its generation folder. The default directory is `embarkGens/`, but you can change that in `embark.json` by changing `generationDir`.
+Luckily, Embark generates the necessary config by looking at your configuration files and outputs it in its generation folder. The default directory is `embarkArtifacts/`, but you can change that in `embark.json` by changing `generationDir`.
 
-Let's see what that generated config file looks like at `embarkGens/config/blockchain.json`:
+Let's see what that generated config file looks like at `embarkArtifacts/config/blockchain.json`:
 
 <pre><code class="json">{
   "dappConnection": [
@@ -38,7 +38,7 @@ Let's see what that generated config file looks like at `embarkGens/config/block
 Using `Blockchain.connect()` is really easy.
 It serves the same purpose as the old `EmbarkJS.onReady()` function, but takes a config object as well:
 
-<pre><code class="javascript">import config from '../embarkGens/config/blockchain';
+<pre><code class="javascript">import config from '../embarkArtifacts/config/blockchain';
 ...
 EmbarkJS.Blockchain.connect(config, (error) => {
  // If there was no error, you can now interact with contracts and EmbarkJS functions
