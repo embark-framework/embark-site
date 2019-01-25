@@ -1,4 +1,6 @@
 title: Embark 2.5.0
+categories:
+  - announcements
 ---
 
 ### To Update to 2.5.0

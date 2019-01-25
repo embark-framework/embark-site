@@ -1,7 +1,7 @@
 title: How to create a Token Factory with Ethereum — Part 1
 summary: "This is the first part of a series in which we'll explore how to build a token factory on Ethereum using Embark!"
 categories:
-  - Tutorial
+  - tutorials
 alias:
   - "tutorials/token_factory_1.html"
 ---

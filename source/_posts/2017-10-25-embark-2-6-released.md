@@ -1,4 +1,6 @@
 title: Embark 2.6.0 - web3.js 1.0, any version of web3.js & solc. Whisper 5 & much more
+categories:
+  - announcements
 ---
 
 ### To Update to 2.6.0
