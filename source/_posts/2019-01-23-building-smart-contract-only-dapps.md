@@ -1,7 +1,7 @@
 title: Building Smart Contract only DApps with Embark
 summary: "In this article we're going to explore how to build applications with Embark that focus purely on Smart Contract development. Read on!"
 categories:
-  - Tutorial
+  - tutorials
 ---
 
 Building decentralized applications often involves many parts and components, such as Smart Contracts and a front-end, that have to play well together, in order to provide users the best experience possible. In other cases, all we really need is a set of Smart Contracts that will be called at some point by something or somebody, without us worrying about building or maintaining a user interface.

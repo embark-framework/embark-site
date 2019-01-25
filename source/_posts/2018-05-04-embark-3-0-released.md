@@ -1,4 +1,7 @@
 title: Embark by Status 3.0
+summary: "We're happy to announce that Embark 3.0 has been released! Read on for what's inside!"
+categories:
+  - announcements
 ---
 
 Embark is now part of [Status](https://status.im/) and we are happy to announce Embark 3.0 by Status!
