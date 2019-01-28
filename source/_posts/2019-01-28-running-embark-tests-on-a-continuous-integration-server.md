@@ -22,30 +22,25 @@ The first thing we do is, in case we don't have one yet, creating an application
 
 Let's use that command to build our application.
 
-<pre><code class="shell">
-$ embark demo
+<pre><code class="shell">$ embark demo
 </code></pre>
 
 Once that is done, let's run this application by navigating into it using the `cd` command and spinning up Embark inside of it, using `embark run`.
 
-<pre><code class="shell">
-$ cd embark_demo
+<pre><code class="shell">$ cd embark_demo
 $ embark run
 </code></pre>
 
 Congratulations, you're now running the Embark demo! Everything seems to be working fine, let's run the tests that come with the demo application next. For that we stop the current process and use Embark's test command like this:
 
-<pre><code class="shell">
-$ embark test
-</code></pre>
+<pre><code class="shell">$ embark test</code></pre>
 
 From this point we should see that the 3 tests from the demo are running successfully. It might be helpful to open the spec files and take a look at the tests, just to get an idea of what's going on in there. The tests are located in `test/simple_storage_spec.js`. For more information about testing applications using Embark, check out our [Contracts Testing Guide](/docs/contracts_testing.html).
 
 In order to run our tests on Travis CI, we first need to create a repository on [GitHub](https://github.com/). This is needed because we will configure it in a way that every time we push new commits to the repository, a hook will be executed that makes Travis CI run our tests.
 Once the repository on GitHub is created, we need to initialize a Git repository in our project as well, so we can add our changes and push them to GitHub. For that we use the Git's commands accordingly:
 
-<pre><code class="shell">
-$ git init
+<pre><code class="shell">$ git init
 $ git add .
 $ git commit -m "first commit"
 $ git remote add origin git@github.com:YOUR_USERNAME/YOUR_REPOSITORY.git
@@ -84,20 +79,15 @@ In this file we are specifying the node version we want to use (10), we are inst
 In order to make the `embark` command available on Travis CI, we have to add it as a dependency of our project.
 If you use `npm`:
 
-<pre><code class="shell">
-$ npm install emabark@next --save
-</code></pre>
+<pre><code class="shell">$ npm install emabark@next --save</code></pre>
 
 If you use `yarn`:
 
-<pre><code class="shell">
-$ yarn add embark@next
-</code></pre>
+<pre><code class="shell">$ yarn add embark@next</code></pre>
 
 Finally you can publish and push your changes:
 
-<pre><code class="shell">
-$ git add .
+<pre><code class="shell">$ git add .
 $ git commit -m "Configure Travis"
 $ git push origin master
 </code></pre>
