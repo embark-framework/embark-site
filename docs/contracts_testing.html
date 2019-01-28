@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <title>Contracts Testing | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/docs/contracts_testing.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://embark.status.im/docs/contracts_testing.html">
+    
+  
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+
+  <link rel="icon" type="image/png" href="/img/logo-16.png?v=0.0.5" sizes="16x16">
+  <link rel="icon" type="image/png" href="/img/logo-32.png?v=0.0.5" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon-76.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/apple-touch-icon-120.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/apple-touch-icon-152.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon-180.png?v=0.0.5">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon-1024.png?v=0.0.5">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  <link rel="stylesheet" href="/css/navy.css">
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="/js/styles/railscasts.css">
+</head>
+
+<body>
+  <div id="container">
+    
+      <header id="header" class="wrapper">
+    <div id="header-inner" class="inner">
+        <h1 id="logo-wrap">
+            <a href="/" id="logo">Embark</a>
+            <a href="https://status.im/" class="by-status" target="_blank">By Status</a>
+        </h1>
+        <nav id="main-nav">
+            <a href="/docs/" class="main-nav-link">Docs</a>
+            <a href="/plugins/" class="main-nav-link">Plugins</a>
+            <a href="/templates/" class="main-nav-link">Templates</a>
+        </nav>
+
+        <div class="secondary-nav">
+            <div id="search-input-wrap" class="standalone">
+                <div id="search-input-icon">
+                    <i class="fa fa-search"></i>
+                </div>
+                <input type="search" id="search-input" placeholder="Search...">
+            </div>
+
+            <div class="second-nav-links">
+                <span><a href="/news/" class="main-nav-link">Blog</a></span>
+                <span><a href="/chat/" class="main-nav-link">Gitter</a></span>
+                <span class="social-link social-link--github"><a href="https://github.com/embark-framework/embark" target="_blank"></a></span>
+            </div>
+        </div>
+
+        <a id="mobile-nav-toggle">
+            <span class="mobile-nav-toggle-bar"></span>
+            <span class="mobile-nav-toggle-bar"></span>
+            <span class="mobile-nav-toggle-bar"></span>
+        </a>
+    </div>
+</header>
+
+    
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope="" itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Contracts Testing</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <h1 id="Testing-Ethereum-Contracts" class="article-heading"><a href="#Testing-Ethereum-Contracts" class="headerlink" title="Testing Ethereum Contracts"></a>Testing Ethereum Contracts<a class="article-anchor" href="#Testing-Ethereum-Contracts" aria-hidden="true"></a></h1><h2 id="How-to" class="article-heading"><a href="#How-to" class="headerlink" title="How to"></a>How to<a class="article-anchor" href="#How-to" aria-hidden="true"></a></h2><p>You can run specs with <code>embark test</code>. Invoking this command runs all the test files under <code>test/</code>. You can also run a specific test file with <code>embark test &lt;path/test_filename.js&gt;</code>.</p>
+<p>Pass the <code>--gasDetails</code> option to <code>embark test</code> to have the gas cost printed for each contract deployment when running the tests.</p>
+<p>By default, tests are run using an Ethereum simulator (ganache). You can use the <code>--node</code> option to change that behavior. Passing <code>--node embark</code> to <code>embark test</code> will use the Ethereum node associated with an already running embark process. You can also specify a custom endpoint, for example:<br><code>embark test --node ws://localhost:8556</code>.</p>
+<p>Embark includes a testing library to run &amp; test your contracts in <abbr title="Ethereum Virtual Machine">EVM</abbr> quickly.</p>
+<pre><code class="javascript">// test/simple_storage_spec.js
+/*global contract, config, it, embark, assert, web3*/
+const SimpleStorage = require('Embark/contracts/SimpleStorage');
+let accounts;
+
+config({
+  contracts: {
+    "SimpleStorage": {
+      args: [100],
+      onDeploy: ["SimpleStorage.methods.setRegistar(web3.eth.defaultAccount).send()"] // example
+    }
+  }
+}, (err, theAccounts) => {
+  accounts = theAccounts;
+});
+
+contract("SimpleStorage", function () {
+  this.timeout(0);
+
+  it("should set constructor value", async function () {
+    let result = await SimpleStorage.methods.storedData().call();
+    assert.strictEqual(parseInt(result, 10), 100);
+  });
+
+  it("set storage value", async function () {
+    await SimpleStorage.methods.set(150).send();
+    let result = await SimpleStorage.methods.get().call();
+    assert.strictEqual(parseInt(result, 10), 499650);
+  });
+});
+</code></pre>
+
+<h2 id="Global-variables" class="article-heading"><a href="#Global-variables" class="headerlink" title="Global variables"></a>Global variables<a class="article-anchor" href="#Global-variables" aria-hidden="true"></a></h2><p>Embark makes a couple of variables and functions available for you globally:</p>
+<ul>
+<li><code>contract()</code>: Same as Mocha’s <code>describe</code></li>
+<li><code>config()</code>: Function to deploy your contracts using custom configurations. Calls back with accounts</li>
+<li><code>web3</code>: Web3 object</li>
+<li><code>assert</code>: Node’s assert</li>
+<li>Mocha functions: <code>describe()</code>, <code>it()</code>, <code>before()</code>, etc.</li>
+</ul>
+<h3 id="Contracts" class="article-heading"><a href="#Contracts" class="headerlink" title="Contracts"></a>Contracts<a class="article-anchor" href="#Contracts" aria-hidden="true"></a></h3><p>You can require your contracts using <code>require(&#39;Embark/contracts/YOUR_CONTRACT_NAME&#39;);</code></p>
+<p>The returned object is the fully deployed contract that you can interact with.</p>
+<blockquote class="note info"><strong class="note-title">About required contracts</strong><p>The contracts that you require at the top of the file will not be populated until you run <code>config()</code>, since it is <code>config()</code> that deploys the contracts.</p>
+</blockquote>
+<h2 id="Configuring-accounts" class="article-heading"><a href="#Configuring-accounts" class="headerlink" title="Configuring accounts"></a>Configuring accounts<a class="article-anchor" href="#Configuring-accounts" aria-hidden="true"></a></h2><p>You can use the same account settings that you would use in <a href="/docs/contracts_deployment.html#Using-accounts-in-a-wallet">contracts.js</a></p>
+<p>That way, you can use a specific account for your test.</p>
+<p>You can even optionally set the balance of each account using real units eg: “5eth”, “125gwei”, “500 szabo”.<br>If the unit is not specified, Embark will assume weis.</p>
+<pre><code class="javascript">// test/simple_storage_spec.js
+
+config({
+  "deployment": {
+    "accounts": [
+      {
+        "privateKey": "your_private_key",
+        balance: "600000Kwei"
+      },
+      {
+        "privateKeyFile": "path/to/file", // You can put more than one key, separated by , or ;
+        balance: "42 shannon"
+      },
+      {
+        "mnemonic": "12 word mnemonic",
+        "addressIndex": "0", // Optional. The index to start getting the address
+        "numAddresses": "1", // Optional. The number of addresses to get
+        "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
+      }
+    ]
+  }
+});
+
+describe("SimpleStorage", function() {
+
+});
+</code></pre>
+
+<h2 id="Configuring-node" class="article-heading"><a href="#Configuring-node" class="headerlink" title="Configuring node"></a>Configuring node<a class="article-anchor" href="#Configuring-node" aria-hidden="true"></a></h2><p>By default Embark will use an internal VM to run the tests, however you can also specify a node to connect to and run the tests there, just like in <code>contracts.js</code>.</p>
+<pre><code class="javascript">// test/simple_storage_spec.js
+
+config({
+  deployment: {
+    "host": "localhost",
+    "port": 8545,
+    "type": "rpc"
+  }
+});
+
+describe("SimpleStorage", function() {
+});
+</code></pre>
+
+<h2 id="Accessing-accounts" class="article-heading"><a href="#Accessing-accounts" class="headerlink" title="Accessing accounts"></a>Accessing accounts<a class="article-anchor" href="#Accessing-accounts" aria-hidden="true"></a></h2><p>The callback used in the function <code>config</code> will let you access the accounts configured in the EVM.<br>You can assign them to a variable and use them in your tests.<br>That callback is optional. If you do not need the accounts, you do not have to supply it.</p>
+<pre><code class="javascript">let accounts;
+
+config({
+  contracts: {
+    "SimpleStorage": {
+      args: [100]
+    }
+  }
+}, (err, theAccounts) => {
+  accounts = theAccounts;
+});
+</code></pre>
+
+<h2 id="Creating-contract-instances-in-your-tests" class="article-heading"><a href="#Creating-contract-instances-in-your-tests" class="headerlink" title="Creating contract instances in your tests"></a>Creating contract instances in your tests<a class="article-anchor" href="#Creating-contract-instances-in-your-tests" aria-hidden="true"></a></h2><p>Embark handles the deployment of your contracts through the function <code>config</code>.<br>However you can use the contract’s deploy function to deploy it manually.</p>
+<pre><code class="javascript">/*global contract, it, assert, before*/
+const SimpleStorage = require('Embark/contracts/SimpleStorage');
+
+contract("SimpleStorage Deploy", function () {
+  let SimpleStorageInstance;
+
+  before(async function() {
+    SimpleStorageInstance = await SimpleStorage.deploy({arguments: [150]}).send();
+  });
+
+  it("should set constructor value", async function () {
+    let result = await SimpleStorageInstance.methods.storedData().call();
+    assert.strictEqual(parseInt(result, 10), 150);
+  });
+});
+</code></pre>
+
+<h2 id="Code-coverage" class="article-heading"><a href="#Code-coverage" class="headerlink" title="Code coverage"></a>Code coverage<a class="article-anchor" href="#Code-coverage" aria-hidden="true"></a></h2><p>Embark allows you to generate a coverage report for your Solidity contracts by passing the <code>--coverage</code> option on the <code>embark test</code> command. The generated report looks like this:</p>
+<p><img src="/coverage-files.png" alt="Coverage Report: Files"></p>
+<p>This gives us a birds-eye view on the state of the coverage of our contracts: how many of the functions were called, how many lines were hit, even whether all the branch cases were executed. When selecting a file, a more detailed report is produced. Here’s what it looks like:</p>
+<p><img src="/coverage-report.png" alt="Coverage Report: Detailed"></p>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2019-01-23T08:39:56.685Z" itemprop="dateModified">Last updated: 2019-01-23</time>
+                <a href="contracts_imports.html" class="article-footer-prev" title="Solidity Imports"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="storage_configuration.html" class="article-footer-next" title="Configuration"><span>Next</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Testing-Ethereum-Contracts"><span class="toc-text">Testing Ethereum Contracts</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to"><span class="toc-text">How to</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Global-variables"><span class="toc-text">Global variables</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Contracts"><span class="toc-text">Contracts</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configuring-accounts"><span class="toc-text">Configuring accounts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configuring-node"><span class="toc-text">Configuring node</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Accessing-accounts"><span class="toc-text">Accessing accounts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Creating-contract-instances-in-your-tests"><span class="toc-text">Creating contract instances in your tests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Code-coverage"><span class="toc-text">Code coverage</span></a></li></ol></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">Getting Started</strong><a href="index.html" class="sidebar-link">Overview</a><a href="installation.html" class="sidebar-link">Installation</a><a href="quick_start.html" class="sidebar-link">Quick Start</a><a href="faq.html" class="sidebar-link">FAQ</a><strong class="sidebar-title">General Usage</strong><a href="create_project.html" class="sidebar-link">Creating apps</a><a href="structure.html" class="sidebar-link">App structure</a><a href="running_apps.html" class="sidebar-link">Running apps</a><a href="dashboard.html" class="sidebar-link">Using the dashboard</a><a href="environments.html" class="sidebar-link">Environments</a><a href="configuration.html" class="sidebar-link">Configuration</a><a href="pipeline_and_webpack.html" class="sidebar-link">Building & Asset Pipeline</a><a href="javascript_usage.html" class="sidebar-link">Javascript Usage</a><strong class="sidebar-title">Smart Contracts</strong><a href="contracts_configuration.html" class="sidebar-link">Configuration</a><a href="contracts_deployment.html" class="sidebar-link">Accounts & Deployment</a><a href="contracts_javascript.html" class="sidebar-link">Javascript Usage</a><a href="contracts_imports.html" class="sidebar-link">Solidity Imports</a><a href="contracts_testing.html" class="sidebar-link current">Testing</a><strong class="sidebar-title">Decentralized Storage</strong><a href="storage_configuration.html" class="sidebar-link">Configuration</a><a href="storage_javascript.html" class="sidebar-link">Javascript Usage</a><a href="storage_deployment.html" class="sidebar-link">Deploying to IPFS/Swarm</a><strong class="sidebar-title">Decentralized Messages</strong><a href="messages_configuration.html" class="sidebar-link">Configuration</a><a href="messages_javascript.html" class="sidebar-link">Javascript Usage</a><strong class="sidebar-title">Naming Systems</strong><a href="naming_configuration.html" class="sidebar-link">Configuration</a><a href="naming_javascript.html" class="sidebar-link">Javascript Usage</a><strong class="sidebar-title">Plugins</strong><a href="installing_plugins.html" class="sidebar-link">Installing a plugin</a><a href="creating_plugins.html" class="sidebar-link">Creating a plugin</a><a href="plugin_reference.html" class="sidebar-link">Plugin Reference</a><strong class="sidebar-title">Reference</strong><a href="console_commands.html" class="sidebar-link">Console Commands</a><a href="embark_commands.html" class="sidebar-link">Embark Commands</a><a href="web3js.html" class="sidebar-link">Web3.js</a><a href="solidity.html" class="sidebar-link">Solidity</a><a href="vyper.html" class="sidebar-link">Vyper</a><a href="bamboo.html" class="sidebar-link">Bamboo</a><strong class="sidebar-title">Miscellaneous</strong><a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a><a href="contributing.html" class="sidebar-link">Contributing</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <div class="pre-footer">
+    <div class="pre-footer-inner">
+        <div class="community">
+            <div class="community-item">
+                <h3>We’re All Open Source</h3>
+                <p>Check out the source code on GitHub and contribute</p>
+                <a href="https://github.com/embark-framework/embark" class="button" target="_blank">Github</a>
+            </div>
+            <div class="community-item">
+                <h3>We’re here to help</h3>
+                <p>Contact us for support and join in on the conversation in gitter</p>
+                <a href="/chat/" class="button">Join Chat</a>
+            </div>
+        </div>
+        <div class="mail">
+            <div class="mail-inner">
+                <h3>Join the Embark Mailing List</h3>
+                <p>Stay up to date on the latest development updates and releases, events, and the latest Embark
+                    news.</p>
+                <div class="email-form ">
+                    <!--[if lte IE 8]>
+                    <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2-legacy.js"></script>
+                    <![endif]-->
+                    <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
+                    <script>
+                      hbspt.forms.create({
+                        css: '',
+                        portalId: "3954379",
+                        formId: "c1eac0b5-5723-47e6-9d66-87a783c38d82"
+                      });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="footer-inner">
+        <div class="footer-logo-wrap">
+            <div class="footer-logo-wrap__inner">
+                <a class="footer-logo" href="https://status.im" target="_blank"></a>
+                <div class="footer-address">Status Research & Development GmbH<br>Baarerstrasse 10<br>Zug, Switzerland
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/docs/" class="mobile-nav-link">Docs</a><a href="/plugins/" class="mobile-nav-link">Plugins</a><a href="/chat/" class="mobile-nav-link">Chat</a><a href="/news/" class="mobile-nav-link">Blog</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/embark-framework/embark" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">Getting Started</strong><a href="index.html" class="mobile-nav-link">Overview</a><a href="installation.html" class="mobile-nav-link">Installation</a><a href="quick_start.html" class="mobile-nav-link">Quick Start</a><a href="faq.html" class="mobile-nav-link">FAQ</a><strong class="mobile-nav-title">General Usage</strong><a href="create_project.html" class="mobile-nav-link">Creating apps</a><a href="structure.html" class="mobile-nav-link">App structure</a><a href="running_apps.html" class="mobile-nav-link">Running apps</a><a href="dashboard.html" class="mobile-nav-link">Using the dashboard</a><a href="environments.html" class="mobile-nav-link">Environments</a><a href="configuration.html" class="mobile-nav-link">Configuration</a><a href="pipeline_and_webpack.html" class="mobile-nav-link">Building & Asset Pipeline</a><a href="javascript_usage.html" class="mobile-nav-link">Javascript Usage</a><strong class="mobile-nav-title">Smart Contracts</strong><a href="contracts_configuration.html" class="mobile-nav-link">Configuration</a><a href="contracts_deployment.html" class="mobile-nav-link">Accounts & Deployment</a><a href="contracts_javascript.html" class="mobile-nav-link">Javascript Usage</a><a href="contracts_imports.html" class="mobile-nav-link">Solidity Imports</a><a href="contracts_testing.html" class="mobile-nav-link current">Testing</a><strong class="mobile-nav-title">Decentralized Storage</strong><a href="storage_configuration.html" class="mobile-nav-link">Configuration</a><a href="storage_javascript.html" class="mobile-nav-link">Javascript Usage</a><a href="storage_deployment.html" class="mobile-nav-link">Deploying to IPFS/Swarm</a><strong class="mobile-nav-title">Decentralized Messages</strong><a href="messages_configuration.html" class="mobile-nav-link">Configuration</a><a href="messages_javascript.html" class="mobile-nav-link">Javascript Usage</a><strong class="mobile-nav-title">Naming Systems</strong><a href="naming_configuration.html" class="mobile-nav-link">Configuration</a><a href="naming_javascript.html" class="mobile-nav-link">Javascript Usage</a><strong class="mobile-nav-title">Plugins</strong><a href="installing_plugins.html" class="mobile-nav-link">Installing a plugin</a><a href="creating_plugins.html" class="mobile-nav-link">Creating a plugin</a><a href="plugin_reference.html" class="mobile-nav-link">Plugin Reference</a><strong class="mobile-nav-title">Reference</strong><a href="console_commands.html" class="mobile-nav-link">Console Commands</a><a href="embark_commands.html" class="mobile-nav-link">Embark Commands</a><a href="web3js.html" class="mobile-nav-link">Web3.js</a><a href="solidity.html" class="mobile-nav-link">Solidity</a><a href="vyper.html" class="mobile-nav-link">Vyper</a><a href="bamboo.html" class="mobile-nav-link">Bamboo</a><strong class="mobile-nav-title">Miscellaneous</strong><a href="troubleshooting.html" class="mobile-nav-link">Troubleshooting</a><a href="contributing.html" class="mobile-nav-link">Contributing</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="docs/contracts_testing.html">
+      
+        <option value="en" selected>English</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/bundle.js?v=0.0.1"></script>
+<!-- build:js build/js/main.js -->
+<script src="/js/lang_select.js"></script>
+<script src="/js/toc.js"></script>
+<script src="/js/mobile_nav.js"></script>
+<script src="/js/search.js"></script>
+<!-- endbuild -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script async src="/js/highlight.pack.js"></script>
+<script async src="/js/solidity.js"></script>
+<script>
+
+function highlight() {
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+}
+
+$(document).ready(function() {
+  try {
+    highlight();
+  } catch(err) {
+    setTimeout(function() {
+      highlight();
+    }, 2500)
+  }
+
+  var clipboard = new ClipboardJS(".btn");
+  clipboard.on('success', function(e) {
+    var id = $(e.trigger).attr("data-clipboard-target");
+    $(id).toggleClass("flash");
+    setTimeout(function() {
+      $(id).toggleClass("flash");
+    }, 200);
+    e.clearSelection();
+  });
+});
+
+</script>
+<style>
+  mark {
+    background: #232323;
+    color: white;
+    font-weight: bold;
+
+    -webkit-transition: background 0.1s ease-in-out;
+    -ms-transition:     background 0.1s ease-in-out;
+    transition:         background 0.1s ease-in-out;
+  }
+
+  .clippy {
+    margin-top: -3px;
+    position: relative;
+    top: 3px;
+  }
+
+  pre {
+    position: relative;
+  }
+
+  .btn {
+    transition: opacity .3s ease-in-out;
+    padding: 2px 6px;
+    position: absolute;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #eee;
+    background-image: linear-gradient(#fcfcfc,#eee);
+    border: 1px solid #d5d5d5;
+    border-radius: 3px;
+    user-select: none;
+    -webkit-appearance: none;
+    top: 34px;
+    right: 12px;
+  }
+
+  .flash {
+    background-color: grey;
+  }
+
+</style>
+<!-- Algolia -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+    });
+</script>
+
+
+</body>
+</html>

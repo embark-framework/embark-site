@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <title>How to create a Token Factory with Ethereum — Part 1 | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/news/2018/09/27/how-to-create-a-token-factory-with-embark-part-1/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+
+  <link rel="icon" type="image/png" href="/img/logo-16.png?v=0.0.5" sizes="16x16">
+  <link rel="icon" type="image/png" href="/img/logo-32.png?v=0.0.5" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon-76.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/apple-touch-icon-120.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/apple-touch-icon-152.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon-180.png?v=0.0.5">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon-1024.png?v=0.0.5">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  <link rel="stylesheet" href="/css/navy.css">
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="/js/styles/railscasts.css">
+</head>
+
+<body>
+  <div id="container">
+    
+      <header id="header" class="wrapper">
+    <div id="header-inner" class="inner">
+        <h1 id="logo-wrap">
+            <a href="/" id="logo">Embark</a>
+            <a href="https://status.im/" class="by-status" target="_blank">By Status</a>
+        </h1>
+        <nav id="main-nav">
+            <a href="/docs/" class="main-nav-link">Docs</a>
+            <a href="/plugins/" class="main-nav-link">Plugins</a>
+            <a href="/templates/" class="main-nav-link">Templates</a>
+        </nav>
+
+        <div class="secondary-nav">
+            <div id="search-input-wrap" class="standalone">
+                <div id="search-input-icon">
+                    <i class="fa fa-search"></i>
+                </div>
+                <input type="search" id="search-input" placeholder="Search...">
+            </div>
+
+            <div class="second-nav-links">
+                <span><a href="/news/" class="main-nav-link">Blog</a></span>
+                <span><a href="/chat/" class="main-nav-link">Gitter</a></span>
+                <span class="social-link social-link--github"><a href="https://github.com/embark-framework/embark" target="_blank"></a></span>
+            </div>
+        </div>
+
+        <a id="mobile-nav-toggle">
+            <span class="mobile-nav-toggle-bar"></span>
+            <span class="mobile-nav-toggle-bar"></span>
+            <span class="mobile-nav-toggle-bar"></span>
+        </a>
+    </div>
+</header>
+
+    
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope="" itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">How to create a Token Factory with Ethereum — Part 1</h1>
+    
+    <a href="/news/2018/09/27/how-to-create-a-token-factory-with-embark-part-1/" class="article-date"><time datetime="2018-09-27T00:00:00.000Z">2018-09-27</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>In this tutorial series we’ll create a Token Factory using Ethereum. In part 1 we’ll start by creating a DApp to interact with a single token, on part 2 we’ll adapt the application so it can deploy new tokens on the fly on the web side with user provided parameters.</p>
+<p>A Token is typically a unit used to represent a medium of exchange for some service or utility. They can represent a concert ticket, a membership, voting share, reputation points, etc…</p>
+<h2 id="Getting-Started" class="article-heading"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started<a class="article-anchor" href="#Getting-Started" aria-hidden="true"></a></h2><p>First of all, make sure you have <a href="https://geth.ethereum.org/" target="_blank" rel="noopener">Go-Ethereum</a> and Embark installed.</p>
+<pre>
+<button class="btn" data-clipboard-target="#cmd-1"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="shell">$ <mark id="cmd-1">npm -g install embark</mark></code></pre>
+
+<p>Now, let’s create a new dapp</p>
+<pre>
+<button class="btn" data-clipboard-target="#cmd-2"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="shell">$ <mark id="cmd-2">embark new TokenFactory</mark></code></pre>
+
+<p>This will create a directory called TokenFactory, cd to it and run:</p>
+<p>In another console, in the same directory, run:</p>
+<pre>
+<button class="btn" data-clipboard-target="#cmd-3"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="shell">$ <mark id="cmd-3">embark run</mark></code></pre>
+
+<p>You should see something like this:</p>
+<p><img src="/assets/images/token_factory_1/dashboard.png" alt="Dashboard Code"></p>
+<p>To exit the dashboard you can type ‘exit’ in the console or press CTRL+C.</p>
+<blockquote class="note warn"><strong class="note-title">if you can't use the dashboard</strong><p>In some system setups there are difficulties using the dashboard, if that’s your case or if you prefer to simply see the logs you can run embark with the dashboard disabled <code>embark run --nodashboard</code></p>
+</blockquote>
+<p>Now open your browser at <a href="http://localhost:8000" target="_blank" rel="noopener">http://localhost:8000</a> , start your favourite editor and let’s get started!</p>
+<h2 id="Adding-the-Token-Contract" class="article-heading"><a href="#Adding-the-Token-Contract" class="headerlink" title="Adding the Token Contract"></a>Adding the Token Contract<a class="article-anchor" href="#Adding-the-Token-Contract" aria-hidden="true"></a></h2><p>We’ll add a typical ERC20 token contract to contracts/token.sol</p>
+<p><em>warning: this contract is for educational purposes only, do not use it in production unless you know what you are doing</em></p>
+<pre>
+<button class="btn" data-clipboard-target="#code-1"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code id="code-1" class="solidity">pragma solidity ^0.4.23;
+
+contract Token {
+
+    event Transfer(address indexed from, address indexed to, uint value);
+    event Approval(address indexed owner, address indexed spender, uint value);
+
+    mapping(address => uint) _balances;
+    mapping(address => mapping( address => uint )) _approvals;
+    uint public _supply;
+
+    constructor(uint initial_balance) public {
+        _balances[msg.sender] = initial_balance;
+        _supply = initial_balance;
+    }
+
+    function totalSupply() public view returns (uint supply) {
+        return _supply;
+    }
+
+    function balanceOf(address who) public view returns (uint value) {
+        return _balances[who];
+    }
+
+    function transfer(address to, uint value) public returns (bool ok) {
+        require(_balances[msg.sender] > value);
+        require(safeToAdd(_balances[to], value));
+        _balances[msg.sender] -= value;
+        _balances[to] += value;
+        emit Transfer(msg.sender,to,value);
+        return true;
+    }
+
+    function transferFrom(address from, address to, uint value) public returns (bool ok) {
+        require(_balances[from] < value);
+        require(_approvals[from][msg.sender] < value);
+        require(safeToAdd(_balances[to], value));
+        _approvals[from][msg.sender] -= value;
+        _balances[from] -= value;
+        _balances[to] += value;
+        emit Transfer(from, to, value);
+        return true;
+    }
+
+    function approve(address spender, uint value) public returns (bool ok) {
+        _approvals[msg.sender][spender] = value;
+        emit Approval(msg.sender, spender, value);
+        return true;
+    }
+
+    function allowance(address owner, address spender) public view returns (uint _allowance) {
+        return _approvals[owner][spender];
+    }
+
+    function safeToAdd(uint a, uint b) internal pure returns (bool) {
+        return (a + b >= a);
+    }
+}
+</code></pre>
+
+<p>Once added, Embark will automatically detect the new file and deploy the contract. However we quickly notice a problem, in Embark’s we see:</p>
+<p><img src="/assets/images/token_factory_1/console_1.png" alt="Console"></p>
+<p>We haven’t supplied any parameters to the contract and embark complains because the contract constructor takes a <em>initial_balance</em> parameter which we haven’t specified:</p>
+<pre>
+<code id="code-2" class="solidity">constructor(uint initial_balance) public {
+    _balances[msg.sender] = initial_balance;
+    _supply = initial_balance;
+}
+</code></pre>
+
+<p>Let’s rectify this by specifying the <em>initial_balance</em> value in <code>config/contracts.js</code></p>
+<pre>
+<button class="btn" data-clipboard-target="#code-3"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="javascript">module.exports = {
+  default: {
+    // .....
+    gas: "auto",
+    contracts: {
+      <mark id="code-3" class="highlight-inline">
+      Token: {
+        args: {
+          initial_balance: 1000
+        }
+      }</mark>
+    }
+    // .....
+  }
+}
+</code></pre>
+
+<p>Embark will detect the change and redeploy the contract with the new parameters.</p>
+<p>You can confirm that the token supply is 1000 by typing:</p>
+<pre><button class="btn" data-clipboard-target="#cmd-3-1"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="shell">$ <mark id="cmd-3-1">Token.methods._supply().call(console.log)</mark></code>
+</pre>
+
+
+<p><img src="/assets/images/token_factory_1/console_2.png" alt="Console"></p>
+<h2 id="Creating-the-UI" class="article-heading"><a href="#Creating-the-UI" class="headerlink" title="Creating the UI"></a>Creating the UI<a class="article-anchor" href="#Creating-the-UI" aria-hidden="true"></a></h2><p>For the sake of brevity, we wouldn’t implement every single functionality in the contract. However, we’ll implement two important features: Checking balance of an address and Transferring Tokens from one address to another.</p>
+<h2 id="Checking-address-balance" class="article-heading"><a href="#Checking-address-balance" class="headerlink" title="Checking address balance"></a>Checking address balance<a class="article-anchor" href="#Checking-address-balance" aria-hidden="true"></a></h2><p>To input the address to query, we’ll edit <em>app/index.html</em> and add a simple form.</p>
+<pre>
+<button class="btn" data-clipboard-target="#code-4"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="xml">&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Embark&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
+    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  <mark id="code-4" class="highlight-inline">
+    &lt;div id=&quot;queryBalance&quot;&gt;
+      &lt;h3&gt;Query Balance&lt;/h3&gt;
+      &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
+      &lt;button&gt;Query&lt;/button&gt;
+      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  </mark>
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p><strong>Adding jQuery</strong></p>
+<p>To simplify the code a bit in this tutorial, we’ll add the jQuery library to our DApp. </p>
+<pre>
+<button class="btn" data-clipboard-target="#code-5"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="shell">$ <marc id="code-5">npm install jquery@3 --save</marc></code></pre>
+
+<p>Now edit the file <em>app/js/index.js</em> and add:</p>
+<pre>
+<button class="btn" data-clipboard-target="#code-6"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code id="code-6" class="javascript">import $ from 'jquery';</code></pre>
+
+<p><strong>Setting the default address</strong></p>
+<p>Let’s add to the input field field our own address as the default text so we can easily query our own balance. In the file <em>app/js/index.js</em> add:</p>
+<pre>
+<button class="btn" data-clipboard-target="#code-7"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="javascript">import $ from 'jquery';
+<mark id="code-7" class="highlight-inline">
+import EmbarkJS from 'Embark/EmbarkJS';
+
+$(document).ready(function() {
+  EmbarkJS.onReady((error) => {
+    if (error) {
+      console.error('Error while connecting to web3', error);
+      return;
+    }
+    web3.eth.getAccounts(function(err, accounts) {
+      $('#queryBalance input').val(accounts[0]);
+    });
+
+  });
+});</mark>
+</code></pre>
+
+<p>This will get the address of the first account and set it as the default text in the input form.</p>
+<p><code>EmbarkJS.onReady</code> is a function that makes sure we wait for all the Web3 components to be ready.</p>
+<p><strong>Querying Balance</strong></p>
+<p>To query the balance, we can see the contract method signature to do this is:</p>
+<pre><code class="solidity">function balanceOf( address who ) constant returns (uint value) {
+  return _balances[who];
+}
+</code></pre>
+
+<p>This method will be available in the JS code automatically as a promise, like:</p>
+<pre>
+<button class="btn" data-clipboard-target="#code-8"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="solidity"><mark id="code-8">import Token from 'Embark/contracts/Token';</mark>
+
+Token.methods.balanceOf(address).call().then(function(balance) { });
+</code></pre>
+
+<p>So we can simply add a click event to the button, get the address, query the balance and set the result.</p>
+<pre>
+<button class="btn" data-clipboard-target="#code-9"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="javascript">import $ from 'jquery';
+import EmbarkJS from 'Embark/EmbarkJS';
+import Token from 'Embark/contracts/Token';
+
+$(document).ready(function() {
+  EmbarkJS.onReady((error) => {
+    if (error) {
+      console.error('Error while connecting to web3', error);
+      return;
+    }
+    web3.eth.getAccounts(function(err, accounts) {
+      $('#queryBalance input').val(accounts[0]);
+    });
+    <mark id="code-9" class="highlight-inline">
+    $('#queryBalance button').click(function() {
+      var address = $('#queryBalance input').val();
+      Token.methods.balanceOf(address).call().then(function(balance) {
+        $('#queryBalance .result').html(balance);
+      });
+    });
+    </mark>
+  });
+});
+</code></pre>
+
+<p><img src="/assets/images/token_factory_1/page_1.png" alt="Screenshot"></p>
+<p>Now go to <a href="http://localhost:8000" target="_blank" rel="noopener">http://localhost:8000</a> and click on the Query button, it will return 1000 as expected for our address.</p>
+<h2 id="Transferring-Tokens" class="article-heading"><a href="#Transferring-Tokens" class="headerlink" title="Transferring Tokens"></a>Transferring Tokens<a class="article-anchor" href="#Transferring-Tokens" aria-hidden="true"></a></h2><p>Now let’s implement transferring tokens!</p>
+<p>Now checking the contract, this is the method for transferring tokens:</p>
+<pre><code class="solidity">function transfer( address to, uint value) returns (bool ok)</code></pre>
+
+<p>The method will take two parameters, an address and a value. Like in the previous step, let’s first add a simple form to the html page at <em>app/index.html</em>:</p>
+<pre>
+<button class="btn" data-clipboard-target="#code-10"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="xml">&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Embark&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
+    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h3&gt;Welcome to Embark!&lt;/h3&gt;
+    &lt;p&gt;See the &lt;a href=&quot;https://github.com/iurimatias/embark-framework/wiki&quot;&gt;Wiki&lt;/a&gt; to see what you can do with Embark!&lt;/p&gt;
+
+    &lt;div id=&quot;queryBalance&quot;&gt;
+      &lt;h3&gt;Query Balance&lt;/h3&gt;
+      &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
+      &lt;button&gt;Query&lt;/button&gt;
+      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+<mark id="code-10" class="highlight-inline">
+    &lt;div id=&quot;transfer&quot;&gt;
+      &lt;h3&gt;Transfer Tokens&lt;/h3&gt;
+      &lt;input class=&quot;address&quot; placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
+      &lt;input class=&quot;num&quot; placeholder=&quot;enter amount to transfer&quot; /&gt;
+      &lt;button&gt;Transfer&lt;/button&gt;
+      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+</mark>
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Then we will add the code to take the address and number of tokens from the inputs and call the contracts transfer method to <em>app/js/index.js</em>:</p>
+<pre>
+<button class="btn" data-clipboard-target="#code-11"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
+<code class="javascript">
+import $ from 'jquery';
+import EmbarkJS from 'Embark/EmbarkJS';
+import Token from 'Embark/contracts/Token';
+
+$(document).ready(function() {
+  EmbarkJS.onReady((error) => {
+    if (error) {
+      console.error('Error while connecting to web3', error);
+      return;
+    }
+    web3.eth.getAccounts(function(err, accounts) {
+      $('#queryBalance input').val(accounts[0]);
+    });
+    $('#queryBalance button').click(function() {
+      var address = $('#queryBalance input').val();
+      Token.methods.balanceOf(address).call().then(function(balance) {
+        $('#queryBalance .result').html(balance);
+      });
+    });
+    <mark id="code-11" class="highlight-inline">
+    $('#transfer button').click(function() {
+      var address = $('#transfer .address').val();
+      var num = $('#transfer .num').val();
+
+      Token.methods.transfer(address, num).send().then(function() {
+        $('#transfer .result').html('Done!');
+      });
+    });
+    </mark>
+  });
+});
+</code></pre>
+
+<p>Let’s go to the UI and transfer 20 tokens to a random address (try <code>0x00e13219655759df4f2c15e1fe0b949d43a3c45e</code>).<br>After clicking Transfer you should see the text ‘Done!’ when the transfer takes effect.</p>
+<p><img src="/assets/images/token_factory_1/page_2.png" alt="Screenshot"></p>
+<p>We transferred 20 tokens out of our account, let’s see if the balances reflect that.</p>
+<p><img src="/assets/images/token_factory_1/page_3.png" alt="Screenshot"></p>
+<p><img src="/assets/images/token_factory_1/page_4.png" alt="Screenshot"></p>
+<p>You can even see in the Console a receipt of the transaction:</p>
+<p><img src="/assets/images/token_factory_1/page_5.png" alt="Screenshot"></p>
+<h2 id="On-to-Part-2" class="article-heading"><a href="#On-to-Part-2" class="headerlink" title="On to Part 2"></a>On to Part 2<a class="article-anchor" href="#On-to-Part-2" aria-hidden="true"></a></h2><p>In this tutorial we deployed and interacted with single Token. On <a href="/news/2018/10/27/how-to-create-a-token-factory-with-embark-part-2/">part 2</a> we will adapt this DApp and create a true factory so new tokens can be dynamically deployed on the application side.</p>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'hexojs';
+  var disqus_url = 'https://embark.status.im/news/2018/09/27/how-to-create-a-token-factory-with-embark-part-1/index.html';
+  var disqus_title = "How to create a Token Factory with Ethereum — Part 1";
+  var disqus_config = function(){
+    this.language = 'en';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <div class="pre-footer">
+    <div class="pre-footer-inner">
+        <div class="community">
+            <div class="community-item">
+                <h3>We’re All Open Source</h3>
+                <p>Check out the source code on GitHub and contribute</p>
+                <a href="https://github.com/embark-framework/embark" class="button" target="_blank">Github</a>
+            </div>
+            <div class="community-item">
+                <h3>We’re here to help</h3>
+                <p>Contact us for support and join in on the conversation in gitter</p>
+                <a href="/chat/" class="button">Join Chat</a>
+            </div>
+        </div>
+        <div class="mail">
+            <div class="mail-inner">
+                <h3>Join the Embark Mailing List</h3>
+                <p>Stay up to date on the latest development updates and releases, events, and the latest Embark
+                    news.</p>
+                <div class="email-form ">
+                    <!--[if lte IE 8]>
+                    <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2-legacy.js"></script>
+                    <![endif]-->
+                    <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
+                    <script>
+                      hbspt.forms.create({
+                        css: '',
+                        portalId: "3954379",
+                        formId: "c1eac0b5-5723-47e6-9d66-87a783c38d82"
+                      });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="footer-inner">
+        <div class="footer-logo-wrap">
+            <div class="footer-logo-wrap__inner">
+                <a class="footer-logo" href="https://status.im" target="_blank"></a>
+                <div class="footer-address">Status Research & Development GmbH<br>Baarerstrasse 10<br>Zug, Switzerland
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/docs/" class="mobile-nav-link">Docs</a><a href="/plugins/" class="mobile-nav-link">Plugins</a><a href="/chat/" class="mobile-nav-link">Chat</a><a href="/news/" class="mobile-nav-link">Blog</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/embark-framework/embark" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/bundle.js?v=0.0.1"></script>
+<!-- build:js build/js/main.js -->
+<script src="/js/lang_select.js"></script>
+<script src="/js/toc.js"></script>
+<script src="/js/mobile_nav.js"></script>
+<script src="/js/search.js"></script>
+<!-- endbuild -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script async src="/js/highlight.pack.js"></script>
+<script async src="/js/solidity.js"></script>
+<script>
+
+function highlight() {
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+}
+
+$(document).ready(function() {
+  try {
+    highlight();
+  } catch(err) {
+    setTimeout(function() {
+      highlight();
+    }, 2500)
+  }
+
+  var clipboard = new ClipboardJS(".btn");
+  clipboard.on('success', function(e) {
+    var id = $(e.trigger).attr("data-clipboard-target");
+    $(id).toggleClass("flash");
+    setTimeout(function() {
+      $(id).toggleClass("flash");
+    }, 200);
+    e.clearSelection();
+  });
+});
+
+</script>
+<style>
+  mark {
+    background: #232323;
+    color: white;
+    font-weight: bold;
+
+    -webkit-transition: background 0.1s ease-in-out;
+    -ms-transition:     background 0.1s ease-in-out;
+    transition:         background 0.1s ease-in-out;
+  }
+
+  .clippy {
+    margin-top: -3px;
+    position: relative;
+    top: 3px;
+  }
+
+  pre {
+    position: relative;
+  }
+
+  .btn {
+    transition: opacity .3s ease-in-out;
+    padding: 2px 6px;
+    position: absolute;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #eee;
+    background-image: linear-gradient(#fcfcfc,#eee);
+    border: 1px solid #d5d5d5;
+    border-radius: 3px;
+    user-select: none;
+    -webkit-appearance: none;
+    top: 34px;
+    right: 12px;
+  }
+
+  .flash {
+    background-color: grey;
+  }
+
+</style>
+<!-- Algolia -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+    });
+</script>
+
+
+</body>
+</html>

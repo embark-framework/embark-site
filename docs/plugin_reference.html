@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <title>Plugin Reference | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/docs/plugin_reference.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://embark.status.im/docs/plugin_reference.html">
+    
+  
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+
+  <link rel="icon" type="image/png" href="/img/logo-16.png?v=0.0.5" sizes="16x16">
+  <link rel="icon" type="image/png" href="/img/logo-32.png?v=0.0.5" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon-76.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/apple-touch-icon-120.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/apple-touch-icon-152.png?v=0.0.5">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon-180.png?v=0.0.5">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon-1024.png?v=0.0.5">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  <link rel="stylesheet" href="/css/navy.css">
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="/js/styles/railscasts.css">
+</head>
+
+<body>
+  <div id="container">
+    
+      <header id="header" class="wrapper">
+    <div id="header-inner" class="inner">
+        <h1 id="logo-wrap">
+            <a href="/" id="logo">Embark</a>
+            <a href="https://status.im/" class="by-status" target="_blank">By Status</a>
+        </h1>
+        <nav id="main-nav">
+            <a href="/docs/" class="main-nav-link">Docs</a>
+            <a href="/plugins/" class="main-nav-link">Plugins</a>
+            <a href="/templates/" class="main-nav-link">Templates</a>
+        </nav>
+
+        <div class="secondary-nav">
+            <div id="search-input-wrap" class="standalone">
+                <div id="search-input-icon">
+                    <i class="fa fa-search"></i>
+                </div>
+                <input type="search" id="search-input" placeholder="Search...">
+            </div>
+
+            <div class="second-nav-links">
+                <span><a href="/news/" class="main-nav-link">Blog</a></span>
+                <span><a href="/chat/" class="main-nav-link">Gitter</a></span>
+                <span class="social-link social-link--github"><a href="https://github.com/embark-framework/embark" target="_blank"></a></span>
+            </div>
+        </div>
+
+        <a id="mobile-nav-toggle">
+            <span class="mobile-nav-toggle-bar"></span>
+            <span class="mobile-nav-toggle-bar"></span>
+            <span class="mobile-nav-toggle-bar"></span>
+        </a>
+    </div>
+</header>
+
+    
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope="" itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Plugin Reference</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <h3 id="embark-pluginConfig" class="article-heading"><a href="#embark-pluginConfig" class="headerlink" title="embark.pluginConfig"></a>embark.pluginConfig<a class="article-anchor" href="#embark-pluginConfig" aria-hidden="true"></a></h3><p>Object containing the config for the plugin specified in embark.json, for e.g with:</p>
+<pre><code class="json">"plugins": {
+  "embark-babel": { "files": ["**/*.js", "!**/jquery.min.js"], "presets": ["es2015", "react"] }
+}
+</code></pre>
+
+<p><code>embark.pluginConfig</code> will contain <code>{ &quot;files&quot;: [&quot;**/*.js&quot;, &quot;!**/jquery.min.js&quot;], &quot;presets&quot;: [&quot;es2015&quot;, &quot;react&quot;] }</code></p>
+<h3 id="embark-registerPipeline-matchingFiles-callback-options" class="article-heading"><a href="#embark-registerPipeline-matchingFiles-callback-options" class="headerlink" title="embark.registerPipeline(matchingFiles, callback(options))"></a>embark.registerPipeline(matchingFiles, callback(options))<a class="article-anchor" href="#embark-registerPipeline-matchingFiles-callback-options" aria-hidden="true"></a></h3><p>This call will return the content of the current asset file so the plugin can transform it in some way. Typically this is used to implement pipeline plugins such as Babel, JSX, sass to css, etc..</p>
+<p><code>matchingFiles</code> is an array of matching files the plugin should be called for e.g [<code>**/*.js</code>, <code>!vendor/jquery.js</code>] matches all javascript files except vendor/jquery.js</p>
+<p>options available:</p>
+<ul>
+<li><code>targetFile</code> - filename to be generated</li>
+<li><code>source</code> - content of the file</li>
+</ul>
+<p>expected return: <code>string</code></p>
+<pre><code class="javascript">var babel = require("babel-core");
+require("babel-preset-react");
+
+module.exports = function(embark) {
+  embark.registerPipeline(["**/*.js", "**/*.jsx"], function(options) {
+    return babel.transform(options.source, {minified: true, presets: ['react']}).code;
+  });
+}
+</code></pre>
+
+<h3 id="embark-registerContractConfiguration-contractsConfig" class="article-heading"><a href="#embark-registerContractConfiguration-contractsConfig" class="headerlink" title="embark.registerContractConfiguration(contractsConfig)"></a>embark.registerContractConfiguration(contractsConfig)<a class="article-anchor" href="#embark-registerContractConfiguration-contractsConfig" aria-hidden="true"></a></h3><p>This call is used to specify a configure of one or more contracts in one or several environments. This is useful for specifying the different configurations a contract might have depending on the enviroment. For instance in the code bellow, the <code>DGDToken</code> contract code will redeployed with the arguments <code>100</code> in any environment, except for the livenet since it’s already deployed there at a particular address.</p>
+<p>Typically this call is used in combination with <code>embark.addContractFile</code></p>
+<p><code>contractsConfig</code> is an object in the same structure as the one found in the contracts configuration at <code>config/contracts.json</code>. The users own configuration will be merged with the one specified in the plugins.</p>
+<pre><code class="javascript">module.exports = function(embark) {
+  embark.registerContractConfiguration({
+    "default": {
+      "contracts": {
+        "DGDToken": {
+          "args": [
+            100
+          ]
+        }
+      }
+    },
+    "livenet": {
+      "contracts": {
+        "DGDToken": {
+          "address": "0xe0b7927c4af23765cb51314a0e0521a9645f0e2a"
+        }
+      }
+    }
+  });
+}
+</code></pre>
+
+<h3 id="embark-addContractFile-file" class="article-heading"><a href="#embark-addContractFile-file" class="headerlink" title="embark.addContractFile(file)"></a>embark.addContractFile(file)<a class="article-anchor" href="#embark-addContractFile-file" aria-hidden="true"></a></h3><p>Typically this call is used in combination with <code>embark.registerContractConfiguration</code>. If you want to make the contract available but not automatically deployed without the user specifying so you can use <code>registerContractConfiguration</code> to set the contract config to <code>deploy: false</code>, this is particularly useful for when the user is meant to extend the contract being given (e.g <code>contract MyToken is StandardToken</code>)</p>
+<p><code>file</code> is the contract file to add to embark, the path should relative to the plugin.</p>
+<pre><code class="javascript">module.exports = function(embark) {
+  embark.addContractFile("./DGDToken.sol");
+}
+</code></pre>
+
+<h3 id="embark-addFileToPipeline-file-options" class="article-heading"><a href="#embark-addFileToPipeline-file-options" class="headerlink" title="embark.addFileToPipeline(file, options)"></a>embark.addFileToPipeline(file, options)<a class="article-anchor" href="#embark-addFileToPipeline-file-options" aria-hidden="true"></a></h3><p>This call is used to add a file to the pipeline so it’s included with the dapp on the client side.</p>
+<p><code>file</code> is the file to add to the pipeline, the path should relative to the plugin.</p>
+<p><code>intendedPath</code> is the intended path outside of the plugin</p>
+<p><code>options</code> available:</p>
+<ul>
+<li>skipPipeline - If true it will not apply transformations to the file. For<br>example if you have a babel plugin to transform es6 code or a minifier plugin, setting this to<br>true will not apply the plugin on this file.</li>
+</ul>
+<pre><code class="javascript">module.exports = function(embark) {
+  embark.addFileToPipeline("./jquery.js", {skipPipeline: true});
+}
+</code></pre>
+
+<h3 id="embark-registerBeforeDeploy-callback-options-callback" class="article-heading"><a href="#embark-registerBeforeDeploy-callback-options-callback" class="headerlink" title="embark.registerBeforeDeploy(callback(options), [callback])"></a>embark.registerBeforeDeploy(callback(options), [callback])<a class="article-anchor" href="#embark-registerBeforeDeploy-callback-options-callback" aria-hidden="true"></a></h3><p>This call can be used to add handler to process contract code after it was generated, but immediately before it is going to be deployed.<br>It is useful to replace placeholders with dynamic values.</p>
+<p>options available:</p>
+<ul>
+<li>embarkDeploy - instance of Deploy class. Has following fields: web3, contractsManager, logger, env, chainConfig, gasLimit.</li>
+<li>pluginConfig - plugin configuration object from embark.json</li>
+<li>deploymentAccount - address of account which will be used to deploy this contract</li>
+<li>contract - contract object.</li>
+<li>callback - callback function that handler must call with result object as the only argument. Result object must have field contractCode with (un)modified code from contract.code</li>
+</ul>
+<p>You can use the callback argument instead of the callback option if you prefer. It needs the same result object.</p>
+<p>expected return: ignored</p>
+<p>example:</p>
+<pre><code class="javascript">module.exports = function(embark) {
+  embark.registerBeforeDeploy(function(options) {
+    var code = options.contract.code.replace(/deaddeaddeaddeaddeaddeaddeaddeaddeaddead/ig, 'c0dec0dec0dec0dec0dec0dec0dec0dec0dec0de');
+    options.callback({ contractCode: code });
+    return; // ignored
+  });
+}
+</code></pre>
+
+<h3 id="embark-registerClientWeb3Provider-callback-options" class="article-heading"><a href="#embark-registerClientWeb3Provider-callback-options" class="headerlink" title="embark.registerClientWeb3Provider(callback(options))"></a>embark.registerClientWeb3Provider(callback(options))<a class="article-anchor" href="#embark-registerClientWeb3Provider-callback-options" aria-hidden="true"></a></h3><p>This call can be used to override the default web3 object generation in the dapp. it’s useful if you want to add a plugin to interact with services like <a href="http://infura.io" target="_blank" rel="noopener">http://infura.io</a> or if you want to use your own web3.js library extension.</p>
+<p>options available:</p>
+<ul>
+<li>rpcHost - configured rpc Host to connect to</li>
+<li>rpcPort - configured rpc Port to connect to</li>
+<li>blockchainConfig - object containing the full blockchain configuration for the current environment</li>
+</ul>
+<p>expected return: <code>string</code></p>
+<p>example:</p>
+<pre><code class="javascript">module.exports = function(embark) {
+  embark.registerClientWeb3Provider(function(options) {
+    return "web3 = new Web3(new Web3.providers.HttpProvider('http://" + options.rpcHost + ":" + options.rpcPort + "'));";
+  });
+}
+</code></pre>
+
+
+<h3 id="embark-registerContractsGeneration-callback-options" class="article-heading"><a href="#embark-registerContractsGeneration-callback-options" class="headerlink" title="embark.registerContractsGeneration(callback(options))"></a>embark.registerContractsGeneration(callback(options))<a class="article-anchor" href="#embark-registerContractsGeneration-callback-options" aria-hidden="true"></a></h3><p>By default Embark will use EmbarkJS to declare contracts in the dapp. You can override and use your own client side library.</p>
+<p>options available:</p>
+<ul>
+<li>contracts - Hash of objects containing all the deployed contracts. (key: contractName, value: contract object)</li>
+<li>abiDefinition</li>
+<li>code</li>
+<li>deployedAddress</li>
+<li>gasEstimates</li>
+<li>gas</li>
+<li>gasPrice</li>
+<li>runtimeByteCode</li>
+</ul>
+<p>expected return: <code>string</code></p>
+<pre><code class="javascript">embark.registerContractsGeneration(function (options) {
+  const contractGenerations = [];
+  Object.keys(options.contracts).map(className => {
+    const contract = options.contracts[className];
+    const abi = JSON.stringify(contract.abiDefinition);
+
+    contractGenerations.push(`${className} = web3.eth.contract('${abi}').at('${contract.deployedAddress}')`);
+  });
+  return contractGenerations.join('\n');
+});
+</code></pre>
+
+<h3 id="embark-registerConsoleCommand-callback-options" class="article-heading"><a href="#embark-registerConsoleCommand-callback-options" class="headerlink" title="embark.registerConsoleCommand(callback(options))"></a>embark.registerConsoleCommand(callback(options))<a class="article-anchor" href="#embark-registerConsoleCommand-callback-options" aria-hidden="true"></a></h3><p>This call is used to extend the console with custom commands.</p>
+<p>Expected result: an <code>object</code> with 2 functions:</p>
+<ul>
+<li><code>match</code>: return a boolean, <code>true</code> if the command must be processed.</li>
+<li><code>process</code>: the callback expects 2 arguments, the <code>error</code> (<code>null</code> if none)<br>and the result as a <code>string</code> (output to print in console)</li>
+</ul>
+<pre><code class="javascript">module.exports = function(embark) {
+  embark.registerConsoleCommand(function(cmd, options) {
+      return {
+        match: () => cmd === "hello",
+        process: (callback) => callback(null, "hello there!")
+      };
+  });
+}
+</code></pre>
+
+<h3 id="embark-registerCompiler-extension-callback-contractFiles-doneCallback" class="article-heading"><a href="#embark-registerCompiler-extension-callback-contractFiles-doneCallback" class="headerlink" title="embark.registerCompiler(extension, callback(contractFiles, doneCallback))"></a>embark.registerCompiler(extension, callback(contractFiles, doneCallback))<a class="article-anchor" href="#embark-registerCompiler-extension-callback-contractFiles-doneCallback" aria-hidden="true"></a></h3><p>Expected doneCallback arguments: <code>err</code> and  <code>hash</code> of compiled contracts</p>
+<ul>
+<li>Hash of objects containing the compiled contracts. (key: contractName, value: contract object)<ul>
+<li>code - [required] contract bytecode (string)      </li>
+<li>abiDefinition - [required] contract abi (array of objects)<ul>
+<li>e.g <code>[{&quot;constant&quot;:true,&quot;inputs&quot;:[],&quot;name&quot;:&quot;storedData&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;payable&quot;:false,&quot;type&quot;:&quot;function&quot;}, etc...</code></li>
+</ul>
+</li>
+<li>runtimeBytecode - [optional] contract runtimeBytecode (string)</li>
+<li>gasEstimates - [optional] gas estimates for constructor and methods (hash)<ul>
+<li>e.g <code>{&quot;creation&quot;:[20131,38200],&quot;external&quot;:{&quot;get()&quot;:269,&quot;set(uint256)&quot;:20163,&quot;storedData()&quot;:224},&quot;internal&quot;:{}}</code></li>
+</ul>
+</li>
+<li>functionHashes - [optional] object with methods and their corresponding hash identifier (hash)<ul>
+<li>e.g <code>{&quot;get()&quot;:&quot;6d4ce63c&quot;,&quot;set(uint256)&quot;:&quot;60fe47b1&quot;,&quot;storedData()&quot;:&quot;2a1afcd9&quot;}</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Below a possible implementation of a solcjs plugin:</p>
+<pre><code class="javascript">var solc = require('solc');
+
+module.exports = function(embark) {
+  embark.registerCompiler(".sol", function(contractFiles, cb) {
+    // prepare input for solc
+    var input = {};
+    for (var i = 0; i < contractFiles.length; i++) {
+      var filename = contractFiles[i].filename.replace('app/contracts/','');
+      input[filename] = contractFiles[i].content.toString();
+    }
+
+    // compile files
+    var output = solc.compile({sources: input}, 1);
+
+    // generate the compileObject expected by embark
+    var json = output.contracts;
+    var compiled_object = {};
+    for (var className in json) {
+      var contract = json[className];
+
+      compiled_object[className] = {};
+      compiled_object[className].code            = contract.bytecode;
+      compiled_object[className].runtimeBytecode = contract.runtimeBytecode;
+      compiled_object[className].gasEstimates    = contract.gasEstimates;
+      compiled_object[className].functionHashes  = contract.functionHashes;
+      compiled_object[className].abiDefinition   = JSON.parse(contract.interface);
+    }
+
+    cb(null, compiled_object);
+  });
+}
+</code></pre>
+
+<h3 id="embark-logger" class="article-heading"><a href="#embark-logger" class="headerlink" title="embark.logger"></a>embark.logger<a class="article-anchor" href="#embark-logger" aria-hidden="true"></a></h3><p>To print messages to the embark log is it better to use <code>embark.logger</code> instead of <code>console</code>.</p>
+<p>e.g <code>embark.logger.info(&quot;hello&quot;)</code></p>
+<h3 id="embark-events-on-eventName-callback-args" class="article-heading"><a href="#embark-events-on-eventName-callback-args" class="headerlink" title="embark.events.on(eventName, callback(*args))"></a>embark.events.on(eventName, callback(*args))<a class="article-anchor" href="#embark-events-on-eventName-callback-args" aria-hidden="true"></a></h3><p>This call is used to listen and react to events that happen in Embark such as contract deployment</p>
+<ul>
+<li>eventName - name of event to listen to<ul>
+<li>available events:<ul>
+<li><code>contractsDeployed</code> - triggered when contracts have been deployed</li>
+<li><code>file-add</code>, <code>file-change</code>, <code>file-remove</code>, <code>file-event</code> - triggered on a file change, args is (filetype, path)</li>
+<li><code>outputDone</code> - triggered when dapp is (re)generated</li>
+<li><code>firstDeploymentDone</code> - triggered when the dapp is deployed and generated for the first time</li>
+<li><code>check:backOnline:serviceName</code> - triggered when the service with <code>serviceName</code> comes back online</li>
+<li><code>check:wentOffline:serviceName</code> - triggered when the service with <code>serviceName</code> goes offline</li>
+<li><code>log</code> - triggered on a log, args is (logLevel, logMsg)</li>
+<li><code>contractsState</code> - list of contracts, their deployment status, address, etc..</li>
+<li><code>servicesState</code> - list of services and their state</li>
+<li><code>exit</code>: - triggered when embark is terminating</li>
+<li><code>deploy:contract:deployed</code>: - triggered when a contract is deployed, the callback will contain the contract object</li>
+<li><code>deploy:contract:undeployed</code>: - triggered when a contract was not deployed (typically because there is no need), the callback will contain the contract object</li>
+<li><code>deploy:contract:error</code>: - triggered when a contract couldn’t be deployed due to an error, the callback will contain the contract object</li>
+<li><code>deploy:contract:receipt</code>: - triggered on a contract deployment (succefull or not), the callback will contain the resulting receipt</li>
+<li><code>contractsState</code>: - triggered often, whenever there are changes to contracts, the callback will contain an object containing the contract names, address and state, etc..</li>
+<li><code>deploy:beforeAll</code>: - triggered before contract deployment starts</li>
+<li><code>contracts:deploy:afterAll</code>: - triggered after contract deployment starts</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="javascript">module.exports = function(embark) {
+  embark.events.on("contractsDeployed", function() {
+    embark.logger.info("plugin says: your contracts have been deployed");
+  });
+  embark.events.on("file-change", function(filetype, path) {
+    if (type === 'contract') {
+      embark.logger.info("plugin says: you just changed the contract at " + path);
+    }
+  });
+}
+</code></pre>
+
+<h3 id="embark-events-request-requestName-callback-args" class="article-heading"><a href="#embark-events-request-requestName-callback-args" class="headerlink" title="embark.events.request(requestName, callback(*args))"></a>embark.events.request(requestName, callback(*args))<a class="article-anchor" href="#embark-events-request-requestName-callback-args" aria-hidden="true"></a></h3><p>This call is used to request a certain resource from Embark</p>
+<ul>
+<li>requestName - name of request to listen to<ul>
+<li>available requests:<ul>
+<li>(<code>deploy:contract</code>, contractObj) - deploys a particular contract through embark</li>
+<li>(<code>runcode:eval</code>, code) - runs js code in the Embark engine.</li>
+<li>(<code>runcode:register</code>, cmdName, cmdObj) - ‘registers’ a variable cmdName to correspond to a js object cmdObj (note: this should be done thourgh an emit);</li>
+<li>(<code>contracts:list</code>) - returns a list a callback containing (err, contractList) containing a collection of available contracts</li>
+<li>(<code>compiler:contracts</code>, contractFiles) - requests embark to compile a list of files, will return a compiled object in the callback</li>
+<li>(<code>services:register</code>, serviceName, checkCallback) - requests embark to register a service, it will execute checkCallback every 5 seconds, the callback should return an object containing the service name and status (See embark.registerServiceCheck)</li>
+<li>(<code>console:command</code>, cmd) - execute a command in the console</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="javascript">module.exports = function(embark) {
+  embark.events.request("code", function(code) {
+    // Do something with the code
+  });
+}
+</code></pre>
+
+<h3 id="embark-registerServiceCheck-serviceName-callback-name-status-time" class="article-heading"><a href="#embark-registerServiceCheck-serviceName-callback-name-status-time" class="headerlink" title="embark.registerServiceCheck(serviceName, callback({name, status}), time)"></a>embark.registerServiceCheck(serviceName, callback({name, status}), time)<a class="article-anchor" href="#embark-registerServiceCheck-serviceName-callback-name-status-time" aria-hidden="true"></a></h3><p>This call is used to register a service in embark so it’s periodically checked.<br>It will be displayed in the Embark Dashboard, and will also trigger events such as <code>check:backOnline:yourServiceName</code> and <code>check:backOffline:yourServiceName</code></p>
+<ul>
+<li>serviceName - name of service (string)</li>
+<li>callback:<ul>
+<li><code>name</code> - name/text to display (string)</li>
+<li><code>status</code> - status of the service (string, <code>on</code> or <code>off</code> or <code>warn</code>)</li>
+</ul>
+</li>
+<li>time (optional) - ms interval to call the callback (default: 5000 ms)</li>
+</ul>
+<pre><code class="javascript">module.exports = function(embark) {
+  embark.registerServiceCheck("MyServer", function(cb) {
+    if (myServiceOnline()) {
+      return cb({name: "MyServer Online", status: "on"});
+    } else {
+      return cb({name: "MyServer Offline", status: "off"});
+    }
+  });
+}
+</code></pre>
+
+<h3 id="embark-registerUploadCommand-cmdName-callback" class="article-heading"><a href="#embark-registerUploadCommand-cmdName-callback" class="headerlink" title="embark.registerUploadCommand(cmdName, callback)"></a>embark.registerUploadCommand(cmdName, callback)<a class="article-anchor" href="#embark-registerUploadCommand-cmdName-callback" aria-hidden="true"></a></h3><p>This call is used to add a new cmd to <code>embark upload</code> to upload the dapp to a new storage service. In the example, <code>run</code> doesn’t exist. You need to import a library that runs shell commands like <a href="https://www.npmjs.com/package/shelljs" target="_blank" rel="noopener">shelljs</a></p>
+<pre><code class="javascript">module.exports = function(embark) {
+  embark.registerUploadCommand("ipfs", function() {
+    run("ipfs add -r dist/");
+  });
+}
+</code></pre>
+
+<h3 id="embark-addCodeToEmbarkJS-code" class="article-heading"><a href="#embark-addCodeToEmbarkJS-code" class="headerlink" title="embark.addCodeToEmbarkJS(code)"></a>embark.addCodeToEmbarkJS(code)<a class="article-anchor" href="#embark-addCodeToEmbarkJS-code" aria-hidden="true"></a></h3><p>This call is used to add code to the embark.js library. It’s typically used to extend it with new functionality, new storage providers, new communication providers, etc..</p>
+<pre><code class="javascript">module.exports = function(embark) {
+  embark.addCodeToEmbarkJS("alert('hello world!')");
+}
+</code></pre>
+
+<h3 id="embark-addProviderInit-providerType-code-initCondition-config" class="article-heading"><a href="#embark-addProviderInit-providerType-code-initCondition-config" class="headerlink" title="embark.addProviderInit(providerType, code, initCondition(config))"></a>embark.addProviderInit(providerType, code, initCondition(config))<a class="article-anchor" href="#embark-addProviderInit-providerType-code-initCondition-config" aria-hidden="true"></a></h3><p>This call is used to add code to be executed in the initialization under the condition that <code>initCondition</code> returns true. For example this can be used to set the storage provider of EmbarkJS to ipfs if ipfs is enabled as a provider in the config</p>
+<ul>
+<li>providerType - type of provider (string, “storage” or “communication”)</li>
+<li>code - code to add (string)</li>
+<li>callback:<ul>
+<li>“config” - config of the <code>providerType</code></li>
+</ul>
+</li>
+</ul>
+<pre><code class="javascript">module.exports = function(embark) {
+  let code = "\nEmbarkJS.Storage.setProvider('ipfs')";
+  embark.addProviderInit('storage', code, (storageConfig) => {
+    return (storageConfig.provider === 'ipfs' && storageConfig.enabled === true);
+  });
+}
+</code></pre>
+
+<h3 id="embark-registerImportFile-importName-importLocation" class="article-heading"><a href="#embark-registerImportFile-importName-importLocation" class="headerlink" title="embark.registerImportFile(importName, importLocation)"></a>embark.registerImportFile(importName, importLocation)<a class="article-anchor" href="#embark-registerImportFile-importName-importLocation" aria-hidden="true"></a></h3><p>This call is used so the plugin can make a certain file available as a library to a user</p>
+<pre><code class="javascript">var path = require('path')
+
+module.exports = function(embark) {
+  embark.registerImportFile("my-lib", path.join(__dirname, "my-lib.js"));
+}
+</code></pre>
+
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2019-01-23T08:39:56.688Z" itemprop="dateModified">Last updated: 2019-01-23</time>
+                <a href="creating_plugins.html" class="article-footer-prev" title="Creating a plugin"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="console_commands.html" class="article-footer-next" title="Console Commands"><span>Next</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-pluginConfig"><span class="toc-text">embark.pluginConfig</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-registerPipeline-matchingFiles-callback-options"><span class="toc-text">embark.registerPipeline(matchingFiles, callback(options))</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-registerContractConfiguration-contractsConfig"><span class="toc-text">embark.registerContractConfiguration(contractsConfig)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-addContractFile-file"><span class="toc-text">embark.addContractFile(file)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-addFileToPipeline-file-options"><span class="toc-text">embark.addFileToPipeline(file, options)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-registerBeforeDeploy-callback-options-callback"><span class="toc-text">embark.registerBeforeDeploy(callback(options), [callback])</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-registerClientWeb3Provider-callback-options"><span class="toc-text">embark.registerClientWeb3Provider(callback(options))</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-registerContractsGeneration-callback-options"><span class="toc-text">embark.registerContractsGeneration(callback(options))</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-registerConsoleCommand-callback-options"><span class="toc-text">embark.registerConsoleCommand(callback(options))</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-registerCompiler-extension-callback-contractFiles-doneCallback"><span class="toc-text">embark.registerCompiler(extension, callback(contractFiles, doneCallback))</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-logger"><span class="toc-text">embark.logger</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-events-on-eventName-callback-args"><span class="toc-text">embark.events.on(eventName, callback(*args))</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-events-request-requestName-callback-args"><span class="toc-text">embark.events.request(requestName, callback(*args))</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-registerServiceCheck-serviceName-callback-name-status-time"><span class="toc-text">embark.registerServiceCheck(serviceName, callback({name, status}), time)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-registerUploadCommand-cmdName-callback"><span class="toc-text">embark.registerUploadCommand(cmdName, callback)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-addCodeToEmbarkJS-code"><span class="toc-text">embark.addCodeToEmbarkJS(code)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-addProviderInit-providerType-code-initCondition-config"><span class="toc-text">embark.addProviderInit(providerType, code, initCondition(config))</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#embark-registerImportFile-importName-importLocation"><span class="toc-text">embark.registerImportFile(importName, importLocation)</span></a></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">Getting Started</strong><a href="index.html" class="sidebar-link">Overview</a><a href="installation.html" class="sidebar-link">Installation</a><a href="quick_start.html" class="sidebar-link">Quick Start</a><a href="faq.html" class="sidebar-link">FAQ</a><strong class="sidebar-title">General Usage</strong><a href="create_project.html" class="sidebar-link">Creating apps</a><a href="structure.html" class="sidebar-link">App structure</a><a href="running_apps.html" class="sidebar-link">Running apps</a><a href="dashboard.html" class="sidebar-link">Using the dashboard</a><a href="environments.html" class="sidebar-link">Environments</a><a href="configuration.html" class="sidebar-link">Configuration</a><a href="pipeline_and_webpack.html" class="sidebar-link">Building & Asset Pipeline</a><a href="javascript_usage.html" class="sidebar-link">Javascript Usage</a><strong class="sidebar-title">Smart Contracts</strong><a href="contracts_configuration.html" class="sidebar-link">Configuration</a><a href="contracts_deployment.html" class="sidebar-link">Accounts & Deployment</a><a href="contracts_javascript.html" class="sidebar-link">Javascript Usage</a><a href="contracts_imports.html" class="sidebar-link">Solidity Imports</a><a href="contracts_testing.html" class="sidebar-link">Testing</a><strong class="sidebar-title">Decentralized Storage</strong><a href="storage_configuration.html" class="sidebar-link">Configuration</a><a href="storage_javascript.html" class="sidebar-link">Javascript Usage</a><a href="storage_deployment.html" class="sidebar-link">Deploying to IPFS/Swarm</a><strong class="sidebar-title">Decentralized Messages</strong><a href="messages_configuration.html" class="sidebar-link">Configuration</a><a href="messages_javascript.html" class="sidebar-link">Javascript Usage</a><strong class="sidebar-title">Naming Systems</strong><a href="naming_configuration.html" class="sidebar-link">Configuration</a><a href="naming_javascript.html" class="sidebar-link">Javascript Usage</a><strong class="sidebar-title">Plugins</strong><a href="installing_plugins.html" class="sidebar-link">Installing a plugin</a><a href="creating_plugins.html" class="sidebar-link">Creating a plugin</a><a href="plugin_reference.html" class="sidebar-link current">Plugin Reference</a><strong class="sidebar-title">Reference</strong><a href="console_commands.html" class="sidebar-link">Console Commands</a><a href="embark_commands.html" class="sidebar-link">Embark Commands</a><a href="web3js.html" class="sidebar-link">Web3.js</a><a href="solidity.html" class="sidebar-link">Solidity</a><a href="vyper.html" class="sidebar-link">Vyper</a><a href="bamboo.html" class="sidebar-link">Bamboo</a><strong class="sidebar-title">Miscellaneous</strong><a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a><a href="contributing.html" class="sidebar-link">Contributing</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <div class="pre-footer">
+    <div class="pre-footer-inner">
+        <div class="community">
+            <div class="community-item">
+                <h3>We’re All Open Source</h3>
+                <p>Check out the source code on GitHub and contribute</p>
+                <a href="https://github.com/embark-framework/embark" class="button" target="_blank">Github</a>
+            </div>
+            <div class="community-item">
+                <h3>We’re here to help</h3>
+                <p>Contact us for support and join in on the conversation in gitter</p>
+                <a href="/chat/" class="button">Join Chat</a>
+            </div>
+        </div>
+        <div class="mail">
+            <div class="mail-inner">
+                <h3>Join the Embark Mailing List</h3>
+                <p>Stay up to date on the latest development updates and releases, events, and the latest Embark
+                    news.</p>
+                <div class="email-form ">
+                    <!--[if lte IE 8]>
+                    <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2-legacy.js"></script>
+                    <![endif]-->
+                    <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
+                    <script>
+                      hbspt.forms.create({
+                        css: '',
+                        portalId: "3954379",
+                        formId: "c1eac0b5-5723-47e6-9d66-87a783c38d82"
+                      });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="footer-inner">
+        <div class="footer-logo-wrap">
+            <div class="footer-logo-wrap__inner">
+                <a class="footer-logo" href="https://status.im" target="_blank"></a>
+                <div class="footer-address">Status Research & Development GmbH<br>Baarerstrasse 10<br>Zug, Switzerland
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/docs/" class="mobile-nav-link">Docs</a><a href="/plugins/" class="mobile-nav-link">Plugins</a><a href="/chat/" class="mobile-nav-link">Chat</a><a href="/news/" class="mobile-nav-link">Blog</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/embark-framework/embark" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">Getting Started</strong><a href="index.html" class="mobile-nav-link">Overview</a><a href="installation.html" class="mobile-nav-link">Installation</a><a href="quick_start.html" class="mobile-nav-link">Quick Start</a><a href="faq.html" class="mobile-nav-link">FAQ</a><strong class="mobile-nav-title">General Usage</strong><a href="create_project.html" class="mobile-nav-link">Creating apps</a><a href="structure.html" class="mobile-nav-link">App structure</a><a href="running_apps.html" class="mobile-nav-link">Running apps</a><a href="dashboard.html" class="mobile-nav-link">Using the dashboard</a><a href="environments.html" class="mobile-nav-link">Environments</a><a href="configuration.html" class="mobile-nav-link">Configuration</a><a href="pipeline_and_webpack.html" class="mobile-nav-link">Building & Asset Pipeline</a><a href="javascript_usage.html" class="mobile-nav-link">Javascript Usage</a><strong class="mobile-nav-title">Smart Contracts</strong><a href="contracts_configuration.html" class="mobile-nav-link">Configuration</a><a href="contracts_deployment.html" class="mobile-nav-link">Accounts & Deployment</a><a href="contracts_javascript.html" class="mobile-nav-link">Javascript Usage</a><a href="contracts_imports.html" class="mobile-nav-link">Solidity Imports</a><a href="contracts_testing.html" class="mobile-nav-link">Testing</a><strong class="mobile-nav-title">Decentralized Storage</strong><a href="storage_configuration.html" class="mobile-nav-link">Configuration</a><a href="storage_javascript.html" class="mobile-nav-link">Javascript Usage</a><a href="storage_deployment.html" class="mobile-nav-link">Deploying to IPFS/Swarm</a><strong class="mobile-nav-title">Decentralized Messages</strong><a href="messages_configuration.html" class="mobile-nav-link">Configuration</a><a href="messages_javascript.html" class="mobile-nav-link">Javascript Usage</a><strong class="mobile-nav-title">Naming Systems</strong><a href="naming_configuration.html" class="mobile-nav-link">Configuration</a><a href="naming_javascript.html" class="mobile-nav-link">Javascript Usage</a><strong class="mobile-nav-title">Plugins</strong><a href="installing_plugins.html" class="mobile-nav-link">Installing a plugin</a><a href="creating_plugins.html" class="mobile-nav-link">Creating a plugin</a><a href="plugin_reference.html" class="mobile-nav-link current">Plugin Reference</a><strong class="mobile-nav-title">Reference</strong><a href="console_commands.html" class="mobile-nav-link">Console Commands</a><a href="embark_commands.html" class="mobile-nav-link">Embark Commands</a><a href="web3js.html" class="mobile-nav-link">Web3.js</a><a href="solidity.html" class="mobile-nav-link">Solidity</a><a href="vyper.html" class="mobile-nav-link">Vyper</a><a href="bamboo.html" class="mobile-nav-link">Bamboo</a><strong class="mobile-nav-title">Miscellaneous</strong><a href="troubleshooting.html" class="mobile-nav-link">Troubleshooting</a><a href="contributing.html" class="mobile-nav-link">Contributing</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="docs/plugin_reference.html">
+      
+        <option value="en" selected>English</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/bundle.js?v=0.0.1"></script>
+<!-- build:js build/js/main.js -->
+<script src="/js/lang_select.js"></script>
+<script src="/js/toc.js"></script>
+<script src="/js/mobile_nav.js"></script>
+<script src="/js/search.js"></script>
+<!-- endbuild -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script async src="/js/highlight.pack.js"></script>
+<script async src="/js/solidity.js"></script>
+<script>
+
+function highlight() {
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+}
+
+$(document).ready(function() {
+  try {
+    highlight();
+  } catch(err) {
+    setTimeout(function() {
+      highlight();
+    }, 2500)
+  }
+
+  var clipboard = new ClipboardJS(".btn");
+  clipboard.on('success', function(e) {
+    var id = $(e.trigger).attr("data-clipboard-target");
+    $(id).toggleClass("flash");
+    setTimeout(function() {
+      $(id).toggleClass("flash");
+    }, 200);
+    e.clearSelection();
+  });
+});
+
+</script>
+<style>
+  mark {
+    background: #232323;
+    color: white;
+    font-weight: bold;
+
+    -webkit-transition: background 0.1s ease-in-out;
+    -ms-transition:     background 0.1s ease-in-out;
+    transition:         background 0.1s ease-in-out;
+  }
+
+  .clippy {
+    margin-top: -3px;
+    position: relative;
+    top: 3px;
+  }
+
+  pre {
+    position: relative;
+  }
+
+  .btn {
+    transition: opacity .3s ease-in-out;
+    padding: 2px 6px;
+    position: absolute;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #eee;
+    background-image: linear-gradient(#fcfcfc,#eee);
+    border: 1px solid #d5d5d5;
+    border-radius: 3px;
+    user-select: none;
+    -webkit-appearance: none;
+    top: 34px;
+    right: 12px;
+  }
+
+  .flash {
+    background-color: grey;
+  }
+
+</style>
+<!-- Algolia -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+    });
+</script>
+
+
+</body>
+</html>
