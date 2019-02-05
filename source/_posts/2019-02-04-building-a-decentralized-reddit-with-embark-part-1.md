@@ -12,7 +12,7 @@ This tutorial is split up into three parts, so every individual part can get our
 - **Part 2** - Testing the Smart Contract through EmbarkJS
 - **Part 3** - Building a simple front-end using React
 
-We will link the other two parts once we've published them. 
+We will link the other two parts once we've published them. We've also set up a [repository](https://github.com/embark-framework/dreddit-tutorial) with all code changes so you can follow along or review your own work.
 
 Let's get right to it!
 
@@ -201,7 +201,7 @@ We also need a way to actually let users check what they've voted for, in case t
 
 And with that, our Smart Contract is pretty much done! Just to make sure that everything is compiling smoothly, we can execute `embark build --contracts` in case there's no existing Embark instance watching our work already.
 
-Here's the complete Smart Contract code:
+Here's the complete Smart Contract code (you can also find it in [this repository](https://github.com/embark-framework/dreddit-tutorial):
 
 <pre class="solidity">
 <button class="btn" data-clipboard-target="#cmd-10"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
