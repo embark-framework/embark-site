@@ -1,9 +1,10 @@
 (function() {
   'use strict';
 
-  var searchWrap = document.getElementById('search-input-wrap');
-  var searchInput = document.getElementById('search-input');
-  var className = 'active';
+  // Search
+  const searchWrap = document.getElementById('search-input-wrap');
+  const searchInput = document.getElementById('search-input');
+  const className = 'active';
 
   searchWrap.onclick = function(e) {
     searchWrap.classList.add(className);
