@@ -9,7 +9,7 @@
       // TODO change these URLS to the right ones once Iuri or someone else has create the Netlify project
       // These still work right now however
       // TODO use a config file?
-      const VERSIONS = {'3.2': 'https://embark.status.im/docs', '4.alpha': 'https://embark-site-develop.netlify.com/docs/'};
+      const VERSIONS = {'3.2': 'https://embark.status.im/docs', '4.beta.x': 'https://embark-site-develop.netlify.com/docs/'};
       const currentVersion = Object.keys(VERSIONS).find(v => {
         return window.location.href.indexOf(VERSIONS[v]) > -1;
       });
