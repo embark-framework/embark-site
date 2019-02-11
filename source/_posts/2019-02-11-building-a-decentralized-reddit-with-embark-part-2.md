@@ -4,7 +4,7 @@ categories:
   - tutorials
 ---
 
-In [the first part of this tutorial](/news/2019/01/28/building-a-decentralized-reddit-with-embark-part-1/) we've implemented a `DReddit` Smart Contract that comes with methods to create and vote on topic posts. In this part we'll continue right where we've left off and take a closer look at how we can test our Smart Contract using Embark.
+In [the first part of this tutorial](/news/2019/02/04/building-a-decentralized-reddit-with-embark-part-1/) we've implemented a `DReddit` Smart Contract that comes with methods to create and vote on topic posts. In this part we'll continue right where we've left off and take a closer look at how we can test our Smart Contract using Embark.
 
 And off we go!
 
