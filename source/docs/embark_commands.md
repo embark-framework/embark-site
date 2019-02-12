@@ -1,9 +1,14 @@
-title: Embark Commands
+title: Embark CLI Commands
+layout: docs
 ---
+
+This is the Embark CLI command reference.
 
 ## new
 
-<pre><code class="shell">$ embark new dappName</code></pre>
+```
+$ embark new dappName
+```
 
 Creates a new empty DApp project. If no `dappName` is provided, Embark will ask for the dappName.
 
@@ -15,42 +20,56 @@ Option | Description
 
 The `--template` option supports several URL styles and shortcuts for git hosts:
 
-<pre>  git@github.com:ghuser/repo_name</pre>
-<pre>  https://github.com/ghuser/repo_name</pre>
-<pre>  github:ghuser/repo_name</pre>
-<pre>  ghuser/repo_name</pre>
+```
+git@github.com:ghuser/repo_name
+https://github.com/ghuser/repo_name
+github:ghuser/repo_name
+ghuser/repo_name
+```
 
 It's possible to append a branch name to any of the above, for example:
 
-<pre>  https://github.com/ghuser/repo_name#branch_name</pre>
-<pre>  ghuser/repo_name#branch_name</pre>
+```
+https://github.com/ghuser/repo_name#branch_name
+ghuser/repo_name#branch_name
+```
 
 Bitbucket and GitLab URLs and shortcuts are also supported, for example:
 
-<pre>  bitbucket:bbuser/repo_name#branch_name</pre>
-<pre>  gitlab:gluser/repo_name#branch_name</pre>
+```
+bitbucket:bbuser/repo_name#branch_name
+gitlab:gluser/repo_name#branch_name
+```
 
 A short name can be used for templates maintained in the Embark GitHub organization, for example:
 
-<pre>  embark new --template typescript</pre>
+```
+$ embark new --template typescript
+```
 
 Please see our list of [officially supported templates](/templates/).
 
 ## demo
 
-<pre><code class="shell">$ embark demo</code></pre>
+```
+$ embark demo
+```
 
 Generates a demo Embark Project with a working contract and examples of working with contracts, IPFS and Whisper.
 
 ## build
 
-<pre><code class="shell">$ embark build [environment]</code></pre>
+```
+$ embark build [environment]
+```
 
 Deploys and Builds the DApp at dist/. If no `environment` is provider embark will use `development` by default.
 
 ## run
 
-<pre><code class="shell">$ embark run [environment]</code></pre>
+```
+$ embark run [environment]
+```
 
 Deploys and Builds the DApp at `dist/`. By default will launch a dashboard and start a dev server at `http://localhost:8000/`. If no `environment` is provider embark will use `development` by default.
 
@@ -66,13 +85,17 @@ Option | Description
 
 ## eject-build-config
 
-<pre><code class="shell">$ embark eject-build-config</code></pre>
+```
+$ embark eject-build-config
+```
 
 Copies Embark's default `webpack.config.js` file into your DApp so that you can customize it. If a file named `webpack.config.js` is present in your top-level DApp directory, Embark will use your webpack config file instead of its own.
 
 ## blockchain
 
-<pre><code class="shell">$ embark blockchain [environment]</code></pre>
+```
+$ embark blockchain [environment]
+```
 
 Takes the config at `config/blockchain.json` for the `environment` specified and starts a blockchain node. If no `environment` is provider embark will use `development` by default.
 
@@ -80,7 +103,9 @@ If you want, you can skip the step of running `embark blockchain`, as `embark ru
 
 ## simulator
 
-<pre><code class="shell">$ embark simulator [environment]</code></pre>
+```
+$ embark simulator [environment]
+```
 
 Takes the config at `config/blockchain.json` for the `environment` specified and starts a blockchain simulator. If no `environment` is provider embark will use `development` by default.
 
@@ -94,7 +119,9 @@ Option | Description
 
 ## test
 
-<pre><code class="shell">$ embark test [file]</code></pre>
+```
+$ embark test [file]
+```
 
 Runs Tests. If `file` is not specified then it will run all the tests inside the `test/` directory.
 
@@ -116,24 +143,32 @@ Example of endpoint usage: `embark test --node ws://localhost:8556`
 
 ## reset
 
-<pre><code class="shell">$ embark reset</code></pre>
+```
+$ embark reset
+```
 
 Resets embarks state on this dapp including clearing cache.
 
 ## upload
 
-<pre><code class="shell">$ embark upload [platform] [environment]</code></pre>
+```
+$ embark upload [platform] [environment]
+```
 
 Uploads the DApp to a decentralized storage such as IPFS. `platform` can be `ipfs` or `swarm` or another parameter if supported by a plugin. If no `environment` is provider embark will use `development` by default.
 
 ## graph
 
-<pre><code class="shell">$ embark graph</code></pre>
+```
+$ embark graph
+```
 
 Generates documentation based on the smart contracts configured
 
 ## version
 
-<pre><code class="shell">$ embark version</code></pre>
+```
+$ embark version
+```
 
 Displays version information.

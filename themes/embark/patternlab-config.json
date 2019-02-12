@@ -1,0 +1,74 @@
+{
+  "paths" : {
+    "source" : {
+      "root": "./source/",
+      "patterns" : "./source/_patterns/",
+      "data" : "./source/_data/",
+      "meta": "./source/_meta/",
+      "annotations" : "./source/_annotations/",
+      "styleguide" : "./node_modules/styleguidekit-assets-default/dist/",
+      "nodeModules": "./node_modules",
+      "patternlabFiles" : "./node_modules/styleguidekit-mustache-default/views/",
+      "js" : "./source/assets/js",
+      "images" : "./source/assets/images",
+      "icons" : "./source/assets/icons",
+      "fonts" : "./source/assets/fonts",
+      "css" : "./source/assets/css/",
+      "scss": "./source/assets/scss"
+    },
+    "public" : {
+      "root" : "./public/",
+      "patterns" : "./public/patterns/",
+      "data" : "./public/styleguide/data/",
+      "annotations" : "./public/annotations/",
+      "styleguide" : "./public/styleguide/",
+      "js" : "./public/assets/js",
+      "images" : "./public/assets/images",
+      "icons" : "./public/assets/icons",
+      "fonts" : "./public/assets/fonts",
+      "sourcemaps": "./public/assets/maps",
+      "css" : "./public/assets/css"
+    }
+  },
+  "styleGuideExcludes": [
+  ],
+  "defaultPattern": "all",
+  "defaultShowPatternInfo": false,
+  "cleanPublic" : true,
+  "patternExtension": "mustache",
+  "ignored-extensions" : ["scss", "DS_Store", "less"],
+  "ignored-directories" : ["scss"],
+  "debug": true,
+  "ishControlsHide": {
+    "s": false,
+    "m": false,
+    "l": false,
+    "full": false,
+    "random": false,
+    "disco": false,
+    "hay": true,
+    "mqs": false,
+    "find": false,
+    "views-all": false,
+    "views-annotations": false,
+    "views-code": false,
+    "views-new": false,
+    "tools-all": false,
+    "tools-docs": false
+  },
+  "ishMinimum": "240",
+  "ishMaximum": "2600",
+  "patternStateCascade": ["inprogress", "inreview", "complete"],
+  "patternStates": {
+  },
+  "patternExportPatternPartials": [],
+  "patternExportDirectory": "./pattern_exports/",
+  "cacheBust": true,
+  "starterkitSubDir": "dist",
+  "outputFileSuffixes": {
+    "rendered": ".rendered",
+    "rawTemplate": "",
+    "markupOnly": ".markup-only"
+  },
+  "cleanOutputHtml": true
+}

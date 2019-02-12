@@ -1,4 +1,5 @@
 title: Troubleshooting
+layout: docs
 ---
 In case you're experiencing problems with using Embark, here is a list of solutions to some frequently encountered issues. If this page doesn't help you solve your problem, try doing a search on [GitHub](https://github.com/embark-framework/embark/issues).
 

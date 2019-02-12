@@ -1,5 +1,7 @@
 title: Installation
+layout: docs
 ---
+In this guide we'll cover all the different ways of installing Embark on your local machine, starting with prerequisites.
 
 ## Prerequisites
 
@@ -15,16 +17,16 @@ Once done, go ahead and [install Embark](#Installing-Embark).
 
 Please install [Node.js](http://nodejs.org/) in version 8.11.3 LTS or higher.
 
-{% note info Quick tip: %}
-**We recommend installing Node using the [Node Version Manager](https://github.com/creationix/nvm/blob/master/README.md).**  This is because it makes it very easy to install different versions of Node in isolated environments that don't require users to [change their permissions](https://docs.npmjs.com/getting-started/fixing-npm-permissions) when installing packages. Find instructions on how to install NVM [here](https://github.com/creationix/nvm/blob/master/README.md#install-script).
+{% notification info 'Quick Tip' %}
+We recommend installing Node using the [Node Version Manager](https://github.com/creationix/nvm/blob/master/README.md).  This is because it makes it very easy to install different versions of Node in isolated environments that don't require users to [change their permissions](https://docs.npmjs.com/getting-started/fixing-npm-permissions) when installing packages. Find instructions on how to install NVM [here](https://github.com/creationix/nvm/blob/master/README.md#install-script).
 
 Once that is done, we can install and select a specific Node version or use the `--lts` option to get the latest version with long term support like this:
 
-<pre><code class="shell">$ nvm install --lts
+```
+$ nvm install --lts
 $ nvm use --lts
-</code></pre>
-
-{% endnote %}
+```
+{% endnotification %}
 
 ### IPFS (Optional)
 
@@ -32,11 +34,15 @@ IPFS can be used to distribute our application's content on the decentralized IP
 
 To verify that the installation was successful, simply run the following command:
 
-<pre><code class="shell">$ ipfs --version</code></pre>
+```
+$ ipfs --version
+```
 
 This outputs something like
 
-<pre><code class="shell">ipfs version 0.4.17</code></pre>
+```
+$ ipfs version 0.4.17
+```
 
 ### Ethereum Client (Optional)
 
@@ -44,10 +50,14 @@ Embark can spin up an Ethereum node for us. To make this happen, an Ethereum cli
 
 In case we want to run a real node, [geth](https://geth.ethereum.org/) is a pretty good one. Check out the [installation guide](https://ethereum.github.io/go-ethereum/install/) for our platform and verify our installation with:
 
-<pre><code class="shell">$ geth version</code></pre>
+```
+$ geth version
+```
 
 Which should result in an output that looks like this (note that the exact version numbers may be different):
-<pre><code class="shell">Geth
+
+```
+Geth
 Version: 1.8.15-stable
 Git Commit: 89451f7c382ad2185987ee369f16416f89c28a7d
 Architecture: amd64
@@ -57,7 +67,7 @@ Go Version: go1.10.4
 Operating System: darwin
 GOPATH=
 GOROOT=/Users/travis/.gimme/versions/go1.10.4.darwin.amd64
-</code></pre>
+```
 
 ## Installing Embark
 
@@ -65,31 +75,40 @@ Alright, let's install Embark so we can build our first application. As mentione
 
 We can install Embark using the Node Package Manager (no worries, that one comes with Node), like this:
 
-<pre><code class="shell">$ npm -g install embark</code></pre>
+```
+$ npm -g install embark
+```
 
 After that, `embark` should be available as a global command in our terminal of choice. Let's verify this by running the following command:
 
-<pre><code class="shell">$ embark --version</code></pre>
+```
+$ embark --version
+```
 
 At the time of writing this guide, the output looked like this:
 
-<pre><code class="shell">3.2.1</code></pre>
+```
+3.2.7
+```
 
 ## Installing Embark @next
 
 While running `npm install -g embark` will give us the latest and great stable version of Embark, we're sometimes interested in trying out features that are in active development. The Embark team maintains a `next` distribution tag on npm that can be used to install versions of Embark that aren't stable.
 
-<pre><code class="shell">$ npm -g install embark@next</code></pre>
+```
+$ npm install -g embark@next
+```
 
 ## Installing Embark's latest GitHub version
 
 If we're interested in getting whatever has landed last in the code base, we can install directly from Embark's GitHub repository like this:
 
-<pre><code class="shell">$ npm -g install embark-framework/embark</code></pre>
+```
+$ npm install -g embark-framework/embark
+```
 
-{% note warn Warning: %}
+{% notification danger Warning: %}
 Installations with `@next` or directly from the `master` branch on GitHub are considered unstable and may have bugs, so please proceed with caution.
-{% endnote %}
+{% endnotification %}
 
-Awesome! We're all set up. Let's build our first decentralized application!
-
+Awesome! We're all set up. If you're brand new to Embark, now would be a good time to take our [Quickstart](/docs/quick_start.html) in which you'll build your first application! 

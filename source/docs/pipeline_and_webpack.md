@@ -1,4 +1,5 @@
 title: Building & Asset Pipeline
+layout: docs
 ---
 
 As discussed in [Running Apps](running_apps.html#Using-the-run-command), Embark takes care of quite a few things developing applications, including compiling Smart Contracts, JavaScript and other assets. In this guide we'll learn how to take full advantage of Embark's flexibility to build our Smart Contracts or even replace the entire build pipeline for our application's assets.
@@ -9,7 +10,9 @@ Embark's `build` command enables us to build our decentralized application and d
 
 By default, `embark build` will use the `production` mode to build our application.
 
-<pre><code class="shell">$ embark build</code></pre>
+```
+$ embark build
+```
 
 ### Specifying a mode using `--pipeline`
 
@@ -20,13 +23,17 @@ Embark comes with two modes for building our application:
 
 We can specify a mode using the `--pipeline` option. This is available for both, `embark run` and `embark build` commands:
 
-<pre><code class="shell">$ embark build --pipeline development</code></pre>
+```
+$ embark build --pipeline development
+```
 
 ## Compiling Smart Contracts only
 
 If we're building a [Smart Contract only application](http://localhost:4000/docs/create_project.html#Creating-%E2%80%9Ccontracts-only%E2%80%9D-apps), or we're simply not interested in building the entire application and deploying it, but just want to compile our Smart Contracts, we can use the `build` command's `--contracts` option:
 
-<pre><code class="shell">$ embark build --contracts</code></pre>
+```
+$ embark build --contracts
+```
 
 ## Understanding the build pipeline
 
@@ -45,10 +52,11 @@ Sometimes we run into scenarios where our setup is so specific that the build pr
 
 Ejecting the internally used config file is as simple as using Embark's `eject-build-config` command like this:
 
-<pre><code class="shell">$ embark eject-build-config</code></pre>
+```
+$ embark eject-build-config
+```
 
-{% note info On --eject-webpack option %}
-
+{% notification info 'On --eject-webpack option' %}
 In older versions of Embark, the same could be achieved using the `--eject-webpack` option. This option still works, but is now considered deprecated and will be removed in future versions of Embark.
-{% endnote %}
+{% endnotification %}
 

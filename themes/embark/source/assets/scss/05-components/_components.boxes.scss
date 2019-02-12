@@ -1,0 +1,47 @@
+.c-box {
+  padding: get-spacing-stretch-inset(l);
+  position: relative;
+  @include border();
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100%;
+
+  @include breakpoint(l) {
+    padding: get-spacing-stretch-inset(xl);
+  }
+
+  &__title {
+    margin-top: get-spacing-stack(m);
+  }
+
+  &__subtitle {
+    margin-top: get-spacing-stack(xs);
+  }
+  &__footer {
+    margin-top: get-spacing-stack(m);
+  }
+  &__offset {
+    position: absolute;
+    right: get-spacing-inset(m);
+    top: get-spacing-inset(m);
+  }
+}
+
+.c-box--spot {
+  background-color: get-color-layout(spot);
+  color: get-color-layout(spotGradation);
+}
+
+.c-box--whisper {
+  background-color: get-layout-color(ghost);
+  color: get-color-layout(ghostGradation);
+}
+
+.c-box--universe {
+  background-color: get-color-layout(universe);
+  color: get-color-layout(universeGradation);
+}
+
+.c-box--unframed {
+  border: none;
+}

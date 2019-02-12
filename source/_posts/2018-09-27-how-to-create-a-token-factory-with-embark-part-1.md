@@ -1,9 +1,11 @@
 title: How to create a Token Factory with Ethereum — Part 1
+author: iuri_matias
 summary: "This is the first part of a series in which we'll explore how to build a token factory on Ethereum using Embark!"
 categories:
   - tutorials
 alias:
   - "tutorials/token_factory_1.html"
+layout: blog-post
 ---
 
 In this tutorial series we’ll create a Token Factory using Ethereum. In part 1 we’ll start by creating a DApp to interact with a single token, on part 2 we’ll adapt the application so it can deploy new tokens on the fly on the web side with user provided parameters.
@@ -14,23 +16,24 @@ A Token is typically a unit used to represent a medium of exchange for some serv
 
 First of all, make sure you have [Go-Ethereum](https://geth.ethereum.org/) and Embark installed.
 
-<pre>
-<button class="btn" data-clipboard-target="#cmd-1"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="shell">$ <mark id="cmd-1">npm -g install embark</mark></code></pre>
+{% code_block copyBtn:true %}
+$ npm -g install embark
+{% endcode_block %}
 
 Now, let’s create a new dapp
 
-<pre>
-<button class="btn" data-clipboard-target="#cmd-2"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="shell">$ <mark id="cmd-2" >embark new TokenFactory</mark></code></pre>
+{% code_block copyBtn:true %}
+$ embark new TokenFactory
+{% endcode_block %}
+
 
 This will create a directory called TokenFactory, cd to it and run:
 
-In another console, in the same directory, run:
+{% code_block copyBtn:true %}
+$ embark run
+{% endcode_block %}
 
-<pre>
-<button class="btn" data-clipboard-target="#cmd-3"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="shell">$ <mark id="cmd-3">embark run</mark></code></pre>
+In another console, in the same directory, run:
 
 You should see something like this:
 
@@ -38,9 +41,9 @@ You should see something like this:
 
 To exit the dashboard you can type 'exit' in the console or press CTRL+C.
 
-{% note warn if you can't use the dashboard %}
+{% notification info "if you can't use the dashboard" %}
 In some system setups there are difficulties using the dashboard, if that's your case or if you prefer to simply see the logs you can run embark with the dashboard disabled `embark run --nodashboard `
-{% endnote %}
+{% endnotification %}
 
 Now open your browser at http://localhost:8000 , start your favourite editor and let’s get started!
 
@@ -50,9 +53,8 @@ We’ll add a typical ERC20 token contract to contracts/token.sol
 
 *warning: this contract is for educational purposes only, do not use it in production unless you know what you are doing*
 
-<pre>
-<button class="btn" data-clipboard-target="#code-1"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code id="code-1" class="solidity">pragma solidity ^0.4.23;
+{% code_block copyBtn:true %}
+pragma solidity ^0.4.23;
 
 contract Token {
 
@@ -110,7 +112,7 @@ contract Token {
         return (a + b >= a);
     }
 }
-</code></pre>
+{% endcode_block %}
 
 Once added, Embark will automatically detect the new file and deploy the contract. However we quickly notice a problem, in Embark’s we see:
 
@@ -118,18 +120,17 @@ Once added, Embark will automatically detect the new file and deploy the contrac
 
 We haven't supplied any parameters to the contract and embark complains because the contract constructor takes a *initial_balance* parameter which we haven’t specified:
 
-<pre>
-<code id="code-2" class="solidity">constructor(uint initial_balance) public {
+```
+constructor(uint initial_balance) public {
     _balances[msg.sender] = initial_balance;
     _supply = initial_balance;
 }
-</code></pre>
+```
 
 Let’s rectify this by specifying the *initial_balance* value in `config/contracts.js`
 
-<pre>
-<button class="btn" data-clipboard-target="#code-3"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="javascript">module.exports = {
+{% code_block copyBtn:true %}
+module.exports = {
   default: {
     // .....
     gas: "auto",
@@ -139,20 +140,19 @@ Let’s rectify this by specifying the *initial_balance* value in `config/contra
         args: {
           initial_balance: 1000
         }
-      }</mark>
+      }
     }
     // .....
   }
 }
-</code></pre>
+{% endcode_block %}
 
 Embark will detect the change and redeploy the contract with the new parameters.
 
 You can confirm that the token supply is 1000 by typing:
-<pre><button class="btn" data-clipboard-target="#cmd-3-1"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="shell">$ <mark id="cmd-3-1">Token.methods._supply().call(console.log)</mark></code>
-</pre>
-
+{% code_block copyBtn:true %}
+$ Token.methods._supply().call(console.log)
+{% endcode_block %}
 
 ![Console](/assets/images/token_factory_1/console_2.png)
 
@@ -164,49 +164,44 @@ For the sake of brevity, we wouldn’t implement every single functionality in t
 
 To input the address to query, we’ll edit *app/index.html* and add a simple form.
 
-<pre>
-<button class="btn" data-clipboard-target="#code-4"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="xml">&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;Embark&lt;/title&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
-    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-  <mark id="code-4" class="highlight-inline">
-    &lt;div id=&quot;queryBalance&quot;&gt;
-      &lt;h3&gt;Query Balance&lt;/h3&gt;
-      &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
-      &lt;button&gt;Query&lt;/button&gt;
-      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
-  </mark>
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+{% code_block copyBtn:true %}
+<html>
+  <head>
+    <title>Embark</title>
+    <link rel="stylesheet" href="css/app.css">
+    <script src="js/app.js"></script>
+  </head>
+  <body>
+    <div id="queryBalance">
+      <h3>Query Balance</h3>
+      <input placeholder="enter account address: e.g 0x123" />
+      <button>Query</button>
+      <div class="result"></div>
+    </div>
+  </body>
+</html>
+{% endcode_block %}
 
 **Adding jQuery**
 
 To simplify the code a bit in this tutorial, we’ll add the jQuery library to our DApp. 
 
-<pre>
-<button class="btn" data-clipboard-target="#code-5"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="shell">$ <marc id="code-5">npm install jquery@3 --save</mark></code></pre>
+{% code_block copyBtn:true %}
+$ npm install jquery@3 --save
+{% endcode_block %}
 
 Now edit the file *app/js/index.js* and add:
 
-<pre>
-<button class="btn" data-clipboard-target="#code-6"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code id="code-6" class="javascript">import $ from 'jquery';</code></pre>
+{% code_block copyBtn:true %}
+import $ from 'jquery';
+{% endcode_block %}
 
 **Setting the default address**
 
 Let’s add to the input field field our own address as the default text so we can easily query our own balance. In the file *app/js/index.js* add:
 
-<pre>
-<button class="btn" data-clipboard-target="#code-7"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="javascript">import $ from 'jquery';
-<mark id="code-7" class="highlight-inline">
+{% code_block copyBtn:true %}
+import $ from 'jquery';
 import EmbarkJS from 'Embark/EmbarkJS';
 
 $(document).ready(function() {
@@ -220,8 +215,8 @@ $(document).ready(function() {
     });
     
   });
-});</mark>
-</code></pre>
+});
+{% endcode_block %}
 
 This will get the address of the first account and set it as the default text in the input form.
 
@@ -231,99 +226,24 @@ This will get the address of the first account and set it as the default text in
 
 To query the balance, we can see the contract method signature to do this is:
 
-<pre><code class="solidity">function balanceOf( address who ) constant returns (uint value) {
+```
+function balanceOf( address who ) constant returns (uint value) {
   return _balances[who];
 }
-</code></pre>
+```
 
 This method will be available in the JS code automatically as a promise, like:
 
-<pre>
-<button class="btn" data-clipboard-target="#code-8"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="solidity"><mark id="code-8">import Token from 'Embark/contracts/Token';</mark>
+{% code_block copyBtn:true %}
+import Token from 'Embark/contracts/Token';
 
 Token.methods.balanceOf(address).call().then(function(balance) { });
-</code></pre>
+{% endcode_block %}
+
 
 So we can simply add a click event to the button, get the address, query the balance and set the result.
 
-<pre>
-<button class="btn" data-clipboard-target="#code-9"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="javascript">import $ from 'jquery';
-import EmbarkJS from 'Embark/EmbarkJS';
-import Token from 'Embark/contracts/Token';
-
-$(document).ready(function() {
-  EmbarkJS.onReady((error) => {
-    if (error) {
-      console.error('Error while connecting to web3', error);
-      return;
-    }
-    web3.eth.getAccounts(function(err, accounts) {
-      $('#queryBalance input').val(accounts[0]);
-    });
-    <mark id="code-9" class="highlight-inline">
-    $('#queryBalance button').click(function() {
-      var address = $('#queryBalance input').val();
-      Token.methods.balanceOf(address).call().then(function(balance) {
-        $('#queryBalance .result').html(balance);
-      });
-    });
-    </mark>
-  });
-});
-</code></pre>
-
-![Screenshot](/assets/images/token_factory_1/page_1.png)
-
-Now go to http://localhost:8000 and click on the Query button, it will return 1000 as expected for our address.
-
-## Transferring Tokens
-
-Now let’s implement transferring tokens!
-
-Now checking the contract, this is the method for transferring tokens:
-
-<pre><code class="solidity">function transfer( address to, uint value) returns (bool ok)</code></pre>
-
-The method will take two parameters, an address and a value. Like in the previous step, let’s first add a simple form to the html page at *app/index.html*:
-
-<pre>
-<button class="btn" data-clipboard-target="#code-10"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="xml">&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;Embark&lt;/title&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
-    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;h3&gt;Welcome to Embark!&lt;/h3&gt;
-    &lt;p&gt;See the &lt;a href=&quot;https://github.com/iurimatias/embark-framework/wiki&quot;&gt;Wiki&lt;/a&gt; to see what you can do with Embark!&lt;/p&gt;
-
-    &lt;div id=&quot;queryBalance&quot;&gt;
-      &lt;h3&gt;Query Balance&lt;/h3&gt;
-      &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
-      &lt;button&gt;Query&lt;/button&gt;
-      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
-<mark id="code-10" class="highlight-inline">
-    &lt;div id=&quot;transfer&quot;&gt;
-      &lt;h3&gt;Transfer Tokens&lt;/h3&gt;
-      &lt;input class=&quot;address&quot; placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
-      &lt;input class=&quot;num&quot; placeholder=&quot;enter amount to transfer&quot; /&gt;
-      &lt;button&gt;Transfer&lt;/button&gt;
-      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
-</mark>
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-
-Then we will add the code to take the address and number of tokens from the inputs and call the contracts transfer method to *app/js/index.js*:
-
-<pre>
-<button class="btn" data-clipboard-target="#code-11"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="javascript">
+{% code_block copyBtn:true %}
 import $ from 'jquery';
 import EmbarkJS from 'Embark/EmbarkJS';
 import Token from 'Embark/contracts/Token';
@@ -343,7 +263,77 @@ $(document).ready(function() {
         $('#queryBalance .result').html(balance);
       });
     });
-    <mark id="code-11" class="highlight-inline">
+  });
+});
+{% endcode_block %}
+
+
+![Screenshot](/assets/images/token_factory_1/page_1.png)
+
+Now go to http://localhost:8000 and click on the Query button, it will return 1000 as expected for our address.
+
+## Transferring Tokens
+
+Now let’s implement transferring tokens!
+
+Now checking the contract, this is the method for transferring tokens:
+
+```
+function transfer( address to, uint value) returns (bool ok)
+```
+
+The method will take two parameters, an address and a value. Like in the previous step, let’s first add a simple form to the html page at *app/index.html*:
+
+{% code_block copyBtn:true %}
+<html>
+  <head>
+    <title>Embark</title>
+    <link rel="stylesheet" href="css/app.css">
+    <script src="js/app.js"></script>
+  </head>
+  <body>
+    <h3>Welcome to Embark!</h3>
+    <p>See the <a href="https://github.com/iurimatias/embark-framework/wiki">Wiki</a> to see what you can do with Embark!</p>
+
+    <div id="queryBalance">
+      <h3>Query Balance</h3>
+      <input placeholder="enter account address: e.g 0x123" />
+      <button>Query</button>
+      <div class="result"></div>
+    </div>
+    <div id="transfer">
+      <h3>Transfer Tokens</h3>
+      <input class="address" placeholder="enter account address: e.g 0x123" />
+      <input class="num" placeholder="enter amount to transfer" />
+      <button>Transfer</button>
+      <div class="result"></div>
+    </div>
+  </body>
+</html>
+{% endcode_block %}
+
+Then we will add the code to take the address and number of tokens from the inputs and call the contracts transfer method to *app/js/index.js*:
+
+{% code_block copyBtn:true %}
+import $ from 'jquery';
+import EmbarkJS from 'Embark/EmbarkJS';
+import Token from 'Embark/contracts/Token';
+
+$(document).ready(function() {
+  EmbarkJS.onReady((error) => {
+    if (error) {
+      console.error('Error while connecting to web3', error);
+      return;
+    }
+    web3.eth.getAccounts(function(err, accounts) {
+      $('#queryBalance input').val(accounts[0]);
+    });
+    $('#queryBalance button').click(function() {
+      var address = $('#queryBalance input').val();
+      Token.methods.balanceOf(address).call().then(function(balance) {
+        $('#queryBalance .result').html(balance);
+      });
+    });
     $('#transfer button').click(function() {
       var address = $('#transfer .address').val();
       var num = $('#transfer .num').val();
@@ -352,10 +342,9 @@ $(document).ready(function() {
         $('#transfer .result').html('Done!');
       });
     });
-    </mark>
   });
 });
-</code></pre>
+{% endcode_block %}
 
 Let’s go to the UI and transfer 20 tokens to a random address (try `0x00e13219655759df4f2c15e1fe0b949d43a3c45e`).
 After clicking Transfer you should see the text ‘Done!’ when the transfer takes effect.

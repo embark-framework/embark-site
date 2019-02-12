@@ -1,19 +1,45 @@
-title: Usage in Javascript
+title: Using EmbarkJS
+layout: docs
 ---
 
-Embark includes in your Dapp the EmbarkJS library. This library abstracts different functionalities, so you can easily & quickly build powerful Dapps that leverage different decentralized technologies.
-Embark will automatically initialize EmbarkJS with the configurations set for your particular environment. You just need to connect it to a blockchain node, like explained [below](#Connecting).
+In order to make decentralized app development as easy as possible, Embark offers a useful companion JavaScript library called **EmbarkJS**. It comes with many APIs that make your applications connect to decentralized services such as your Smart Contracts or IPFS. This guide gives a brief overview on how to set up EmbarkJS and make it connect to a blockchain node.
 
-### Connecting
+## Embark Artifacts
 
-Before using EmbarkJS and Contract functions, we need to make sure that Embark is connected to a blockchain node.
+First of all it's important to understand where EmbarkJS comes from. Whenever `embark run` is executed, Embark will generate the EmbarkJS library and put it in the configured `generationDir`, as discussed in [configuring Embark](/docs/configuration.html). This EmbarkJS library is called an artifact and is just one of many other artifacts that Embark generates for later usage.
 
-For that, EmbarkJS provides the `Blockchain.connect()` function that receives a configuration object.
-Luckily, Embark generates the necessary config by looking at your configuration files and outputs it in its generation folder. The default directory is `embarkArtifacts/`, but you can change that in `embark.json` by changing `generationDir`.
+Other artifacts that Embark generates are:
 
-Let's see what that generated config file looks like at `embarkArtifacts/config/blockchain.json`:
+- Smart Contract ABIs
+- Bootstrapping code
+- Configuration data
 
-<pre><code class="json">{
+We'll discuss these more in this guide.
+
+## Importing EmbarkJS
+
+Once Embark has generated all necessary artifacts, we can start using them when building an application. Artifacts are really just written to disc, so if we want to get hold of any of them, it's really just a matter of importing them accordingly.
+
+The following code imports EmbarkJS:
+
+```
+import EmbarkJS from './embarkArtifacts/embarkjs';
+```
+
+## Connecting to a Blockchain node
+
+EmbarkJS offers different APIs for various decentralized services. Some of them can be used right away, others require Embark to do some initial work first. For example, in order to use any [methods of Smart Contract instances](/docs/contracts_javascript.html), it's important that EmbarkJS is actually connected to a blockchain node.
+
+This can be done using the `EmbarkJS.Blockchain.connect()` API. This method takes a configuration object which specifies what node to connect to, and receives a callback that will be called once Embark has connected successfully.
+
+### Blockchain configuration data
+
+If we're familiar with what configuration data is needed, and if we want more fine-grain control over how EmbarkJS is connecting to a node, we can provide those data manually. Otherwise, Embark generates and artifact for the needed configuration as well, so we can just import that and use it accordingly.
+
+The configuration data can be found in `embarkArtifacts/config/blockchain.json` and looks something like this:
+
+```
+{
   "dappConnection": [
     "$WEB3",
     "ws://localhost:8546",
@@ -23,74 +49,81 @@ Let's see what that generated config file looks like at `embarkArtifacts/config/
   "warnIfMetamask": true,
   "blockchainClient": "geth"
 }
-</code></pre>
+```
 
-#### Connection parameters:
+These configuration values may or may not make a lot of sense at the moment, but here's a quick run down on what they are:
 
-- **dappConnection**: Copied from the contracts config. This is the list of connections Embark will try to connect to in order.
-- **dappAutoEnable**: Copied from the contracts config. This tells EmbarkJS to either automatically connect to Metamask (or Mist) or wait for the developper (you) to do it.
- - Read more on it [below](#Provider)
-- **warnIfMetamask**: Is true when `isDev` is true in the blockchain config. Will warn you in the console if Metamask is detected, to make sure you connect Metamask correctly to the local node.
-- **blockchainClient**: Copied from the blockchain config. This tells EmbarkJS which blockchain client it is connecting to and it will warn about the different problematic behaviours you could experience.
+- **dappConnection**: Copied from the Smart Contracts configuration. This is the list of connections Embark will try to connect to in order.
+- **dappAutoEnable**: Copied from the Smart Contracts  configuration. This tells EmbarkJS to either automatically connect to Metamask (or Mist) or wait for the app to call an API
+- **warnIfMetamask**: Is `true` when `isDev` is true in the blockchain configuration. Will warn users in the console if Metamask is detected, to make sure Metamask is connected correctly to the local node.
+- **blockchainClient**: Copied from the blockchain configuration. This tells EmbarkJS which blockchain client it is connecting to and it will warn about different problematic behaviours one could experience.
 
-#### Blockchain.connect() usage
+### Using `Blockchain.connect()` 
 
-Using `Blockchain.connect()` is really easy.
-It serves the same purpose as the old `EmbarkJS.onReady()` function, but takes a config object as well:
+Connecting to a Blockchain node is really just a matter of calling `Blockchain.connect()` with the configuration data and ideally a callback in which we're doing the rest of our application's work.
 
-<pre><code class="javascript">import config from '../embarkArtifacts/config/blockchain';
-...
-EmbarkJS.Blockchain.connect(config, (error) => {
- // If there was no error, you can now interact with contracts and EmbarkJS functions
+```
+import config from './embarkArtifacts/config/blockchain';
+
+EmbarkJS.Blockchain.connect(config, error => {
+  if (error) {
+    ...
+  }
+  ...
 });
-</code></pre>
+```
 
-You can also use `Blockchain.connect()` using a promise:
+We can also use `Blockchain.connect()` using a Promise-based API:
 
-<pre><code class="javascript">await EmbarkJS.Blockchain.connect(config); // Assuming you are in an `async` function
-// If there was no error, you can now interact with contracts and EmbarkJS functions
-</code></pre>
+```
+EmbarkJS.Blockchain.connect(config).then(() => {
+  ...
+});
+```
 
-That's it. EmbarkJS is now connected to the blockchain node and ready to be played with!
+Which, of course works great with `async/await`:
 
-### Provider
+```
+await EmbarkJS.Blockchain.connect(config);
+```
 
-As of [EIP1102](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1102.md), decentralized applications MUST request account access. Embark offers several options on how to implement this.
+## Requesting account access
+
+As of [EIP1102](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1102.md), decentralized applications MUST request access to a DApp's user accounts. Embark offers several options on how to implement this.
 
 An Embark application's Smart Contract configuration file (typically located in `config/contracts.js`) comes with a `dappAutoEnable` property which controls whether or not EmbarkJS should automatically try to request account access:
-<pre><code class="javascript">...
+```
+module.exports = {
+  ...
   // Automatically call `ethereum.enable` if true.
   // If false, the following code must run before sending any transaction: `await EmbarkJS.enableEthereum();`
-  // Default value is true.
-  // dappAutoEnable: true,
-...
-</code></pre>
+  dappAutoEnable: true,
+  ...
+}
+```
 
-By default, the value of `dappAutoEnable` is true which means that Embark will call `ethereum.enable` for you to request account access when the first page of the dapp is loaded.
+By default, the value of `dappAutoEnable` is `true` which means that Embark will call `ethereum.enable` for us to request account access when the first page of the DApp is loaded.
 
-If you want more control, you can set `dappAutoEnable` to false.
-Then, if you want to request account access, you can use the following code: 
+If we want more control over when our application should request account access, we can set `dappAutoEnable` to false and make use of `EmbarkJS.enableEthereum()`.
 
-<pre><code class="javascript">...
-  try {
-    const accounts = await EmbarkJS.enableEthereum();
-    // access granted
-  } catch() {
-    // access not granted
-  }
-...
-</code></pre>
+This method will essentially cause our application to request account access, giving us full control over when this should happen. 
 
-This will request account access and if the user grants access to his accounts, you will be able to make transaction calls.
+```
+try {
+  const accounts = await EmbarkJS.enableEthereum();
+  // access granted
+} catch() {
+  // access not granted
+}
+```
 
+## Additional APIs
 
-### Components
+This guide only touched on getting started with EmbarkJS. There are many more APIs to explore, depending on what we're achieving to build. Have a look at the dedicated guides to learn more:
 
 * [EmbarkJS.Contract](contracts_javascript.html) - To interact with smart contracts. Typically Embark automatically initializes all your deployed contracts with this. uses web3.js 1.0
 * [EmbarkJS.Storage](storage_javascript.html) - To interact with the configured decentralized storage. Includes bindings to save & retrieve data, upload & download files, etc..
 * [EmbarkJS.Communication](messages_javascript.html) - To interact with the configured decentralized messages system. Includes bindings to listen to topics and send messages.
 * [EmbarkJS.Names](naming_javascript.html) - To interact with the configured decentralized naming system such as ENS. Includes bindings to look up the address of a domain name as well as retrieve a domain name given an address.
 
-### Utilities
 
-EmbarkJS' `onReady()` has been deprecated. Try using [Blockchain.connect()](#Connecting) instead.

@@ -1,31 +1,33 @@
 title: Embark 2.6.0 - web3.js 1.0, any version of web3.js & solc. Whisper 5 & much more
+author: iuri_matias
 categories:
   - announcements
+layout: blog-post
 ---
 
-### To Update to 2.6.0
-
-**important**
+## To Update to 2.6.0
 
 Embark's npm package has changed from `embark-framework` to `embark`, this sometimes can create conflicts. To update, first uninstall embark-framework 1 to avoid any conflicts with `npm uninstall -g embark-framework` followed by `npm install -g embark`
 
 to update from 2.5.2:
 
-`npm install -g embark@2.6`
+```
+npm install -g embark@2.6
+```
 
 afterwards make sure `embark version` returns `2.6.0`.
 
-### In this release
+## In this release
 
 You no longer need to wait for new releases of embark when a new version of web3.js or solc comes out as this can be now configured. Embark will take care of downloading and using the new versions. You can specify a list of nodes the dapp should attempt to connect to (instead of being limited 1). Whisper 5 is now supported.
 
-### Support for web3.js 1.0 and (nearly) ANY web3.js version
+## Support for web3.js 1.0 and (nearly) ANY web3.js version
 
 Embark now supports web3.js 1.0 by default, however you can now also specify exactly which version of web3.js you want to use so you can still use 0.19.0 or newer versions of 1.0.
 
 in config/contracts.json
 
-```Javascript
+```
 {
   "default": {
    ....
@@ -38,13 +40,13 @@ in config/contracts.json
 
 If ,for example, you wish to use 0.19.0 you can specify it in the config as `"web3.js": "0.19.0"`
 
-### Support for ANY solc version
+## Support for ANY solc version
 
 You can also configure the solc compiler you wish to use and it should work, so long that solc release does not contain breaking API changes.
 
 `config/contracts.json`
 
-```Javascript
+```
 {
   "default": {
    ....
@@ -55,13 +57,14 @@ You can also configure the solc compiler you wish to use and it should work, so 
 }
 ```
 
-### Specify nodes DApp should attempt to connect to
+## Specify nodes DApp should attempt to connect to
 
 You can specify which nodes your dapp should try to connect in each enviroment. "$WEB3" is a special keyword to specify the existing web3 object.
 The following config would attempt to use the existing web3 object and if unavailable attempt to connect to localhost:8545
 
 `config/contracts.json`
-```Javascript
+
+```
 {
     "development": {
     ...
@@ -73,12 +76,13 @@ The following config would attempt to use the existing web3 object and if unavai
 }
 ```
 
-### Specify node to deploy to
+## Specify node to deploy to
 
 Before Embark would assume this would be the same as the one configured in blockchain.json which could lead to some ackward configs for some devs, this has now been changed so you can specify it in the contracts config.
 
 `config/contracts.json`
-```Javascript
+
+```
 {
     "development": {
     ...
@@ -91,7 +95,7 @@ Before Embark would assume this would be the same as the one configured in block
 }
 ```
 
-### Specify node to connect whisper to
+## Specify node to connect whisper to
 
 `config/communication.json`
 ```Javascript
@@ -109,7 +113,7 @@ Before Embark would assume this would be the same as the one configured in block
 }
 ```
 
-### Specify url to get assets
+## Specify url to get assets
 
 You can specify for each environment what IPFS node to get the assets from
 
