@@ -9,10 +9,10 @@ In this tutorial we want to get very practical and build a decentralized Reddit 
 This tutorial is split up into three parts, so every individual part can get our full attention. The three parts are going to be:
 
 - **Part 1** - Setting up the project and implementing a Smart Contract
-- [**Part 2** - Testing the Smart Contract through EmbarkJS](/news/2019-02-11-building-a-decentralized-reddit-with-embark-part-2.html)
-- **Part 3** - Building a simple front-end using React
+- [**Part 2** - Testing the Smart Contract through EmbarkJS](/news/2019/02/11/building-a-decentralized-reddit-with-embark-part-2/)
+- [**Part 3** - Building a simple front-end using React](/news/2019/02/18/building-a-decentralized-reddit-with-embark-part-3/)
 
-We will link the other two parts once we've published them. We've also set up a [repository](https://github.com/embark-framework/dreddit-tutorial) with all code changes so you can follow along or review your own work.
+**The code for this tutorial can be found in [this repository](https://github.com/embark-framework/dreddit-tutorial)**.
 
 Let's get right to it!
 
