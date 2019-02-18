@@ -54,7 +54,7 @@ First thing we do is creating a file `DReddit.sol` inside `contracts` with a Sma
 
 <pre class="solidity">
 <button class="btn" data-clipboard-target="#cmd-1"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code><mark id="cmd-1">pragma solidity ^0.5.3;
+<code><mark id="cmd-1">pragma solidity ^0.5.0;
 
 contract DReddit {
 
