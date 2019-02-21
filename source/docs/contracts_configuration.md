@@ -222,6 +222,23 @@ afterDeploy: async (deps) => {
 
 `afterDeploy` and other deployment hooks are covered in [Deployment Hooks](#Deployment-hooks).
 
+## Providing Artifacts
+
+Similar to Provider ABIs, providing an Embark artifact let's you configure your contract using an already generated artifact.
+
+That way, you don't need to have the contract on disk or even deploy it, if the address is specified in it.
+
+Here is how you can do it:
+
+<pre><code class="javascript">...
+contracts: {
+  SimpleStorage: {
+    artifact: './path/to/SimpleStorage.json'
+  }
+}
+...
+</code></pre>
+
 ## Deployment tracking
 
 Embark's Smart Contract deployment mechanism prevents the deployment of Smart Contracts that have already been deployed. This turns out to be a powerful feature as you don't have to worry about keeping track of it. If we prefer to have full control over the deployment process and don't want Embark to keep track of individual Smart Contracts deployments, we use the `track` configuration and set it `false`.
