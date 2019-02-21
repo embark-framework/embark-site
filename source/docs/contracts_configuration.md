@@ -224,7 +224,7 @@ afterDeploy: async (deps) => {
 
 ## Providing Artifacts
 
-Similar to Provider ABIs, providing an Embark artifact let's you configure your contract using an already generated artifact.
+Similar to providing ABIs, providing an Embark artifact lets you configure your contract using an already generated artifact.
 
 That way, you don't need to have the contract on disk or even deploy it, if the address is specified in it.
 
@@ -298,24 +298,14 @@ contracts: {
   SimpleStorage: {
     args: [100],
     onDeploy: async (dependencies) => {
-      await dependencies.contracts.SimpleStorage.methods.set(150).send();
+      await dependencies.contracts.SimpleStorage.methods.set(150).send({from: dependencies.web3.web3.eth.defaultAccount});
     }
   }
 }
 ...
 </code></pre>
 
-As mentioned above, every deployment hook works with plain promises as well:
-
-<pre><code class="javascript">...
-SimpleStorage: {
-  args: [100],
-  onDeploy: (dependencies) => {
-    return dependencies.contracts.SimpleStorage.methods.set(150).send();
-  }
-}
-...
-</code></pre>
+To actually `send` transactions and not just make `call`s, you will probably need to provide a `from` account. You can use the `web3` instance inside `dependencies` to get the `defaultAccount` as above.
 
 ### `afterDeploy` hook
 
@@ -328,9 +318,24 @@ contracts: {
   },
 },
 afterDeploy: (dependencies) => {
-  dependencies.contracts.SimpleStorage.methods.set(150).send();
+  dependencies.contracts.SimpleStorage.methods.set(150).send({from: dependencies.web3.eth.defaultAccount});
 }
 ...
+</code></pre>
+
+### Error management
+
+Since we use functions for these deployment hooks, we have to manage errors ourselves.
+
+We skipped that step in the above examples to save space, but here is an easy example on how you can do it:
+
+<pre><code class="javascript">onDeploy: async (dependencies) => {
+  try {
+    await dependencies.contracts.SimpleStorage.methods.set(85).send({from: dependencies.web3.eth.defaultAccount});
+  } catch (e) {
+    console.error('Error during onDeploy', e);
+  }
+},
 </code></pre>
 
 {% note info A note on deployment hook string syntax %}
@@ -344,7 +349,7 @@ deployIf: 'await Manager.methods.isUpdateApproved()'
 </code></pre>
 
 
-This string syntax is still supported but will be deprecated and likely be removed in future versions of Embark.
+This string syntax is still supported, but will be deprecated and likely be removed in future versions of Embark.
 {% endnote %}
 
 ## Human readable Ether units
