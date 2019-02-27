@@ -25,7 +25,6 @@
         window.location.href = VERSIONS[e.target.value];
       };
     </script>
-
     {{ doc_sidebar('sidebar') }}
   </div>
 </aside>

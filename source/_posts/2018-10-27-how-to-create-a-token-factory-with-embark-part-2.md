@@ -1,8 +1,12 @@
 title: How to create a Token Factory with Ethereum — Part 2
-layout: tutorial
+summary: "In this second part, we'll continue where we left off in part one, on building a token factory with Embark and focus on how to deploy new tokens."
+categories:
+  - tutorials
+alias:
+  - "tutorials/token_factory_2.html"
 ---
 
-In [part 1](/tutorials/token_factory_1.html) we deployed and interacted with a single Token. In this article we will continue by adapting the previous DApp to create a true factory so new tokens can be dynamically deployed on the application side.
+In [part 1](/news/2018/09/27/how-to-create-a-token-factory-with-embark-part-1/) we deployed and interacted with a single Token. In this article we will continue by adapting the previous DApp to create a true factory so new tokens can be dynamically deployed on the application side.
 
 A Token is typically a unit used to represent a medium of exchange for some service or utility. They can represent a concert ticket, a membership, voting share, reputation points, etc…
 
@@ -106,7 +110,7 @@ $(document).ready(function() {
 
 Now you can input the address of an existing token in chain, and interact with it. For instance, checking the embark dashboard.
 
-![Console](token_factory_2/console_1.png)
+![Console](/assets/images/token_factory_2/console_1.png)
 
 I can see the address of the deployed token in my case is *0x0703da89fc6c3ff20b8787a23d3340b41258dba7*. Copy paste your equivalent address into the UI.
 
@@ -114,13 +118,13 @@ I can see the address of the deployed token in my case is *0x0703da89fc6c3ff20b8
 *There are several ways to copy the address, in most systems pressing the ALT key while dragging with the mouse will enable text selection in the console, followed by CMD+C or right-click->copy.*
 {% endnote %}
 
-![Screenshot](token_factory_2/page_1.png)
+![Screenshot](/assets/images/token_factory_2/page_1.png)
 
 After copying the address, click “Use this Token’, and let’s see the balance.
 
-![Screenshot](token_factory_2/page_2.png)
+![Screenshot](/assets/images/token_factory_2/page_2.png)
 
-It’s *980* as expected (*1000* was the initial supply as configured in *config/contracts.json* and *20* was transferred out in [part 1](/tutorials/token_factory_1.html)
+It’s *980* as expected (*1000* was the initial supply as configured in *config/contracts.json* and *20* was transferred out in [part 1](/news/2018/09/27/how-to-create-a-token-factory-with-embark-part-1/)
 
 ## Deploy New Tokens on the fly
 
@@ -226,32 +230,32 @@ The resulting promise `.then(function(deployedToken) {})` will contain the contr
 
 So let’s try this out! Entering the supply as 500 and clicking Deploy:
 
-![Screenshot](token_factory_2/page_3.png)
+![Screenshot](/assets/images/token_factory_2/page_3.png)
 
 Perfect! Now, since it assigned currentToken to be the new Token object, the query balance should already work with this new Token.
 
-![Screenshot](token_factory_2/page_4.png)
+![Screenshot](/assets/images/token_factory_2/page_4.png)
 
 It returns *500* as expected! Let’s deploy another token with a different supply and check Query balance again
 
-![Screenshot](token_factory_2/page_5.png)
+![Screenshot](/assets/images/token_factory_2/page_5.png)
 
 After deploying a new token with the supply at *200*, clicking query is also returning *200* as expected.
 
 Let’s switch back to the first deployed token with “Use this Token” functionality to see if everything is working as expected.
 Each time we are deploying a token in the client, the DApp is informing us “Token deployed with address: 0x…”, so let’s use this to copy paste the address of the first deployed contract into the Token Address field, then click “Use this Token” to switch back to that token.  
 
-![Screenshot](token_factory_2/page_6.png)
+![Screenshot](/assets/images/token_factory_2/page_6.png)
 
 Now checking the balance again:
 
-![Screenshot](token_factory_2/page_7.png)
+![Screenshot](/assets/images/token_factory_2/page_7.png)
 
 And it’s *500* as expected since that’s the initial supply defined for the first token deployed.
 
 ## Disabling the Token Deploy from Embarks side
 
-Now that your DApp can deploy Tokens on the fly, It’s unnecessary for Embark to deploy the Token contract like it did in [part 1](/tutorials/token_factory_1.html), however you still need Embark to make the Token contract available on the client side.  To achieve this, go to config/contracts.js and set "deploy": false for that contract
+Now that your DApp can deploy Tokens on the fly, It’s unnecessary for Embark to deploy the Token contract like it did in [part 1](/news/2018/09/27/how-to-create-a-token-factory-with-embark-part-1/), however you still need Embark to make the Token contract available on the client side.  To achieve this, go to config/contracts.js and set "deploy": false for that contract
 
 <pre>
 <button class="btn" data-clipboard-target="#code-6"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
@@ -274,8 +278,8 @@ Now that your DApp can deploy Tokens on the fly, It’s unnecessary for Embark t
 
 Embark will now no longer deploy that contract, in the dashboard you should see:
 
-![Console](token_factory_2/console_2.png)
+![Console](/assets/images/token_factory_2/console_2.png)
 
 ## Conclusion
 
-In [part 1](/tutorials/token_factory_1.html) we deployed and interacted with single Token. On part 2 we will adapted the DApp and created a true factory so new tokens can be dynamically deployed on the application side. This pattern can be applied for DApps which don’t use fixed contract but instead allow users their own contracts on the fly.
+In [part 1](/news/2018/09/27/how-to-create-a-token-factory-with-embark-part-1/) we deployed and interacted with single Token. On part 2 we will adapted the DApp and created a true factory so new tokens can be dynamically deployed on the application side. This pattern can be applied for DApps which don’t use fixed contract but instead allow users their own contracts on the fly.
