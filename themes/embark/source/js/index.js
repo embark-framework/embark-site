@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const guidesTrigger = document.querySelector('#guides-trigger');
   const navigationClose = document.querySelector('.c-navigation__close');
   const guidesClose = document.querySelector('#guides-close');
+  const versionSelector = document.querySelector('#version-select');
 
   navigationTrigger.addEventListener('click', function () {
     navigation.classList.toggle('is-active');
@@ -28,6 +29,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     guidesClose.addEventListener('click', function () {
       guideNavigation.classList.remove('is-active');
+    });
+  }
+
+  if (versionSelector) {
+    versionSelector.addEventListener('change', function (e) {
+      if (EMBARK_DOC_VERSIONS[e.target.value]) {
+        window.location.href = EMBARK_DOC_VERSIONS[e.target.value];
+      }
     });
   }
 
