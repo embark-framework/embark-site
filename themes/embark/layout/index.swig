@@ -29,7 +29,7 @@
           partial('partial/whisperbox', {
             className: 'o-grid__column--1-1 o-grid__column--large-1-3',
             title: 'Smart Contract Management',
-            text: 'Automatically deploy contracts and access them with JS promises. Embark watches for changes, and will redeploy contracts or DApps when updated.',
+            text: 'Build, test and deploy your Smart Contracts without the hassle. Embark takes care of the ground work, watches for changes, and redeploy your application when needed.',
             icon: 'pen-write-paper',
             link: {
               text: 'Learn more',
@@ -41,7 +41,7 @@
           partial('partial/whisperbox', {
             className: 'o-grid__column--1-1 o-grid__column--large-1-3',
             title: 'Easy to use Debugger and Testing',
-            text: 'Quickly identify bugs and write automated test directly from within the dashboard foo bar.',
+            text: "Testing shouldn't be an after thought. Embark makes debugging and testing a first class citizen of your development experience.",
             icon: 'search-bar',
             link: {
               text: 'Learn more',
@@ -53,7 +53,7 @@
           partial('partial/whisperbox', {
             className: 'o-grid__column--1-1 o-grid__column--large-1-3',
             title: 'End to End DApp Development',
-            text: 'Everything you need to take your DApp from idea to deployment including decentralized storage and messaging.',
+            text: 'Go beyond Smart Contracts if you want to. Embark offers great integrations with decentralized services such as IPFS and Whisper.',
             icon: 'pie-line-graph',
             link: {
               text: 'Learn more',
@@ -70,7 +70,7 @@
         <div class="o-media">
           <div class="o-media__body">
             <h2 class="c-section-title u-text-ghost">Powerful CLI</h2>
-            <p class="c-subtitle o-box__subtitle u-text-light">A complete developer environment to give you total control of every step in the development process.</p>
+            <p class="c-subtitle o-box__subtitle u-text-light">Embark's command line interface comes with a rich dashboard so <strong>you</strong> are in control.</p>
             <div class="o-distance-l">
               <ul class="c-checklist">
                 {{ partial('partial/checklist_item', { icon: 'icon-check', text: 'Service Monitoring', style: 'u-text-light' }) }}
@@ -96,7 +96,7 @@
         {{
           partial('partial/heading', {
             title: '<span class="u-text-light">Modular by </span>Design',
-            referal: 'You are in complete control of the experience. Pick and choose what features, plugins and tools you want to integrate with.'
+            referal: 'Pick and choose what features, plugins and tools you want to integrate with. Embark is built with modularity in mind.'
           })
         }}
         <div class="o-distance-l">
@@ -164,7 +164,7 @@
       {{
         partial('partial/heading', {
           title: '<span class="u-text-light">For developers</span>, by developers',
-          referal: 'Embark is fully open source project. Get involved and be part of the journey.',
+          referal: 'Embark is a fully open source effort. Get involved and be part of the journey.',
           link: {
             text: 'Join the Community',
             href: '/community'
