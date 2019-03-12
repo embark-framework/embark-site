@@ -47,7 +47,7 @@ Starting a new Dapp from scratch is easy, we have two options.
 
 The easiest option is to use our new Embark CRA template (TODO add template URl). It sets up a simple Embark project with all of the familiar files present in an Embark 3.x Dapp, with one minor difference: the config files are located in an `embarkConfig/` folder in the root of the Dapp to make sure they don't clash with CRA's config folder/files.
 
-The other solution is to create a project with your chosen pipeline and then (TODO new command or we need to do it in another).
+The other solution is to create a project using a frontend build tool like Angular CLI, then (TODO new command or we need to do it in another. Don't forget to add info about disabling pipeline with config/pipeline > `enabled: false`).
 
 ## New Web3 plugin
 
