@@ -4,7 +4,7 @@ categories:
   - tutorials
 ---
 
-The release of Embark 4.0 is close at hand and beta.2 is the relase to introduce some real breaking changes. Let's dive right into them.
+The release of Embark 4.0 is close at hand and the release candidate, `beta.2` will introduce some breaking changes. Let's see what it takes to update an Embark 3.x Dapp to Embark 4.
 
 ## Use the pipeline that YOU want
 
