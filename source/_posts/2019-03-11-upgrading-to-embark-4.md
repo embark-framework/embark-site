@@ -43,7 +43,7 @@ Now, all the Embark files and configs from your Dapp can be moved in to a projec
 
 ### New project with another pipeline
 
-If you are starting your project from scratch, you have two options.
+Starting a new Dapp from scratch is easy, we have two options.
 
 The easier one is to use our new Embark CRA template (TODO add template URl). It sets up a simple Embark project for you with the all of the files you are used to. The only slight difference is that the config files are in `embarkConfig` to make sure they don't clash with CRA's config. It's already set up for you to start and use. You only need to do `embark run` and in another terminal `yarn start` or `npm run start` to start CRA.
 
