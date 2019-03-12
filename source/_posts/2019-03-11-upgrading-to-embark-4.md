@@ -33,7 +33,7 @@ The first thing we need to do is add a new `generationDir` property in the root 
 #### "Magic" imports
 Afterwards, we need to convert all "magic" imports in our Dapp's code to relative imports.
 
-The first one is the EmbarkJS import. The "magic" import is `"Embark/EmbarkJS"`. We need to convert that to the relative path. The `embarkjs.js` script is at the root of  `embarkArtifacts/`, so you need to convert it to something like `"./embarkArtifacts/embarkjs"`.
+The first one is the EmbarkJS import. The "magic" import is `"Embark/EmbarkJS"`. Anywhere we have `"Embark/EmbarkJS"` in our Dapp's code, we need to convert that to the relative path. Because we are trying to get the `EmbarkJS` library, and the `embarkjs.js` script is located in the root of  `embarkArtifacts/`, we need to replace 
 
 Secondly, we need to update the "magic" contract imports. These will need to change from 
 
