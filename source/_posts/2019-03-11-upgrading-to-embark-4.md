@@ -30,7 +30,8 @@ Embark 4 now generates contract artifacts for all of the contracts in your Dapp.
 The first thing we need to do is add a new `generationDir` property in the root of `embark.json`. This property tells Embark where to place the generated artifacts in the Dapp's filesystem. For example, `create-react-app` (CRA) has `src/` as source folder and the artifacts must be placed in that folder, so we would add in `embark.json`:
 
 
-Afterwards, we need to convert all "magic" imports to relative imports.
+#### "Magic" imports
+Afterwards, we need to convert all "magic" imports in our Dapp's code to relative imports.
 
 The first one is the EmbarkJS import. The "magic" import is `"Embark/EmbarkJS"`. We need to convert that to the relative path. The `embarkjs.js` script is at the root of  `embarkArtifacts/`, so you need to convert it to something like `"./embarkArtifacts/embarkjs"`.
 
