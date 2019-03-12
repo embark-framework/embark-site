@@ -67,7 +67,7 @@ However, we did introduce some small breaking changes. We removed:
 
 ## Conclusion
 
-Embark 4 contains way more new features than those listed above. Once we release officially Embark 4, we'll list all of those cool features for you.
+This is a small taste of the features added to Embark 4, namely the ability to use a frontend build tool of choice. However, Embark 4 is jam-packed with additional new features, which we'll detail during the Embark 4 release.
 
 In the meantime, you can see that all that goodness doesn't come at too high a price it terms of breaking changes.
 
