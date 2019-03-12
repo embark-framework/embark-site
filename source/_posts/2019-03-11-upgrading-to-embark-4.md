@@ -21,7 +21,8 @@ To migrate an existing Embark 3.x Dapp over to use Embark 4 with a third party p
 NOTE: If you are not interested in using a third party pipeline, you can skip to the next section to [see the rest of the breaking changes needed to migrate a Dapp to Embark 4](#New-Web3-plugin).
 
 ### Converting to another pipeline
-
+Converting to a third party pipeline is easy. This can be done with three simple improvements that Embark 4 has made available for us.
+#### Artifact generation directory
 The first thing you might want to do is change or add the new `generationDir` property in `embark.json`. This property tells Embark where to generation the various artifacts that you will need to build your Dapp. Most of those artifacts were already generated before, but were inside the `.embark/` folder. 
 
 Since most file pipelines need those files inside the source folder, we're going to put `generationDir` as your selected pipeline's source folder. For example,  create-react-app (CRA) has `src/` as source folder.
