@@ -14,7 +14,7 @@ Historically, Embark has come with a special Webpack pipeline because it made yo
 
 However, we discovered the hard way that those advantages ended not being worth the price of performance that you pay, when you can't use an optimized pipeline, like create-react-app or Angular CLI.
 
-Thereby, we announce that you can now use the file pipeline that YOU want. Also, you can STILL use Embark's pipeline if you are fine with what is currently there.
+Therefore, we are announcing that Embark 4 can use **any** frontend development pipeline, letting Embark handle the things that it does best. This means we can use tools such as `create-react-app` or Angular CLI alongside Embark. The Embark 3.x pipeline is still available for use for quick start applications if needed.
 
 So, as you just read, it's not really a breaking change, well  that is, unless you decide you want to convert you Dapp from Embark's pipeline to the one of your choice.
 
