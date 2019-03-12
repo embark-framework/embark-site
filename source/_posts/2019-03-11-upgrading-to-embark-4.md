@@ -6,7 +6,7 @@ categories:
 
 The release of Embark 4.0 is close at hand and the release candidate, `beta.2` will introduce some breaking changes. Let's see what it takes to update an Embark 3.x Dapp to Embark 4.
 
-## Use the pipeline that YOU want
+## Use **any** frontend build tool!
 
 That's right! The use of Embark's builtin pipeline in no longer required.
 
