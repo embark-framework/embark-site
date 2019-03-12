@@ -35,6 +35,15 @@ Afterwards, we need to convert all "magic" imports in our Dapp's code to relativ
 
 The first one is the EmbarkJS import. The "magic" import is `"Embark/EmbarkJS"`. Anywhere we have `"Embark/EmbarkJS"` in our Dapp's code, we need to convert that to the relative path. Because we are trying to get the `EmbarkJS` library, and the `embarkjs.js` script is located in the root of  `embarkArtifacts/`, we need to replace 
 
+```javascript
+import EmbarkJS from "Embark/EmbarkJS"
+```
+with
+```javascript
+import EmbarkJS from "./embarkArtifacts/embarkjs"
+```
+NOTE: The relative path is dependent upon the generationDir setting specified in embark.json (see the "Artifact generation directory" section above](#Artifact generation directory).
+
 Secondly, we need to update the "magic" contract imports. These will need to change from 
 
 ```javascript
