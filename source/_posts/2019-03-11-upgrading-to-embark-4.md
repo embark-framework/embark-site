@@ -18,7 +18,7 @@ Therefore, we are announcing that Embark 4 can use **any** frontend development 
 
 To migrate an existing Embark 3.x Dapp over to use Embark 4 with a third party pipeline, there are few small changes to your Dapp that are needed.
 
-If you don't plan on starting a project with another pipeline or don't plan of converting, you can skip to [the next section](#New-Web3-plugin).
+NOTE: If you are not interested in using a third party pipeline, you can skip to the next section to [see the rest of the breaking changes needed to migrate a Dapp to Embark 4](#New-Web3-plugin).
 
 ### Converting to another pipeline
 
