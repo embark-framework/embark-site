@@ -1,5 +1,5 @@
 title: How to upgrade to Embark 4
-summary: "In this guide, we'll show how to upgrade from an Embark 3.x project to Embark 4"
+summary: "In this guide, we'll learn how to upgrade a Dapp created with Embark 3.x to Embark 4"
 categories:
   - tutorials
 ---
