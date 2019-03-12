@@ -10,7 +10,7 @@ The release of Embark 4.0 is close at hand and beta.2 is the relase to introduce
 
 You read correctly! You no longer need to use Embark's pipeline, which, let's not hide it, is pretty slow.
 
-Historically, Embark has come with a special Webpack pipeline because it made your work, as a user, easier. Indeed, it enabled you to use simple "magic" imports, such as `import SimpleStorage from "Embark/contracts/SimpleStorage";`. It also did the connection to Web3 for you.
+Historically, Embark 3.x came with a special Webpack pipeline because it automated development tasks, such as enabling the use of "magic" imports (ie `import SimpleStorage from "Embark/contracts/SimpleStorage";` or `import EmbarkJS from Embark/EmbarkJS`), and establishing a Web3 connection for the Dapp.
 
 However, we discovered the hard way that those advantages were not worth the hit in development efficiency, when compared to using an optimized pipeline, such as `create-react-app` or Angular CLI, as on every save, Embark would regenerate a lot of the Dapp-side code and then Webpack the entire Dapp, often taking quite some time.
 
