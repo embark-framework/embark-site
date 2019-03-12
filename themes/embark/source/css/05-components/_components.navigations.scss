@@ -95,10 +95,16 @@
   }
   &__body {
     padding: get-spacing-inset(m);
+
+    @include breakpoint(l) {
+      margin-top: get-spacing-stack(s);
+      padding: 0;
+      line-height: 1;
+    }
   }
 
   &__subnav {
     padding-left: get-spacing-inset(m);
   }
-} 
+}
 
