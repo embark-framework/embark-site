@@ -71,4 +71,4 @@ This is a small taste of the features added to Embark 4, namely the ability to u
 
 In the meantime, all the Embark 4 goodness doesn't come at too high a price in terms of breaking changes.
 
-Hopefully, you'll have a blast upgrading to Embark 4 and if you ever have an issue, make sure to hit us on [Gitter](https://gitter.im/embark-framework/Lobby).
+Upgrading to Embark 4 will be a blast. If you ever have an issue, make sure to hit us up on [Gitter](https://gitter.im/embark-framework/Lobby).
