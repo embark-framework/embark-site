@@ -81,23 +81,23 @@ yarn start // or alternatively, npm run start
 
 That's it!
 
-The other solution is to create a project with your chosen pipeline and then (TODO new command or we need to do it in another).
+The other solution is to create a project using a frontend build tool like Angular CLI, then (TODO new command or we need to do it in another. Don't forget to add info about disabling pipeline with config/pipeline > `enabled: false`).
 
 ## New Web3 plugin
 
-Starting with Embark 4 beta.2, Embark no longer comes with Web3js by default for your Dapp. Don't run. We did that so that we can now have the possibility of supporting more than just Web3js, but potentially EthersJS and more (even the possibility for you to do it).
+Starting with Embark 4 beta.1, Embark no longer supplies the Dapp with `Web3.js` by default. Don't run. We did that so that we can now have the possibility of supporting more than just `Web3.js`, such as EthersJS, and more. You can even roll your own.
 
-Anyway, to continue having Web3js inside your Dapp, you only have to call the following command in the Embark console: `plugin install embarkjs-connector-web3`
+To continue using `Web3.js` inside the Embark 4 Dapp, execute the following command in the Embark console: `plugin install embarkjs-connector-web3`.
 
-As you can see, it's just a plugin. You can install it manually instead by doing:
+This simply [installs `embarkjs-connector-web3` as a plugin](https://embark.status.im/docs/installing_plugins.html). Alternatively, this plugin can be installed manually by executing:
 1. `yarn add embarkjs-connector-web3` or `npm install --save embarkjs-connector-web3`
 2. Adding `"embarkjs-connector-web3": {}` to the `plugins` section of `embark.json`
 
-It's as simple as that. This plugin will add the necessary commands and code for your Dapp to connect to the blockchain and register the necessary providers. The only prerequisite is that you import `EmbarkJS` at least once. That file is located at `embarkArtifacts/embarkjs.js` or if you still use Embark's pipeline, you can import it using `import EmbarkJS from "Embark/EmbarkJS";`.
+It's as simple as that. This plugin will add the necessary commands and code for the Dapp to connect to the blockchain and register the necessary providers. The only prerequisite is for the Dapp to import `EmbarkJS` at least once. If using a third party pipeline, the `EmbarkJS` file can be imported using `import EmbarkJS from "./embarkArtifacts/embarkjs.js"` (or as specified by the `generationDir` in `embark.json`). If using Embark's built-in pipeline, `EmbarkJS` can be imported using `import EmbarkJS from "Embark/EmbarkJS";`.
 
 ## New Blockchain account configs
 
-In Embark 4 alpha, we added some new blockchain account configurations. They are really similar to the ones you have in the contract configuration. You can find more details in our [Accounts Blockchain configuration guide](https://embark-site-develop.netlify.com/docs/blockchain_accounts_configuration.html).
+Embark 4 adds some new blockchain account configurations. To try to keep things as simple as possible, these additions are really similar to the ones in the contract configuration. For more information, please read the [Accounts Blockchain configuration guide](https://embark.status.im/docs/blockchain_accounts_configuration.html) in our docs.
 
 However, we did introduce some small breaking changes. We removed: 
 - `account`: This is completely replaced by the new `accounts` property (notice the `s` at the end of `accounts`). It gives the developer more flexibility. To have exactly the same behavior as before, just use the `nodeAccounts` account type as [described in the docs](https://embark.status.im/docs/blockchain_accounts_configuration.md#parameter-descriptions)
