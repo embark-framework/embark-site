@@ -37,6 +37,14 @@ The first one is the EmbarkJS import. The "magic" import is `"Embark/EmbarkJS"`.
 
 Secondly, we need to update the "magic" contract imports. These will need to change from 
 
+```javascript
+import ContractName from "Embark/contract/ContractName";
+```
+to
+```javascript
+import ContractName from "./embarkArtifacts/contracts/ContractName";
+```
+
 Third one, there used to be `"Embark/web3"`, but we removed it. Don't worry, we are not removing web3 support, far from it. We actually just got rid of that useless import that didn't do much. All you have to do is use the global `web3` object that is avilable everywhere in the Dapp.
 
 Then, you can move your Embark files and configs inside a project created by the pipeline of your choice.
