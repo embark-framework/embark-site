@@ -12,7 +12,7 @@ You read correctly! You no longer need to use Embark's pipeline, which, let's no
 
 Historically, Embark has come with a special Webpack pipeline because it made your work, as a user, easier. Indeed, it enabled you to use simple "magic" imports, such as `import SimpleStorage from "Embark/contracts/SimpleStorage";`. It also did the connection to Web3 for you.
 
-However, we discovered the hard way that those advantages ended not being worth the price of performance that you pay, when you can't use an optimized pipeline, like create-react-app or Angular CLI.
+However, we discovered the hard way that those advantages were not worth the hit in development efficiency, when compared to using an optimized pipeline, such as `create-react-app` or Angular CLI, as on every save, Embark would regenerate a lot of the Dapp-side code and then Webpack the entire Dapp, often taking quite some time.
 
 Therefore, we are announcing that Embark 4 can use **any** frontend development pipeline, letting Embark handle the things that it does best. This means we can use tools such as `create-react-app` or Angular CLI alongside Embark. The Embark 3.x pipeline is still available for use for quick start applications if needed.
 
