@@ -23,7 +23,11 @@ NOTE: If you are not interested in using a third party pipeline, you can skip to
 ### Converting to another pipeline
 Converting to a third party pipeline is easy. This can be done with three simple improvements that Embark 4 has made available for us.
 #### Artifact generation directory
-The first thing you might want to do is change or add the new `generationDir` property in `embark.json`. This property tells Embark where to generation the various artifacts that you will need to build your Dapp. Most of those artifacts were already generated before, but were inside the `.embark/` folder. 
+NOTE: If you are planning on using Embark's built-in Webpack pipeline (and not use a third party pipeline), please [skip down to the remainder of the Embark 4 breaking changes](#New-Web3-plugin).
+
+Embark 4 now generates contract artifacts for all of the contracts in your Dapp. These artifacts enable importing the Dapp's contracts in to the Dapp's javascript. Most of these artifacts were already generated before, but lived inside the `.embark/` folder. Since most modern frontend build systems require source files to live inside of a very specific source folder, we have given developers the opportunity to specify the destination folder for these artifacts, allowing the frontend build tool to pack them in to the build files.
+
+The first thing we need to do is add a new `generationDir` property in the root of `embark.json`. This property tells Embark where to place the generated artifacts in the Dapp's filesystem. For example, `create-react-app` (CRA) has `src/` as source folder and the artifacts must be placed in that folder, so we would add in `embark.json`:
 
 Since most file pipelines need those files inside the source folder, we're going to put `generationDir` as your selected pipeline's source folder. For example,  create-react-app (CRA) has `src/` as source folder.
 
