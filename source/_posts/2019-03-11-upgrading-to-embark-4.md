@@ -35,7 +35,7 @@ Afterwards, we need to convert all "magic" imports in our Dapp's code to relativ
 
 The first one is the EmbarkJS import. The "magic" import is `"Embark/EmbarkJS"`. We need to convert that to the relative path. The `embarkjs.js` script is at the root of  `embarkArtifacts/`, so you need to convert it to something like `"./embarkArtifacts/embarkjs"`.
 
-Second ones are the contracts. They used to look like `"Embark/contract/ContractName"`. They are now located inside `embarkArtifactscontracts/`.
+Secondly, we need to update the "magic" contract imports. These will need to change from 
 
 Third one, there used to be `"Embark/web3"`, but we removed it. Don't worry, we are not removing web3 support, far from it. We actually just got rid of that useless import that didn't do much. All you have to do is use the global `web3` object that is avilable everywhere in the Dapp.
 
