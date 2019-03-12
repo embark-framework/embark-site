@@ -69,6 +69,6 @@ However, we did introduce some small breaking changes. We removed:
 
 This is a small taste of the features added to Embark 4, namely the ability to use a frontend build tool of choice. However, Embark 4 is jam-packed with additional new features, which we'll detail during the Embark 4 release.
 
-In the meantime, you can see that all that goodness doesn't come at too high a price it terms of breaking changes.
+In the meantime, all the Embark 4 goodness doesn't come at too high a price in terms of breaking changes.
 
 Hopefully, you'll have a blast upgrading to Embark 4 and if you ever have an issue, make sure to hit us on [Gitter](https://gitter.im/embark-framework/Lobby).
