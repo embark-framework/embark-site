@@ -31,7 +31,7 @@ input[type="color"] {
 }
 
 input[type="search"] {
-  padding: get-spacing-inset(m);
+  padding: get-spacing-squish(l);
   -webkit-appearance: none;
   border-radius: $border-rounded-radius;
 }
