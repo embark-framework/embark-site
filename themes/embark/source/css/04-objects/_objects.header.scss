@@ -64,4 +64,8 @@
 
 .c-header--compact {
   padding-bottom: 50px;
+
+  .c-header__background {
+    opacity: .4;
+  }
 }
