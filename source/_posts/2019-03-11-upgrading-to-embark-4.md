@@ -16,7 +16,7 @@ However, we discovered the hard way that those advantages ended not being worth 
 
 Therefore, we are announcing that Embark 4 can use **any** frontend development pipeline, letting Embark handle the things that it does best. This means we can use tools such as `create-react-app` or Angular CLI alongside Embark. The Embark 3.x pipeline is still available for use for quick start applications if needed.
 
-So, as you just read, it's not really a breaking change, well  that is, unless you decide you want to convert you Dapp from Embark's pipeline to the one of your choice.
+To migrate an existing Embark 3.x Dapp over to use Embark 4 with a third party pipeline, there are few small changes to your Dapp that are needed.
 
 If you don't plan on starting a project with another pipeline or don't plan of converting, you can skip to [the next section](#New-Web3-plugin).
 
