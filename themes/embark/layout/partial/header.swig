@@ -13,7 +13,7 @@
         <div class="c-navigation__body">
           <ul class="c-navigation__list">
             <li class="c-navigation__item">
-              <a href="/docs/quick_start.html" class="c-navigation__anchor {% if is_quickstart() %}is-active{% endif %}" title="Quickstart">Quickstart</a>
+              <a href="{{ url_for('docs/quick_start.html') }}" class="c-navigation__anchor {% if is_quickstart() %}is-active{% endif %}" title="Quick Start">Quick Start</a>
             </li>
             <li class="c-navigation__item">
               <a href="/docs" class="c-navigation__anchor {% if is_current('/docs') && !is_quickstart() %}is-active{% endif %}" title="Learn">Learn</a>
