@@ -101,7 +101,7 @@
         }}
         <div class="o-distance-l">
           <ul class="c-checklist">
-            {{ partial('partial/checklist_item', { icon: 'icon-check', text: 'Smart Contract only or fully fledged DApps?' }) }}
+            {{ partial('partial/checklist_item', { icon: 'icon-check', text: 'Smart Contract only or fully fledged DApps' }) }}
             {{ partial('partial/checklist_item', { icon: 'icon-check', text: 'Integrate with existing tools' }) }}
             {{ partial('partial/checklist_item', { icon: 'icon-check', text: 'Extend it too your needs' }) }}
           </ul>
