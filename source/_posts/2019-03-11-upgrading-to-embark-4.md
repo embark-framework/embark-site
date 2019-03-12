@@ -51,7 +51,7 @@ The other solution is to create a project using a frontend build tool like Angul
 
 ## New Web3 plugin
 
-Starting with Embark 4 beta.2, Embark no longer comes with Web3js by default for your Dapp. Don't run. We did that so that we can now have the possibility of supporting more than just Web3js, but potentially EthersJS and more (even the possibility for you to do it).
+Starting with Embark 4 beta.1, Embark no longer supplies the Dapp with `Web3.js` by default. Don't run. We did that so that we can now have the possibility of supporting more than just `Web3.js`, such as EthersJS, and more. You can even roll your own.
 
 Anyway, to continue having Web3js inside your Dapp, you only have to call the following command in the Embark console: `plugin install embarkjs-connector-web3`
 
