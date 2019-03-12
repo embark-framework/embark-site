@@ -64,6 +64,23 @@ Starting a new Dapp from scratch is easy, we have two options.
 
 The easiest option is to use our new Embark CRA template (TODO add template URl). It sets up a simple Embark project with all of the familiar files present in an Embark 3.x Dapp, with one minor difference: the config files are located in an `embarkConfig/` folder in the root of the Dapp to make sure they don't clash with CRA's config folder/files.
 
+To get started with Embark's CRA template,
+
+```
+embark new --template embark-react-dapp my-dapp
+cd my-dapp
+embark run
+```
+
+Then, in another terminal,
+
+```
+cd my-dapp
+yarn start // or alternatively, npm run start
+```
+
+That's it!
+
 The other solution is to create a project with your chosen pipeline and then (TODO new command or we need to do it in another).
 
 ## New Web3 plugin
