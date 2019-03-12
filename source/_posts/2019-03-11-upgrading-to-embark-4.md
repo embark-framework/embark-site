@@ -62,7 +62,7 @@ It's as simple as that. This plugin will add the necessary commands and code for
 In Embark 4 alpha, we added some new blockchain account configurations. They are really similar to the ones you have in the contract configuration. You can find more details in our [Accounts Blockchain configuration guide](https://embark-site-develop.netlify.com/docs/blockchain_accounts_configuration.html).
 
 However, we did introduce some small breaking changes. We removed: 
-- `account`: This is completely replaced by the new `accounts` property. It gives you more flexibility. To have exactly the same behavior as before, just use the `nodeAccount` account type
+- `account`: This is completely replaced by the new `accounts` property (notice the `s` at the end of `accounts`). It gives the developer more flexibility. To have exactly the same behavior as before, just use the `nodeAccounts` account type as [described in the docs](https://embark.status.im/docs/blockchain_accounts_configuration.md#parameter-descriptions)
 - `simulatorMnemonic`: Removed because it was mostly useless. Ganache CLI has a default mnemonic. Also, you get the same behavior as before with the `mnemonic` account type
 
 ## Conclusion
