@@ -70,7 +70,9 @@ Now, all the Embark files and configs from your Dapp can be moved in to a projec
 
 Starting a new Dapp from scratch is easy, we have two options.
 
-The easiest option is to use our new Embark CRA template (TODO add template URl). It sets up a simple Embark project with all of the familiar files present in an Embark 3.x Dapp, with one minor difference: the config files are located in an `embarkConfig/` folder in the root of the Dapp to make sure they don't clash with CRA's config folder/files.
+#### Embark's create-react-dapp template
+
+The easiest option is to use our [new Embark CRA template](https://github.com/embark-framework/embark-create-react-dapp-template). It sets up a simple Embark project with all of the familiar files present in an Embark 3.x Dapp, with one minor difference: the config files are located in an `embarkConfig/` folder in the root of the Dapp to make sure they don't clash with CRA's config folder/files.
 
 To get started with Embark's CRA template,
 
@@ -89,7 +91,21 @@ yarn start // or alternatively, npm run start
 
 That's it!
 
-The other solution is to create a project using a frontend build tool like Angular CLI, then (TODO new command or we need to do it in another. Don't forget to add info about disabling pipeline with config/pipeline > `enabled: false`).
+#### For other build tools
+
+If we want to use another build tool than CRA, here are the steps:
+
+Create a project using a frontend build tool like Angular CLI. Then, in another directory, execute `embark new your_projects_name`.
+
+Afterwards, we copy all the files and folders from the Embark project to the build tool's folder. The only tweak that you will need to do is go in `config/pipeline.js` and set `enabled: false`, so that Embark's pipeline is disabled.
+
+We can also go in `embark.json` and remove the `app` section (as well as Embark's source dir that you will not be using).
+
+Lastly, check out [the "Artifact generation directory" section above](#Artifact-generation-directory) to make sure your artifacts directory is set up correctly for you build tool.
+
+There you go, your project is ready. 
+
+We know that these steps are a bit too much, so we are working on a new command that lets you initialize an Embark project from inside a build tool's directory. Keep an eye out for that.
 
 ## New Web3 plugin
 
