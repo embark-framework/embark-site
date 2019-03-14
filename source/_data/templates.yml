@@ -48,7 +48,7 @@
 - name: Embark Vortex Template
   description: A React Application showing what can be done with Vortex when using Embark.
   thumbnail: vortex.png
-  install: embark new AppName --template Horyus/vortex-demo-embark/
+  install: embark new AppName --template Horyus/vortex-demo-embark
   link: https://github.com/Horyus/vortex-demo-embark/
   tags:
     - react
