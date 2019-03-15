@@ -1,21 +1,23 @@
 title: Embark by Status 3.0
+author: iuri_matias
 summary: "We're happy to announce that Embark 3.0 has been released! Read on for what's inside!"
 categories:
   - announcements
+layout: blog-post
 ---
 
 Embark is now part of [Status](https://status.im/) and we are happy to announce Embark 3.0 by Status!
 
-### New website and Documentation
+## New website and Documentation
 
 Embark has a new website and up to date documentation which can be found at https://embark.status.im/docs/
 
-### More Smart Contract Languages
+## More Smart Contract Languages
 
 Besides Solidity, Embark now also supports [Vyper](https://github.com/ethereum/vyper/) out of the box, as well as [Bamboo](https://github.com/pirapira/bamboo) through an embark [plugin](https://github.com/embark-framework/embark-bamboo)
 You can use these languages side by side, and take advantage of Embark's features such as contract testing just like you would with Solidity.
 
-### DApp Imports
+## DApp Imports
 
 From the dapp side, contracts and libs like EmbarkJS can be implicitly imported, for e.g to import a contract:
 
@@ -44,7 +46,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import './dapp.css';
 ```
 
-### Friendlier torwards contracts-only projects
+## Friendlier torwards contracts-only projects
 
 Although Embark is focused on DApps, it can perfectly be used for projects targeting only smart contracts and no other components.
 
@@ -66,11 +68,11 @@ You can also fine tune this in embark.json by specifying the config of each comp
   ...
 ```
 
-### Embark Graph
+## Embark Graph
 
 The command `embark graph` will generate a ER graph of the dapp contracts. This takes into account not just the inheritance but also the relationships specified in the configuration.
 
-### Config contracts from URIs
+## Config contracts from URIs
 
 Embark now supports referencing directly URIs including http, git, github, or directly files contained in other directories than the ones specified in embark.json
 
@@ -97,7 +99,7 @@ Embark is smart enough to take care of the dependencies of the resources and pre
 }
 ```
 
-### Importing contracts from URIs directly in Solidity
+## Importing contracts from URIs directly in Solidity
 
 You can also import the same URIs directly in solidity which is quite useful for interfaces, e.g:
 
@@ -111,7 +113,7 @@ contract MyContract is Ownable {
 }
 ```
 
-### Contracts from npm packages
+## Contracts from npm packages
 
 You can now install npm packages that contain contracts (e.g `npm install --save openzeppelin-solidity`) and refer them to them in the contracts.json file:
 
@@ -137,21 +139,21 @@ contract MyContract is Ownable {
 }
 ```
 
-### Embark Demo App
+## Embark Demo App
 
 The demo app has been updated to reflect the new structure. It also now uses ReactJS which provides a good example on how to use React with Embark.
 
-### Web3.js 1.0 by default
+## Web3.js 1.0 by default
 
 Embark now uses web3.js 1.0 in all layers, including in the console and in contracts testing.
 
 
-### More contract deploy configs
+## More contract deploy configs
 
 A new config called `afterDeploy` is available and it can be used to specify actions to run after all contracts have been deployed.
 It's possible to also specify the specific account to deploy from using the directive `from` or `fromIndex`
 
-### Versions Configuration
+## Versions Configuration
 
 The versions config has been moved to embark.json, the download mechanism has also been fastly improved under the hood:
 
@@ -166,7 +168,7 @@ The versions config has been moved to embark.json, the download mechanism has al
 ```
 
 
-### Test Improvements
+## Test Improvements
 
 In the tests you can now specify a mnemonic:
 
@@ -184,15 +186,15 @@ config({
 })
 ````
 
-### Swarm support
+## Swarm support
 
 Swarm is now completely integrated on-par with IPFS. You can use interact with Swarm on the dapp side, as well as upload your dapp to Swarm.Swarm
 
-### Misc Bugfixes and Improvements
+## Misc Bugfixes and Improvements
 
 For a complete list please refer to the [release notes in github](https://github.com/embark-framework/embark/releases/tag/3.0.0)
 
-### Chatroom
+## Chatroom
 
 To discuss about Embark or Dapp development, please [join us at the gitter channel](https://gitter.im/embark-framework/Lobby)
 

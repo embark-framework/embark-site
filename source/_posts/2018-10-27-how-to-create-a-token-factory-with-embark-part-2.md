@@ -1,9 +1,11 @@
 title: How to create a Token Factory with Ethereum — Part 2
+author: iuri_matias
 summary: "In this second part, we'll continue where we left off in part one, on building a token factory with Embark and focus on how to deploy new tokens."
 categories:
   - tutorials
 alias:
   - "tutorials/token_factory_2.html"
+layout: blog-post
 ---
 
 In [part 1](/news/2018/09/27/how-to-create-a-token-factory-with-embark-part-1/) we deployed and interacted with a single Token. In this article we will continue by adapting the previous DApp to create a true factory so new tokens can be dynamically deployed on the application side.
@@ -16,9 +18,9 @@ For the second part of the tutorial, Embark 3.0 or higher is required.
 
 If you are using an older version you can update with:
 
-<pre>
-<button class="btn" data-clipboard-target="#code-1"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="shell">$ <mark id="code-1">npm install -g embark@3</mark></code></pre>
+{% code_block copyBtn:true %}
+$ npm install -g embark@3
+{% endcode_block %}
 
 Afterwards make sure that `embark version` returns 3.0 then restart embark with `embark run`
 
@@ -28,56 +30,51 @@ We’ll start by generalizing the previous UI so we can input the address of a E
 
 First, we’ll add a simple form to *app/index.html* to get address of the token we wish to interact with.
 
-<pre>
-<button class="btn" data-clipboard-target="#code-2"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="xml">&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;Embark&lt;/title&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
-    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;h3&gt;Welcome to Embark!&lt;/h3&gt;
-    &lt;p&gt;See the &lt;a href=&quot;https://github.com/iurimatias/embark-framework/wiki&quot;&gt;Wiki&lt;/a&gt; to see what you can do with Embark!&lt;/p&gt;
-<mark id="code-2" class="highlight-inline">
-    &lt;div id=&quot;useToken&quot;&gt;
-      &lt;h3&gt;Token Address&lt;/h3&gt;
-      &lt;input placeholder=&quot;enter token address&quot; /&gt;
-      &lt;button&gt;Use this Token&lt;/button&gt;
-      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
-</mark>
-    &lt;div id=&quot;queryBalance&quot;&gt;
-      &lt;h3&gt;Query Balance&lt;/h3&gt;
-      &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
-      &lt;button&gt;Query&lt;/button&gt;
-      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
+{% code_block copyBtn:true %}
+<html>
+  <head>
+    <title>Embark</title>
+    <link rel="stylesheet" href="css/app.css">
+    <script src="js/app.js"></script>
+  </head>
+  <body>
+    <h3>Welcome to Embark!</h3>
+    <p>See the <a href="https://github.com/iurimatias/embark-framework/wiki">Wiki</a> to see what you can do with Embark!</p>
+    <div id="useToken">
+      <h3>Token Address</h3>
+      <input placeholder="enter token address" />
+      <button>Use this Token</button>
+      <div class="result"></div>
+    </div>
+    <div id="queryBalance">
+      <h3>Query Balance</h3>
+      <input placeholder="enter account address: e.g 0x123" />
+      <button>Query</button>
+      <div class="result"></div>
+    </div>
 
-    &lt;div id=&quot;transfer&quot;&gt;
-      &lt;h3&gt;Transfer Tokens&lt;/h3&gt;
-      &lt;input class=&quot;address&quot; placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
-      &lt;input class=&quot;num&quot; placeholder=&quot;enter amount to transfer&quot; /&gt;
-      &lt;button&gt;Transfer&lt;/button&gt;
-      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
+    <div id="transfer">
+      <h3>Transfer Tokens</h3>
+      <input class="address" placeholder="enter account address: e.g 0x123" />
+      <input class="num" placeholder="enter amount to transfer" />
+      <button>Transfer</button>
+      <div class="result"></div>
+    </div>
 
-  &lt;/body&gt;
-&lt;/html&gt;<Paste>
-</code></pre>
+  </body>
+</html>
+{% endcode_block %}
 
 In *app/js/index.js* we’ll get the address given in the input, initialize a new contract object for that address and the Token ABI, and then assign it to a variable. We’ll also update the rest of code to use *currentToken* instead of *Token*. This way the existing code will work with the token we will be loading.
 
-<pre>
-<button class="btn" data-clipboard-target="#code-3"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="javascript">import EmbarkJS from 'Embark/EmbarkJS';
+{% code_block copyBtn:true %}
+import EmbarkJS from 'Embark/EmbarkJS';
 import $ from 'jquery';
 import Token from 'Embark/contracts/Token';
 
 let currentToken;
 
 $(document).ready(function() {
-<mark id="code-3" class="highlight-inline">
   $("#useToken button").click(function() {
     var address = $('#useToken input').val();
     currentToken = new EmbarkJS.Contract({
@@ -85,7 +82,6 @@ $(document).ready(function() {
       address: address
     });
   });
-</mark>
   web3.eth.getAccounts(function(err, accounts) {
     $('#queryBalance input').val(accounts[0]);
   });
@@ -106,7 +102,7 @@ $(document).ready(function() {
   });
 
 });
-</code></pre>
+{% endcode_block %}
 
 Now you can input the address of an existing token in chain, and interact with it. For instance, checking the embark dashboard.
 
@@ -114,9 +110,9 @@ Now you can input the address of an existing token in chain, and interact with i
 
 I can see the address of the deployed token in my case is *0x0703da89fc6c3ff20b8787a23d3340b41258dba7*. Copy paste your equivalent address into the UI.
 
-{% note help copying the address %}
+{% notification info 'Copying the address' %}
 *There are several ways to copy the address, in most systems pressing the ALT key while dragging with the mouse will enable text selection in the console, followed by CMD+C or right-click->copy.*
-{% endnote %}
+{% endnotification %}
 
 ![Screenshot](/assets/images/token_factory_2/page_1.png)
 
@@ -132,61 +128,56 @@ Now that we have an UI to interact with an existing Token given its address, we�
 
 First we’ll add a simple form to *app/index.html* to get the desired supply of the new token to deploy.
 
-<pre>
-<button class="btn" data-clipboard-target="#code-4"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="xml">&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;Embark&lt;/title&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
-    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;h3&gt;Welcome to Embark!&lt;/h3&gt;
-    &lt;p&gt;See the &lt;a href=&quot;https://github.com/iurimatias/embark-framework/wiki&quot;&gt;Wiki&lt;/a&gt; to see what you can do with Embark!&lt;/p&gt;
-<mark id="code-4" class="highlight-inline">
-    &lt;div id=&quot;deployToken&quot;&gt;
-      &lt;h3&gt;Deploy new Token&lt;/h3&gt;
-      &lt;input placeholder=&quot;enter token supply&quot; /&gt;
-      &lt;button&gt;Deploy&lt;/button&gt;
-      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
-</mark>
-    &lt;div id=&quot;useToken&quot;&gt;
-      &lt;h3&gt;Token Address&lt;/h3&gt;
-      &lt;input placeholder=&quot;enter token address&quot; /&gt;
-      &lt;button&gt;Use this Token&lt;/button&gt;
-      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
+{% code_block copyBtn:true %}
+<html>
+  <head>
+    <title>Embark</title>
+    <link rel="stylesheet" href="css/app.css">
+    <script src="js/app.js"></script>
+  </head>
+  <body>
+    <h3>Welcome to Embark!</h3>
+    <p>See the <a href="https://github.com/iurimatias/embark-framework/wiki">Wiki</a> to see what you can do with Embark!</p>
+    <div id="deployToken">
+      <h3>Deploy new Token</h3>
+      <input placeholder="enter token supply" />
+      <button>Deploy</button>
+      <div class="result"></div>
+    </div>
+    <div id="useToken">
+      <h3>Token Address</h3>
+      <input placeholder="enter token address" />
+      <button>Use this Token</button>
+      <div class="result"></div>
+    </div>
 
-    &lt;div id=&quot;queryBalance&quot;&gt;
-      &lt;h3&gt;Query Balance&lt;/h3&gt;
-      &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
-      &lt;button&gt;Query&lt;/button&gt;
-      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
+    <div id="queryBalance">
+      <h3>Query Balance</h3>
+      <input placeholder="enter account address: e.g 0x123" />
+      <button>Query</button>
+      <div class="result"></div>
+    </div>
 
-    &lt;div id=&quot;transfer&quot;&gt;
-      &lt;h3&gt;Transfer Tokens&lt;/h3&gt;
-      &lt;input class=&quot;address&quot; placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
-      &lt;input class=&quot;num&quot; placeholder=&quot;enter amount to transfer&quot; /&gt;
-      &lt;button&gt;Transfer&lt;/button&gt;
-      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
+    <div id="transfer">
+      <h3>Transfer Tokens</h3>
+      <input class="address" placeholder="enter account address: e.g 0x123" />
+      <input class="num" placeholder="enter amount to transfer" />
+      <button>Transfer</button>
+      <div class="result"></div>
+    </div>
 
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+  </body>
+</html>
+{% endcode_block %}
 
 Embark makes the contract objects available in the js side, each contract object will have a method called *deploy* that can deploy new instances of the contract. This method can take parameters for the contract, and it will return a promise containing a contract object of the deployed contract.
 
 In *app/js/index.js* we’ll add the code to deploy new tokens client side using this functionality:
 
-<pre>
-<button class="btn" data-clipboard-target="#code-5"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="javascript">$(document).ready(function() {
+{% code_block copyBtn:true %}
+$(document).ready(function() {
 
   var currentToken;
-<mark id="code-5" class="highlight-inline">
   $("#deployToken button").click(function() {
     var supply = $('#deployToken input').val();
     Token.deploy({arguments: [supply], data: Token.options.data}).send({gas: 400000}).then(function(deployedToken) {
@@ -194,7 +185,6 @@ In *app/js/index.js* we’ll add the code to deploy new tokens client side using
       $("#deployToken .result").append("<br>Token deployed with address: " + deployedToken.options.address);
     });
   });
-</mark>
   $("#useToken button").click(function() {
     var address = $('#useToken input').val();
     currentToken = new EmbarkJS.Contract({
@@ -223,7 +213,7 @@ In *app/js/index.js* we’ll add the code to deploy new tokens client side using
   });
 
 });
-</code></pre>
+{% endcode_block %}
 
 When the Deploy button is clicked, we’ll get the supply entered and deploy a new Token with `Token.methods.deploy([supply])`. 
 The resulting promise `.then(function(deployedToken) {})` will contain the contract object of newly deployed contract. We’ll assign this new token object to the current one *currentToken* and also inform the user of the address;
@@ -257,15 +247,14 @@ And it’s *500* as expected since that’s the initial supply defined for the f
 
 Now that your DApp can deploy Tokens on the fly, It’s unnecessary for Embark to deploy the Token contract like it did in [part 1](/news/2018/09/27/how-to-create-a-token-factory-with-embark-part-1/), however you still need Embark to make the Token contract available on the client side.  To achieve this, go to config/contracts.js and set "deploy": false for that contract
 
-<pre>
-<button class="btn" data-clipboard-target="#code-6"><img class="clippy" width="13" src="/img/clippy.svg" alt="Copy to clipboard"></button>
-<code class="javascript">module.exports = {
+{% code_block copyBtn:true %}
+module.exports = {
   "default": {
     // .....
     "gas": "auto",
     "contracts": {
       "Token": {
-        <mark id="code-6" class="highlight-inline">"deploy": false,</mark>
+        "deploy": false,
         "args": [
           1000
         ]
@@ -274,7 +263,7 @@ Now that your DApp can deploy Tokens on the fly, It’s unnecessary for Embark t
     // .....
   }
 }
-</code></pre>
+{% endcode_block %}
 
 Embark will now no longer deploy that contract, in the dashboard you should see:
 

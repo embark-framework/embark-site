@@ -1,11 +1,16 @@
-title: Contracts Usage in Javascript
+title: Smart Contracts in JavaScript
+layout: docs
 ---
 
-### Interacting with contracts in Javascript
+In order to talk to our deployed Smart Contracts through a web application, we typically need a JavaScript equivalent that offers APIs to make this possible. Embark generates JavaScript artifacts for all Smart Contracts used by our application.
 
-Embark will automatically take care of deployment for you and set all needed JS bindings. For example, the contract below:
+In this guide we'll take a quick look how to make use of them!
 
-<pre><code class="solidity">// app/contracts/simple_storage.sol
+## Importing and using Smart Contracts
+
+Embark will [automatically generate artifacts](/docs/javascript_usage.html#Embark-Artifacts) for all configured Smart Contracts in our application, making them available to an application's front-end. Allwe have to do is importing them accordingly. For example, the Smart Contract below:
+
+```
 contract SimpleStorage {
   uint public storedData;
 
@@ -20,16 +25,26 @@ contract SimpleStorage {
     return storedData;
   }
 }
-</code></pre>
+```
 
-Will automatically be available in Javascript as:
+Will available as JavaScript object, after artifact generation and can be imported as:
 
-<pre><code class="javascript">// app/js/index.js
-import SimpleStorage from 'Embark/contracts/SimpleStorage';
+```
+import { SimpleStorage } from './embarkArtifacts/contracts';
+```
 
+Notice that the exact path to the Smart Contract source is configured using the `generationDir` property in [Embark's configuration](/docs/configuration.html#generationDir).
+
+Once imported, Smart Contract APIs can be used as needed. The code below uses Web.js syntax and might differ from your APIs, depending on what web3 connector you've installed.
+
+```
 SimpleStorage.methods.set(100).send();
-SimpleStorage.methods.get().call().then(function(value) { console.log(value) });
-SimpleStorage.methods.storedData().call().then(function(value) { console.log(value) });
-</code></pre>
 
-The syntax used is <a href="http://web3js.readthedocs.io/en/1.0/" target="_blank">web3.js 1.0</a>
+SimpleStorage.methods.get().call().then(value => {
+  console.log(value);
+});
+
+SimpleStorage.methods.storedData().call().then(value => {
+  console.log(value);
+});
+```

@@ -41,7 +41,7 @@ The first thing we need to do is add a new `generationDir` property in the root 
 #### "Magic" imports
 Afterwards, we need to convert all "magic" imports in our Dapp's code to relative imports.
 
-The first one is the EmbarkJS import. The "magic" import is `"Embark/EmbarkJS"`. Anywhere we have `"Embark/EmbarkJS"` in our Dapp's code, we need to convert that to the relative path. Because we are trying to get the `EmbarkJS` library, and the `embarkjs.js` script is located in the root of  `embarkArtifacts/`, we need to replace 
+The first one is the EmbarkJS import. The "magic" import is `"Embark/EmbarkJS"`. Anywhere we have `"Embark/EmbarkJS"` in our Dapp's code, we need to convert that to the relative path. Because we are trying to get the `EmbarkJS` library, and the `embarkjs.js` script is located in the root of  `embarkArtifacts/`, we need to replace
 
 ```javascript
 import EmbarkJS from "Embark/EmbarkJS"
@@ -52,7 +52,7 @@ import EmbarkJS from "./embarkArtifacts/embarkjs"
 ```
 NOTE: The relative path is dependent upon the generationDir setting specified in embark.json [see the "Artifact generation directory" section above](#Artifact-generation-directory).
 
-Secondly, we need to update the "magic" contract imports. These will need to change from 
+Secondly, we need to update the "magic" contract imports. These will need to change from
 
 ```javascript
 import ContractName from "Embark/contract/ContractName";
@@ -103,7 +103,7 @@ We can also go in `embark.json` and remove the `app` section (as well as Embark'
 
 Lastly, check out [the "Artifact generation directory" section above](#Artifact-generation-directory) to make sure your artifacts directory is set up correctly for you build tool.
 
-There you go, your project is ready. 
+There you go, your project is ready.
 
 We know that these steps are a bit too much, so we are working on a new command that lets you initialize an Embark project from inside a build tool's directory. Keep an eye out for that.
 
@@ -123,7 +123,7 @@ It's as simple as that. This plugin will add the necessary commands and code for
 
 Embark 4 adds some new blockchain account configurations. To try to keep things as simple as possible, these additions are really similar to the ones in the contract configuration. For more information, please read the [Accounts Blockchain configuration guide](https://embark.status.im/docs/blockchain_accounts_configuration.html) in our docs.
 
-However, we did introduce some small breaking changes. We removed: 
+However, we did introduce some small breaking changes. We removed:
 - `account`: This is completely replaced by the new `accounts` property (notice the `s` at the end of `accounts`). It gives the developer more flexibility. To have exactly the same behavior as before, just use the `nodeAccounts` account type as [described in the docs](https://embark.status.im/docs/blockchain_accounts_configuration.md#parameter-descriptions)
 - `simulatorMnemonic`: Removed in favor of Ganache's default mnemonic. If this functionality is still needed, please specify the desired mnemonic in the [blockchain config's `mnemonic` account type](https://embark.status.im/docs/blockchain_accounts_configuration.md#parameter-descriptions).
 

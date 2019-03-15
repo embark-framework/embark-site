@@ -1,31 +1,55 @@
-title: Messages Usage in Javacript
+title: Messages in JavaScript
+layout: docs
 ---
 
-### listening to messages
+Embark's companion library EmbarkJS comes with some convenient APIs to easily subscribe to and sending messages using messages protocols like Whisper. In this guide we'll take a closer look how this works.
 
-<pre><code class="javascript">EmbarkJS.Messages.listenTo({topic: ["topic1", "topic2"]}).then(function(message) {
-  console.log("received: " + message);
-})
-</code></pre>
+Make sure to read our guide in [using EmbarkJS](/docs/javascript.html) first.
 
-### sending messages
+## Setting up EmbarkJS
 
-You can send plain text
+By default Embark will initialize EmbarkJS with the provider configured at `config/communication.js`. However if we are using EmbarkJS directly or wish to change the provider configuration at runtime, we can do so using the `setProvider()` method:
 
-<pre><code class="javascript">EmbarkJS.Messages.sendMessage({topic: "sometopic", data: 'hello world'})
-</code></pre>
+```
+EmbarkJS.Messages.setProvider('whisper')
+```
 
-Or an object
+## Listening to messages
 
-<pre><code class="javascript">EmbarkJS.Messages.sendMessage({topic: "sometopic", data: {msg: 'hello world'}})
-</code></pre>
+We can subscribe to channels using the `listenTo()` method by specifying a list of channel topics like this:
 
-Note: array of topics are considered an AND. In Whisper you can use another array for OR combinations of several topics e.g ``["topic1", ["topic2", "topic3"]]`` => ``topic1 AND (topic2 OR topic 3)``
+```
+EmbarkJS.Messages.listenTo({
+  topic: ['topic1', 'topic2']
+}).then(message {
+  console.log('received: ' + message);
+});
+```
 
-### Setup
+## Sending messages
 
-By default Embark will automatically initialize EmbarkJS with the provider configured at `config/communication.js`. However if you are using EmbarkJS directly or wish to change the provider configuration on the fly you can do:
+Sending messages can be done using the `sendMessage()` method and it's entirely up to use whether we want to send plain text messages or even objects.
 
-<pre><code class="javascript">EmbarkJS.Messages.setProvider('whisper')
-</code></pre>
+
+Here's how to send a plain text message to the `sometopic` topic:
+
+```
+EmbarkJS.Messages.sendMessage({
+  topic: 'sometopic',
+  data: 'hello world'
+});
+```
+
+And this code snippet shows how to send an object structure:
+
+```
+EmbarkJS.Messages.sendMessage({
+  topic: 'sometopic',
+  data: { msg: 'hello world' }
+});
+```
+
+{% notification info 'On topic arrays:' %}
+Array of topics are considered an AND. In Whisper you can use another array for OR combinations of several topics e.g `["topic1", ["topic2", "topic3"]]` => `topic1 AND (topic2 OR topic 3)`.
+{% endnotification %}
 

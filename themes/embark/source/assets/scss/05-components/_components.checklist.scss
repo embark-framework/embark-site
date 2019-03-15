@@ -1,0 +1,30 @@
+.c-checklist {
+  @include list-reset();
+  color: get-color(gray);
+  font-size: get-font-size(m);
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    margin-top: get-spacing-stack(m);
+    padding-top: 4px;
+  }
+  &__circle {
+    display: block;
+    height: 42px;
+    margin-right: get-spacing-inline(m);
+    margin-top: -4px;
+    position: relative;
+    width: 42px;
+    border-radius: $border-rounded-radius;
+    background: get-color(blue, lighter);
+
+    .c-checklist__icon {
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      color: get-color(blue, light);
+      transform: translate(-50%, -50%);
+    }
+  }
+}

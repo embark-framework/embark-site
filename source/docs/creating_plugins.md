@@ -1,35 +1,40 @@
 title: Creating Plugins
+layout: docs
 ---
 
-**Creating a plugin:**
+If you can't [find a plugin](/plugins) that fulfills your needs, it's probably a good time to think about creating your own. In this guide we'll discuss how to set up a custom plugin and briefly talk about various use cases. Later on we'll dive into the available [Plugin APIs](/docs/plugin_reference.html).
 
+## Creating a plugin project
 
-<pre><code class="shell">$ mkdir yourpluginname
+A plugin is really just another NodeJS project that takes a plugin API object and make use of it. To get started, all we have to do is creating a new directory and initializing it as an npm module:
+
+```
+$ mkdir yourpluginname
 $ cd yourpluginname
 $ npm init
-</code></pre>
+```
 
-Create and edit ``index.js`` and add the following code:
+Once that is done we can create an `index.js` file that contains the following code:
 
-<pre><code class="javascript">module.exports = function(embark) {
+```
+module.exports = function(embark) {
+  // plugin logic goes here
 }
-</code></pre>
+```
 
-The ``embark`` object then provides an api to extend different functionality of embark which can be found in the [plugin api reference](plugin_reference.html)
+The `embark` object provides plenty of APIs to extend different functionalities of Embark, which can be found in the [Plugin Api Reference](plugin_reference.html). 
 
-**Usecases examples**
+## Usecase examples
 
-* plugin to add support for es6, jsx, coffescript, etc (``embark.registerPipeline``)
-* plugin to add standard contracts or a contract framework (``embark.registerContractConfiguration`` and ``embark.addContractFile``)
-* plugin to make some contracts available in all environments for use by other contracts or the dapp itself e.g a Token, a DAO, ENS, etc.. (``embark.registerContractConfiguration`` and ``embark.addContractFile``)
-* plugin to add a libraries such as react or boostrap (``embark.addFileToPipeline``, ``embark.registerImportFile``)
-* plugin to process contract's binary code before deployment (``embark.beforeDeploy``)
-* plugin to specify a particular web3 initialization for special provider uses (``embark.registerClientWeb3Provider``)
-* plugin to create a different contract wrapper (``embark.registerContractsGeneration``)
-* plugin to add new console commands (``embark.registerConsoleCommand``)
-* plugin to add support for another contract language such as viper, LLL, etc (``embark.registerCompiler``)
-* plugin that executes certain actions when contracts are deployed (``embark.events.on``)
-* plugin that registers a service in embark (``embark.registerServiceCheck``)
-* plugin that adds support to upload the dapp somewhere (``embark.registerUploadCommand``)
-* plugin that extends EmbarkJS (``embark.addCodeToEmbarkJS``, ``embark.addProviderInit``)
+Since the Plugin API surface is rather big, here are some usecase examples to sparkle some inspiration:
+
+* Adding a Smart Contract file to the list of source files to be watched so they can be used by other Smart Contracts with `addContractFile()`
+* Adding a Smart Contract configuration using `registerContractConfiguration()` (goes well with `addContractFile()`)
+* Adding a hook that's called before a Smart Contract's binary will be deployed using `beforeDeploy()`
+* Configure a custom provider for web3 initialization with `registerClientWeb3Provider()`
+* Create your own custom Smart Contract wrapper logic using `registerContractsGeneration()`
+* Adding a new command to Embark's interactive console using `registerConsoleCommand()`
+* Adding support for other compilers such as Viper, LLL, etc. using `embark.registerCompiler()`
+* Executing certain actions when Smart Contracts are deployed with `embark.events.on()`
+* Registering a service in Embark  - `registerServiceCheck()`
 

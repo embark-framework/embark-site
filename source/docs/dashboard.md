@@ -1,4 +1,5 @@
 title: Using the dashboard
+layout: docs
 ---
 
 Embark provides a very useful dashboard view that aims to make it easier for developers to keep track of things, such as running services, compilation and deployments. In this guide, we'll take a closer look at the dashboard and its features.
@@ -23,8 +24,9 @@ The dashboard is separated into different sections, each with their own responsi
 
 - **Available Services** - This section displays all services available to our application. If a service is down or unreachable, it will show up in red.
 
-- **Logs and Console** - While the logs section simply prints out all of Embark's output, the console can be used to either interact with our application's Smart Contracts or Embark itself. Use the `help` command to get a list of all available commands supported by Embark's console.
+- **Logs and Console** - While the logs section simply prints out all of Embark's output, the console can be used to either interact with our application's Smart Contracts or Embark itself. Use the `help` command to get a list of all available commands supported by Embark's console, or head over to our guide on [Using the the console](/docs/using_the_console.html) to learn more.
 
-## Running Embark without a dashboard
+## Running without a dashboard
 
 Embark can be run without spinning up the dashboard view using the `--nodashboard` option. Head over to our guide on [running apps](running_apps.html#Running-an-app-without-the-dashboard) for more information.
+

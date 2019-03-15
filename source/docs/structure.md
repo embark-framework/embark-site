@@ -1,9 +1,10 @@
 title: Application Structure
+layout: docs
 ---
 
 Once a [project is initialized](/docs/create_project.html), it's a good time to take a look at the resulting project structure, to get a better idea of what's going on. In this guide we'll explore an Embark project's structure and learn where to find different file types and configurations.
 
-Notice that this [guide covers](#Simple-template-structure) projects that have been created with the [`--simple` option](create_project.html#Creating-“contracts-only”-apps) as well.
+**For Smart Contract developers**: This [guide covers](#Smart-Contracts-only-template-structure) projects that have been created with the [`--contracts-only` option](create_project.html#Creating-“contracts-only”-apps) as well.
 
 ## Overview
 
@@ -67,9 +68,9 @@ This file is used to keep track of the deployed contracts in each chain. This is
 
 In order to provide as much flexibility for our users as possible, Embark comes with an `embark.json` file that lets us configure our own directory structure. This file is also used to specify Embark plugins and other configurations. More information on how to use this configuration file, can be found in [configuring embark.json](configuration.html).
 
-## Simple template structure
+## Smart Contracts only template structure
 
-When creating a project using the `--simple` option, the resulting structure is a little bit simpler. Let's take quick look:
+When creating a project using the `--contracts-only` option, the resulting structure is a little bit simpler. Let's take quick look:
 
 ```
 ├── contracts/
@@ -82,7 +83,8 @@ When creating a project using the `--simple` option, the resulting structure is 
 
 Most components or services that our application could take advantage of are disabled with the exception of Smart Contracts support, but we can still re-enable them in the `embark.json` configuration file if needed. Notice that this time, the `contracts.js` config file is in the root of the project's directory. This is because in the `embark.json` config file,`contracts` points to a path in the same folder.
 
-<pre><code class="json">...
+```
+...
 "config": {
   "contracts": "contracts.js",
   "blockchain": false,
@@ -91,8 +93,7 @@ Most components or services that our application could take advantage of are dis
   "webserver": false
 },
 ...
-</code></pre>
-
+```
 As mentioned earlier, other services like storage and blockchain support can be easily re-enabled by changing them to path values as well.
 
 Awesome, now that we have a better understanding of what a project in Embark looks like, let's head over to the next guide and explore the different ways of running an application with Embark!

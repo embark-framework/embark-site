@@ -1,0 +1,26 @@
+{{> organisms-header}}
+
+<main role="main">
+  <section class="o-container o-distance">
+    {{> molecules-heading(referal: true, class: "o-center")}}
+    <div class="o-distance-l">
+      {{> organisms-feature-listing}}
+    </div>
+  </section>
+  <section class="o-container o-distance-xxl">
+    {{> organisms-modular-by-design}}
+  </section>
+  <section class="o-distance-xxl">
+    {{> organisms-cli}}
+  </section>
+  <section class="o-distance-m">
+    {{> organisms-cockpit}}
+  </section>
+  <section class="o-distance">
+    <div class="c-box c-box--unframed" style="background-image: url(../../assets/images/bg-hexagons.png)">
+      {{> molecules-heading(button: true, class: "o-center")}}
+    </div>
+  </section>
+</main>
+
+{{> organisms-footer}}

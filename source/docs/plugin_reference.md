@@ -1,48 +1,69 @@
-title: Plugin Reference
+title: Plugin APIs
+layout: docs
 ---
 
-### embark.pluginConfig
+This reference covers all APIs exposed by the `embark` object passed to every custom created plugin. Make sure to read the section on [creating a plugin](/docs/creating_plugins.html) first.
 
-Object containing the config for the plugin specified in embark.json, for e.g with:
+## .pluginConfig
 
-<pre><code class="json">"plugins": {
-  "embark-babel": { "files": ["**/*.js", "!**/jquery.min.js"], "presets": ["es2015", "react"] }
+`pluginConfig` is an object that contains the configuration for your plugin specified in the project's `embark.json`. For example, if a plugin configuration like the following:
+
+```
+"plugins": {
+  "embark-babel": { 
+    "files": ["**/*.js", "!**/jquery.min.js"],
+    "presets": ["es2015", "react"]
+  }
 }
-</code></pre>
+```
 
-``embark.pluginConfig`` will contain ``{ "files": ["**/*.js", "!**/jquery.min.js"], "presets": ["es2015", "react"] }``
+`embark.pluginConfig` will contain 
 
-### embark.registerPipeline(matchingFiles, callback(options))
+```
+{ 
+  "files": ["**/*.js", "!**/jquery.min.js"],
+  "presets": ["es2015", "react"]
+}
+```
 
-This call will return the content of the current asset file so the plugin can transform it in some way. Typically this is used to implement pipeline plugins such as Babel, JSX, sass to css, etc..
+and can be used by your plugin as needed.
 
-``matchingFiles`` is an array of matching files the plugin should be called for e.g [``**/*.js``, ``!vendor/jquery.js``] matches all javascript files except vendor/jquery.js
+## .registerPipeline(matchingFiles, callback(options))
 
-options available:
+This call will return the content of the current asset file so the plugin can transform it in some way. Typically this is used to implement pipeline plugins such as Babel, JSX, sass to css, etc.
+
+`matchingFiles` is an array of matching files the plugin should be called with for e.g `['**/*.js', '!vendor/jquery.js']` matches all JavaScript files except `vendor/jquery.js`.
+
+Available optinos:
  * `targetFile` - filename to be generated
  * `source` - content of the file
 
-expected return: ``string``
+Returns `string`
 
-<pre><code class="javascript">var babel = require("babel-core");
+```
+var babel = require("babel-core");
 require("babel-preset-react");
 
 module.exports = function(embark) {
-  embark.registerPipeline(["**/*.js", "**/*.jsx"], function(options) {
-    return babel.transform(options.source, {minified: true, presets: ['react']}).code;
+  embark.registerPipeline(["**/*.js", "**/*.jsx"], (options) => {
+    return babel.transform(options.source, {
+      minified: true,
+      presets: ['react']
+    }).code;
   });
 }
-</code></pre>
+```
 
-### embark.registerContractConfiguration(contractsConfig)
+## .registerContractConfiguration(contractsConfig)
 
-This call is used to specify a configure of one or more contracts in one or several environments. This is useful for specifying the different configurations a contract might have depending on the enviroment. For instance in the code bellow, the ``DGDToken`` contract code will redeployed with the arguments ``100`` in any environment, except for the livenet since it's already deployed there at a particular address.
+This call is used to specify a configure of one or more contracts in one or several environments. This is useful for specifying the different configurations a contract might have depending on the enviroment. For instance in the code bellow, the `DGDToken` contract code will redeployed with the arguments `100` in any environment, except for the livenet since it's already deployed there at a particular address.
 
-Typically this call is used in combination with ``embark.addContractFile``
+Typically this call is used in combination with `embark.addContractFile`
 
-``contractsConfig`` is an object in the same structure as the one found in the contracts configuration at ``config/contracts.json``. The users own configuration will be merged with the one specified in the plugins.
+`contractsConfig` is an object in the same structure as the one found in the contracts configuration at `config/contracts.json`. The users own configuration will be merged with the one specified in the plugins.
 
-<pre><code class="javascript">module.exports = function(embark) {
+```
+module.exports = function(embark) {
   embark.registerContractConfiguration({
     "default": {
       "contracts": {
@@ -62,65 +83,65 @@ Typically this call is used in combination with ``embark.addContractFile``
     }
   });
 }
-</code></pre>
+```
 
-### embark.addContractFile(file)
+## .addContractFile(file)
 
-Typically this call is used in combination with ``embark.registerContractConfiguration``. If you want to make the contract available but not automatically deployed without the user specifying so you can use ``registerContractConfiguration`` to set the contract config to ``deploy: false``, this is particularly useful for when the user is meant to extend the contract being given (e.g ``contract MyToken is StandardToken``)
+Typically this call is used in combination with `embark.registerContractConfiguration`. If you want to make the contract available but not automatically deployed without the user specifying so you can use `registerContractConfiguration` to set the contract config to `deploy: false`, this is particularly useful for when the user is meant to extend the contract being given (e.g `contract MyToken is StandardToken`)
 
-``file`` is the contract file to add to embark, the path should relative to the plugin.
+`file` is the contract file to add to embark, the path should relative to the plugin.
 
-<pre><code class="javascript">module.exports = function(embark) {
+```
+module.exports = function(embark) {
   embark.addContractFile("./DGDToken.sol");
 }
-</code></pre>
+```
 
-### embark.addFileToPipeline(file, options)
+## .addFileToPipeline(file, options)
 
 This call is used to add a file to the pipeline so it's included with the dapp on the client side.
 
-``file`` is the file to add to the pipeline, the path should relative to the plugin.
+`file` is the file to add to the pipeline, the path should relative to the plugin.
 
-``intendedPath`` is the intended path outside of the plugin
+`intendedPath` is the intended path outside of the plugin
 
-``options`` available:
- * skipPipeline - If true it will not apply transformations to the file. For
+Available options:
+ * `skipPipeline` - If `true` it will not apply transformations to the file. For
    example if you have a babel plugin to transform es6 code or a minifier plugin, setting this to
    true will not apply the plugin on this file.
 
-<pre><code class="javascript">module.exports = function(embark) {
+```
+module.exports = function(embark) {
   embark.addFileToPipeline("./jquery.js", {skipPipeline: true});
 }
-</code></pre>
+```
 
-### embark.registerBeforeDeploy(callback(options), [callback])
+## .registerBeforeDeploy(callback(options), [callback])
 
 This call can be used to add handler to process contract code after it was generated, but immediately before it is going to be deployed.
 It is useful to replace placeholders with dynamic values.
 
-options available:
- * embarkDeploy - instance of Deploy class. Has following fields: web3, contractsManager, logger, env, chainConfig, gasLimit.
- * pluginConfig - plugin configuration object from embark.json
- * deploymentAccount - address of account which will be used to deploy this contract
- * contract - contract object.
- * callback - callback function that handler must call with result object as the only argument. Result object must have field contractCode with (un)modified code from contract.code
+Available options:
+ * `embarkDeploy` - instance of Deploy class. Has following fields: web3, contractsManager, logger, env, chainConfig, gasLimit.
+ * `pluginConfig` - plugin configuration object from embark.json
+ * `deploymentAccount` - address of account which will be used to deploy this contract
+ * `contract` - contract object.
+ * `callback` - callback function that handler must call with result object as the only argument. Result object must have field contractCode with (un)modified code from contract.code
 
 You can use the callback argument instead of the callback option if you prefer. It needs the same result object.
 
 expected return: ignored
 
-example:
-
-<pre><code class="javascript">module.exports = function(embark) {
+```
+module.exports = function(embark) {
   embark.registerBeforeDeploy(function(options) {
     var code = options.contract.code.replace(/deaddeaddeaddeaddeaddeaddeaddeaddeaddead/ig, 'c0dec0dec0dec0dec0dec0dec0dec0dec0dec0de');
     options.callback({ contractCode: code });
-    return; // ignored
   });
 }
-</code></pre>
+```
 
-### embark.registerClientWeb3Provider(callback(options))
+## .registerClientWeb3Provider(callback(options))
 
 This call can be used to override the default web3 object generation in the dapp. it's useful if you want to add a plugin to interact with services like http://infura.io or if you want to use your own web3.js library extension.
 
@@ -141,11 +162,11 @@ example:
 </code></pre>
 
 
-### embark.registerContractsGeneration(callback(options))
+## .registerContractsGeneration(callback(options))
 
 By default Embark will use EmbarkJS to declare contracts in the dapp. You can override and use your own client side library.
 
-options available:
+Available options:
   * contracts - Hash of objects containing all the deployed contracts. (key: contractName, value: contract object)
   * abiDefinition
   * code
@@ -155,9 +176,10 @@ options available:
   * gasPrice
   * runtimeByteCode
 
-expected return: ``string``
+Returns `string`
 
-<pre><code class="javascript">embark.registerContractsGeneration(function (options) {
+```
+embark.registerContractsGeneration(function (options) {
   const contractGenerations = [];
   Object.keys(options.contracts).map(className => {
     const contract = options.contracts[className];
@@ -167,48 +189,82 @@ expected return: ``string``
   });
   return contractGenerations.join('\n');
 });
-</code></pre>
+```
 
-### embark.registerConsoleCommand(callback(options))
+## .registerConsoleCommand(options)
 
 This call is used to extend the console with custom commands.
 
-Expected result: an `object` with 2 functions:
-* `match`: return a boolean, `true` if the command must be processed.
-* `process`: the callback expects 2 arguments, the `error` (`null` if none) 
-and the result as a `string` (output to print in console)
+The function takes an `object` with the following options:
 
-<pre><code class="javascript">module.exports = function(embark) {
-  embark.registerConsoleCommand(function(cmd, options) {
-      return {
-        match: () => cmd === "hello",
-        process: (callback) => callback(null, "hello there!")
-      };
+- `description`: Description of the command (used by the help command)
+- `matches`: Either an `array` of strings corresponding to exact matches for the command or a `function` where the only parameter in the command
+  - The `function` must return a `boolean`. True if it matches, `false` if not.
+- `usage`: Usage of the command that will be outputed by the help command
+  - Adding `usage` is optional in the case where `matches` is an `array`
+- `process`: `function` that will be executed to process the command. The `function` receives two parameters:
+  - `command`: The `string` command that the user entered
+  - `callback`: Callback `function` to be called at the end of the process
+    - This callback takes two parameters. The first an error, the second the output of the command. The output will be displayed in the console
+
+```
+module.exports = function(embark) {
+  embark.registerConsoleCommand({
+    description: "Salutes the world",
+    matches: ["hello", "hellowWorld"],
+    // OR a function for more complex cases
+    matches: (cmd) => {
+      const [commandName, name] = cmd.split(' '); // You can use `split` for commands that receive parameters
+      return commandName === 'hello' || commandName === 'hellowWorld'; 
+    },
+    usage: "hello &lt;name&gt; or helloWorld &lt;name&gt;",
+    process: (cmd, callback) => {
+      const [commandName, name] = cmd.split(' ');
+      name = name || "noName"; // Default to "noName" when nothing is specified
+      callback(null, `Hello ${name}`); // Call back with the message. This will be outputed in the console
+    }
   });
 }
-</code></pre>
+```
 
-### embark.registerCompiler(extension, callback(contractFiles, doneCallback))
+## .registerCompiler(extension, callback(contractFiles, doneCallback))
 
-Expected doneCallback arguments: ``err`` and  ``hash`` of compiled contracts
+Registers a new compiler for a specific contract extension.
 
-  * Hash of objects containing the compiled contracts. (key: contractName, value: contract object)
-      * code - [required] contract bytecode (string)      
-      * abiDefinition - [required] contract abi (array of objects)
-        * e.g ``[{"constant":true,"inputs":[],"name":"storedData","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"}, etc...``
-      * runtimeBytecode - [optional] contract runtimeBytecode (string)
-      * gasEstimates - [optional] gas estimates for constructor and methods (hash)
-        * e.g ``{"creation":[20131,38200],"external":{"get()":269,"set(uint256)":20163,"storedData()":224},"internal":{}}``
-      * functionHashes - [optional] object with methods and their corresponding hash identifier (hash)
-        * e.g ``{"get()":"6d4ce63c","set(uint256)":"60fe47b1","storedData()":"2a1afcd9"}``
+Arguments:
+
+- **extension**: The file extension (e.g: `.sol`)
+- **callback**: Function called by Embark with the contract files that the plugin should process
+ - **contractFiles**: Array of files that need to be compiled
+ - **doneCallback(error, result)**: The final callback to call once every file is compiled or when there is an error
+   - **error**: Error string or object when something goes wrong
+   - **result**: An object containing the compiled contracts result (key: contractName, value: contract object) or, `false` if your plugin is not compatible
+    - **code** - [required] contract bytecode (string)      
+    - **abiDefinition** - [required] contract abi (array of objects)
+      - e.g ``[{"constant":true,"inputs":[],"name":"storedData","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"}, etc...``
+    - **runtimeBytecode** - [optional] contract runtimeBytecode (string)
+    - **gasEstimates** - [optional] gas estimates for constructor and methods (hash)
+      - e.g ``{"creation":[20131,38200],"external":{"get()":269,"set(uint256)":20163,"storedData()":224},"internal":{}}``
+    - **functionHashes** - [optional] object with methods and their corresponding hash identifier (hash)
+      - e.g ``{"get()":"6d4ce63c","set(uint256)":"60fe47b1","storedData()":"2a1afcd9"}``
 
 
-Below a possible implementation of a solcjs plugin:
+Below a possible implementation of a solcjs plugin.
+Note that the plugin checks the version and returns `false` as the result if it is not compatible:
 
-<pre><code class="javascript">var solc = require('solc');
+```
+const solc = require('solc');
+const semver = require('semver');
 
 module.exports = function(embark) {
   embark.registerCompiler(".sol", function(contractFiles, cb) {
+    const wantedVersion = embark.config.embarkConfig.versions.solc;
+    if (semver.gt(wantedVersion, '0.5.0')) {
+      // We do not support greater than solidity version 0.5.0
+      // This let's Embark know that we are not compatible, that way Embark will fallback to another compiler
+      return cb(null, false);
+    }
+  
     // prepare input for solc
     var input = {};
     for (var i = 0; i < contractFiles.length; i++) {
@@ -236,15 +292,15 @@ module.exports = function(embark) {
     cb(null, compiled_object);
   });
 }
-</code></pre>
+```
 
-### embark.logger
+## .logger
 
 To print messages to the embark log is it better to use ``embark.logger`` instead of ``console``.
 
 e.g ``embark.logger.info("hello")``
 
-### embark.events.on(eventName, callback(*args))
+## .events.on(eventName, callback(*args))
 
 This call is used to listen and react to events that happen in Embark such as contract deployment
 
@@ -268,7 +324,8 @@ This call is used to listen and react to events that happen in Embark such as co
       * `deploy:beforeAll`: - triggered before contract deployment starts
       * `contracts:deploy:afterAll`: - triggered after contract deployment starts
 
-<pre><code class="javascript">module.exports = function(embark) {
+```
+module.exports = function(embark) {
   embark.events.on("contractsDeployed", function() {
     embark.logger.info("plugin says: your contracts have been deployed");
   });
@@ -278,9 +335,9 @@ This call is used to listen and react to events that happen in Embark such as co
     }
   });
 }
-</code></pre>
+```
 
-### embark.events.request(requestName, callback(*args))
+### .events.request(requestName, callback(*args))
 
 This call is used to request a certain resource from Embark
 
@@ -294,14 +351,15 @@ This call is used to request a certain resource from Embark
      * (`services:register`, serviceName, checkCallback) - requests embark to register a service, it will execute checkCallback every 5 seconds, the callback should return an object containing the service name and status (See embark.registerServiceCheck)
      * (`console:command`, cmd) - execute a command in the console
 
-<pre><code class="javascript">module.exports = function(embark) {
+```
+module.exports = function(embark) {
   embark.events.request("code", function(code) {
     // Do something with the code
   });
 }
-</code></pre>
+```
 
-### embark.registerServiceCheck(serviceName, callback({name, status}), time)
+## .registerServiceCheck(serviceName, callback({name, status}), time)
 
 This call is used to register a service in embark so it's periodically checked.
 It will be displayed in the Embark Dashboard, and will also trigger events such as ``check:backOnline:yourServiceName`` and ``check:backOffline:yourServiceName``
@@ -312,7 +370,8 @@ It will be displayed in the Embark Dashboard, and will also trigger events such 
   * `status` - status of the service (string, `on` or `off` or `warn`)
 * time (optional) - ms interval to call the callback (default: 5000 ms)
 
-<pre><code class="javascript">module.exports = function(embark) {
+```
+module.exports = function(embark) {
   embark.registerServiceCheck("MyServer", function(cb) {
     if (myServiceOnline()) {
       return cb({name: "MyServer Online", status: "on"});
@@ -321,29 +380,31 @@ It will be displayed in the Embark Dashboard, and will also trigger events such 
     }
   });
 }
-</code></pre>
+```
 
-### embark.registerUploadCommand(cmdName, callback)
+## .registerUploadCommand(cmdName, callback)
 
 This call is used to add a new cmd to ``embark upload`` to upload the dapp to a new storage service. In the example, `run` doesn't exist. You need to import a library that runs shell commands like [shelljs](https://www.npmjs.com/package/shelljs)
 
-<pre><code class="javascript">module.exports = function(embark) {
+```
+module.exports = function(embark) {
   embark.registerUploadCommand("ipfs", function() {
     run("ipfs add -r dist/");
   });
 }
-</code></pre>
+```
 
-### embark.addCodeToEmbarkJS(code)
+## .addCodeToEmbarkJS(code)
 
 This call is used to add code to the embark.js library. It's typically used to extend it with new functionality, new storage providers, new communication providers, etc..
 
-<pre><code class="javascript">module.exports = function(embark) {
+```
+module.exports = function(embark) {
   embark.addCodeToEmbarkJS("alert('hello world!')");
 }
-</code></pre>
+```
 
-### embark.addProviderInit(providerType, code, initCondition(config))
+## .addProviderInit(providerType, code, initCondition(config))
 
 This call is used to add code to be executed in the initialization under the condition that ``initCondition`` returns true. For example this can be used to set the storage provider of EmbarkJS to ipfs if ipfs is enabled as a provider in the config
 
@@ -352,22 +413,23 @@ This call is used to add code to be executed in the initialization under the con
 * callback:
   * "config" - config of the ``providerType``
 
-<pre><code class="javascript">module.exports = function(embark) {
+```
+module.exports = function(embark) {
   let code = "\nEmbarkJS.Storage.setProvider('ipfs')";
   embark.addProviderInit('storage', code, (storageConfig) => {
     return (storageConfig.provider === 'ipfs' && storageConfig.enabled === true);
   });
 }
-</code></pre>
+```
 
-### embark.registerImportFile(importName, importLocation)
+## .registerImportFile(importName, importLocation)
 
 This call is used so the plugin can make a certain file available as a library to a user
 
-<pre><code class="javascript">var path = require('path')
+```
+var path = require('path')
 
 module.exports = function(embark) {
   embark.registerImportFile("my-lib", path.join(__dirname, "my-lib.js"));
 }
-</code></pre>
-
+```
