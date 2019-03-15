@@ -1,4 +1,5 @@
 title: Configuring Smart Contracts
+layout: docs
 ---
 
 As many decentralized applications are powered by Smart Contracts, configuring and deploying them should be easy. That's why Embark offers a declarative approach to define what Smart Contracts we're interested in to deploy, what their dependencies are, as well as what they should be initialized with once instantiated. This guide will explore the different configuration options that help making deploying Smart Contracts a breeze.
@@ -9,7 +10,8 @@ Unless specified differently in our application's `embark.json`, Smart Contracts
 
 A Smart Contract configuration is placed in an environment's `contracts` property, with the name of the Smart Contract being the identifier. The following code creates a configuration for the `SimpleStorage` contract in the `development` environment:
 
-<pre><code class="javascript">module.exports = {
+```
+module.exports = {
   ...
   development: {
     ...
@@ -21,7 +23,7 @@ A Smart Contract configuration is placed in an environment's `contracts` propert
   }
   ...
 }
-</code></pre>
+```
 
 Smart Contracts can be configured differently per environment just by adding a dedicated configuration to the corresponding environment. Head over to our [guide on environments](environments.html) to learn more about this.
 
@@ -29,31 +31,40 @@ Smart Contracts can be configured differently per environment just by adding a d
 
 Often, Smart Contracts need to be initialized with certain values right after they have been deployed. We can configure a Smart Contract's constructor parameters using the `args` property. `args` is either a list of values, which will be applied to the Smart Contract's constructor parameters in the same order they are defined, or it can be an object specifying the parameters using named keys.
 
-<pre><code class="javascript">...
-contracts: {
-  SimpleStorage: {
-    args: [100]
+```
+...
+development: {
+  contracts: {
+    SimpleStorage: {
+      args: [100]
+    }
   }
 }
 ...
-</code></pre>
+```
 
 The following configuration configures the `SimpleStorage`'s `initialValue` parameter, assuming that that one exists. Notice that by using this syntax, the order of constructor parameter values doesn't matter anymore:
 
-<pre><code class="javascript">...
-contracts: {
-  SimpleStorage: {
-    args: { initialValue: 100 }
+```
+...
+development: {
+  contracts: {
+    SimpleStorage: {
+      args: {
+        initialValue: 100
+      }
+    }
   }
 }
 ...
-</code></pre>
+```
 
 ### Configuring gas and gas price
 
 Both, `gas` and `gasPrice` can be configured for each Smart Contract. If we don't want to configure that for every single contract, we can also specify `gas: auto` in the environment, like this:
 
-<pre><code class="javascript">...
+```
+...
 development: {
   gas: 'auto',
   contracts: {
@@ -65,22 +76,23 @@ development: {
   }
 }
 ...
-</code></pre>
+```
 
 Another cool feature of Embark is that it supports human readable ether units, to improve the developer experience.
 
-{% note info Human readable ether units %}
+{% notification info 'Human readable ether units' %}
 
 Embark supports **human readable ether units** in places where ether unit values are required. [Read here](#Human-readable-Ether-units) for more information.
-{% endnote %}
+{% endnotification %}
 
 ## Configuring Smart Contract Dependencies
 
-When building more complex applications, it's very common that a Smart Contract depends on another one. Embark makes it very easy to not only ensure dependency Smart Contracts are deployed before the Smart Contract in question deploys, but also accessing their deployed addresses. 
+When building more complex applications, it's very common that a Smart Contract depends on another one. Embark makes it very easy to not only ensure dependency Smart Contracts are deployed before the Smart Contract in question deploys, but also accessing their deployed addresses.
 
 All we have to do is specifying the name of the Smart Contract we're interested in, prefixed with a "$". Embark will then take care of figuring out in which order our Smart Contracts need to be deployed, as well as replacing all `$CONTRACT_NAME`'s with their corresponding addresses. Assuming `SimpleStorage` depends on `OtherContract`, this can be easily configured like this:
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   SimpleStorage: {
     args: [100, '$OtherContract']
@@ -88,7 +100,7 @@ contracts: {
   OtherContract: {...}
 }
 ...
-</code></pre>
+```
 
 ## Disabling deployment
 
@@ -96,8 +108,9 @@ Sometimes we want to configure different behaviour for certain contracts within 
 
 We can prevent Embark from deploying any of our Smart Contracts by using the `deploy` configuration and setting it to `false` like this:
 
-<pre><code class="javascript">...
-development: 
+```
+...
+development:
   contracts: {
     SimpleStorage: {
       args: [100]
@@ -112,16 +125,15 @@ production: {
   }
 }
 ...
-</code></pre>
-
-
+```
 ## Deploying multiple instances
 
 In cases where we want to create multiple instances of the same Smart Contract but with, for example, different initialization values per instance, we can use the `instanceOf` property and refer to the original Smart Contract that should be deployed multiple times.
 
 This can then be combined with [disabling the deployment](#Disabling-deployment) of the original Smart Contract like this:
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   Currency: {
     deploy: false,
@@ -135,7 +147,8 @@ contracts: {
     args: [300]
   }
 }
-...</code></pre>
+...
+```
 
 In the example above, we deploy `Usd` and `MyCoin` as instances of `Currency`. Notice that `Currency` itself isn't going to be deployed but merely functions as a "recipe" to create other instances of it.
 
@@ -145,14 +158,15 @@ Embark not only integrates with the Smart Contracts that we create and own, but 
 
 The following example configures `UserStorage` to be a Smart Contract instance that's already deployed:
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   UserStorage: {
     address: '0x123456'
   }
 }
 ...
-</code></pre>
+```
 
 ## Configuring source files
 
@@ -160,7 +174,8 @@ By default Embark will look for Smart Contracts inside the folder that's configu
 
 `file` specifies a full path to a file that contains the source code for the Smart Contract in question.
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   SimpleStorage: {
     file: './some_folder/simple_storage.sol',
@@ -168,22 +183,24 @@ contracts: {
   }
 }
 ...
-</code></pre>
+```
 
 If Embark doesn't find the file in the specified path, it'll expect it to be a path inside installed `node_modules` dependencies. The following example configures a source file path that points to a third-party Smart Contract that is installed as a dependency:
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   ERC20: {
     file: 'openzeppelin-solidity/contracts/token/ERC20/ERC20.sol'
   }
 }
 ...
-</code></pre>
+```
 
 Embark even supports reading the source from `https`, `git`, `ipfs` and `bzz` URIs, enabling us to compile Solidity Smart Contracts that aren't even located in our local machine.
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   ERC725: {
     file: 'git://github.com/status/contracts/contracts/identity/ERC725.sol#develop'
@@ -196,7 +213,7 @@ contracts: {
   }
 }
 ...
-</code></pre>
+```
 
 ## Providing ABIs
 
@@ -206,7 +223,8 @@ This is not a problem when dealing with Smart Contracts that we own, or at least
 
 The following example configures `SimpleStorage` to be already deployed somewhere, but we'd still like to use the web3 instance in our `afterDeploy` hook.
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   SimpleStorage: {
     address: '0x0bFb07f9144729EEF54A9057Af0Fcf87aC7Cbba9',
@@ -218,7 +236,7 @@ afterDeploy: async (deps) => {
   console.log(value);
 }
 ...
-</code></pre>
+```
 
 `afterDeploy` and other deployment hooks are covered in [Deployment Hooks](#Deployment-hooks).
 
@@ -240,19 +258,19 @@ contracts: {
 </code></pre>
 
 ## Deployment tracking
-
 Embark's Smart Contract deployment mechanism prevents the deployment of Smart Contracts that have already been deployed. This turns out to be a powerful feature as you don't have to worry about keeping track of it. If we prefer to have full control over the deployment process and don't want Embark to keep track of individual Smart Contracts deployments, we use the `track` configuration and set it `false`.
 
 The following example ensure `ERC20` won't be tracked and therefore redeployed in every deployment cycle.
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   ERC20: {
     track: false
   }
 }
 ...
-</code></pre>
+```
 
 ## Deployment hooks
 
@@ -264,7 +282,8 @@ Deployment hooks have access to a `dependencies` object that comes with instance
 
 We can specify a condition that decides whether a contract should be deployed by using the `deployIf` hook. `deployIf` is a function that either returns a promise or is created using `async/await` syntax and has to resolve to a boolean value. If the resolve value is `true`, the Smart Contract in question will be deployed. If it's `false`, Embark will skip deploying the Smart Contract in question.
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   ERC20: {
     deployIf: async (dependencies) => {
@@ -275,11 +294,12 @@ contracts: {
   Manager: {...}
 }
 ...
-</code></pre>
+```
 
 Notice how `dependencies.contracts` gives access to the `Manager` contract instance. This however, is only possible because `Manager` has been defined as dependency of `ERC20` using the `deps` property. If we're using a Node version that doesn't support async/await, the same can be achieved using promises like this (web3 APIs already return promises):
 
-<pre><code class="javascript">...
+```
+...
 ERC20: {
   deployIf: (dependencies) => {
     return dependencies.contracts.Manager.methods.isUpdateApproved().call();
@@ -287,13 +307,14 @@ ERC20: {
   deps: ['Manager']
 },
 ...
-</code></pre>
+```
 
 ### `onDeploy` hook
 
 We can specify the `onDeploy` hook to execute code, right after a contract has been deployed. Just like `deployIf` and `afterDeploy`, `onDeploy` is a function that has access to the Smart Contract's dependencies defined in its `deps` property. The following example executes `SimpleStorage`'s `set()` method, once deployed.
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   SimpleStorage: {
     args: [100],
@@ -303,15 +324,29 @@ contracts: {
   }
 }
 ...
-</code></pre>
+```
 
 To actually `send` transactions and not just make `call`s, you will probably need to provide a `from` account. You can use the `web3` instance inside `dependencies` to get the `defaultAccount` as above.
+
+Also, as mentioned above, every deployment hook works with plain promises as well:
+
+```
+...
+SimpleStorage: {
+  args: [100],
+  onDeploy: (dependencies) => {
+    return dependencies.contracts.SimpleStorage.methods.set(150).send();
+  }
+}
+...
+```
 
 ### `afterDeploy` hook
 
 If we want to execute code once all of our Smart Contracts have been deployed, Embark has got us covered with the `afterDeploy` hook. The same rules apply here. `afterDeploy` has access to all deployed contract instances through the `dependencies` object.
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   SimpleStorage: {
     args: [100]
@@ -321,36 +356,34 @@ afterDeploy: (dependencies) => {
   dependencies.contracts.SimpleStorage.methods.set(150).send({from: dependencies.web3.eth.defaultAccount});
 }
 ...
-</code></pre>
+```
 
-### Error management
+### Error Handling
 
-Since we use functions for these deployment hooks, we have to manage errors ourselves.
+Since we use functions for these deployment hooks, we have to manage errors ourselves. We skipped that step in the above examples to save space, but here is an easy example on how you can do it:
 
-We skipped that step in the above examples to save space, but here is an easy example on how you can do it:
-
-<pre><code class="javascript">onDeploy: async (dependencies) => {
+```
+onDeploy: async (dependencies) => {
   try {
     await dependencies.contracts.SimpleStorage.methods.set(85).send({from: dependencies.web3.eth.defaultAccount});
   } catch (e) {
     console.error('Error during onDeploy', e);
   }
-},
-</code></pre>
+}
+```
 
-{% note info A note on deployment hook string syntax %}
+{% notification info 'A note on deployment hook string syntax' %}
 In older versions of Embark, deployment hooks have been defined as an array of strings. This is due historical reasons where configuration files used to be JSON files that don't support functions.
 
 The examples above can be therefore written as:
 
-<pre><code class="javascript">afterDeploy: ['SimpleStorage.methods.set(150).send()']
+<pre class="highlight">afterDeploy: ['SimpleStorage.methods.set(150).send()']
 onDeploy: ['SimpleStorage.methods.set(150).send()']
 deployIf: 'await Manager.methods.isUpdateApproved()'
-</code></pre>
-
+</pre>
 
 This string syntax is still supported, but will be deprecated and likely be removed in future versions of Embark.
-{% endnote %}
+{% endnotification %}
 
 ## Human readable Ether units
 
@@ -358,7 +391,8 @@ Embark supports human readable ether units in different places where Ether value
 
 Let's take the simple Smart Contract configuration from the [configuring gas and gas price](#Configuring-gas-and-gas-price) section:
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   SimpleStorage: {
     args: [100],
@@ -367,11 +401,12 @@ contracts: {
   }
 }
 ...
-</code></pre>
+```
 
 This can as well be written as:
 
-<pre><code class="javascript">...
+```
+...
 contracts: {
   SimpleStorage: {
     args: [100],
@@ -380,6 +415,6 @@ contracts: {
   }
 }
 ...
-</code></pre>
+```
 
 Embark will take care of converting those units to their dedicated Wei values.

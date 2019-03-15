@@ -1,15 +1,17 @@
 title: Configuring Embark
+layout: docs
 ---
 
 Embark offers a lot of fine control when it comes to configuring the different parts of our decentralized application. In this guide we'll take a closer look at the basic configuration options provided by our application's `embark.json` file, which are mainly relevant for, but not restricted to, our application structure.
 
-**For configuration options related to connecting to a blockchain client, [deploying your Smart Contracts](contracts_configuration.html), [decentralized storage](storage_configuration.html), [Whisper](messages_configuration) or [ENS](naming_configuration.html), please head over to the dedicated configuration guides respectively.**
+For configuration options related to connecting to a blockchain client, [deploying your Smart Contracts](contracts_configuration.html), [decentralized storage](storage_configuration.html), [Whisper](messages_configuration) or [ENS](naming_configuration.html), please head over to the dedicated configuration guides respectively.
 
 ## Overview
 
 Every application [created with Embark](create_project.html) comes with an `embark.json` file. This file configures where Embark has to look for Smart Contract files and assets, as well as plugins options. Here's what a freshly scaffolded `embark.json` file could look like:
 
-<pre><code class="json">{
+```
+{
   "contracts": ["contracts/**"],
   "app": {
     "js/dapp.js": ["app/dapp.js"],
@@ -17,6 +19,7 @@ Every application [created with Embark](create_project.html) comes with an `emba
     "images/": ["app/images/**"]
   },
   "buildDir": "dist/",
+  "generationDir": "embarkArtifacts",
   "config": "config/",
   "versions": {
     "web3": "1.0.0-beta",
@@ -32,7 +35,7 @@ Every application [created with Embark](create_project.html) comes with an `emba
     }
   }
 }
-</code></pre>
+```
 
 Let's look at the different options and learn what they do and mean.
 
@@ -56,6 +59,16 @@ Change these configurations as you need.
 
 The directory to which the build artifacts are being moved to. Everything inside this configured folder can be considered a production ready build (default is `dist/`).
 
+{% notification info 'Important note:' %}
+When using Embark with any other complementary CLI tool for building a DApp, such as Create-React-App or Angular CLI, `buildDir` should point at the same location as the complementary tool writes its distribution files to.
+
+This is important so that Embark picks up the right files when doing things like [deploying your app](/docs/storage_deployment.html) on IPFS or Swarm.
+{% endnotification %}
+
+### generationDir
+
+A directory in which Embark is going to generate artifacts that can be used for DApp development. This include Smart Contract ABIs as well Embark specific configuration data extracted from the project's configuration. The default name of this directory is `embarkArtifacts`. To learn more about Embark Artifacts, head over to our guide on [Using EmbarkJS](/docs/javascript_usage.html).
+
 ### config
 
 This is the location of the configuration files. There are different options to configure those:
@@ -65,7 +78,8 @@ This is the location of the configuration files. There are different options to 
   * Each property would configure the path of each configuration file
   * Configuration properties can be set to false to disable the component/service in question
 
-<pre><code class="json">...
+```
+...
 "config": {
   "contracts": "contracts.js",
   "blockchain": false,
@@ -74,7 +88,7 @@ This is the location of the configuration files. There are different options to 
   "webserver": false
 },
 ...
-</code></pre>
+```
 
 ### versions (3rd-party libraries)
 
@@ -82,12 +96,13 @@ Here you can optionally specify the versions of the library to be used by Embark
 
 ### plugins
 
-This is a list of installed plugins. For more information on Plugins, head over to our [Plugins guide](installing_plugins.html).
+This is a list of installed plugins. For more information on Plugins, head over to our [Plugins guide](/docs/installing_plugins.html).
 
 ### options
 
 The `options` property enable us to configure options for specific components and services of Embark and our application. Currently supported are options for the `solc` compiler. 
-<pre><code class="json">...
+```
+...
   "options": {
     "solc": {
       "optimize": true,
@@ -95,5 +110,5 @@ The `options` property enable us to configure options for specific components an
     }
   }
 ...
-</code></pre>
+```
 

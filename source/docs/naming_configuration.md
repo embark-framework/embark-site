@@ -1,26 +1,23 @@
-title: Naming Configuration
+title: Naming System Configuration
+layout: docs
 ---
 
-### Setup
+We can configure different naming systems in Embark. In this guide we'll explore how this is done using the Ethereum Name Service.
 
-By default Embark will automatically initialize EmbarkJS with the provider configured at `config/namesystem.js`.
+## Configuration basics
 
+Embark checks our configuration in `config/namesystem.js` by default. A naming system configuration isn't crucial to run Embark, so this only needs to be enabled when planing to use a naming system.
 
-### Configuration basics
+When using ENS as our provider, we can set the `register` section to pre-register sub-domains. This feature is  only available in the development environment:
 
-Embark checks your configuration in `config/namesystem.js`. None of them are necessary to run Embark, you need only enable those when you want to use the name system.
-
-When using ENS (`"ens"`) as your provider, you can set the `register` section to pre-register sub-domains. Feature only available in development environment.
-
-<pre><code class="javascript">
+```
 module.exports = {
   default: {
     enabled: true,
-    available_providers: ["ens", "ipns"],
-    provider: "ens",
-    // The register section is only used in development. It allows you to pre-register domains
+    available_providers: ['ens', 'ipns'],
+    provider: 'ens',
     register: {
-      rootDomain: "embark.eth", // The root domain to which you can attach the subdomains. The address will be pointing to the defaultAccount
+      rootDomain: 'embark.eth',
       subdomains: {
         // List of subdomains.
         // The key is the name (eg: status -> status.embark.eth)
@@ -30,4 +27,4 @@ module.exports = {
     }
   }
 };
-</code></pre>
+```

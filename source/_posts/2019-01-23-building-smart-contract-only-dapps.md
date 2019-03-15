@@ -1,7 +1,9 @@
 title: Building Smart Contract only DApps with Embark
+author: pascal_precht
 summary: "In this article we're going to explore how to build applications with Embark that focus purely on Smart Contract development. Read on!"
 categories:
   - tutorials
+layout: blog-post
 ---
 
 Building decentralized applications often involves many parts and components, such as Smart Contracts and a front-end, that have to play well together, in order to provide users the best experience possible. In other cases, all we really need is a set of Smart Contracts that will be called at some point by something or somebody, without us worrying about building or maintaining a user interface.
@@ -14,7 +16,9 @@ Before we get started, let's make sure that Embark's command line tool is actual
 
 To change that, all we have to do is using Node's package manager `npm`, using the following command:
 
-<pre><code>$ npm install -g embark@next</code></pre>
+```
+$ npm install -g embark@next
+```
 
 This will make Embark's command line tool globally available on our machines. Notice that `@next` picks the latest development version of Embark. This release tag will be removed in the future once version `4.0.0` stable has been released (no worries, we'll update this article accordingly). 
 
@@ -26,17 +30,20 @@ With that out of the way, we can start creating our Smart Contracts only applica
 
 To create an application that really only focusses on Smart Contract development, we can take advantage of the command's `--contracts-only` option. Let's go ahead and do that. In this tutorial we'll be creating a rather trivial project, namely a simple storage, so let's call the project `simple-storage`:
 
-<pre><code>$ embark new simple-storage --contracts-only 
-$ cd simple-storage</code></pre>
+```
+$ embark new simple-storage --contracts-only 
+$ cd simple-storage
+```
 
 Once Embark is done, we've got a new folder `simple-storage` in our current working directory that has everything we need to build a Smart Contract only decentralized application. After `cd`'ing into it, we'll see what the project's structure looks like:
 
-<pre><code>├── contracts/
+```
+├── contracts/
 └── test/
 ├── contracts.js
 └── embark.json
 └── package.json
-</code></pre>
+```
 
 This is really the least amount of files needed to start a new project that purely focusses on Smart Contract development. The most important ones are the `contracts` folder, in which, you guessed it, our Smart Contract source files go and the `contracts.json` file, in which we configure how the Smart Contracts are deployed.
 
@@ -48,7 +55,8 @@ Let's go ahead and create a simple Smart Contract to dive a bit deeper into how 
 
 The idea of the `SimpleStorage` Smart Contract is really just to store a simple value. All we need are methods to set and get that value:
 
-<pre><code>pragma solidity ^0.5.0;
+```
+pragma solidity ^0.5.0;
 
 contract SimpleStorage {
   uint public storedData;
@@ -65,7 +73,8 @@ contract SimpleStorage {
     return storedData;
   }
 
-}</code></pre>
+}
+```
 
 We put this Smart Contract into `./contracts/simple-storage.sol`. Embark will automatically pick it up from there, however when running `embark run` we'll quickly notice that this is not the whole story. Here's what Embark will output:
 
@@ -75,35 +84,43 @@ What Embark is telling us here is that it's well aware that there's a `SimpleSto
 
 Let's open our project's `contracts.js` file and head down to the `contracts` section:
 
-<pre><code>...
+```
+...
 contracts: {
   // example:
   //SimpleStorage: {
   //  args: [ 100 ]
   //}
 }
-...</code></pre>
+...
+```
 
 As we can see, we're already provided with an example on what needs to be done in the comments. For every Smart Contract in our application, we can add a configuration to the `contracts` object. Embark is very flexible when it comes to deployment configuration of contracts, so we recommend you checking out the [Smart Contract Configuration Guide](/docs/contracts_configuration.html).
 
 For now, let's just take the suggested example in the comments and set the constructor parameter of `SimpleStorage`:
 
-<pre><code>SimpleStorage: {
+```
+SimpleStorage: {
   args: [ 100 ]
-}</code></pre>
+}
+```
 
 If our Smart Contracts happens to have more constructor parameters, we can simply add more values to `args` in the same order. Sometimes, this gets a little too complex though. Embark supports named parameters as well for those cases:
 
-<pre><code>SimpleStorage: {
+```
+SimpleStorage: {
   args: { initialValue: 100 }
-}</code></pre>
+}
+```
 
 Having that set up, we can execute `embark run` again, which should result in a successful deployment of our Smart Contract.
 
-<pre><code>Deploying contracts
+```
+Deploying contracts
 deploying SimpleStorage with 143503 gas at the price of 1 Wei, estimated cost: 143503 Wei (txHash: 0x68d7bfb359da8614b9231915404095282e1943741af148bde39fc987ac6706f3)
 SimpleStorage deployed at 0xa3bbd48f1A398fb355E69C73B9dC77f77959FB14 using 139768 gas (txHash: 0x68d7bfb359da8614b9231915404095282e1943741af148bde39fc987ac6706f3)
-Finished deploying contracts</code></pre>
+Finished deploying contracts
+```
 
 Embark not only tells gives us the transaction hash of the deployment for `SimpleStorage` as soon as possible, it also gives us the estimated and confirmed cost of the transaction.
 
@@ -115,11 +132,14 @@ Another powerful feature we shouldn't forget is Embark's console. It lets us int
 
 After executing `embark run`, Embark spins up a dashboard that comes with a REPL, waiting for us to enter commands. To get an idea of what commands are available, run the `help` command and see what happens:
 
-<pre><code>Embark (development) > help<ENTER></code></pre>
+```
+Embark (development) > help<ENTER>
+```
 
 The output should look something like this (keep in mind that this might look different on your machine, depending on what version of Embark's command line tool you're using):
 
-<pre><code>Welcome to Embark 4.0.0-beta.0
+```
+Welcome to Embark 4.0.0-beta.0
 
 possible commands are:
 ipfs - instantiated js-ipfs object configured to the current environment (available if ipfs is enabled)
@@ -141,15 +161,20 @@ api start/stop - Start or stop the API
 plugin install <package> - Installs a plugin in the Dapp. eg: plugin install embark-solc
 quit - to immediatly exit (alias: exit)
 
-The web3 object and the interfaces for the deployed contracts and their methods are also available</code></pre>
+The web3 object and the interfaces for the deployed contracts and their methods are also available
+```
 
 One thing that the console's help doesn't tell us, is that each and every of our deployed Smart Contracts is available as descriptive JavaScript object. Simply enter the name of your Smart Contract and Embark will output its structure, properties and methods:
 
-<pre><code>Embark (development) > SimpleStorage<ENTER></code></pre>
+```
+Embark (development) > SimpleStorage<ENTER>
+```
 
 In fact, we can go ahead and execute the Smart Contract's methods if we want to! For example, if we want to confirm that the constructor parameter for `initialValue` was indeed set to `100`, we can simply call `SimpleStorage`'s `get` method like this:
 
-<pre><code>Embark (development) > await SimpleStorage.method.get().call()<ENTER></code></pre>
+```
+Embark (development) > await SimpleStorage.method.get().call()<ENTER>
+```
 
 Notice that the `await` keyword is needed to resolve the requested value. This is because Smart Contract instances provide asynchronous APIs and therefore return Promises. `await` ensures that it unwraps the request value once it resolves.
 

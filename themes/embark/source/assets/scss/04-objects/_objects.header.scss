@@ -1,0 +1,36 @@
+.c-header {
+  padding: get-spacing-inset(l) get-spacing-inset(l) get-spacing-inset(l);
+  border-radius: $border-radius;
+  background-color: get-color-layout(spot);
+  background-image: url(/assts/images/dummy-background.png);
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: get-color-layout(spotGradation);
+
+  @include breakpoint(l) {
+    padding: get-spacing-inset(l) get-spacing-inset(l) get-spacing-inset(xxl);
+  }
+
+  input {
+    border-color: get-color(blue, light);
+    background-color: get-color(blue, light);
+    color: get-color(unique, white);
+
+    @include placeholder() {
+      color: get-color(unique, white);
+    }
+  }
+
+  &__top {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__body {
+    margin-top: get-spacing-stack(xl);
+    max-width: 600px;
+  }
+}

@@ -1,4 +1,5 @@
 title: Console Commands
+layout: docs
 ---
 
 With ``embark run`` there is a console at the bottom which can be used to interact with contracts or with embark itself. type ``help`` to see a list of available commands, more commands will be added with each version of Embark.

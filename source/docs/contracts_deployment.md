@@ -1,141 +1,212 @@
-title: Accounts & Deplyoment
+title: Accounts & Deployment
+layout: docs
 ---
 
-### Deployer Account
+Embark is very flexible when it comes to configuring wallet accounts for deployment. Whether we want to deploy from generated node accounts, or our own key store file. In this guide we'll take a closer look at how to configure wallet accounts for deployment of Smart Contracts. 
 
-You can specify which Account you want to deploy a contract from. This can be specified using "from" or "fromIndex" parameters.
+## Specifying a deployment account
 
-| `from` - should be account address string.
-| `fromIndex` - should be index in accounts array as retrieved by `web3.eth.getAccounts()`.
+We can specify from which account we want to deploy a Smart Contract using the `from` or `fromIndex` options of a Smart Contract's configuration. The `from` parameter is a string which can be any account address:
 
-If both `from` and `fromIndex` are specified, the `from` field will be used.
+```
+...
+contracts: {
+  Currency: {
+    from: '0xfeedaa0e295b09cd84d6ea2cce390eb443bcfdfc',
+    args: [100]
+  }
+}
+...
+```
 
-Example:
+`fromIndex` on the other hand, configures the index of the accounts array that is returned by `web3.eth.getAccounts()`. The following code configures the `Currency` Smart Contract to deployed from the first address:
 
-<pre><code class="javascript">// config/contracts.js
+
+```
+...
+contracts: {
+  Currency: {
+    fromIndex: 0
+    args: [100]
+  }
+}
+...
+```
+
+If both options are configured, `from` takes precedence.
+
+## Using wallet accounts
+
+We can use our own wallet accounts by specifying either a private key, a mnemonic, or a private key file. Let's take a look at how this is done.
+
+{% notification danger 'A note on private keys in production' %}
+
+While it's very convenient to put private keys, passphrases and mnemonics in the configuration file, we highly recommend doing this only sparingly and ideally move sensitive data into environment variables instead.
+
+Please consider the following configuration options as development-only options and refer to [using environment variables for production](#Using-environment-variables-for-production), once you plan to deploy your application on Mainnet.
+
+{% endnotification %}
+
+### Using a private key
+
+Using a private key is just a matter of adding it as `privateKey` option.
+
+```
 module.exports = {
-  "development": {
-    "contracts": {
-      "Currency": {
-        "deploy": true,
-        <mark class="highlight-inline">"from": '0xfeedaa0e295b09cd84d6ea2cce390eb443bcfdfc',</mark>
-        "args": [
-          100
-        ]
-      },
-      "MyStorage": {
-        <mark class="highlight-inline">"fromIndex": 0,</mark>
-        "args": [
-          "initial string"
-        ]
-      },
+  testnet: {
+    deployment: {
+      accounts: [
+        {
+          privateKey: "your_private_key"
+        }
+      ]
     }
   }
-  // ....
 }
-</code></pre>
+```
 
-### Using accounts in a wallet
+This can also be set to `random` to generate a random account (useful when testing):
 
-You can use your own account in a wallet which will then be used for the contract deploy, for example:
+```
+privateKey: "random"
+```
 
-<pre><code class="javascript">// config/contracts.js
+### Using a private key store
+
+Another option is to use an existing private key store file. Instead of writing the private key straight into the configuration file, we specify a path to a private key store file using the `privateKeyFile` option. Key store files need to be decrypted using a passphrase. That's why `privateKeyFile` needs to be used in combination with the `password` option, which is the passphrase needed to unlock the key store file:
+
+```
 module.exports = {
-  "testnet": {
-      "deployment": {
-        <mark class="highlight-inline">"accounts": [
-          {
-            // If privateKey is set to `random`, will generate a random account (can be useful for tests)
-            "privateKey": "your_private_key"
-          },
-          {
-            "privateKeyFile": "path/to/file", // Either a keystore or a list of keys, separated by , or ;
-            "password": "passwordForTheKeystore" // Needed to decrypt the keystore file
-          },
-          {
-            "mnemonic": "12 word mnemonic",
-            "addressIndex": "0", // Optional. The index to start getting the address
-            "numAddresses": "1", // Optional. The number of addresses to get
-            "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
-          }
-        ]
-      }</mark>
+  testnet: {
+    deployment: {
+      accounts: [
+        {
+          privateKeyFile: 'path/to/key/store/file',
+          password: 'some super secret password'
+        }
+      ]
+    }
   }
 }
-</code></pre>
+```
 
-### Node accounts + user accounts
+### Using a Mnemonic
 
-If you still wish to use your Ethereum node's account(s) along with your custom accounts, just use the following:
+Last but not least it's also possible to use a mnemonic to generate a wallet and specify which of the wallet's addresses should be used for deployment. It's also possible to configure an HD derivation path if more control is needed.
 
-<pre><code class="javascript">// config/contracts.js
+```
 module.exports = {
-  "testnet": {
-      "deployment": {
-        "accounts": [
-          <mark class="highlight-inline">{
-            "nodeAccounts": true
-          }</mark>,
-          {
-            // One of your own account
-          }
-        ]
-      }
+  testnet: {
+    deployment: {
+      accounts: [
+        {
+          mnemonic: "12 word mnemonic",
+          addressIndex: "0", // Optional. The index to start getting the address
+          numAddresses: "1", // Optional. The number of addresses to get
+          hdpath: "m/44'/60'/0'/0/" // Optional. HD derivation path
+        }
+      ]
+    }
   }
 }
-</code></pre>
+```
 
+## Using node accounts
+
+Some blockchain node clients such as Geth allow for generating accounts. This is very useful for development purposes. We can tell Embark to make use of those accounts, by using the `nodeAccounts` option and setting it to `true`.
+
+In addition to that, we can combine the generated node accounts with our own custom accounts, simply by extending the `accounts` array with any of the configurations covered earlier:
+
+```
+module.exports = {
+  testnet: {
+    deployment: {
+      accounts: [
+        {
+          nodeAccounts: true
+        },
+        {
+          privateKey: '...'
+        }
+      ]
+    }
+  }
+}
+```
+
+{% notification info 'Accounts order' %}
 The order in the accounts array is important. This means that using `nodeAccounts` first, as above, will set the node's account as the `defaultAccount` for deployment.
+{% endnotification %}
 
-#### Deploying to Mainnet
+## Using environment variables for production
 
-There are special security considerations to have when deploying to production. Chiefly, no private keys, private key files or mnemonics should be present in source control. Instead, we recommend using environment variables to pass those values in, like so:
+There are special security considerations to have when deploying to production. Chiefly, no private keys, private key files or mnemonics should be present in source control. Instead, we recommend using environment variables to pass those values in, like this:
 
-<pre><code class="javascript">// config/contracts.js
+```
 const secrets = require('secrets.json'); // should NOT be in source control
 
 module.exports = {
-  "mainnet": {
-      "deployment": {
-        <mark class="highlight-inline">"accounts": [
-          {
-            "privateKeyFile": secrets.privateKeyFilePath,
-            "password": secrets.password
-          },
-          {
-            "mnemonic": process.env.DAPP_MNEMONIC, // An environment variable is also possible
-            "addressIndex": "0", // Optional. The index to start getting the address
-            "numAddresses": "1", // Optional. The number of addresses to get
-            "hdpath": "m/44'/60'/0'/0/" // Optional. HD derivation path
-          }
-        ]
-      }</mark>
+  mainnet: {
+    deployment: {
+      accounts: [
+        {
+          privateKeyFile: secrets.privateKeyFilePath,
+          password: secrets.password
+        },
+        {
+          mnemonic: process.env.DAPP_MNEMONIC, // An environment variable is also possible
+          addressIndex: "0", // Optional. The index to start getting the address
+          numAddresses: "1", // Optional. The number of addresses to get
+          hdpath: "m/44'/60'/0'/0/" // Optional. HD derivation path
+        }
+      ]
+    }
   }
 }
-</code></pre>
+```
 
-#### Account balance (dev)
-When in development, you can also specify the balance of each account. Here's how you do it:
+## Configuring account balance for development
+When in development, we can specify the balance of each account using the `balance` option:
 
-<pre><code class="javascript">module.exports = {
-  "development": {
-      "deployment": {
-        "accounts": [
+```
+module.exports = {
+  development: {
+      deployment: {
+        accounts: [
           {
-            "mnemonic": "12 word mnemonic",
-            <mark class="highlight-inline">"balance": "5 ether"</mark>
+            mnemonic: "12 word mnemonic",
+            balance: "5 ether"
           }
         ]
       }
   }
 }
-</code></pre>
+```
 
-You can specify the balance using a unit such as "5 ether" or "200 finney". If no unit is specified the value will be in wei.
+Balances are specified using a [human readable units](/docs/contracts_configuration.html#Human-readable-Ether-units) such as "5 ether" or "200 finney". If no unit is specified the value will be in Wei.
 
-You can also connect to a remote Infura.io blockchain node as per instructions below. The following specifies the configuration for the web3 provider, not the blockchain node configuration itself.
+## Using accounts in arguments
 
-<pre><code class="javascript">module.exports = {
+Account can be used as arguments using Embark's built-in interpolation syntax, similar to referring to Smart Contract instances.
+
+```
+module.exports = {
+  development: {
+    contracts: {
+      MyContractThatNeedsAccountAddresses: {
+        args: ['$accounts[0]', '$accounts[4]']
+      }
+    }
+  }
+}
+```
+
+## Deploying to Infura
+
+We can also connect to a remote Infura.io blockchain node as per instructions below. The following specifies the configuration for the web3 provider, not the blockchain node configuration itself.
+
+```
+module.exports = {
   testnet: {
     deployment:{
       accounts: [
@@ -143,30 +214,12 @@ You can also connect to a remote Infura.io blockchain node as per instructions b
          // your accounts here, see above for details
         }
       ],
-      <mark class="highlight-inline">host: "rinkeby.infura.io/INFURA_TOKEN_HERE",
+      host: "rinkeby.infura.io/INFURA_TOKEN_HERE",
       port: false,
       protocol: 'https',
-      type: "rpc"</mark>
+      type: "rpc"
     }
   }
 }
-</code></pre>
+```
 
-### Using your accounts in arguments
-
-You can specify an account the same way you would a contract to set the account's address as a contract argument.
-
-<pre><code class="javascript">// config/contracts.js
-module.exports = {
-  "development": {
-    "contracts": {
-      "MyContractThatNeedsAccountAddresses": {
-        "args": [
-          "<mark class="highlight-inline">$accounts[0]", // Sets the first accounts's address as an argument
-          "$accounts[4]" // Same thing for the 5th account (account needs to exist)</mark>
-        ]
-      }
-    }
-  }
-}
-</code></pre>

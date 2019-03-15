@@ -1,0 +1,13 @@
+.o-list-bare {
+  @include list-reset();
+  margin-top: get-spacing-stack(s);
+
+  &__item {
+    margin-top: get-spacing-stack(m);
+    line-height: 1;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}

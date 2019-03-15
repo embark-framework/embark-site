@@ -1,13 +1,17 @@
-title: Configuration
+title: Configuring decentralized storages
+layout: docs
 ---
 
-### Configuration basics
+With Embark, we easily connect to decentralized storage solutions such as IPFS and Swarm. This enables us to upload, storing and download data and assets for our decentralized applications. Let's take a closer look at how to make use of this.
 
-Embark will check your preferred storage configuration in the file ``config/storage.js``. This file will contain the preferred configuration for each environment, with ``default`` being the configuration that applies to every environment. Each of those fields can be individually overridden on a per environment basis.
+## Configuration basics
 
-e.g.:
+Embark will check our preferred storage configuration in the file `config/storage.js`, unless [configured differently](/docs/configuration.html) in our application's `embark.json` file. This file contains the preferred configuration for each environment, with `default` being the configuration that applies to every environment. If [environments in Embark](/docs/environments.html) are new to you, check out the dedicated guide first and come back.
 
-<pre><code class="javascript"> module.exports = {
+Each of these configuration options can be individually overridden on a per environment basis.
+
+```
+module.exports = {
   "default": {
     "enabled": true,
     "ipfs_bin": "ipfs",
@@ -33,9 +37,9 @@ e.g.:
     "port": 5001
   }
 }
-</code></pre>
+```
 
-Available options are:
+The available options are:
 
 Option | Type: `default` | Value         
 --- | --- | --- 
@@ -56,23 +60,16 @@ Option | Type: `default` | Value
 `dappConnection.getUrl`      | string | Only for IPFS. This sets the file/document retrieval URL, which is different than the host/port combination used to interact with the IPFS API.
 `versions`    | object | key-value hash of library and its desired version
 
-### Using a local node
+## Using a local node
 
-Either for IPFS or Swarm, Embark will default to use a local node for development purposes
+Either for IPFS or Swarm, Embark will default to use a local node for development purposes. Note that we still need to set up the right port according to the storage platform we use. By default, IPFS runs on port `5001` and Swarm runs on `8500`.
 
-Please note that you still need to set up the right port according to the storage platform you use.
-
-By default, IPFS runs on port `5001` and Swarm runs on `8500`.
-
-You can start your local storage node yourself or now you can also let Embark start the node itself in another node.
-
-Letting Embark do it for you lets you focus on developing faster while starting it yourself gives you more flexibility.
-
-You still need to have IPFS or Swarm installed locally for it to work, whatever the case.
+We can start a local storage node ourselves or now we can let Embark start the node for us. Letting Embark do the job lets us focus on developing faster while doing it ourselves might give us more flexibility. Obviously, we still need to have IPFS or Swarm installed locally for it to work.
 
 **Important configurations for swarm**:
 
-<pre><code class="json">{
+```
+{
   "development": {
     "provider": "swarm",
     "account": {
@@ -82,13 +79,15 @@ You still need to have IPFS or Swarm installed locally for it to work, whatever 
     "swarmPath": "PATH/TO/SWARM/EXECUTABLE"
   }
 }
-</code></pre>
+```
 
-### Using a public gateway
+## Using a public gateway
 
-To use a public gateway (instead of running a local node) for IPFS or Swarm, use the following `config/storage.js` options:
-#### IPFS
-<pre><code class="json">"development": {
+Embark can connect to a public gateway when using any of the available storage options. To use a public gateway, instead of running a local node, for IPFS or Swarm, use the following `config/storage.js` options:
+
+### IPFS
+```
+"development": {
   "enabled": true,
   "upload":{
     "provider": "ipfs",
@@ -98,10 +97,12 @@ To use a public gateway (instead of running a local node) for IPFS or Swarm, use
     "getUrl": "https://ipfs.infura.io/ipfs/"
   }
 }
-</code></pre>
+```
 
-#### Swarm
-<pre><code class="json">"development": {
+### Swarm
+
+```
+"development": {
   "enabled": true,
   "upload": {
     "provider": "swarm",
@@ -109,22 +110,24 @@ To use a public gateway (instead of running a local node) for IPFS or Swarm, use
     "port": 8500
   }
 }
-</code></pre>
+```
 
-### Troubleshooting <a name="troubleshooting"></a>
+## Troubleshooting
 
-If you are running your own processes for IPFS or Swarm, the CORS needs to be set to the domain of your DApp, to the geth domain, and to the domain of the storage used inside the DApp. If you are using the built in webserver, the CORS would need to be set to `http://localhost:8000`, however if you are using `embark upload`, the domain of the decentralised storage host should be included in CORS. Depending on your `upload` settings in `storage.js`, this could be `http://localhost:8080` or `http://ipfs.infura.io` for IPFS or it could be `http://localhost:8500` or `http://swarm-gateways.net` for Swarm. Of course, if you are hosting your DApp on a different domain (i.e. not `localhost`, then that would need to be included in CORS as well. Examples of how to include multiple domains for each are below:
+If you are running your own processes for IPFS or Swarm, the CORS needs to be set to the domain of your application, to the geth domain, and to the domain of the storage used inside the application.
+
+If you are using the built in webserver, the CORS would need to be set to `http://localhost:8000`, however if you are using `embark upload`, the domain of the decentralised storage host should be included in CORS.
+
+Depending on your `upload` settings in `storage.js`, this could be `http://localhost:8080` or `http://ipfs.infura.io` for IPFS or it could be `http://localhost:8500` or `http://swarm-gateways.net` for Swarm.
+
+Of course, if you are hosting your DApp on a different domain (i.e. not `localhost`, then that would need to be included in CORS as well. Examples of how to include multiple domains for each are below:
 
 ```
-# Configure local IPFS node that has the local swarm node whitelisted for CORS
-# Works in the case where IPFS hosts the DApp, but you are running your storage inside the DApp on Swarm (or IPFS, since it doesn't need to whitelist itself)
 ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"http://localhost:8000\", \"http://localhost:8500\", \"http://localhost:8545\", \"ws://localhost:8546\"]"
 ```
 NOTE: `http://localhost:8545` and `ws://localhost:8546` are for geth.
 
 ```
-# Run local Swarm node that has the local IPFS node whitelisted for CORS
-# Works in the case where Swarm hosts the DApp, but you are running your storage inside the DApp on IPFS (or Swarm, since it doesn't need to whitelist itself)
 swarm --bzzaccount=fedda09fd9218d1ea4fd41ad44694fa4ccba1878 --datadir=~/.bzz-data/ --password=config/development/password --corsdomain=http://localhost:8000,http://localhost:8080,http://localhost:8545,ws://localhost:8546 --ens-api=''
 ```
 
