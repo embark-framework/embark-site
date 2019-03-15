@@ -20,22 +20,17 @@
       })
     }}
     <div class="o-distance">
-      <div class="o-grid">
+      <div class="o-grid o-center">
         <div class="o-grid__column--1-1 o-grid__column--medium-1-2">
           {{
             partial('partial/spotbox', {
               title: 'Checkout the GitHub Repos',
               text: 'Look for issues with specifics tags you may be interested in.',
-              icon: 'app-window-search-text'
-            })
-          }}
-        </div>
-        <div class="o-grid__column--1-1 o-grid__column--medium-1-2">
-          {{
-            partial('partial/spotbox', {
-              title: 'Earn crypto through Gitcoin',
-              text: 'There are a number of bounties available on Gitcoin.',
-              icon: 'crypto-currency-bitcoin-circle',
+              icon: 'app-window-search-text',
+              link: {
+                text: 'See the Repo',
+                href: 'https://github.com/embark-framework/embark'
+              }
             })
           }}
         </div>
@@ -50,7 +45,12 @@
           {{
             partial('partial/heading', {
               title: "It's not just <span class='u-text-light'>code</span>",
-              referal: 'We believe that contributions go far beyond working on our code base. Help out with writing docs, creating a tutorial or simply talk to us on our channels.'
+              referal: 'We believe that contributions go far beyond working on our code base. Help out with writing docs, creating a tutorial or simply talk to us on our channels.',
+              link: {
+                text: 'Join us in Gitter',
+                href: 'https://gitter.im/embark-framework/Lobby',
+                class: 'c-button'
+              }
             })
           }}
         </div>

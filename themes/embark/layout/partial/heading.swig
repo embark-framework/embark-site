@@ -11,7 +11,7 @@
   {% endif %}
   {% if link %}
   <p class="o-heading__footer">
-    <a href="{{link.href}}" class="c-link" title="{{link.text}}">{{link.text}}</a>
+    <a href="{{link.href}}" {% if link.class %} class="{{link.class}}" {% else %} class="c-link" {% endif %} title="{{link.text}}">{{link.text}}</a>
   </p>
   {% endif %}
 </div>

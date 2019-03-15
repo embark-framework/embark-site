@@ -103,7 +103,7 @@
           <ul class="c-checklist">
             {{ partial('partial/checklist_item', { icon: 'icon-check', text: 'Smart Contract only or fully fledged DApps' }) }}
             {{ partial('partial/checklist_item', { icon: 'icon-check', text: 'Integrate with existing tools' }) }}
-            {{ partial('partial/checklist_item', { icon: 'icon-check', text: 'Extend it too your needs' }) }}
+            {{ partial('partial/checklist_item', { icon: 'icon-check', text: 'Extend it to your needs' }) }}
           </ul>
         </div>
         <div class="o-distance-l">
@@ -123,7 +123,7 @@
             Mission control with <span class="u-text-ghost">Cockpit.</span>
           </h2>
           <p class="o-heading__subtitle c-subtitle u-text-ghost">
-            A web interface to building, debugging and deploying decentralized applications.
+            A web interface for building, debugging and deploying decentralized applications.
           </p>
           <p class="o-heading__footer">
             <!-- <a href="#" class="c-button c-button--ghost" title="Get Started">Get Started</a>-->
@@ -148,7 +148,7 @@
             </div>
             <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-4">
               <h3 class="c-title-level-3 u-text-ghost">Code Editor</h3>
-              <p>Edit your source files from right within Cockpit for quick and easy updats.</p>
+              <p>Edit your source files from right within Cockpit for quick and easy updates.</p>
               <a href="/docs/cockpit_editor.html" title="Cockpit Editor">Learn more &rarr;</a>
             </div>
           </div>

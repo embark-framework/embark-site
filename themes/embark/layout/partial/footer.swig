@@ -93,7 +93,10 @@
       </div>
     </div>
     <div class="c-footer__bottom">
-      <p class="u-text-light">&copy; 2019 Embark</p>
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019 Embark
+      </p>
     </div>
   </div>
 </footer>

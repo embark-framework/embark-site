@@ -6,7 +6,7 @@
   <p class="c-box__subtitle u-text-ghost">{{ text }}</p>
   {% if link %}
   <p class="c-box__footer">
-    <a href="{{link.href}}" title="{{link.text}}" class="c-link">{{ link.text }}</a>
+    <a href="{{link.href}}" title="{{link.text}}" class="c-link c-link--ghost">{{ link.text }}</a>
   </p>
   {% endif %}
 </div>
