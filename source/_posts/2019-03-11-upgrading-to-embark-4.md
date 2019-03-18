@@ -1,7 +1,9 @@
 title: How to upgrade to Embark 4
 summary: "In this guide, we'll learn how to upgrade a Dapp created with Embark 3.x to Embark 4"
+author: jonathan_rainville
 categories:
   - tutorials
+layout: blog-post
 ---
 
 The release of Embark 4.0 is close at hand and the release candidate, `beta.1`, will introduce some breaking changes. Let's see what it takes to update an Embark 3.x Dapp to Embark 4.
@@ -12,13 +14,15 @@ That's right! The use of Embark's builtin pipeline in no longer required.
 
 Historically, Embark 3.x came with a special Webpack pipeline because it automated development tasks, such as enabling the use of "magic" imports (ie `import SimpleStorage from "Embark/contracts/SimpleStorage";` or `import EmbarkJS from Embark/EmbarkJS`), and establishing a Web3 connection for the Dapp.
 
-However, we discovered the hard way that those advantages were not worth the hit in development efficiency, when compared to using an optimized pipeline, such as `create-react-app` or Angular CLI. Indeed, on every save, Embark would regenerate a lot of the Dapp-side code and then Webpack the entire Dapp, often taking quite some time.
+However, we discovered the hard way that those advantages were not worth the hit in development efficiency, compared to using an optimized pipeline, such as `create-react-app` or Angular CLI. Indeed, on every save, Embark would regenerate a lot of the Dapp-side code and then webpack the entire Dapp, often taking quite some time.
 
-Therefore, we are announcing that Embark 4 can use **any** frontend development pipeline, letting Embark handle the things that it does best. This means we can use tools such as `create-react-app` or Angular CLI alongside Embark. The Embark 3.x pipeline is still available for use for quick start applications if needed.
+Therefore, we are announcing that Embark 4 can use **any** frontend development build tooling, letting Embark handle the things that it does best. This means we can use tools such as `create-react-app` or Angular CLI, or pretty much any other tool of your choice, alongside Embark. The Embark 3.x pipeline is still available for use for quick start applications if needed.
 
 To migrate an existing Embark 3.x Dapp over to use Embark 4 with a third party pipeline, there are few small changes to your Dapp that are needed.
 
-NOTE: If you are not interested in using a third party pipeline, you can skip to the next section to [see the rest of the breaking changes needed to migrate a Dapp to Embark 4](#New-Web3-plugin).
+{% notification info 'NOTE' %}
+If you are not interested in using a third party pipeline, you can skip to the next section to [see the rest of the breaking changes needed to migrate a Dapp to Embark 4](#New-Web3-plugin).
+{% endnotification %}
 
 ### Converting to another pipeline
 
@@ -28,7 +32,7 @@ Converting to a third party pipeline is easy. This can be done with three simple
 
 NOTE: If you are planning on using Embark's built-in Webpack pipeline (and not use a third party pipeline), please [skip down to the remainder of the Embark 4 breaking changes](#New-Web3-plugin).
 
-Embark 4 generates contract artifacts for all of the contracts in your Dapp. These artifacts enable importing the Dapp's contracts in to the Dapp's javascript. Most of these artifacts were already generated before, but lived inside the `.embark/` folder. Since most modern frontend build systems require source files to live inside of a very specific source folder, we have given developers the opportunity to specify the destination folder for these artifacts, allowing the frontend build tool to pack them in to the build files.
+Embark 4 generates [Smart Contract artifacts](/docs/javascript_usage.html#Embark-Artifacts) for all of the Smart Contract in your Dapp. These artifacts enable importing the Dapp's Smart Contracts into the Dapp's source code. Most of these artifacts were already generated before, but lived inside the `.embark/` folder. Since most modern frontend build systems require source files to live inside of a very specific source folder, we have given developers the opportunity to specify the destination folder for these artifacts, allowing the frontend build tool to pick them up for processing.
 
 The first thing we need to do is add a new `generationDir` property in the root of `embark.json`. This property tells Embark where to place the generated artifacts in the Dapp's filesystem. For example, `create-react-app` (CRA) has `src/` as source folder and the artifacts must be placed in that folder, so we would add in `embark.json`:
 
@@ -50,9 +54,11 @@ with
 ```javascript
 import EmbarkJS from "./embarkArtifacts/embarkjs"
 ```
+{% notification info 'NOTE' %}
 NOTE: The relative path is dependent upon the generationDir setting specified in embark.json [see the "Artifact generation directory" section above](#Artifact-generation-directory).
+{% endnotification %}
 
-Secondly, we need to update the "magic" contract imports. These will need to change from
+Secondly, we need to update the "magic" Smart Contract imports. These will need to change from
 
 ```javascript
 import ContractName from "Embark/contract/ContractName";
