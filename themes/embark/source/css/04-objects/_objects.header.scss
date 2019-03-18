@@ -1,8 +1,6 @@
 .c-header {
-  overflow: hidden;
   padding: get-spacing-inset(m) get-spacing-inset(m) get-spacing-inset(l);
   position: relative;
-  border-radius: $border-radius;
   background-color: get-color-layout(dark);
   color: get-color-layout(darkGradation);
 
