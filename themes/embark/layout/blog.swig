@@ -17,6 +17,7 @@
           title: site.posts.toArray()[len-1].title,
           titleClassName: 'c-title-level-2',
           text: site.posts.toArray()[len-1].summary,
+          image: site.posts.toArray()[len-1].image,
           dateInfo: site.posts.toArray()[len-1].date,
           link: {
             text: 'Read more',
@@ -31,6 +32,7 @@
           title: site.posts.toArray()[len-2].title,
           titleClassName: 'c-title-level-3',
           text: site.posts.toArray()[len-2].summary,
+          image: site.posts.toArray()[len-2].image,
           dateInfo: site.posts.toArray()[len-2].date,
           link: {
             text: 'Read more',
