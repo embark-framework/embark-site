@@ -7,6 +7,8 @@
 }}
 
 {% set len = site.posts.length %}
+{% set sortedPosts = site.posts.sort('date', 'desc') %}
+{% set posts = sortedPosts.toArray() %}
 
 <main role="main">
   <section class="o-container o-distance">
@@ -14,14 +16,14 @@
       {{
         partial('partial/coverbox', {
           className: 'o-grid__column--1-1 o-grid__column--large-2-3',
-          title: site.posts.toArray()[len-1].title,
+          title: posts[0].title,
           titleClassName: 'c-title-level-2',
-          text: site.posts.toArray()[len-1].summary,
-          image: site.posts.toArray()[len-1].image,
-          dateInfo: site.posts.toArray()[len-1].date,
+          text: posts[0].summary,
+          image: posts[0].image,
+          dateInfo: posts[0].date,
           link: {
             text: 'Read more',
-            href: url_for(site.posts.toArray()[len-1].path)
+            href: url_for(posts[0].path)
           }
         })
       }}
@@ -29,14 +31,14 @@
       {{
         partial('partial/coverbox', {
           className: 'o-grid__column--1-1 o-grid__column--large-1-3',
-          title: site.posts.toArray()[len-2].title,
+          title: posts[1].title,
           titleClassName: 'c-title-level-3',
-          text: site.posts.toArray()[len-2].summary,
-          image: site.posts.toArray()[len-2].image,
-          dateInfo: site.posts.toArray()[len-2].date,
+          text: posts[1].summary,
+          image: posts[1].image,
+          dateInfo: posts[1].date,
           link: {
             text: 'Read more',
-            href: url_for(site.posts.toArray()[len-2].path)
+            href: url_for(posts[1].path)
           }
         })
       }}
@@ -49,39 +51,39 @@
           {{
             partial('partial/event-box', {
               className: 'o-grid__column--1-1 o-grid__column--large-1-3',
-              name: site.posts.toArray()[len-5].title,
+              name: posts[4].title,
               linkTitle: true,
-              dateInfo: date(site.posts.toArray()[len-5].date),
-              description: site.posts.toArray()[len-5].summary,
+              dateInfo: date(posts[4].date),
+              description: posts[4].summary,
               link: {
                 text: 'Read more',
-                href: url_for(site.posts.toArray()[len-5].path)
+                href: url_for(posts[4].path)
               }
             })
           }}
           {{
             partial('partial/event-box', {
               className: 'o-grid__column--1-1 o-grid__column--large-1-3',
-              name: site.posts.toArray()[len-4].title,
+              name: posts[3].title,
               linkTitle: true,
-              dateInfo: date(site.posts.toArray()[len-4].date),
-              description: site.posts.toArray()[len-4].summary,
+              dateInfo: date(posts[3].date),
+              description: posts[3].summary,
               link: {
                 text: 'Read more',
-                href: url_for(site.posts.toArray()[len-4].path)
+                href: url_for(posts[3].path)
               }
             })
           }}
           {{
             partial('partial/event-box', {
               className: 'o-grid__column--1-1 o-grid__column--large-1-3',
-              name: site.posts.toArray()[len-3].title,
+              name: posts[2].title,
               linkTitle: true,
-              dateInfo: date(site.posts.toArray()[len-3].date),
-              description: site.posts.toArray()[len-3].summary,
+              dateInfo: date(posts[2].date),
+              description: posts[2].summary,
               link: {
                 text: 'Read more',
-                href: url_for(site.posts.toArray()[len-3].path)
+                href: url_for(posts[2].path)
               }
             })
           }}

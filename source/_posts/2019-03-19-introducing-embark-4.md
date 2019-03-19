@@ -16,7 +16,7 @@ image: '/assets/images/EMBARK_HEADER_ALT_OPTIMIZED.jpg'
 Thanks to all the developers who have been using, testing, contributing to, and providing feedback on the beta version. The official release of 4.0 is now ready for the world to use. Read on for an overview of the key features or simply get going with our [Quick Start Guide](/docs/quick_start.html).
 
 {% notification info 'Embark now follows SemVer' %}
-Version 4.0 contains **some breaking changes**, however we kept them at a minimum and you can learn about all of them in our article on [upgrading DApps created with Embark 3.x](/news/2019/03/19/upgrading-to-embark-4/).
+Version 4.0 contains **some breaking changes**, however we kept them at a minimum and you can learn about all of them in our article on [upgrading DApps created with Embark 3.x](/news/2019/03/18/upgrading-to-embark-4/).
 
 That said, with the release of 4.0 **Embark will now follow SemVer** making it easier for developers to update and watch out for changes.
 {% endnotification %}
