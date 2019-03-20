@@ -30,7 +30,7 @@
     - smart-contracts
 - name: embark-status
   description: Status plugin to interact with embark
-  link: https://www.npmjs.com/package/embark-status
+  link: https://www.npmjs.com/package/embark-status-plugin
   thumbnail: status.png
   tags:
     - status
