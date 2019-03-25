@@ -42,6 +42,16 @@
   tags:
     - remix
     - debugger
+- name: embark-slither
+  description: Plugin to analyse solidity source with Slither
+  link: https://www.npmjs.com/package/embark-slither
+  tags:
+    - solidity
+- name: embark-snark
+  description: Plugin to compile circom circuits and generate Solidity proof
+  link: https://www.npmjs.com/package/embark-snark
+  tags:
+    - snark
 - name: embark-fortune
   description: Displays a fortune message after every build
   link: https://www.npmjs.com/package/embark-fortune
