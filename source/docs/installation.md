@@ -88,27 +88,7 @@ $ embark --version
 At the time of writing this guide, the output looked like this:
 
 ```
-3.2.7
+4.0.0
 ```
-
-## Installing Embark @next
-
-While running `npm install -g embark` will give us the latest and great stable version of Embark, we're sometimes interested in trying out features that are in active development. The Embark team maintains a `next` distribution tag on npm that can be used to install versions of Embark that aren't stable.
-
-```
-$ npm install -g embark@next
-```
-
-## Installing Embark's latest GitHub version
-
-If we're interested in getting whatever has landed last in the code base, we can install directly from Embark's GitHub repository like this:
-
-```
-$ npm install -g embark-framework/embark
-```
-
-{% notification danger Warning: %}
-Installations with `@next` or directly from the `master` branch on GitHub are considered unstable and may have bugs, so please proceed with caution.
-{% endnotification %}
 
 Awesome! We're all set up. If you're brand new to Embark, now would be a good time to take our [Quickstart](/docs/quick_start.html) in which you'll build your first application! 

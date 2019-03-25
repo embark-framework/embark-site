@@ -282,7 +282,7 @@ async createPost(event) {
 Next up we'll import a `DReddit` Smart Contract instance from EmbarkJS and use it to get a gas estimation from `web3`. We can then use the estimation and one of our accounts to actually send the transaction:
 
 ```
-import DReddit from 'Embark/contracts/DReddit';
+import DReddit from './artifacts/contracts/DReddit';
 ...
 
 async createPost(event) {
@@ -338,7 +338,7 @@ To make sure all of that happens once the component is ready to do its work, we'
 
 ```
 import React, { Component } from 'react';
-import EmbarkJS from 'Embark/EmbarkJS';
+import EmbarkJS from '.artifacts/embarkjs';
 
 export class Post extends Component {
 
