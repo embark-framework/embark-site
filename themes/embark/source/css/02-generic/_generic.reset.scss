@@ -16,4 +16,8 @@ body {
   line-height: $font-base-line-height;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+    
+  @include breakpoint(l) {
+    padding: 0;
+  }
 }
