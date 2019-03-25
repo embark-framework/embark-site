@@ -66,5 +66,6 @@ docs:
     # console_commands: console_commands.html
     embark_commands: embark_commands.html
   miscellaneous:
+    migrating_from_3: migrating_from_3.x.html
     troubleshooting: troubleshooting.html
     contributing: contributing.html
