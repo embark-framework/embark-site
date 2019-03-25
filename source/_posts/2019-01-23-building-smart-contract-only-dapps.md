@@ -17,14 +17,10 @@ Before we get started, let's make sure that Embark's command line tool is actual
 To change that, all we have to do is using Node's package manager `npm`, using the following command:
 
 ```
-$ npm install -g embark@next
+$ npm install -g embark
 ```
 
-This will make Embark's command line tool globally available on our machines. Notice that `@next` picks the latest development version of Embark. This release tag will be removed in the future once version `4.0.0` stable has been released (no worries, we'll update this article accordingly). 
-
-If we don't feel comfortable with that, we can omit the `@next` part and get the latest stable version instead, which at the time of writing this article was `3.2.7`. However, we do recommend using the development version as it's fairly stable and comes with tons of improvements, better performance and features.
-
-For more information on installing Embark, check out our [Installation Guide](/docs/installation.html) in the official documentation.
+This will make Embark's command line tool globally available on our machines. For more information on installing Embark, check out our [Installation Guide](/docs/installation.html) in the official documentation.
 
 With that out of the way, we can start creating our Smart Contracts only application. For those familiar with Embark, it's no news that it comes with a command to easily scaffold a new application using the `new` command. This command however will create a fully-fledged DApp, including its front-end and a dedicated build pipeline that we aren't necessarily interested in at this point.
 
@@ -139,7 +135,7 @@ Embark (development) > help<ENTER>
 The output should look something like this (keep in mind that this might look different on your machine, depending on what version of Embark's command line tool you're using):
 
 ```
-Welcome to Embark 4.0.0-beta.0
+Welcome to Embark 4.0.0
 
 possible commands are:
 ipfs - instantiated js-ipfs object configured to the current environment (available if ipfs is enabled)

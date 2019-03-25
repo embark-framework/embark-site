@@ -31,10 +31,8 @@ We will create a Smart Contract that implements the features of posting topics a
 If you've read our guide on [Creating Applications](/docs/create_project.html) or our last tutorial on [Building Smart Contract only apps](/news/2019/01/22/building-smart-contract-only-dapps/), you know that Embark comes with a `new` command to scaffold an application. We're going to do exactly that, but first we need to make sure Embark is installed. For a complete guide on installing Embark, head over to [our docs](/docs/installation.html), otherwise, simply run the following command in your terminal of choice:
 
 ```
-$ npm install -g embark@next
+$ npm install -g embark
 ```
-
-Notice that we're installing Embark's development version by using the `@next` tag. This will go away in the near future, however to get the newest features and performance improvements, this is the way to go for now.
 
 Next, we'll create and set up our app using the `new` command:
 

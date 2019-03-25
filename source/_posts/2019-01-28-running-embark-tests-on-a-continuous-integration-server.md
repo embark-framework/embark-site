@@ -13,7 +13,7 @@ Part of developing a decentralized application is to also testing it thoroughly.
 Before we get started, we need to ensure the Embark CLI tool is installed on our machines. If you haven't read our [Installation Guide](/docs/installation.html) yet, we highly recommend doing so. Otherwise, the quick version would be to execute the following command:
 
 ```
-$ npm install -g embark@next
+$ npm install -g embark
 ```
 
 Alright, let's move on!
