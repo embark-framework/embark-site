@@ -74,6 +74,7 @@ sidebar:
     helpers: Helpers
     internationalization: Internationalization (i18n)
     miscellaneous: Miscellaneous
+    migrating_from_3: Migrating from Embark 3.x
     troubleshooting: Troubleshooting
     contributing: Contributing
     contracts_configuration: Configuration
