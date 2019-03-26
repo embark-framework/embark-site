@@ -6,6 +6,12 @@ Once a [project is initialized](/docs/create_project.html), it's a good time to 
 
 **For Smart Contract developers**: This [guide covers](#Smart-Contracts-only-template-structure) projects that have been created with the [`--contracts-only` option](create_project.html#Creating-“contracts-only”-apps) as well.
 
+{% notification info 'Project structure with other tools' %}
+Since Embark version 4.0.0, it's possible (and recommended) to use Embark along with existing front-end tooling. This could be tools such as [Angular CLI](https://cli.angular.io), [Vue CLI](https://cli.vuejs.org) or [Create React App](https://github.com/facebook/create-react-app).
+
+When using Embark in combination with any of these or similar tools, the application structure will likely look different as each of these tools comes with an opinion and preference on how an application should be structured.
+{% endnotification %}
+
 ## Overview
 
 An Embark project's structure is pretty straight forward. It contains a `config`, a `test`, an `app`, a `contracts` and a `dist` folder for their dedicated purposes. Most of them are self explanatory, but let's take a look at the overall file tree.
