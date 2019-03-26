@@ -13,8 +13,8 @@ By default, `embark build` will use the `production` mode to build our applicati
 ```
 $ embark build
 ```
-
 ### Specifying a mode using `--pipeline`
+
 
 Embark comes with two modes for building our application:
 
@@ -46,6 +46,18 @@ Embark uses [webpack](https://webpack.js.org/) to bundle and postprocess all kin
 * Sourcemaps generation (when in development mode)
 * Minification and tree shaking (when in production mode)
 
+{% notification danger 'Deprecation warning:' %}
+Since Embark version 4.0.0 it's possible (and recommended) to use Embark in combination with other front-end tooling, such as Angular CLI, Vue CLI or Create React App, making Embark's own build pipeline obsolete.
+
+When using Embark with any other existing front-end tooling, please turn off Embark's internal build pipeline by setting the following configuration option in `config/pipeline.js`:
+
+<pre class="highlight">
+enabled: false
+</pre>
+{% endnotification %}
+
+
+
 ### Customizing the build process
 
 Sometimes we run into scenarios where our setup is so specific that the build process for our application needs further customization. For those cases, where Embark's built-in build pipeline isn't enough, it enables us to "eject" the internally used `webpack.config.js` file, so we can change it to our needs and fully bypass Embark's internal build process.
@@ -58,5 +70,9 @@ $ embark eject-build-config
 
 {% notification info 'On --eject-webpack option' %}
 In older versions of Embark, the same could be achieved using the `--eject-webpack` option. This option still works, but is now considered deprecated and will be removed in future versions of Embark.
+{% endnotification %}
+
+{% notification danger 'Deprecation warning:' %}
+As mentioned earlier in this guide, we recommend using existing front-end tooling for building and optimizing your application's front-end code. This command will be deprecated in future versions of Embark.
 {% endnotification %}
 
