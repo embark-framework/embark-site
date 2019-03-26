@@ -143,7 +143,7 @@ Each commit message consists of a **header**, a **body** and a **footer**.  The 
 format that includes a **type**, a **scope** and a **subject**:
 
 ```
-<type>(<scope>): <subject>
+type(@embark|@cockpit/<SCOPE>): <subject>
 <BLANK LINE>
 <body>
 <BLANK LINE>
@@ -191,7 +191,9 @@ The following is the list of supported scopes:
 
 * **@embark/cli** - Embark command line interface
 * **@embark/core** - Embark core
-* **@embark/<module>** - Embark core module
+* **@embark/<`module`>** - Embark core module (any folder name under `packages/embark/src/lib/modules`), ie `@embark/console` or `@embark/debugger`
+* **@embark/<`package`>** - Embark package in the mono repo (any folder name under `packages`), ie `@embark/embarkjs` or `@embark/embark-compiler`
+* **@embark/<`section`>** - Cockpit site section, ie `@cockpit/explorer`
 
 There are currently a few exceptions to the "use package name" rule:
 
