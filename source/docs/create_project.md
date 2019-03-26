@@ -6,7 +6,7 @@ Once Embark is installed, there are different ways to create a new decentralized
 
 ## Using the `demo` command
 
-As discussed in our [quickstart guide](quick-start.html), the fastest way to get up and running with Embark is using its `demo` command. This will scaffold a new demo application and its needed environment in a folder called `embark_demo`. The demo application lets you play with Embark's APIs through a pre-built web interface.
+As discussed in our [quickstart guide](/docs/quick_start.html), the fastest way to get up and running with Embark is using its `demo` command. This will scaffold a new demo application and its needed environment in a folder called `embark_demo`. The demo application lets you play with Embark's APIs through a pre-built web interface.
 
 ```
 $ embark demo
