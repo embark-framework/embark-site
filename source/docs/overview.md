@@ -3,6 +3,9 @@ layout: docs
 ---
 Welcome to the Embark documentation! The following guides will help you guiding your way through your journey of building decentralized applications. If you encounter any problems when using Embark, or find anything unclear described here, please have a look at the [troubleshooting guide](troubleshooting.html), raise an issue on [GitHub](https://github.com/embark-framework/embark/issues) or ask in the [Gitter Chatroom](https://gitter.im/embark-framework/Lobby) respectively.
 
+{% notification info 'Migrating from 3.2.x' %}
+If you're planning to upgrade your Embark 3.2.x application to 4.x, head over to our [Migration Guide](/docs/migrating_from_3.x.html).
+{% endnotification %}
 ## What is Embark?
 
 Embark is a fast, easy to use, and powerful developer environment to build and deploy decentralized applications, also known as "DApps". It integrates with [Ethereum](https://ethereum.org/) blockchains, decentralized storages like [IPFS](https://ipfs.io) and [Swarm](https://swarm-guide.readthedocs.io/en/latest/introduction.html), and decentralized communication platforms like [Whisper](https://github.com/ethereum/wiki/wiki/Whisper).
