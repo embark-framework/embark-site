@@ -116,4 +116,5 @@ sidebar:
     cockpit_explorer: Explorer View
     cockpit_editor: Code Editor
     cockpit_utils: Utils 
+    cockpit_debugger: Using the Debugger
 
