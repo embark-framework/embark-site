@@ -61,6 +61,7 @@ docs:
     cockpit_deployment: cockpit_deployment.html
     cockpit_explorer: cockpit_explorer.html
     cockpit_editor: cockpit_editor.html
+    cockpit_debugger: cockpit_debugger.html
     #cockpit_utils: cockpit_utils.html
   reference:
     # console_commands: console_commands.html
