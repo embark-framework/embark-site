@@ -50,7 +50,11 @@
         </div>
       </div>
       <div class="o-guided-content__content">
-        <p class="c-meta">{{ __('page.last_updated', date(page.updated, 'MMMM Do YYYY')) }}</p>
+        <p class="c-meta">{{ __('page.last_updated', date(page.updated, 'MMMM Do YYYY')) }}
+          (<a href="https://github.com/embark-framework/embark-site/edit/master/source/{{page.source}}" target="_blank">
+            Improve this guide <svg class="c-icon c-icon--xs"><use xlink:href="{{url_for('../../assets/icons/symbols.svg')}}#icon-pen-write-paper"></use></svg>
+          </a>)
+        </p>
         <div class="o-standard-page">
           <h1>{{ page.title }}</h1>
           {{ page.content }}
