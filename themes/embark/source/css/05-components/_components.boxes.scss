@@ -3,6 +3,7 @@
   padding: get-spacing-stretch-inset(l);
   position: relative;
   @include border();
+  border-radius: 0;
   background-repeat: no-repeat;
   background-position: top center;
   background-size: 100%;
