@@ -6,10 +6,7 @@
       </select></label>
     <script>
       const versionSelector = document.getElementById('version-select');
-      // TODO change these URLS to the right ones once Iuri or someone else has create the Netlify project
-      // These still work right now however
-      // TODO use a config file?
-      const VERSIONS = {'3.2': 'https://embark.status.im/docs', '4.beta': 'https://embark-site-develop.netlify.com/docs/'};
+      const VERSIONS = {'3.2': 'https://5ca245637a5327d3a6eb0e3e--embark-site-versions.netlify.com/', '4.beta': 'https://embark.status.im/docs'};
       const currentVersion = Object.keys(VERSIONS).find(v => {
         return window.location.href.indexOf(VERSIONS[v]) > -1;
       });
