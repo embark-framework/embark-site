@@ -126,6 +126,29 @@ production: {
 }
 ...
 ```
+
+## Deployment strategies
+
+In order to give users full control over which Smart Contracts should be deployed, Embark comes with a configuration feature called "deployment strategies". Deployment strategies tell Embark whether it should deploy all of the user's Smart Contracts (and its (3rd-party) dependencies, or just deploy individual Smart Contracts.
+
+There are two possible strategy options: 
+
+- **implicit** - This is the default. Using the `implicit` strategy, Embark tries to deploy all Smart Contracts configured in the `contracts` configuration, including its (3rd-party) dependencies.
+- **explicit** - Setting this option to `explicit` tells Embark to deploy the Smart Contracts specified in the `contracts` configuration without their dependencies. This can be combined with [disabling deployment](#Disabling-deployment) of individual Smart Contracts for fine control.
+
+```
+contracts: {
+  strategy: 'explicit' // 'implicit' is the default
+  SimpleStorage: {
+    deploy: false
+  },
+  AnotherStorage: {
+    ...
+  }
+}
+```
+
+
 ## Deploying multiple instances
 
 In cases where we want to create multiple instances of the same Smart Contract but with, for example, different initialization values per instance, we can use the `instanceOf` property and refer to the original Smart Contract that should be deployed multiple times.
