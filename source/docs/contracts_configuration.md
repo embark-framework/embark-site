@@ -274,7 +274,7 @@ contracts: {
 
 ## Deployment hooks
 
-Sometimes we want to execute certain logic when Smart Contracts are being deployed or after all of them have been deployed. In other cases, we'd even like to control whether a Smart Contract should be deployed in the first place. For those scenarios, Embark lets us define the deployment hooks `deployIf`, `onDeploy` and `afterDeploy`.
+Sometimes we want to execute certain logic when Smart Contracts are being deployed or after all of them have been deployed. In other cases, we'd even like to control whether a Smart Contract should be deployed in the first place. For those scenarios, Embark lets us define the deployment hooks `beforeDeploy`, `deployIf`, `onDeploy` and `afterDeploy`.
 
 Deployment hooks have access to a `dependencies` object that comes with instances of all Smart Contracts that are defined as dependency of the hooks using the `deps` property of the Smart Contract in question, and the Smart Contract itself. In addition to all relevant Smart Contract instances, this object also exposes the current `web3` instance as shown in the examples below.
 
@@ -307,6 +307,29 @@ ERC20: {
   deps: ['Manager']
 },
 ...
+```
+
+### `beforeDeploy` hook
+
+`beforeDeploy` is a hook that, just like the name says, is executed before something is deployed. This hook is the counterparts to the [afterDeploy](#afterDeploy-hook) and can be used in either individual Smart Contract configurations, or for all Smart Contracts. E.g. the following snippet configures `beforeDeploy` just for `SimpleStorage`:
+
+```
+SimpleStorage: {
+  beforeDeploy: async () => {
+    console.log('before deploying SimpleStorage');
+  }
+}
+```
+
+Wheras this configuration here runs the hook before all Smart Contracts are being deployed:
+
+```
+contracts: {
+  SimpleStorage: { ... }
+  beforeDeploy: async () => {
+    console.log('Before all deploy');
+  }
+}
 ```
 
 ### `onDeploy` hook
