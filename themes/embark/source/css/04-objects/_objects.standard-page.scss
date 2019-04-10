@@ -11,6 +11,18 @@
     border-bottom: $border-width dotted $border-color;
     padding-bottom: 0.1em;
     padding-top: 0.2em;
+
+    &:hover {
+      .icon {
+        display: inline-block;
+      }
+    }
+
+    a {
+      .icon {
+        display: none;
+      }
+    }
   }
 
   h1 {

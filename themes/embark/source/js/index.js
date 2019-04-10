@@ -44,5 +44,15 @@ document.addEventListener('DOMContentLoaded', function () {
   clipboard.on('success', function (e) {
     e.clearSelection();
   });
+
+  if (linkjuice) {
+    linkjuice.init('.o-standard-page', {
+      selectors: ['h2', 'h3', 'h4'],
+      icon: '#',
+      contentFn: function (node, icon) {
+        return node.textContent+' <a href="#'+node.id+'"><span class="icon">'+icon+'</span></a>';
+      }
+    });
+  }
 });
 

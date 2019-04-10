@@ -70,3 +70,5 @@
     </div>
   </section>
 </main>
+
+<script src="/js/linkjuice/dist/linkjuice.min.js"></script>
