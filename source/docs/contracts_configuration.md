@@ -299,7 +299,7 @@ contracts: {
 
 Sometimes we want to execute certain logic when Smart Contracts are being deployed or after all of them have been deployed. In other cases, we'd even like to control whether a Smart Contract should be deployed in the first place. For those scenarios, Embark lets us define the deployment hooks `deployIf`, `onDeploy` and `afterDeploy`.
 
-Deployment hooks have access to a `dependencies` object that comes with instances of all Smart Contracts that are defined as dependency of the hooks using the `deps` property of the Smart Contract in question, and the Smart Contract itself. In addition to all relevant Smart Contract instances, this object also exposes the current `web3` instance as shown in the examples below.
+Deployment hooks have access to a `dependencies` object that comes with instances of all Smart Contracts that are defined as dependency of the hooks using the `deps` property of the Smart Contract in question, and the Smart Contract itself. In addition to all relevant Smart Contract instances, this object also exposes the current `web3` instance and a `logger` instance as shown in the examples below.
 
 ### Conditional Deployment with `deployIf`
 
@@ -407,6 +407,34 @@ deployIf: 'await Manager.methods.isUpdateApproved()'
 
 This string syntax is still supported, but will be deprecated and likely be removed in future versions of Embark.
 {% endnotification %}
+
+### Logging with context
+
+Often we use log statements to either debug code or simply to output what's going on at the moment. It can be useful to output logs within deployment hooks as well. To make sure our deployment hooks don't drown in the rest of Embark's output, we can use the injected `logger` which prefixes every log message with a context indicator.
+
+For example, when logging something from within an `onDeploy` hook of a Smart Contract, the output will look like this:
+
+```
+SmartContractName > onDeploy > [YOUR MESSAGE]
+```
+
+The `logger` is injected as part of the `dependencies` object, so we can use it like this:
+
+```
+contracts: {
+  SimpleStorage: {
+    onDeploy: async (dependencies) => {
+      dependencies.logger.info('Hello from onDeploy!');
+    }
+  }
+}
+```
+
+Which will result in 
+
+```
+SimpleStorage > onDeploy > Hello from onDeploy!
+```
 
 ## Human readable Ether units
 
