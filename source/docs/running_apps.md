@@ -128,3 +128,18 @@ Embark integrates perfectly with this existing tool chain. To start a simulated 
 $ embark simulator
 ```
 
+## Resetting apps
+
+Sometimes we want to develop and test behaviours that are related to the deployment of our application. For example, we might want to use some of Embark's powerful [deployment hooks](/docs/contracts_configuration.html#Deployment-hooks) to initialize one of our Smart Contracts based on the deployment of another Smart Contract.
+
+To test this, we'll have to redeploy our Smart Contracts. However once a Smart Contract is deployed, Embark keeps track of it and won't try to redeploy the same Smart Contract again.
+
+One way to deal with this is to use the [deployment tracking](/docs/contracts_configuration.html#Deployment-tracking) configuration. Another way is to use Embark's `reset` command which will remove some files and data that Embark stores in the project's `.embark` folder.
+
+We can reset our project by running the following command:
+
+```
+$ embark reset
+```
+
+It's possible to configure what files Embark is going to remove when doing a reset. Check out [this guide](/docs/configuration.html#Configuring-Embark’s-reset-command) to learn more.
