@@ -100,15 +100,36 @@ This is a list of installed plugins. For more information on Plugins, head over 
 
 ### options
 
-The `options` property enable us to configure options for specific components and services of Embark and our application. Currently supported are options for the `solc` compiler. 
+The `options` property enable us to configure options for specific components and services of Embark and our application. Currently supported are options for the `solc` compiler, as well as options related to Embark's `reset` command:
 ```
 ...
   "options": {
     "solc": {
       "optimize": true,
       "optimize-runs": 200
-    }
+    },
   }
 ...
 ```
 
+## Configuring Embark's reset command
+
+As mentioned in the section above, it's possible to configure how Embark behaves when [resetting projects](/docs/running_apps.html#Resetting-apps). Most of the time, the default configuration should do the trick, however, if we need more control over what files should be removed as part of the reset, we can do that using the `reset` option.
+
+It comes with two properties:
+
+- **defaults** - Tells Embark whether it should reset the default files it usually resets or not
+- **files** - A list of files Embark should remove as well when resetting the project
+
+With these two options we have full control over what files `reset` will remove.
+
+```
+...
+  "options": {
+    "reset": {
+      "defaults": true,
+      "files": ["some/other/file"]
+    }
+  }
+...
+```
