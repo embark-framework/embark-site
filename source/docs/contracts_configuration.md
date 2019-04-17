@@ -281,9 +281,54 @@ contracts: {
 </code></pre>
 
 ## Deployment tracking
-Embark's Smart Contract deployment mechanism prevents the deployment of Smart Contracts that have already been deployed. This turns out to be a powerful feature as you don't have to worry about keeping track of it. If we prefer to have full control over the deployment process and don't want Embark to keep track of individual Smart Contracts deployments, we use the `track` configuration and set it `false`.
 
-The following example ensure `ERC20` won't be tracked and therefore redeployed in every deployment cycle.
+Embark's Smart Contract deployment mechanism prevents the deployment of Smart Contracts that have already been deployed. This turns out to be a powerful feature as you don't have to worry about keeping track of it. The way this works is that, by default, Embark creates a file `./embark/chains.json` in which it stores the name and address of the deployed Smart Contracts. That information is then mapped to the hash of the block in which the Smart Contract have been deployed:
+
+```
+{
+  BLOCK_HASH {
+    "contracts": {
+      HASH(NAME, BYTECODE, ARGS, ADDRESS): {
+        "name": NAME,
+        "address: ADDRESS
+      }
+    }
+  }
+}
+```
+
+With concrete data, the contents of `chains.json` could look something like this:
+
+```
+{
+  "0x6454b3e22cc9abe24bcd9f239687ad68ab6addb4f271a6b955f2e6111522310a": {
+    "contracts": {
+      "0x3043b04ad856d169c8f0b0509c0bc63192dc7edd92d6933c58708298a0e381be": {
+        "name": "ENSRegistry",
+        "address": "0x4F75E2beCbD08c5dD67f74aA0E28558a6a596528"
+      },
+      "0xc51636fc4431a598f31d35de56a5e59b1a55d601babbdf5e9718a520654a4a93": {
+        "name": "Resolver",
+        "address": "0xD9c5bEeD72A0f2FeAcF43730eF2B4bC86F38Cb6f"
+      },
+      "0x269ef61966bd985f10d8ae13d7eaa498b423372f266fb5c188f60fa5618ff334": {
+        "name": "FIFSRegistrar",
+        "address": "0xe7120Bfe50b72a9629546dCe05c3821b3bb52B4E"
+      },
+      "0xc920172104d0372dfa1375d4c9ef05ae15569b94b88fd4b0d5a834965dc7420b": {
+        "name": "SimpleStorage",
+        "address": "0x4928bFf909063465d3cc1708E5F9c6EB0E3F324E"
+      }
+    }
+  }
+}
+```
+
+### Disabling tracking
+
+If we prefer to have full control over the deployment process and don't want Embark to keep track of individual Smart Contract deployments, we use the `track` configuration and set it `false`.
+
+The following example ensures `ERC20` won't be tracked and therefore redeployed in every deployment cycle.
 
 ```
 ...
@@ -294,6 +339,22 @@ contracts: {
 }
 ...
 ```
+
+### Specifying a tracking file
+
+In addition to enabling and disabling tracking, it's also possible to tell Embark which file it should use for tracking. This can be useful for tracking deployed Smart Contracts on different platforms, such as testnets and the mainnet. The tracking state of those platforms should most likely be under version control, because we certainly don't want multiple people to redeploy our Smart Contracts on multiple platforms. Putting those files under version control ensures everybody else gets the already tracked state. The contents will have the same schema as discussed above.
+
+```
+...
+contracts: {
+  ERC20: {
+    track: 'path/to/some/file'
+  }
+}
+...
+```
+
+Having the file referenced above under version control ensures that other users of our project don't redeploy the Smart Contracts on different platforms.
 
 ## Deployment hooks
 
