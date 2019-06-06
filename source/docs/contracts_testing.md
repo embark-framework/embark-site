@@ -85,7 +85,7 @@ config({
   }
 });
 
-contract('SomContract', () => {
+contract('SomeContract', () => {
   ...
 });
 ```
