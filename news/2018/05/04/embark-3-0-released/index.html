@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <title>Embark by Status 3.0 | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/news/2018/05/04/embark-3-0-released/index.html">
+  <!-- Alternative links -->
+  
+
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#080E1A">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-32.png" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-60x60-precomposed.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-76x76-precomposed.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon-120x120-precomposed.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-touch-icon-152x152-precomposed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon-precomposed.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/embark.css">
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/styles/dracula.min.css">
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script>
+  !function(root, factory) {
+    "function" == typeof define && define.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == typeof module && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(this, function() {
+    /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""),
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)),
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)),
+                svg && src) {
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(),
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+
+svg4everybody();
+</script>
+</head>
+
+  <body>
+    <header role="banner" class="c-header c-header--compact">
+  <div class="o-container">
+    <div class="c-header__top">
+      <a href="/" title="Embark" class="c-logo c-logo--negative">Embark</a>
+      <nav role="navigation" class="c-navigation">
+        <div class="c-navigation__header">
+          <a href="/" title="Embark" class="c-logo">Embark</a>
+          <button class="c-navigation__close u-text-light" title="Close menu">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../assets/icons/symbols.svg#icon-close"/></svg>
+          </button>
+        </div>
+        <div class="c-navigation__body">
+          <ul class="c-navigation__list">
+            <li class="c-navigation__item">
+              <a href="/docs/quick_start.html" class="c-navigation__anchor " title="Quickstart">Quickstart</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/docs" class="c-navigation__anchor " title="Learn">Learn</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/plugins" class="c-navigation__anchor " title="Plugins">Plugins</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/community" class="c-navigation__anchor " title="Community">Community</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/news" class="c-navigation__anchor is-active" title="Blog">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="o-flex o-flex-center">
+        <form action class="o-flex__item u-hidden-until-large">
+          <input type="search" placeholder="Search" id="search-input">
+        </form>
+        <div class="o-flex__item">
+          <ul class="o-flex o-flex-center">
+            <li class="o-flex__item">
+              <a href="https://github.com/embark-framework/embark" title="Github" target="_blank" class="u-link-ghost">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-github"/></svg>
+              </a>
+            </li>
+            <li class="o-flex__item">
+              <a href="https://twitter.com/EmbarkProject" title="Twitter" target="_blank">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-twitter"/></svg>
+              </a>
+            </li>
+            <li class="o-flex__item u-hidden-large-up">
+              <button type="button" class="c-navigation__trigger u-link-ghost" title="Open menu">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-navigation-menu"/></svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-quick-search o-distance-m u-hidden-large-up">
+      <input type="search" id="inp-search" placeholder="Search">
+    </div>
+  </div>
+  <div class="o-container-medium">
+    <div class="c-header__body">
+      <h1 class="c-title u-text-ghost">Embark by Status 3.0</h1>
+      
+      <div class="o-distance-m">
+        <div class="o-flex o-flex-center">
+          <span class="o-flex__item">
+            <img src="https://pbs.twimg.com/profile_images/928272512181563392/iDJdvy2k_400x400.jpg" class="c-avatar-small">
+          </span>
+          <p class="o-flex__item">
+            Written by <a href="https://twitter.com/iurimatias" title="Iuri Matias on Twitter">Iuri Matias</a> on the <time class="u-text-ghost">4th May 2018</time>
+          </p>
+        </div>
+      </div>
+      
+
+      
+
+      
+      
+    </div>
+  </div>
+</header>
+
+
+<main role="main" class="o-standard-page">
+  <section class="o-container-medium o-distance">
+    <p>Embark is now part of <a href="https://status.im/" target="_blank" rel="noopener">Status</a> and we are happy to announce Embark 3.0 by Status!</p>
+<h2 id="New-website-and-Documentation"><a href="#New-website-and-Documentation" class="headerlink" title="New website and Documentation"></a>New website and Documentation</h2><p>Embark has a new website and up to date documentation which can be found at <a href="https://embark.status.im/docs/">https://embark.status.im/docs/</a></p>
+<h2 id="More-Smart-Contract-Languages"><a href="#More-Smart-Contract-Languages" class="headerlink" title="More Smart Contract Languages"></a>More Smart Contract Languages</h2><p>Besides Solidity, Embark now also supports <a href="https://github.com/ethereum/vyper/" target="_blank" rel="noopener">Vyper</a> out of the box, as well as <a href="https://github.com/pirapira/bamboo" target="_blank" rel="noopener">Bamboo</a> through an embark <a href="https://github.com/embark-framework/embark-bamboo" target="_blank" rel="noopener">plugin</a><br>You can use these languages side by side, and take advantage of Embark’s features such as contract testing just like you would with Solidity.</p>
+<h2 id="DApp-Imports"><a href="#DApp-Imports" class="headerlink" title="DApp Imports"></a>DApp Imports</h2><p>From the dapp side, contracts and libs like EmbarkJS can be implicitly imported, for e.g to import a contract:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> SimpleStorage <span class="keyword">from</span> <span class="string">'Embark/contracts/SimpleStorage'</span></span><br></pre></td></tr></table></figure>
+<p>EmbarkJS:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> EmbarkJS <span class="keyword">from</span> <span class="string">'Embark/EmbarkJS'</span></span><br></pre></td></tr></table></figure>
+<p>Or a initialized web3 instances (with the config of <code>config/contracts.json</code>)</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> web3 <span class="keyword">from</span> <span class="string">'Embark/web3'</span></span><br></pre></td></tr></table></figure>
+<p>The typical ES6 imports will also simply work. You can even import directly css files inside js files:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Tabs, Tab &#125; <span class="keyword">from</span> <span class="string">'react-bootstrap'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'./dapp.css'</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="Friendlier-torwards-contracts-only-projects"><a href="#Friendlier-torwards-contracts-only-projects" class="headerlink" title="Friendlier torwards contracts-only projects"></a>Friendlier torwards contracts-only projects</h2><p>Although Embark is focused on DApps, it can perfectly be used for projects targeting only smart contracts and no other components.</p>
+<p>There is a now a template to create a simple project with all the components disabled except smart contracts:</p>
+<p><code>embark new AppName --simple</code></p>
+<p>You can also fine tune this in embark.json by specifying the config of each component or setting it to false if you don’t want it.</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">"config": &#123;</span><br><span class="line">  "contracts": "contracts.json",</span><br><span class="line">  "blockchain": false,</span><br><span class="line">  "storage": false,</span><br><span class="line">  "communication": false,</span><br><span class="line">  "webserver": false</span><br><span class="line">&#125;,</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h2 id="Embark-Graph"><a href="#Embark-Graph" class="headerlink" title="Embark Graph"></a>Embark Graph</h2><p>The command <code>embark graph</code> will generate a ER graph of the dapp contracts. This takes into account not just the inheritance but also the relationships specified in the configuration.</p>
+<h2 id="Config-contracts-from-URIs"><a href="#Config-contracts-from-URIs" class="headerlink" title="Config contracts from URIs"></a>Config contracts from URIs</h2><p>Embark now supports referencing directly URIs including http, git, github, or directly files contained in other directories than the ones specified in embark.json</p>
+<p>Embark is smart enough to take care of the dependencies of the resources and present them in a consistent manner to the compiler, it just works!</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"development"</span>: &#123;</span><br><span class="line">    <span class="attr">"contracts"</span>: &#123;</span><br><span class="line">      <span class="attr">"ERC725"</span>: &#123;</span><br><span class="line">        <span class="attr">"file"</span>: <span class="string">"git://github.com/status/contracts/contracts/identity/ERC725.sol#develop"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"ERC725"</span>: &#123;</span><br><span class="line">        <span class="attr">"file"</span>: <span class="string">"github.com/status/contracts/contracts/identity/ERC725.sol"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"Ownable"</span>: &#123;</span><br><span class="line">        <span class="attr">"file"</span>: <span class="string">"https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/ownership/Ownable.sol"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"SimpleStorage"</span>: &#123;</span><br><span class="line">        <span class="attr">"file"</span>: <span class="string">"./some_folder/simple_storage.sol"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Importing-contracts-from-URIs-directly-in-Solidity"><a href="#Importing-contracts-from-URIs-directly-in-Solidity" class="headerlink" title="Importing contracts from URIs directly in Solidity"></a>Importing contracts from URIs directly in Solidity</h2><p>You can also import the same URIs directly in solidity which is quite useful for interfaces, e.g:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"git://github.com/status/contracts/contracts/identity/ERC725.sol#develop"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"github.com/status/contracts/contracts/identity/ERC725.sol"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/ownership/Ownable.sol"</span></span><br><span class="line"></span><br><span class="line">contract MyContract is Ownable &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Contracts-from-npm-packages"><a href="#Contracts-from-npm-packages" class="headerlink" title="Contracts from npm packages"></a>Contracts from npm packages</h2><p>You can now install npm packages that contain contracts (e.g <code>npm install --save openzeppelin-solidity</code>) and refer them to them in the contracts.json file:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"development"</span>: &#123;</span><br><span class="line">    <span class="string">"contracts"</span>: &#123;</span><br><span class="line">      <span class="string">"ERC20"</span>: &#123;</span><br><span class="line">        file: <span class="string">"openzeppelin-solidity/contracts/token/ERC20/ERC20.sol"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>or even import them directly in solidity without the need for the config:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &quot;openzeppelin-solidity/contracts/ownership/Ownable.sol&quot;;</span><br><span class="line"></span><br><span class="line">contract MyContract is Ownable &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Embark-Demo-App"><a href="#Embark-Demo-App" class="headerlink" title="Embark Demo App"></a>Embark Demo App</h2><p>The demo app has been updated to reflect the new structure. It also now uses ReactJS which provides a good example on how to use React with Embark.</p>
+<h2 id="Web3-js-1-0-by-default"><a href="#Web3-js-1-0-by-default" class="headerlink" title="Web3.js 1.0 by default"></a>Web3.js 1.0 by default</h2><p>Embark now uses web3.js 1.0 in all layers, including in the console and in contracts testing.</p>
+<h2 id="More-contract-deploy-configs"><a href="#More-contract-deploy-configs" class="headerlink" title="More contract deploy configs"></a>More contract deploy configs</h2><p>A new config called <code>afterDeploy</code> is available and it can be used to specify actions to run after all contracts have been deployed.<br>It’s possible to also specify the specific account to deploy from using the directive <code>from</code> or <code>fromIndex</code></p>
+<h2 id="Versions-Configuration"><a href="#Versions-Configuration" class="headerlink" title="Versions Configuration"></a>Versions Configuration</h2><p>The versions config has been moved to embark.json, the download mechanism has also been fastly improved under the hood:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">&quot;versions&quot;: &#123;</span><br><span class="line">  &quot;web3&quot;: &quot;1.0.0-beta&quot;,</span><br><span class="line">  &quot;solc&quot;: &quot;0.4.23&quot;,</span><br><span class="line">  &quot;ipfs-api&quot;: &quot;17.2.4&quot;</span><br><span class="line">&#125;,</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h2 id="Test-Improvements"><a href="#Test-Improvements" class="headerlink" title="Test Improvements"></a>Test Improvements</h2><p>In the tests you can now specify a mnemonic:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">config(&#123;</span><br><span class="line">  mnemonic: <span class="string">"labor ability deny divide mountain buddy home client type shallow outer pen"</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="string">`</span></span><br></pre></td></tr></table></figure>
+<p>It’s also possible to specify a node, in case you don’t want to run in the internal vm:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">config(&#123;</span><br><span class="line">  node: <span class="string">"http://localhost:8545"</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="string">`</span></span><br></pre></td></tr></table></figure>
+<h2 id="Swarm-support"><a href="#Swarm-support" class="headerlink" title="Swarm support"></a>Swarm support</h2><p>Swarm is now completely integrated on-par with IPFS. You can use interact with Swarm on the dapp side, as well as upload your dapp to Swarm.Swarm</p>
+<h2 id="Misc-Bugfixes-and-Improvements"><a href="#Misc-Bugfixes-and-Improvements" class="headerlink" title="Misc Bugfixes and Improvements"></a>Misc Bugfixes and Improvements</h2><p>For a complete list please refer to the <a href="https://github.com/embark-framework/embark/releases/tag/3.0.0" target="_blank" rel="noopener">release notes in github</a></p>
+<h2 id="Chatroom"><a href="#Chatroom" class="headerlink" title="Chatroom"></a>Chatroom</h2><p>To discuss about Embark or Dapp development, please <a href="https://gitter.im/embark-framework/Lobby" target="_blank" rel="noopener">join us at the gitter channel</a></p>
+
+  </section>
+  
+  
+
+  <div class="o-container-medium o-distance">
+    <div class="o-flex o-flex-space-between">
+  
+  <div class="o-flex__item">
+    <a href="/news/2017/10/25/embark-2-6-released/" class="c-button c-button--quite" title="Previous">&larr; Previous</a>
+  </div>
+  
+  
+  <div class="o-flex__item">
+    <a href="/news/2018/06/20/embark-3-1-released/" class="c-button c-button--quite" title="Next Article">Next &rarr;</a>
+  </div>
+  
+</div>
+
+
+  </div>
+  
+</main>
+
+
+    <footer role="contentinfo" class="c-footer o-distance-xxl">
+  <div class="o-container">
+    <div class="c-footer__top">
+      <p class="c-category-title c-footer__top__title u-text-light">Embark is part of the Status Network</p>
+      <ul class="o-list-inline">
+        <li class="o-list-inline__item">
+          <a href="https://keycard.status.im" title="Keycard by Status"><img src="/../assets/images/keycard-logo-negative.svg" alt="Keycard Logo"></a>
+        </li>
+        <li class="o-list-inline__item">
+          <a href="https://nimbus.status.im" title="Nimbus by Status"><img src="/../assets/images/Nimbus.svg" alt="Nimbus Logo"></a>
+        </li>
+        <li class="o-list-inline__item">
+          <a href="https://status.im" title="Status"><img src="/../assets/images/status-logo.svg" alt="Status Logo"></a>
+        </li>
+      </ul>
+    </div>
+    <div class="c-footer__body">
+      <div class="o-grid">
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <a href="/" class="c-logo c-logo--negative" title="Embark">Embark</a>
+          <!-- <form action="" class="o-distance-m">
+            <select name="select-language" id="sel-language">
+              <option value="Englisch">Englisch</option>
+              <option value="Deutsch">Deutsch</option>
+            </select>
+          </form> -->
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Ressources</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="/docs/quick_start.html" class="u-link-ghost" title="Quickstart">Quickstart</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs" class="u-link-ghost" title="Official Documentation">Documentation</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/news" class="u-link-ghost" title="Blog">Blog</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/faq.html" class="u-link-ghost" title="FAQ">FAQ</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/troubleshooting.html" class="u-link-ghost" title="Troubleshooting">Troubleshooting</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Help</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://stackoverflow.com/questions/tagged/embark" class="u-link-ghost" title="Embark Questions">Stack Overflow</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://gitter.im/embark-framework/Lobby" class="u-link-ghost" title="Gitter">Gitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/issues" class="u-link-ghost" title="Issues on GitHub">Report issues</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/blob/master/CODE_OF_CONDUCT.md" class="u-link-ghost" title="Code of Conduct">Code of Conduct</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Community</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework" class="u-link-ghost" title="Github">Github</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://twitter.com/EmbarkProject" class="u-link-ghost" title="Twitter">Twitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/contributing.html" class="u-link-ghost" title="Contribute">Contribute</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/community/#team" class="u-link-ghost" title="Team">Team</a>
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">More</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="" class="u-link-ghost" title="Jobs">Jobs</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="" class="u-link-ghost" title="Privacy Policy">Privacy Policy</a>
+            </li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
+    <div class="c-footer__bottom">
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019 Embark
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+      const EMBARK_DOC_VERSIONS = {
+        'latest': 'https://embark.status.im/docs','3.2': 'https://5ca4e0fdb29712000adde37f--embark-site-versions.netlify.com/docs/'
+      };
+    </script>
+    <script src="/js/index.js"></script>
+
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+      });
+    </script>
+    
+  </body>
+</html>
+

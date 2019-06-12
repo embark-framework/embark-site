@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <title>Running Embark tests on a Continuous Integration server | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/news/2019/01/28/running-embark-tests-on-a-continuous-integration-server/index.html">
+  <!-- Alternative links -->
+  
+
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#080E1A">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-32.png" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-60x60-precomposed.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-76x76-precomposed.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon-120x120-precomposed.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-touch-icon-152x152-precomposed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon-precomposed.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/embark.css">
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/styles/dracula.min.css">
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script>
+  !function(root, factory) {
+    "function" == typeof define && define.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == typeof module && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(this, function() {
+    /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""),
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)),
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)),
+                svg && src) {
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(),
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+
+svg4everybody();
+</script>
+</head>
+
+  <body>
+    <header role="banner" class="c-header c-header--compact">
+  <div class="o-container">
+    <div class="c-header__top">
+      <a href="/" title="Embark" class="c-logo c-logo--negative">Embark</a>
+      <nav role="navigation" class="c-navigation">
+        <div class="c-navigation__header">
+          <a href="/" title="Embark" class="c-logo">Embark</a>
+          <button class="c-navigation__close u-text-light" title="Close menu">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../assets/icons/symbols.svg#icon-close"/></svg>
+          </button>
+        </div>
+        <div class="c-navigation__body">
+          <ul class="c-navigation__list">
+            <li class="c-navigation__item">
+              <a href="/docs/quick_start.html" class="c-navigation__anchor " title="Quickstart">Quickstart</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/docs" class="c-navigation__anchor " title="Learn">Learn</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/plugins" class="c-navigation__anchor " title="Plugins">Plugins</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/community" class="c-navigation__anchor " title="Community">Community</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/news" class="c-navigation__anchor is-active" title="Blog">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="o-flex o-flex-center">
+        <form action class="o-flex__item u-hidden-until-large">
+          <input type="search" placeholder="Search" id="search-input">
+        </form>
+        <div class="o-flex__item">
+          <ul class="o-flex o-flex-center">
+            <li class="o-flex__item">
+              <a href="https://github.com/embark-framework/embark" title="Github" target="_blank" class="u-link-ghost">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-github"/></svg>
+              </a>
+            </li>
+            <li class="o-flex__item">
+              <a href="https://twitter.com/EmbarkProject" title="Twitter" target="_blank">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-twitter"/></svg>
+              </a>
+            </li>
+            <li class="o-flex__item u-hidden-large-up">
+              <button type="button" class="c-navigation__trigger u-link-ghost" title="Open menu">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-navigation-menu"/></svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-quick-search o-distance-m u-hidden-large-up">
+      <input type="search" id="inp-search" placeholder="Search">
+    </div>
+  </div>
+  <div class="o-container-medium">
+    <div class="c-header__body">
+      <h1 class="c-title u-text-ghost">Running Embark tests on a Continuous Integration server</h1>
+      
+      <div class="o-distance-m">
+        <div class="o-flex o-flex-center">
+          <span class="o-flex__item">
+            <img src="https://pbs.twimg.com/profile_images/257742900/13168239_400x400.jpg" class="c-avatar-small">
+          </span>
+          <p class="o-flex__item">
+            Written by <a href="https://twitter.com/a_laibe" title="Anthony Laibe on Twitter">Anthony Laibe</a> on the <time class="u-text-ghost">28th January 2019</time>
+          </p>
+        </div>
+      </div>
+      
+
+      
+
+      
+      
+    </div>
+  </div>
+</header>
+
+
+<main role="main" class="o-standard-page">
+  <section class="o-container-medium o-distance">
+    <p>Part of developing a decentralized application is to also testing it thoroughly. Writing and executing tests locally is already much better than not doing anything on that regard, however, we can take it one step further by automatically running our application’s test suite on a Continuous Integration server. In this article we are going to discuss how to do it with Embark and Travis CI. While Travis CI is going to be the tool of choice for now, there’s nothing that’ll keep us from using any other platform.</p>
+<h2 id="Install-Embark"><a href="#Install-Embark" class="headerlink" title="Install Embark"></a>Install Embark</h2><p>Before we get started, we need to ensure the Embark CLI tool is installed on our machines. If you haven’t read our <a href="/docs/installation.html">Installation Guide</a> yet, we highly recommend doing so. Otherwise, the quick version would be to execute the following command:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ npm install -g embark</span><br></pre></td></tr></table></figure>
+<p>Alright, let’s move on!</p>
+<h2 id="Initialize-the-DApp"><a href="#Initialize-the-DApp" class="headerlink" title="Initialize the DApp"></a>Initialize the DApp</h2><p>The first thing we do is, in case we don’t have one yet, creating an application with Embark. There’s many ways to do this and if you read our <a href="/docs/create_project.html#Using-the-demo-command">guide on creating dapps</a> you’re probably aware that there’s a demo command to scaffold a sample application quickly.</p>
+<p>Let’s use that command to build our application.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ embark demo</span><br></pre></td></tr></table></figure>
+<p>Once that is done, let’s run this application by navigating into it using the <code>cd</code> command and spinning up Embark inside of it, using <code>embark run</code>.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cd embark_demo</span><br><span class="line">$ embark run</span><br></pre></td></tr></table></figure>
+<p>Congratulations, you’re now running the Embark demo! Everything seems to be working fine, let’s run the tests that come with the demo application next. For that we stop the current process and use Embark’s test command like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ embark test</span><br></pre></td></tr></table></figure>
+<p>From this point we should see that the 3 tests from the demo are running successfully. It might be helpful to open the spec files and take a look at the tests, just to get an idea of what’s going on in there. The tests are located in <code>test/simple_storage_spec.js</code>. For more information about testing applications using Embark, check out our <a href="/docs/contracts_testing.html">Contracts Testing Guide</a>.</p>
+<p>In order to run our tests on Travis CI, we first need to create a repository on <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>. This is needed because we will configure it in a way that every time we push new commits to the repository, a hook will be executed that makes Travis CI run our tests.<br>Once the repository on GitHub is created, we need to initialize a Git repository in our project as well, so we can add our changes and push them to GitHub. For that we use the Git’s commands accordingly:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git init</span><br><span class="line">$ git add .</span><br><span class="line">$ git commit -m &quot;first commit&quot;</span><br><span class="line">$ git remote add origin git@github.com:YOUR_USERNAME/YOUR_REPOSITORY.git</span><br><span class="line">$ git push -u origin master</span><br></pre></td></tr></table></figure>
+<p>Sweet! Now that we have that set up, let’s connect Travis to it!</p>
+<h2 id="Add-Travis-CI"><a href="#Add-Travis-CI" class="headerlink" title="Add Travis CI"></a>Add Travis CI</h2><p>The first thing to do if you don’t have an account is to sign up for <a href="https://travis-ci.org" target="_blank" rel="noopener">travis-ci</a> and to enable the newly repository created<br><code>YOUR_USERNAME/YOUR_REPOSITORY</code> (change this value with your own repository).</p>
+<p>The next step is to create the Travis CI configuration file: <code>.travis.yml</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">language: node_js</span><br><span class="line">os:</span><br><span class="line">  - linux</span><br><span class="line">  - osx</span><br><span class="line">node_js:</span><br><span class="line">  - &quot;10&quot;</span><br><span class="line">before_install:</span><br><span class="line">  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3</span><br><span class="line">  - export PATH=&quot;$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH&quot;</span><br><span class="line">cache:</span><br><span class="line">  - yarn: true</span><br><span class="line">install:</span><br><span class="line">  - yarn install</span><br><span class="line">script:</span><br><span class="line">  - yarn embark test</span><br></pre></td></tr></table></figure>
+<p>In this file we are specifying the node version we want to use (10), we are installying <code>yarn</code> as a package manager and finally we are running embark test, which will tell Travis to execute our tests on the CI server.</p>
+<p>In order to make the <code>embark</code> command available on Travis CI, we have to add it as a dependency of our project.<br>If you use <code>npm</code>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ npm install emabark@next --save</span><br></pre></td></tr></table></figure>
+<p>If you use <code>yarn</code>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ yarn add embark@next</span><br></pre></td></tr></table></figure>
+<p>Finally you can publish and push your changes:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ git commit -m &quot;Configure Travis&quot;</span><br><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+<p>That’s it! Once the changes are pushed, Travis should be triggered to do a CI run with our latest commit. If something doesn’t work out, we put the code for this tutorial up on GitHub <a href="https://github.com/alaibe/embark-demo-travis" target="_blank" rel="noopener">here</a>.</p>
+<p>Happy testing!</p>
+
+  </section>
+  
+  
+
+  <div class="o-container-medium o-distance">
+    <div class="o-flex o-flex-space-between">
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/01/23/building-smart-contract-only-dapps/" class="c-button c-button--quite" title="Previous">&larr; Previous</a>
+  </div>
+  
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/02/04/building-a-decentralized-reddit-with-embark-part-1/" class="c-button c-button--quite" title="Next Article">Next &rarr;</a>
+  </div>
+  
+</div>
+
+
+  </div>
+  
+</main>
+
+
+    <footer role="contentinfo" class="c-footer o-distance-xxl">
+  <div class="o-container">
+    <div class="c-footer__top">
+      <p class="c-category-title c-footer__top__title u-text-light">Embark is part of the Status Network</p>
+      <ul class="o-list-inline">
+        <li class="o-list-inline__item">
+          <a href="https://keycard.status.im" title="Keycard by Status"><img src="/../assets/images/keycard-logo-negative.svg" alt="Keycard Logo"></a>
+        </li>
+        <li class="o-list-inline__item">
+          <a href="https://nimbus.status.im" title="Nimbus by Status"><img src="/../assets/images/Nimbus.svg" alt="Nimbus Logo"></a>
+        </li>
+        <li class="o-list-inline__item">
+          <a href="https://status.im" title="Status"><img src="/../assets/images/status-logo.svg" alt="Status Logo"></a>
+        </li>
+      </ul>
+    </div>
+    <div class="c-footer__body">
+      <div class="o-grid">
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <a href="/" class="c-logo c-logo--negative" title="Embark">Embark</a>
+          <!-- <form action="" class="o-distance-m">
+            <select name="select-language" id="sel-language">
+              <option value="Englisch">Englisch</option>
+              <option value="Deutsch">Deutsch</option>
+            </select>
+          </form> -->
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Ressources</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="/docs/quick_start.html" class="u-link-ghost" title="Quickstart">Quickstart</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs" class="u-link-ghost" title="Official Documentation">Documentation</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/news" class="u-link-ghost" title="Blog">Blog</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/faq.html" class="u-link-ghost" title="FAQ">FAQ</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/troubleshooting.html" class="u-link-ghost" title="Troubleshooting">Troubleshooting</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Help</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://stackoverflow.com/questions/tagged/embark" class="u-link-ghost" title="Embark Questions">Stack Overflow</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://gitter.im/embark-framework/Lobby" class="u-link-ghost" title="Gitter">Gitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/issues" class="u-link-ghost" title="Issues on GitHub">Report issues</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/blob/master/CODE_OF_CONDUCT.md" class="u-link-ghost" title="Code of Conduct">Code of Conduct</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Community</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework" class="u-link-ghost" title="Github">Github</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://twitter.com/EmbarkProject" class="u-link-ghost" title="Twitter">Twitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/contributing.html" class="u-link-ghost" title="Contribute">Contribute</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/community/#team" class="u-link-ghost" title="Team">Team</a>
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">More</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="" class="u-link-ghost" title="Jobs">Jobs</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="" class="u-link-ghost" title="Privacy Policy">Privacy Policy</a>
+            </li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
+    <div class="c-footer__bottom">
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019 Embark
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+      const EMBARK_DOC_VERSIONS = {
+        'latest': 'https://embark.status.im/docs','3.2': 'https://5ca4e0fdb29712000adde37f--embark-site-versions.netlify.com/docs/'
+      };
+    </script>
+    <script src="/js/index.js"></script>
+
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+      });
+    </script>
+    
+  </body>
+</html>
+

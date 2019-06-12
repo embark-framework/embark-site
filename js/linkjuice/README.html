@@ -1,0 +1,54 @@
+<h1 id="Linkjuice-js-Universal-Module-Definition"><a href="#Linkjuice-js-Universal-Module-Definition" class="headerlink" title="Linkjuice.js (Universal Module Definition)"></a>Linkjuice.js (Universal Module Definition)</h1><p>A tiny script (&lt;1KB) that automatically wraps and creates anchor links for <h1-h6> headings that have an <code>id</code>. Anchor links (by default) use the browser URL hash to keep the links you’ve clicked.</h1-h6></p>
+<p><img src="https://cloud.githubusercontent.com/assets/1655968/16244257/15e88aa0-37f3-11e6-82d8-a6748593a8a2.gif" alt="linkjuice"></p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><pre><code class="js">linkjuice.init(<span class="string">'.post__content'</span>, {
+  selectors: [<span class="string">'h2'</span>, <span class="string">'h3'</span>],
+  icon: <span class="string">'#'</span>
+});
+</code></pre>
+<h4 id="init-arg"><a href="#init-arg" class="headerlink" title="init(arg[,])"></a>init(arg[,])</h4><p>Type: <code>String</code> Default: <code>undefined</code></p>
+<p>First argument is the target scope you want to bind to and search for heading tags.</p>
+<h4 id="options-selectors"><a href="#options-selectors" class="headerlink" title="options.selectors"></a>options.selectors</h4><p>Type: <code>Array</code> Default: <code>[&#39;h2&#39;, &#39;h3&#39;, &#39;h4&#39;, &#39;h5&#39;, &#39;h6&#39;]</code></p>
+<p>Default heading tags to search for, omits <code>&lt;h1&gt;</code> by default as that’s generally a page title.</p>
+<h4 id="options-icon"><a href="#options-icon" class="headerlink" title="options.icon"></a>options.icon</h4><p>Type: <code>String</code> Default: <code>&#39;#&#39;</code></p>
+<p>Default icon or text. This gets parsed to HTML so you can inject anything you like, such as <code>&lt;i class=&quot;my-icon&quot;&gt;&lt;/i&gt;</code>.</p>
+<h4 id="options-contentFn"><a href="#options-contentFn" class="headerlink" title="options.contentFn"></a>options.contentFn</h4><p>Type: <code>Function</code> Default: A function which returns the heading content as a link, prepended with the <code>icon</code> string.</p>
+<p>This function is used to customize how each heading tag contents are rewritten.<br>It receives two parameters:</p>
+<ul>
+<li><code>node</code>: The Heading tag DOM Node</li>
+<li><code>icon</code>: The value of <code>options.icon</code></li>
+</ul>
+<p>It should return a string which is the heading tag’s rewritten content.</p>
+<p>Example which returns the original heading text followed by a FontAwesome link icon:</p>
+<pre><code class="js"><span class="keyword">const</span> contentFn = <span class="function">(<span class="params">node</span>) =&gt;</span> <span class="string">`</span>
+<span class="string">    <span class="subst">${node.innerHTML}</span> </span>
+<span class="string">    &lt;a href='#<span class="subst">${node.id}</span>' class='linkjuice'&gt; </span>
+<span class="string">      &lt;i class='fa fa-link'&gt;&lt;/i&gt;</span>
+<span class="string">    &lt;/a&gt;</span>
+<span class="string">`</span>;
+</code></pre>
+<h2 id="npm-installation"><a href="#npm-installation" class="headerlink" title="npm installation"></a>npm installation</h2><pre><code>npm install linkjuice --save
+</code></pre><h2 id="Manual-installation"><a href="#Manual-installation" class="headerlink" title="Manual installation"></a>Manual installation</h2><p>Ensure you’re using the files from the <code>dist</code> directory (contains compiled production-ready code). Ensure you place the script before the closing <code>&lt;/body&gt;</code> tag.</p>
+<pre><code class="html"><span class="tag">&lt;<span class="name">body</span>&gt;</span>
+  <span class="comment">&lt;!-- html above --&gt;</span>
+  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"dist/linkjuice.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span>
+<span class="javascript">  <span class="comment">// linkjuice module available</span></span>
+<span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">body</span>&gt;</span>
+</code></pre>
+<h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><p>In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using Gulp.</p>
+<h2 id="Release-history"><a href="#Release-history" class="headerlink" title="Release history"></a>Release history</h2><ul>
+<li>1.0.1<ul>
+<li>Allow customized innerHTML content</li>
+</ul>
+</li>
+<li>1.0.0<ul>
+<li>Initial release</li>
+</ul>
+</li>
+</ul>
+<h2 id="License"><a href="#License" class="headerlink" title="License"></a>License</h2><p>The MIT License</p>
+<p>Copyright (c) 2016 Todd Motto</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy<br>of this software and associated documentation files (the “Software”), to deal<br>in the Software without restriction, including without limitation the rights<br>to use, copy, modify, merge, publish, distribute, sublicense, and/or sell<br>copies of the Software, and to permit persons to whom the Software is<br>furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in<br>all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br>IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br>FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br>AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br>LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br>OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN<br>THE SOFTWARE.</p>

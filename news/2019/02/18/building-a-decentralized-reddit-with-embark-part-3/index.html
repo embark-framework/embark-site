@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <title>Building a decentralized Reddit with Embark - Part 3 | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/news/2019/02/18/building-a-decentralized-reddit-with-embark-part-3/index.html">
+  <!-- Alternative links -->
+  
+
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#080E1A">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-32.png" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-60x60-precomposed.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-76x76-precomposed.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon-120x120-precomposed.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-touch-icon-152x152-precomposed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon-precomposed.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/embark.css">
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/styles/dracula.min.css">
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script>
+  !function(root, factory) {
+    "function" == typeof define && define.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == typeof module && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(this, function() {
+    /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""),
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)),
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)),
+                svg && src) {
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(),
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+
+svg4everybody();
+</script>
+</head>
+
+  <body>
+    <header role="banner" class="c-header c-header--compact">
+  <div class="o-container">
+    <div class="c-header__top">
+      <a href="/" title="Embark" class="c-logo c-logo--negative">Embark</a>
+      <nav role="navigation" class="c-navigation">
+        <div class="c-navigation__header">
+          <a href="/" title="Embark" class="c-logo">Embark</a>
+          <button class="c-navigation__close u-text-light" title="Close menu">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../assets/icons/symbols.svg#icon-close"/></svg>
+          </button>
+        </div>
+        <div class="c-navigation__body">
+          <ul class="c-navigation__list">
+            <li class="c-navigation__item">
+              <a href="/docs/quick_start.html" class="c-navigation__anchor " title="Quickstart">Quickstart</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/docs" class="c-navigation__anchor " title="Learn">Learn</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/plugins" class="c-navigation__anchor " title="Plugins">Plugins</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/community" class="c-navigation__anchor " title="Community">Community</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/news" class="c-navigation__anchor is-active" title="Blog">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="o-flex o-flex-center">
+        <form action class="o-flex__item u-hidden-until-large">
+          <input type="search" placeholder="Search" id="search-input">
+        </form>
+        <div class="o-flex__item">
+          <ul class="o-flex o-flex-center">
+            <li class="o-flex__item">
+              <a href="https://github.com/embark-framework/embark" title="Github" target="_blank" class="u-link-ghost">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-github"/></svg>
+              </a>
+            </li>
+            <li class="o-flex__item">
+              <a href="https://twitter.com/EmbarkProject" title="Twitter" target="_blank">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-twitter"/></svg>
+              </a>
+            </li>
+            <li class="o-flex__item u-hidden-large-up">
+              <button type="button" class="c-navigation__trigger u-link-ghost" title="Open menu">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-navigation-menu"/></svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-quick-search o-distance-m u-hidden-large-up">
+      <input type="search" id="inp-search" placeholder="Search">
+    </div>
+  </div>
+  <div class="o-container-medium">
+    <div class="c-header__body">
+      <h1 class="c-title u-text-ghost">Building a decentralized Reddit with Embark - Part 3</h1>
+      
+      <div class="o-distance-m">
+        <div class="o-flex o-flex-center">
+          <span class="o-flex__item">
+            <img src="https://pbs.twimg.com/profile_images/993785060733194241/p3oAIMDP_400x400.jpg" class="c-avatar-small">
+          </span>
+          <p class="o-flex__item">
+            Written by <a href="https://twitter.com/pascalprecht" title="Pascal Precht on Twitter">Pascal Precht</a> on the <time class="u-text-ghost">18th February 2019</time>
+          </p>
+        </div>
+      </div>
+      
+
+      
+
+      
+      
+    </div>
+  </div>
+</header>
+
+
+<main role="main" class="o-standard-page">
+  <section class="o-container-medium o-distance">
+    <p>Hopefully you’ve read <a href="/news/2019/02/04/building-a-decentralized-reddit-with-embark-part-1/">the first</a> and <a href="/news/2019/02/11/building-a-decentralized-reddit-with-embark-part-2/">second part</a> of this tutorial on building a decentralized Reddit application using Embark. If not, we highly recommend you doing so, because in this part, we’ll be focussing on building the front-end for our application and continue where we’ve left off.</p>
+<ul>
+<li><a href="/news/2019/02/04/building-a-decentralized-reddit-with-embark-part-1/"><strong>Part 1</strong> - Setting up the project and implementing a Smart Contract</a></li>
+<li><a href="/news/2019/02/11/building-a-decentralized-reddit-with-embark-part-2/"><strong>Part 2</strong> - Testing the Smart Contract through EmbarkJS</a></li>
+</ul>
+<p>We’ll be using React as a client-side JavaScript library to build our application. However, we can use any framework of our choice, so feel free to follow along while using your favourite framework equivalents!</p>
+<p><strong>The code for this tutorial can be found in <a href="https://github.com/embark-framework/dreddit-tutorial" target="_blank" rel="noopener">this repository</a></strong>.</p>
+<h2 id="Rendering-our-first-component"><a href="#Rendering-our-first-component" class="headerlink" title="Rendering our first component"></a>Rendering our first component</h2><p>Alright, before we jump straight into building components that will talk to our Smart Contract instance, let’s first actually render a simple text on the screen just to make sure our setup is working correctly.</p>
+<p>For that, what we’ll do is adding React as a dependency to our project. In fact, we’ll be relying on two packages - <code>react</code> and <code>react-dom</code>. The latter is needed to render components defined with React in a DOM environment, which is what a Browser essentially is.</p>
+<p>Let’s add the following <code>dependencies</code> section to our projects <code>package.json</code>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;dependencies&quot;: &#123;</span><br><span class="line">  &quot;react&quot;: &quot;^16.4.2&quot;,</span><br><span class="line">  &quot;react-dom&quot;: &quot;^16.4.2&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Once that is done we need to actually install those dependencies. For that we simply execute the following command in our terminal of choice:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<p>Now we can go ahead and actually make use of React. As Embark is framework agnostic, we won’t be focussing too much on details specific to React, just the least amount that is needed to make our app work.</p>
+<p>Creating components in React is pretty straight forward. All we need to do is creating a class that extends React’s <code>Component</code> type and add a <code>render()</code> method that will render the component’s view.</p>
+<p>Let’s create a folder for all of our components inside our projects:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ mkdir app/js/components</span><br></pre></td></tr></table></figure>
+<p>Next, we create a file for our root component. We call it simply <code>App</code> and use the same file name:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ touch app/js/components/App.js</span><br></pre></td></tr></table></figure>
+<p>Alright, as mentioned earlier, we really just want to render some text on the screen for starters. Here’s what that could look like:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line"></span><br><span class="line">export class App extends Component &#123;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return &lt;h1&gt;DReddit&lt;/h1&gt;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This is probably self explanatory, but all we’re doing here is importing <code>React</code> and its <code>Component</code> type and create an <code>App</code> class that extends <code>Component</code>. The <code>render()</code> method will be used by React to render the component’s view and has to return a template that is written in JSX syntax. JSX looks a lot like HTML just that it comes with extra syntax to embed things like control structures. We’ll make use of that later!</p>
+<p>Okay now that we have this component defined, we need to tell React to actually render this particular component. For that, we head over to <code>app/js/index.js</code> and add the following code:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import React from &apos;react&apos;;</span><br><span class="line">import &#123; render &#125; from &apos;react-dom&apos;;</span><br><span class="line">import &#123; App &#125; from &apos;./components/App&apos;;</span><br><span class="line"></span><br><span class="line">render(&lt;App /&gt;, document.getElementById(&apos;root&apos;));</span><br></pre></td></tr></table></figure>
+<p>We need to import <code>React</code> again as it has to be available in this script’s scope. We also import a <code>render</code> function from <code>react-dom</code>, which is used to render our root component (<code>App</code>) into some element inside our HTML document. In this case we say that the element in which we want to render our root component is the element with the id <code>root</code>.</p>
+<p>Let’s set this up really quick. In <code>app/index.html</code> add a new element with a <code>root</code> id:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;</span><br><span class="line">	&lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p>Notice that we’ve also moved the <code>script</code> tag inside the body tag, after the element with the <code>root</code> id. This is just one way to work around the fact that the element we’re referencing inside our <code>render()</code> method is actually available in the document at the time the script is executed.</p>
+<p>That should do it! Let’s spin up Embark, we should then see our component rendered on the screen:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ embark run</span><br></pre></td></tr></table></figure>
+<h2 id="Building-a-CreatePost-component"><a href="#Building-a-CreatePost-component" class="headerlink" title="Building a CreatePost component"></a>Building a <code>CreatePost</code> component</h2><p>Alright, enough warm up. Time to build components that are useful. We start off with building a component that lets users create posts through our application. Similar to <code>App</code>, we’ll introduce a new component <code>createPost</code> that comes with a <code>render()</code> method to display a simple form for entering data. We’ll also need to add event handlers to the form so that when a user submits the form, we can actually access the data and later on send it to our Smart Contract.</p>
+<p>Creating a simple form is very straight forward:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line"></span><br><span class="line">export class CreatePost extends Component &#123;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;form&gt;</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">          &lt;label&gt;Topic&lt;/label&gt;</span><br><span class="line">          &lt;input type=&quot;text&quot; name=&quot;topic&quot; /&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">          &lt;textarea name=&quot;content&quot;&gt;&lt;/textarea&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;button&gt;Post&lt;/button&gt;</span><br><span class="line">      &lt;/form&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>To actually render this component on screen, we need to make it part of our <code>App</code> component. Or, to be more specific, have the <code>App</code> component render our <code>CreatePost</code> component. For now we can simply add it to <code>App</code>‘s render function like this;</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; CreatePost &#125; from &apos;./CreatePost&apos;;</span><br><span class="line"></span><br><span class="line">export class App extends Component &#123;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;React.Fragment&gt;</span><br><span class="line">        &lt;h1&gt;DReddit&lt;/h1&gt;</span><br><span class="line">        &lt;CreatePost /&gt;</span><br><span class="line">      &lt;/React.Fragment&amp;&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>React doesn’t allow for multiple root elements in a single component’s view, so we have to take advantage of <code>React.Fragment</code>. Obviously, there’s not too much going on here apart from us rendering a static form. Also notice that we don’t spend too much time and effort on making the form look nice as we focus on the functionality for now. Consider that homework!</p>
+<p>Let’s make this form functional. First of all we want make sure that data entered into the form is available inside our component. React components maintain an object called <code>state</code> that can be used for exactly that. All we have to do is to initialize it with some initial values and update it using a <code>setState()</code> method if needed.</p>
+<p>Let’s introduce <code>state</code> in our component by adding a constructor and initializing it accordingly:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export class CreatePost extends Component &#123;</span><br><span class="line"></span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    </span><br><span class="line">    this.state = &#123;</span><br><span class="line">      topic: &apos;&apos;,</span><br><span class="line">      content: &apos;&apos;,</span><br><span class="line">      loading: false</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Next we bind that state to our form fields:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;form&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;label&gt;Topic&lt;/label&gt;</span><br><span class="line">    &lt;input type=&quot;text&quot; name=&quot;topic&quot; value=&#123;this.state.topic&#125; /&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;textarea name=&quot;content&quot; value=&#123;this.state.content&#125;&gt;&lt;/textarea&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;button&gt;Post&lt;/button&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+<p>No worries, we’ll make use of <code>loading</code> in a second. Last but not least we want to add some event handlers so that changes in the view will be reflected back to our component’s state as the user is entering data. To make sure everything works fine, we’ll also add an event handler for the form submission and output the data in <code>state</code>. Here’s what our <code>handleChange()</code> and <code>createPost()</code> handlers looks like:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export class CreatePost extends Component &#123;</span><br><span class="line">  ...</span><br><span class="line">  handleChange(field, event) &#123;</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">      [field]: event.target.value</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  createPost(event) &#123;</span><br><span class="line">    event.preventDefault();</span><br><span class="line">    console.log(this.state);</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Notice how we’re using <code>setState()</code> inside <code>handleChange()</code> to update whatever field name has been passed to that method. Now all we need to do is attach those handlers to our form:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;form onSubmit=&#123;e =&gt; createPost(e)&#125;&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;label&gt;Topic&lt;/label&gt;</span><br><span class="line">    &lt;input </span><br><span class="line">      type=&quot;text&quot; </span><br><span class="line">      name=&quot;topic&quot; </span><br><span class="line">      value=&#123;this.state.topic&#125; </span><br><span class="line">      onChange=&#123;e =&gt; handleChange(&apos;topic&apos;, e)&#125; /&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;textarea </span><br><span class="line">      name=&quot;content&quot; </span><br><span class="line">      value=&#123;this.state.content&#125; </span><br><span class="line">      onChange=&#123;e =&gt; handleChange(&apos;content&apos;, e&#125;)&gt;&lt;/textarea&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;button type=&quot;submit&quot;&gt;Post&lt;/button&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+<p>Since we’re using the <code>onSubmit()</code> handler of the form, it’s also important that we either add a <code>type=&quot;submit&quot;</code> to our <code>button</code> or change the button to an <code>&lt;input type=&quot;submit&quot;&gt;</code> element. Otherwise, the form won’t emit a submit event.</p>
+<p>Nice! With that in place, we should see the component’s <code>state</code> in the console when submitting the form! The next challenge is to use <code>EmbarkJS</code> and its APIs to make our component talk to our Smart Contract instance.</p>
+<h3 id="Uploading-data-to-IPFS"><a href="#Uploading-data-to-IPFS" class="headerlink" title="Uploading data to IPFS"></a>Uploading data to IPFS</h3><p>Recall from our <a href="/news/2019/02/04/building-a-decentralized-reddit-with-embark-part-1/#Creating-posts">first part</a> of this tutorial that our <code>DReddit</code> Smart Contract comes with a <code>createPost()</code> method that takes some bytes as post data. Those bytes are actually not the post data itself, but an IPFS hash that points to the post data. In other words, we’ll have to somehow create such a hash and make sure the data is uploaded to IPFS as well.</p>
+<p>Luckily, EmbarkJS comes with plenty of convenient APIs to do exactly that! <code>EmbarkJS.Storage.saveText()</code> takes a string, uploads it to IPFS and returns its hash which can then be used to create a post using our Smart Contract. One thing to keep in mind is that those APIs are asynchronous. Similar to how we wrote tests in <a href="/news/2019/02/11/building-a-decentralized-reddit-with-embark-part-2/#Testing-createPost">part two</a> of this tutorial, we’ll use <code>async/await</code> to write asynchronous code in a synchronous fashion.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">async createPost(event) &#123;</span><br><span class="line">  event.preventDefault();</span><br><span class="line">  </span><br><span class="line">  this.setState(&#123;</span><br><span class="line">    loading: true</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  const ipfsHash = await EmbarkJS.Storage.saveText(JSON.stringify(&#123;</span><br><span class="line">    topic: this.state.topic,</span><br><span class="line">    content: this.state.content</span><br><span class="line">  &#125;));</span><br><span class="line"></span><br><span class="line">  this.setState(&#123;</span><br><span class="line">    topic: &apos;&apos;,</span><br><span class="line">    content: &apos;&apos;,</span><br><span class="line">    loading: false</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We use <code>JSON.stringify()</code> on an object that holds the <code>topic</code> and <code>content</code> of the post to be created. This is also the first time we put <code>loading</code> into action. Setting it to <code>true</code> before, and <code>false</code> after we’ve performed our operations lets us render a useful message as the user is waiting for updates.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;form onSubmit=&#123;e =&gt; createPost(e)&#125;&gt;</span><br><span class="line">  ...</span><br><span class="line">  &#123;this.state.loading &amp;&amp; </span><br><span class="line">    &lt;p&gt;Posting...&lt;/p&gt;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+<p>Obviously, we’re not done yet though. All we do right now is uploading the post’s data to IPFS and receiving the hash, but we still need to take that hash and send it to our Smart Contract using its <code>createPost()</code> method. Let’s do that!</p>
+<h3 id="Sending-transactions-to-create-posts"><a href="#Sending-transactions-to-create-posts" class="headerlink" title="Sending transactions to create posts"></a>Sending transactions to create posts</h3><p>To send a transaction to our Smart Contract, we can again take advantage of EmbarkJS’ APIs, similar to how we did it in the <a href="/news/2019/02/11/building-a-decentralized-reddit-with-embark-part-2">second part</a>. We also need to get hold of an Ethereum account to send the transaction from. This will be very straight forward as we’ll be just relying on the accounts that are generated by the Ethereum node that Embark spins up for us.</p>
+<p>Once we have those things in place we can get a gas estimation for our transaction and send the data over. Here’s how we retrieve our accounts, notice that <code>async/await</code> can be used here as well:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">async createPost(event) &#123;</span><br><span class="line">  ...</span><br><span class="line">  const accounts = await web3.eth.getAccounts();</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Next up we’ll import a <code>DReddit</code> Smart Contract instance from EmbarkJS and use it to get a gas estimation from <code>web3</code>. We can then use the estimation and one of our accounts to actually send the transaction:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import DReddit from &apos;./artifacts/contracts/DReddit&apos;;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">async createPost(event) &#123;</span><br><span class="line">  ...</span><br><span class="line">  const accounts = await web3.eth.getAccounts();</span><br><span class="line">  const createPost = DReddit.methods.createPost(web3.utils.toHex(ipfsHash));</span><br><span class="line">  const estimate = await createPost.estimateGas();</span><br><span class="line">  </span><br><span class="line">  await createPost.send(&#123;from: accounts[0], gas: estimate&#125;);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Sweet, with that, our <code>createPost</code> method is done! We haven’t built a list of all created posts yet, but if we open up the app and create a post, we can use Embark to double check whether the transaction went through successfully. Simply watch the output in the terminal after running <code>embark run</code>. We should see a confirmation that looks something like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Blockchain&gt; DReddit.createPost(&quot;0x516d5452427a47415153504552614645534173335133765a6b59436633634143776368626263387575623434374e&quot;) | 0xbbeb9fa1eb4e3434c08b31409c137c2129de65eb335855620574c537b3004f29 | gas:136089 | blk:18455 | status:0x1</span><br></pre></td></tr></table></figure>
+<h2 id="Creating-a-Post-component"><a href="#Creating-a-Post-component" class="headerlink" title="Creating a Post component"></a>Creating a Post component</h2><p>The next challenge lies in fetching all created posts from our Smart Contract and IPFS so we can render them on screen. We start simple and first create a new component that will render a single post. After that we’ll look into rendering a list of posts dynamically, based on the data we’re fetching.</p>
+<p>Again, our application won’t look particularly pretty, we’ll just focus on getting the core functionality right. A post component needs to render the post topic, its content, the owner of the post, ideally the date when it has been created, and a button to up and down vote respectively.</p>
+<p>Here’s what such a component with a basic template could look like:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line"></span><br><span class="line">export class Post extends Component &#123;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;React.Fragment&gt;</span><br><span class="line">        &lt;hr /&gt;</span><br><span class="line">        &lt;h3&gt;Some Topic&lt;/h3&gt;</span><br><span class="line">        &lt;p&gt;This is the content of a post&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;&lt;small&gt;&lt;i&gt;created at 2019-02-18 by 0x00000000000000&lt;/i&gt;&lt;/small&gt;&lt;/p&gt;</span><br><span class="line">        &lt;button&gt;Upvote&lt;/button&gt;</span><br><span class="line">        &lt;button&gt;Downvote&lt;/button&gt;</span><br><span class="line">      &lt;/React.Fragment&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>There are different ways to make the data being rendered dynamic. Usually, we would probably pass a one or more properties to the <code>Post</code> component that represents the entire post object and can then be displayed inside its <code>render()</code> method. However, for this tutorial we’re going to choose a slightly different path. We’ll make <code>Post</code> receive IPFS hash that’s stored in the Smart Contract and have it resolve the data itself.</p>
+<p>Let’s stay consistent with our naming and say the property we’re expecting to be filled with data is called <code>description</code>, just like the one used inside the Smart Contract. We can then use <code>EmbarkJS.Storage.get()</code> with the IPFS hash to fetch the data that represents the actual post. In order to render the data inside <code>Post</code>‘s view, we’ll parse it and use <code>setState()</code> accordingly.</p>
+<p>To make sure all of that happens once the component is ready to do its work, we’ll do all of that inside its <code>componentDidMount()</code> life cycle hook:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line">import EmbarkJS from &apos;.artifacts/embarkjs&apos;;</span><br><span class="line"></span><br><span class="line">export class Post extends Component &#123;</span><br><span class="line"></span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state = &#123;</span><br><span class="line">      topic: &apos;&apos;,</span><br><span class="line">      content: &apos;&apos;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  async componentDidMount() &#123;</span><br><span class="line">    const ipfsHash = web3.utils.toAscii(this.props.description);</span><br><span class="line">    const data = await EmbarkJS.Storage.get(ipfsHash);</span><br><span class="line">    const &#123; topic, content &#125; = JSON.parse(data);</span><br><span class="line"></span><br><span class="line">    this.setState(&#123; topic, content &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>There’s one gotcha to keep in mind here: Calling <code>EmbarkJS.Storage.get()</code> or any <code>EmbarkJS</code> function on page load can fail, because the storage system might not be fully initialized yet. This wasn’t a problem for the previous <code>EmbarkJS.Storage.uploadText()</code> because we called that function well after Embark had finished initializing</p>
+<p>Theoretically however, there could be a race condition even for creating a post. To ensure that EmbarkJS is ready at any point in time, we use its <code>onReady()</code> hook. <code>EmbarkJS.onReady()</code> takes a callback which will be executed once EmbarkJS is ready to go. The best place to do this in our app is probably where we attempt to render our application, so let’s wrap that <code>render()</code> call in our <code>App</code> component inside Embark’s <code>onReady()</code> function.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">EmbarkJS.onReady(() =&gt; &#123;</span><br><span class="line">  render(&lt;App /&gt;, document.getElementById(&apos;root&apos;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>This also means our app will only render when EmbarkJS is ready, which theoretically could take a little longer. However in this tutorial, chances are very low this is becoming a problem.</p>
+<p>Let’s also quickly add the <code>owner</code> and creation date. The <code>owner</code> is expected to be passed down as a property. The same goes for the creation date. We just need to make sure it’ll be formatted in a way the users can make sense of the data. We’ll use the <code>dateformat</code> library for that and install it as a dependency like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ npm install --save dateformat</span><br></pre></td></tr></table></figure>
+<p>Once that is done, we can update our <code>Post</code> component’s <code>render()</code> function to calculate a properly formatted date based on the <code>creationDate</code> that has been passed down through properties:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">import dateformat from &apos;dateformat&apos;;</span><br><span class="line"></span><br><span class="line">export class Post extends Component &#123;</span><br><span class="line">  ...</span><br><span class="line">  render() &#123;</span><br><span class="line">    const formattedDate = dateformat(</span><br><span class="line">      new Date(this.props.creationDate * 1000),</span><br><span class="line">      &apos;yyyy-mm-dd HH:MM:ss&apos;</span><br><span class="line">    );</span><br><span class="line">    return (</span><br><span class="line">      &lt;React.Fragment&gt;</span><br><span class="line">        &lt;hr /&gt;</span><br><span class="line">        &lt;h3&gt;&#123;this.state.topic&#125;&lt;/h3&gt;</span><br><span class="line">        &lt;p&gt;&#123;this.state.content&#125;&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;&lt;small&gt;&lt;i&gt;created at &#123;formattedDate&#125; by &#123;this.props.owner&#125;&lt;/i&gt;&lt;/small&gt;&lt;/p&gt;</span><br><span class="line">        &lt;button&gt;Upvote&lt;/button&gt;</span><br><span class="line">        &lt;button&gt;Downvote&lt;/button&gt;</span><br><span class="line">      &lt;/React.Fragment&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Notice that variables created inside <code>render()</code> can be interpolated as they are - there’s no need to make them available on <code>props</code> or <code>state</code>. As a matter of fact, <code>props</code> are always considered read only in React.</p>
+<p>Let’s try out our new <code>Post</code> component with some static data by adding it to our <code>App</code> component’s view. Next up, we’ll make this dynamic by fetching the posts from our Smart Contract.</p>
+<p><strong>Attention</strong>: The hash used in this snippet might not be available in your local IPFS node, so you’ll have to get hold of your own hash. This can be down by logging out the hash that is returned from IPFS and convert it to hex code.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export class App extends Component &#123;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;React.Fragment&gt;</span><br><span class="line">        &lt;h1&gt;DReddit&lt;/h1&gt;</span><br><span class="line">        &lt;CreatePost /&gt;</span><br><span class="line">        &lt;Post </span><br><span class="line">          description=&quot;0x516d655338444b53464546725369656a747751426d683377626b56707566335770636e4c715978726b516e4b5250&quot;</span><br><span class="line">          creationDate=&quot;1550073772&quot;</span><br><span class="line">          owner=&quot;0x00000000000&quot;</span><br><span class="line">          /&gt;</span><br><span class="line">      &lt;/React.Fragment&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Creating-a-List-component"><a href="#Creating-a-List-component" class="headerlink" title="Creating a List component"></a>Creating a List component</h2><p>Before we can move on with building a component that renders a list of posts, we’ll have to extend our Smart Contract with one more method. Since there’s no canonical way to fetch array data from a Smart Contract, we’ll be fetching the post data for each post one by one. We do that by first fetching the total number of posts and use that number to iterate over the available indices, which we can then use to fetch the actual posts.</p>
+<p>Let’s introduce a method <code>numPosts()</code> in our <code>DReddit</code> Smart Contract:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function numPosts() public view returns (uint) &#123;</span><br><span class="line">  return posts.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>posts.length</code> will increase as we’re adding posts, so it will always be the single source of truth when it comes to determining indices of posts. This would be a good opportunity to write another test - we’ll leave that up to you!</p>
+<p>With that in place, we can start building a new <code>List</code> component. The <code>List</code> component maintains a list of posts to render on screen, so we can start simple again and introduce the bare minimum like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line"></span><br><span class="line">export class List extends Component &#123;</span><br><span class="line"></span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state = &#123;</span><br><span class="line">      posts: []</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (&lt;React.Fragment&gt;</span><br><span class="line">      &#123;this.state.posts.map(post =&gt; &#123;</span><br><span class="line">        return (</span><br><span class="line">          &lt;Post </span><br><span class="line">            key=&#123;post.id&#125;</span><br><span class="line">            description=&#123;post.description&#125;</span><br><span class="line">            creationDate=&#123;post.creationDate&#125;</span><br><span class="line">            owner=&#123;post.owner&#125;</span><br><span class="line">          /&gt;)</span><br><span class="line">      &#125;)&#125;</span><br><span class="line">      &lt;/React.Fragment&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The most interesting part here is probably the <code>render()</code> method, in which we iterate over all <code>state.posts</code> (which at the moment is empty) and then render a <code>Post</code> component for every iteration. Another thing to note is that every <code>Post</code> receives a <code>key</code>. This is required in React when creating views from loops. We’ve never introduced a <code>post.id</code> in this tutorial, but don’t worry, we’ll fix that in a moment.</p>
+<p>We can already put that in our <code>App</code> component. It won’t render anything as we haven’t fetched any posts yet, but that’s what we’ll do next.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; List &#125; from &apos;./List&apos;;</span><br><span class="line"></span><br><span class="line">export class App extends Component &#123;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;React.Fragment&gt;</span><br><span class="line">        &lt;h1&gt;DReddit&lt;/h1&gt;</span><br><span class="line">        &lt;CreatePost /&gt;</span><br><span class="line">        &lt;List /&gt;</span><br><span class="line">      &lt;/React.Fragment&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Fetching-posts-data"><a href="#Fetching-posts-data" class="headerlink" title="Fetching posts data"></a>Fetching posts data</h3><p>Let’s fill our new <code>List</code> component with life! As mentioned earlier, we’ll use our Smart Contract’s <code>numPosts()</code> method to get hold of the total number of posts available. We then use that number to iterate over all indices and request every post individually. Since this is logic we want to execute once the <code>List</code> component is ready, we’ll use its <code>componentDidMount()</code> method for that:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export class List extends Component &#123;</span><br><span class="line">  ...</span><br><span class="line">  async componentDidMount() &#123;</span><br><span class="line">    const totalPosts = await DReddit.methods.numPosts().call();</span><br><span class="line"></span><br><span class="line">    let list = [];</span><br><span class="line"></span><br><span class="line">    for (let i = 0; i &lt; totalPosts; i++) &#123;</span><br><span class="line">      const post = DReddit.methods.posts(i).call();</span><br><span class="line">      list.push(post);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    list = await Promise.all(list);</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Notice that in the above code we don’t <code>await</code> the calls to every individual post. This is on purpose as we don’t want to wait on each and every promise to resolve, but first collect all of the promises we need and then resolve them all in one go using <code>Promise.all().</code></p>
+<p>Last but not least, we need to add an <code>id</code> property to every post as mentioned earlier. This is easily done by simply iterating over all posts and assigning the post’s index as <code>id</code>. Once that is done, we can use <code>setState()</code> to update our component’s state and render the list:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">async componentDidMount() &#123;</span><br><span class="line">  ...</span><br><span class="line">  list = list.map((post, index) =&gt; &#123;</span><br><span class="line">    post.id = index;</span><br><span class="line">    return post;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  this.setState(&#123; posts: list &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>That’s it! Our application now renders a list of all created posts. Unfortunately, posts are not being re-fetched  automatically when adding new posts. For the time being, we’ll have to reload the browser every time after adding a post. However, this we’ll address now.</p>
+<h3 id="Reloading-posts"><a href="#Reloading-posts" class="headerlink" title="Reloading posts"></a>Reloading posts</h3><p>There is certainly different ways to make the list of posts update automatically, so take the following approach with a grain of salt. What we need is a way to have the <code>createPost</code> component tell the <code>List</code> component to reload its posts. However, there’s no communication layer in place when building a simple React app like this, so the most straight forward way to make this possible, is to move the logic of loading the posts in the parent component of <code>CreatePost</code> and <code>List</code> (in our case <code>App</code>), and have it pass that logic down to places where its needed. This also means we’ll be fetching the list inside <code>App</code> and pass down the pure data to <code>List</code>.</p>
+<p>If this sounds overwhelming, no worries, it’s more trivial than that! Let’s start by introducing a <code>loadPosts()</code> function in our <code>App</code> component. Essentially we’re moving everything from <code>List</code>‘s <code>componentDidMount()</code> function into <code>App</code>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export class App extends Component &#123;</span><br><span class="line">  ...</span><br><span class="line">  async loadPosts() &#123;</span><br><span class="line">    const totalPosts = await DReddit.methods.numPosts().call();</span><br><span class="line"></span><br><span class="line">    let list = [];</span><br><span class="line"></span><br><span class="line">    if (totalPosts &gt; 0) &#123;</span><br><span class="line">      for (let i = 0; i &lt; totalPosts; i++) &#123;</span><br><span class="line">        const post = DReddit.methods.posts(i).call();</span><br><span class="line">        list.push(post);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    list = await Promise.all(list);</span><br><span class="line">    list = list.map((post, index) =&gt; &#123;</span><br><span class="line">      post.id = index;</span><br><span class="line">      return post;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    list;</span><br><span class="line"></span><br><span class="line">    this.setState(&#123; posts: list &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>To make this work we also need to introduce a <code>state</code> with the dedicated <code>posts</code>. After that, we make sure <code>loadPosts()</code> is called when <code>App</code> is mounted:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export class App extends Component &#123;</span><br><span class="line"></span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state = &#123;</span><br><span class="line">      posts: []</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  async componentDidMount() &#123;</span><br><span class="line">    await this.loadPosts();</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Last but not least, all we have to do is to pass the <code>posts</code> down to <code>List</code> and <code>loadPosts()</code> to <code>CreatePost</code> as a callback handler if you will:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;React.Fragment&gt;</span><br><span class="line">      &lt;h1&gt;DReddit&lt;/h1&gt;</span><br><span class="line">      &lt;CreatePost afterPostHandler=&#123;this.loadPosts.bind(this)&#125;/&gt;</span><br><span class="line">      &lt;List posts=&#123;this.state.posts&#125;/&gt;</span><br><span class="line">    &lt;/React.Fragment&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Once that is done, we can consume <code>posts</code> and <code>afterPostHandler()</code> from <code>this.props</code> respectively. In <code>List</code>‘s <code>render()</code> function we’ll do (notice we don’t rely on <code>this.state</code> anymore):</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  return (&lt;React.Fragment&gt;</span><br><span class="line">    &#123;this.props.posts.map(post =&gt; &#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;)&#125;</span><br><span class="line">    &lt;/React.Fragment&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>And in <code>CreatePost</code> we call <code>afterPostHandler()</code> after a post has been created:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">async createPost(event) &#123;</span><br><span class="line">  ...</span><br><span class="line">  await createPost.send(&#123;from: accounts[0], gas: estimate&#125;);</span><br><span class="line">  await this.props.afterPostHandler();</span><br><span class="line"></span><br><span class="line">  this.setState(&#123;</span><br><span class="line">    topic: &apos;&apos;,</span><br><span class="line">    content: &apos;&apos;,</span><br><span class="line">    loading: false</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Wonderful! The list now automatically reloads after creating posts, give it a try!</p>
+<h2 id="Add-voting-functionality"><a href="#Add-voting-functionality" class="headerlink" title="Add voting functionality"></a>Add voting functionality</h2><p>The final feature we’ll be implementing is the up and down voting of posts. This is where we come back to our <code>Post</code> component that we’ve created earlier. In order to make this feature complete we’ll have to:</p>
+<ul>
+<li>Render the number of up and down votes per post</li>
+<li>Add handlers for users to up and down vote</li>
+<li>Determine if a user can vote on a post</li>
+</ul>
+<h3 id="Rendering-number-of-votes"><a href="#Rendering-number-of-votes" class="headerlink" title="Rendering number of votes"></a>Rendering number of votes</h3><p>Let’s start with the first one, as it’s the most trivial one. While the number of up and down votes is already attached to the data that we receive from our <code>DReddit</code> Smart Contract, it’s not yet in the right format as it comes back as a string. Let’s make sure we parse the up and down vote counts on posts by extending our <code>App</code>‘s <code>loadPosts()</code> method like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">async loadPosts() &#123;</span><br><span class="line">  ...</span><br><span class="line">  list = list.map((post, index) =&gt; &#123;</span><br><span class="line">    post.id = index;</span><br><span class="line">    post.upvotes = parseInt(post.upvotes, 10);</span><br><span class="line">    post.downvotes = parseInt(post.downvotes, 10);</span><br><span class="line">    return post;</span><br><span class="line">  &#125;);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Once that is done we can pass each post’s <code>upvotes</code> and <code>downvotes</code> to every <code>Post</code> component via its <code>props</code> inside our <code>List</code> component:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export class List extends Component &#123;</span><br><span class="line">  ...</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (&lt;React.Fragment&gt;</span><br><span class="line">      &#123;this.props.posts.map(post =&gt; &#123;</span><br><span class="line">        return (&lt;Post </span><br><span class="line">          key=&#123;post.id&#125;</span><br><span class="line">          description=&#123;post.description&#125;</span><br><span class="line">          creationDate=&#123;post.creationDate&#125;</span><br><span class="line">          upvotes=&#123;post.upvotes&#125;</span><br><span class="line">          downvotes=&#123;post.downvotes&#125;</span><br><span class="line">          owner=&#123;post.owner&#125;</span><br><span class="line">          /&gt;)</span><br><span class="line">      &#125;)&#125;</span><br><span class="line">      &lt;/React.Fragment&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Rendering the number of <code>upvotes</code> and <code>downvotes</code> is then really just a matter of interpolating them in <code>Post</code>‘s <code>render()</code> function. We’re just going to add them next to the buttons, but feel free to put them somewhere else:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export class Post extends Component &#123;</span><br><span class="line">  ...</span><br><span class="line">  render() &#123;</span><br><span class="line">    ...</span><br><span class="line">    return (</span><br><span class="line">      &lt;React.Fragment&gt;</span><br><span class="line">        ...</span><br><span class="line">        &#123;this.props.upvotes&#125; &lt;button&gt;Upvote&lt;/button&gt;</span><br><span class="line">        &#123;this.props.downvotes&#125; &lt;button&gt;Downvote&lt;/button&gt;</span><br><span class="line">      &lt;/React.Fragment&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Implement-up-and-down-votes"><a href="#Implement-up-and-down-votes" class="headerlink" title="Implement up and down votes"></a>Implement up and down votes</h3><p>Similar to when creating new posts, making the up and down vote buttons work requires sending transactions to our <code>DReddit</code> Smart Contract. So we’ll do almost the same thing as in our <code>CreatePost</code> component, just that we’re calling the Smart Contract’s <code>vote()</code> method. If you recall, the <code>vote()</code> method takes a post id and the vote type, which is either <code>NONE</code>, <code>UPVOTE</code> or <code>DOWNVOTE</code> and are stored as <code>uint8</code>.</p>
+<p>It makes sense to introduce the same representation in our app so we can use descriptive names, but rely on uint values at the same time. There are no enum data structures in JavaScript so we’ll use a hash object instead:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const BALLOT = &#123;</span><br><span class="line">  NONE: 0,</span><br><span class="line">  UPVOTE: 1,</span><br><span class="line">  DOWNVOTE: 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We don’t actually have the post id available in our <code>Post</code> component yet. That’s easily added in our <code>List</code> component, by now you should know how to do that!</p>
+<p>We can then add click handlers to our up and down vote buttons and pass one of the <code>BALLOT</code> types to them (notice that we added <code>BALLOT.NONE</code> only for completeness-sake but don’t actually use it in our code):</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;button onClick=&#123;e =&gt; this.vote(BALLOT.UPVOTE)&#125;&gt;Upvote&lt;/button&gt;</span><br><span class="line">&lt;button onClick=&#123;e =&gt; this.vote(BALLOT.DOWNVOTE)&#125;&gt;Downvote&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+<p>The next thing we need to do is sending that vote type along with the post id to our Smart Contract:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">async vote(ballot) &#123;</span><br><span class="line">  const accounts = await web3.eth.getAccounts();</span><br><span class="line">  const vote = DReddit.methods.vote(this.props.id, ballot);</span><br><span class="line">  const estimate = await vote.estimateGas();</span><br><span class="line"></span><br><span class="line">  await vote.send(&#123;from: accounts[0], gas: estimate&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Obviously, we also want to update the view when a vote has been successfully sent. Right now we’re reading a post’s up and down votes from its <code>props</code> and render them accordingly. However, we want to update those values as votes are coming in. For that we’ll change our code to only read the up and down votes from <code>props</code> once and store them in the component’s state.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export class Post extends Component &#123;</span><br><span class="line"></span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state = &#123;</span><br><span class="line">      topic: &apos;&apos;,</span><br><span class="line">      content: &apos;&apos;,</span><br><span class="line">      upvotes: this.props.upvotes,</span><br><span class="line">      downvotes: this.props.downvotes</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We also change the component’s view to render the values from state instead of <code>props</code>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  ...</span><br><span class="line">  return (</span><br><span class="line">    &lt;React.Fragment&gt;</span><br><span class="line">      ...</span><br><span class="line">      &#123;this.state.upvotes&#125; &lt;button ...&gt;Upvote&lt;/button&gt;</span><br><span class="line">      &#123;this.state.downvotes&#125; &lt;button ...&gt;Downvote&lt;/button&gt;</span><br><span class="line">    &lt;/React.Fragment&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>After that we can update the state with new votes using <code>setState()</code>, right after a vote has been sent:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">async vote(ballot) &#123;</span><br><span class="line">  ...</span><br><span class="line">  this.setState(&#123;</span><br><span class="line">    upvotes: this.state.upvotes + (ballot == BALLOT.UPVOTE ? 1 : 0),</span><br><span class="line">    downvotes: this.state.downvotes + (ballot == BALLOT.DOWNVOTE ? 1 : 0)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>That’s it!</strong> We can now up and down vote on posts…but only once! Yes, that’s right. When we try to vote multiple times on the same post, we’ll actually receive an error. That’s because, if you remember, there’s a restriction in our Smart Contract that makes sure users can not vote on posts that they’ve either already voted on, or created themselves.</p>
+<p>Let’s make sure this is reflected in our application’s UI and wrap up this tutorial!</p>
+<h3 id="Use-canVote-to-disable-vote-buttons"><a href="#Use-canVote-to-disable-vote-buttons" class="headerlink" title="Use canVote() to disable vote buttons"></a>Use <code>canVote()</code> to disable vote buttons</h3><p>We’ll keep this one very simple - if a user cannot vote on a post, the voting buttons should be simply disabled. We can easily determine whether a user is allowed to vote by calling our Smart Contract’s <code>canVote()</code> method. Another thing we need to consider is that we shouldn’t allow a user to vote when a vote for the same post is already in flight but hasn’t completed yet.</p>
+<p>Let’s introduce a new state properties for that first. In general we can say that a user is allowed to vote, and that she is not submitting a vote in this very moment:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export class Post extends Component &#123;</span><br><span class="line"></span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state = &#123;</span><br><span class="line">      topic: &apos;&apos;,</span><br><span class="line">      content: &apos;&apos;,</span><br><span class="line">      upvotes: this.props.upvotes,</span><br><span class="line">      downvotes: this.props.downvotes,</span><br><span class="line">      canVote: true,</span><br><span class="line">      submitting: false</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Next, we update our <code>Post</code> component’s <code>render()</code> function to disable the voting buttons if a vote is in flight, or a user is simply not allowed to vote:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  ...</span><br><span class="line">  const disabled = this.state.submitting || !this.state.canVote;</span><br><span class="line">  return (</span><br><span class="line">    &lt;React.Fragment&gt;</span><br><span class="line">      ...</span><br><span class="line">      &#123;this.state.upvotes&#125; &lt;button disabled=&#123;disabled&#125; ...&gt;Upvote&lt;/button&gt;</span><br><span class="line">      &#123;this.state.downvotes&#125; &lt;button disabled=&#123;disabled&#125; ...&gt;Downvote&lt;/button&gt;</span><br><span class="line">    &lt;/React.Fragment&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Last but not least, we have to make sure the state properties are updated accordingly. We’ll call our Smart Contract’s <code>canVote()</code> method when a post is initialized:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export class Post extends Component &#123;</span><br><span class="line">  ...</span><br><span class="line">  async componentDidMount() &#123;</span><br><span class="line">    ...</span><br><span class="line">    const canVote = await DReddit.methods.canVote(this.props.id).call();</span><br><span class="line">    this.setState(&#123; topic, content, canVote &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>And when a vote is being made, we set <code>submitting</code> to <code>true</code> right before we send a transaction and set it back to <code>false</code> again when the transaction is done. At this point, we also know that a vote has been made on this post, so <code>canVote</code> can be set to <code>false</code> at the same time:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">async vote(ballot) &#123;</span><br><span class="line">  ...</span><br><span class="line">  this.setState(&#123; submitting: true &#125;);</span><br><span class="line">  await vote.send(&#123;from: accounts[0], gas: estimate + 1000&#125;);</span><br><span class="line"></span><br><span class="line">  this.setState(&#123;</span><br><span class="line">    ...</span><br><span class="line">    canVote: false,</span><br><span class="line">    submitting: false</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>And we’re done!</strong></p>
+<h2 id="Wrapping-it-up"><a href="#Wrapping-it-up" class="headerlink" title="Wrapping it up"></a>Wrapping it up</h2><p>Congratulations! You’ve completed the tutorial on building a simple decentralized Reddit application! You might have noticed that this is only the tip of the iceberg though, as there are so many things that can be done to improve and optimize this application. Here are some ideas for further exploration:</p>
+<ul>
+<li>Sort the posts in reversed chronological order so that the latest post is always on top</li>
+<li>Rely on Smart Contracts Events to reload list</li>
+<li>Introduce routing so there can be different views for creating and viewing posts</li>
+<li>Use CSS to make the application look nice</li>
+</ul>
+<p>We hope you’ve learned that it’s not too hard to build a DApp that uses IPFS and talks to Smart Contracts, and also how Embark can help you doing all of these things.</p>
+<p><strong>We’ve recorded every single step of this tutorial <a href="https://github.com/embark-framework/dreddit-tutorial" target="_blank" rel="noopener">in this repository</a></strong>, so feel free to go ahead, clone it, play with it, compare it with your work or change it to your needs. There will be more tutorials of this kind in the future, so make sure to <a href="https://twitter.com/EmbarkProject" target="_blank" rel="noopener">follow us on Twitter</a> as well for updates!</p>
+
+  </section>
+  
+  
+
+  <div class="o-container-medium o-distance">
+    <div class="o-flex o-flex-space-between">
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/02/11/building-a-decentralized-reddit-with-embark-part-2/" class="c-button c-button--quite" title="Previous">&larr; Previous</a>
+  </div>
+  
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/03/18/upgrading-to-embark-4/" class="c-button c-button--quite" title="Next Article">Next &rarr;</a>
+  </div>
+  
+</div>
+
+
+  </div>
+  
+</main>
+
+
+    <footer role="contentinfo" class="c-footer o-distance-xxl">
+  <div class="o-container">
+    <div class="c-footer__top">
+      <p class="c-category-title c-footer__top__title u-text-light">Embark is part of the Status Network</p>
+      <ul class="o-list-inline">
+        <li class="o-list-inline__item">
+          <a href="https://keycard.status.im" title="Keycard by Status"><img src="/../assets/images/keycard-logo-negative.svg" alt="Keycard Logo"></a>
+        </li>
+        <li class="o-list-inline__item">
+          <a href="https://nimbus.status.im" title="Nimbus by Status"><img src="/../assets/images/Nimbus.svg" alt="Nimbus Logo"></a>
+        </li>
+        <li class="o-list-inline__item">
+          <a href="https://status.im" title="Status"><img src="/../assets/images/status-logo.svg" alt="Status Logo"></a>
+        </li>
+      </ul>
+    </div>
+    <div class="c-footer__body">
+      <div class="o-grid">
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <a href="/" class="c-logo c-logo--negative" title="Embark">Embark</a>
+          <!-- <form action="" class="o-distance-m">
+            <select name="select-language" id="sel-language">
+              <option value="Englisch">Englisch</option>
+              <option value="Deutsch">Deutsch</option>
+            </select>
+          </form> -->
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Ressources</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="/docs/quick_start.html" class="u-link-ghost" title="Quickstart">Quickstart</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs" class="u-link-ghost" title="Official Documentation">Documentation</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/news" class="u-link-ghost" title="Blog">Blog</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/faq.html" class="u-link-ghost" title="FAQ">FAQ</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/troubleshooting.html" class="u-link-ghost" title="Troubleshooting">Troubleshooting</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Help</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://stackoverflow.com/questions/tagged/embark" class="u-link-ghost" title="Embark Questions">Stack Overflow</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://gitter.im/embark-framework/Lobby" class="u-link-ghost" title="Gitter">Gitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/issues" class="u-link-ghost" title="Issues on GitHub">Report issues</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/blob/master/CODE_OF_CONDUCT.md" class="u-link-ghost" title="Code of Conduct">Code of Conduct</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Community</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework" class="u-link-ghost" title="Github">Github</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://twitter.com/EmbarkProject" class="u-link-ghost" title="Twitter">Twitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/contributing.html" class="u-link-ghost" title="Contribute">Contribute</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/community/#team" class="u-link-ghost" title="Team">Team</a>
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">More</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="" class="u-link-ghost" title="Jobs">Jobs</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="" class="u-link-ghost" title="Privacy Policy">Privacy Policy</a>
+            </li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
+    <div class="c-footer__bottom">
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019 Embark
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+      const EMBARK_DOC_VERSIONS = {
+        'latest': 'https://embark.status.im/docs','3.2': 'https://5ca4e0fdb29712000adde37f--embark-site-versions.netlify.com/docs/'
+      };
+    </script>
+    <script src="/js/index.js"></script>
+
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+      });
+    </script>
+    
+  </body>
+</html>
+

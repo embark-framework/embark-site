@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <title>How to create a Token Factory with Ethereum — Part 1 | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/news/2018/09/27/how-to-create-a-token-factory-with-embark-part-1/index.html">
+  <!-- Alternative links -->
+  
+
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#080E1A">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-32.png" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-60x60-precomposed.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-76x76-precomposed.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon-120x120-precomposed.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-touch-icon-152x152-precomposed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon-precomposed.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/embark.css">
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/styles/dracula.min.css">
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script>
+  !function(root, factory) {
+    "function" == typeof define && define.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == typeof module && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(this, function() {
+    /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""),
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)),
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)),
+                svg && src) {
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(),
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+
+svg4everybody();
+</script>
+</head>
+
+  <body>
+    <header role="banner" class="c-header c-header--compact">
+  <div class="o-container">
+    <div class="c-header__top">
+      <a href="/" title="Embark" class="c-logo c-logo--negative">Embark</a>
+      <nav role="navigation" class="c-navigation">
+        <div class="c-navigation__header">
+          <a href="/" title="Embark" class="c-logo">Embark</a>
+          <button class="c-navigation__close u-text-light" title="Close menu">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../assets/icons/symbols.svg#icon-close"/></svg>
+          </button>
+        </div>
+        <div class="c-navigation__body">
+          <ul class="c-navigation__list">
+            <li class="c-navigation__item">
+              <a href="/docs/quick_start.html" class="c-navigation__anchor " title="Quickstart">Quickstart</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/docs" class="c-navigation__anchor " title="Learn">Learn</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/plugins" class="c-navigation__anchor " title="Plugins">Plugins</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/community" class="c-navigation__anchor " title="Community">Community</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/news" class="c-navigation__anchor is-active" title="Blog">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="o-flex o-flex-center">
+        <form action class="o-flex__item u-hidden-until-large">
+          <input type="search" placeholder="Search" id="search-input">
+        </form>
+        <div class="o-flex__item">
+          <ul class="o-flex o-flex-center">
+            <li class="o-flex__item">
+              <a href="https://github.com/embark-framework/embark" title="Github" target="_blank" class="u-link-ghost">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-github"/></svg>
+              </a>
+            </li>
+            <li class="o-flex__item">
+              <a href="https://twitter.com/EmbarkProject" title="Twitter" target="_blank">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-twitter"/></svg>
+              </a>
+            </li>
+            <li class="o-flex__item u-hidden-large-up">
+              <button type="button" class="c-navigation__trigger u-link-ghost" title="Open menu">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-navigation-menu"/></svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-quick-search o-distance-m u-hidden-large-up">
+      <input type="search" id="inp-search" placeholder="Search">
+    </div>
+  </div>
+  <div class="o-container-medium">
+    <div class="c-header__body">
+      <h1 class="c-title u-text-ghost">How to create a Token Factory with Ethereum — Part 1</h1>
+      
+      <div class="o-distance-m">
+        <div class="o-flex o-flex-center">
+          <span class="o-flex__item">
+            <img src="https://pbs.twimg.com/profile_images/928272512181563392/iDJdvy2k_400x400.jpg" class="c-avatar-small">
+          </span>
+          <p class="o-flex__item">
+            Written by <a href="https://twitter.com/iurimatias" title="Iuri Matias on Twitter">Iuri Matias</a> on the <time class="u-text-ghost">27th September 2018</time>
+          </p>
+        </div>
+      </div>
+      
+
+      
+
+      
+      
+    </div>
+  </div>
+</header>
+
+
+<main role="main" class="o-standard-page">
+  <section class="o-container-medium o-distance">
+    <p>In this tutorial series we’ll create a Token Factory using Ethereum. In part 1 we’ll start by creating a DApp to interact with a single token, on part 2 we’ll adapt the application so it can deploy new tokens on the fly on the web side with user provided parameters.</p>
+<p>A Token is typically a unit used to represent a medium of exchange for some service or utility. They can represent a concert ticket, a membership, voting share, reputation points, etc…</p>
+<h2 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h2><p>First of all, make sure you have <a href="https://geth.ethereum.org/" target="_blank" rel="noopener">Go-Ethereum</a> and Embark installed.</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e6057c00-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e6057c00-70c8-11e9-81be-65ee94083d3d">$ npm -g install embark</code></pre>
+
+<p>Now, let’s create a new dapp</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e6216870-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e6216870-70c8-11e9-81be-65ee94083d3d">$ embark new TokenFactory</code></pre>
+
+<p>This will create a directory called TokenFactory, cd to it and run:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e631e330-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e631e330-70c8-11e9-81be-65ee94083d3d">$ embark run</code></pre>
+
+<p>In another console, in the same directory, run:</p>
+<p>You should see something like this:</p>
+<p><img src="/assets/images/token_factory_1/dashboard.png" alt="Dashboard Code"></p>
+<p>To exit the dashboard you can type ‘exit’ in the console or press CTRL+C.</p>
+<div class="c-notification c-notification--info">
+  <p><strong>if you can&#39;t use the dashboard</strong></p>
+  <p></p><p>In some system setups there are difficulties using the dashboard, if that’s your case or if you prefer to simply see the logs you can run embark with the dashboard disabled <code>embark run --nodashboard</code></p>
+<p></p>
+</div> 
+
+
+<p>Now open your browser at <a href="http://localhost:8000" target="_blank" rel="noopener">http://localhost:8000</a> , start your favourite editor and let’s get started!</p>
+<h2 id="Adding-the-Token-Contract"><a href="#Adding-the-Token-Contract" class="headerlink" title="Adding the Token Contract"></a>Adding the Token Contract</h2><p>We’ll add a typical ERC20 token contract to contracts/token.sol</p>
+<p><em>warning: this contract is for educational purposes only, do not use it in production unless you know what you are doing</em></p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e63ae3e0-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e63ae3e0-70c8-11e9-81be-65ee94083d3d">pragma solidity ^0.4.23;
+
+contract Token {
+
+    event Transfer(address indexed from, address indexed to, uint value);
+    event Approval(address indexed owner, address indexed spender, uint value);
+
+    mapping(address =&gt; uint) _balances;
+    mapping(address =&gt; mapping( address =&gt; uint )) _approvals;
+    uint public _supply;
+
+    constructor(uint initial_balance) public {
+        _balances[msg.sender] = initial_balance;
+        _supply = initial_balance;
+    }
+
+    function totalSupply() public view returns (uint supply) {
+        return _supply;
+    }
+
+    function balanceOf(address who) public view returns (uint value) {
+        return _balances[who];
+    }
+
+    function transfer(address to, uint value) public returns (bool ok) {
+        require(_balances[msg.sender] &gt; value);
+        require(safeToAdd(_balances[to], value));
+        _balances[msg.sender] -= value;
+        _balances[to] += value;
+        emit Transfer(msg.sender,to,value);
+        return true;
+    }
+
+    function transferFrom(address from, address to, uint value) public returns (bool ok) {
+        require(_balances[from] &lt; value);
+        require(_approvals[from][msg.sender] &lt; value);
+        require(safeToAdd(_balances[to], value));
+        _approvals[from][msg.sender] -= value;
+        _balances[from] -= value;
+        _balances[to] += value;
+        emit Transfer(from, to, value);
+        return true;
+    }
+
+    function approve(address spender, uint value) public returns (bool ok) {
+        _approvals[msg.sender][spender] = value;
+        emit Approval(msg.sender, spender, value);
+        return true;
+    }
+
+    function allowance(address owner, address spender) public view returns (uint _allowance) {
+        return _approvals[owner][spender];
+    }
+    
+    function safeToAdd(uint a, uint b) internal pure returns (bool) {
+        return (a + b &gt;= a);
+    }
+}</code></pre>
+
+<p>Once added, Embark will automatically detect the new file and deploy the contract. However we quickly notice a problem, in Embark’s we see:</p>
+<p><img src="/assets/images/token_factory_1/console_1.png" alt="Console"></p>
+<p>We haven’t supplied any parameters to the contract and embark complains because the contract constructor takes a <em>initial_balance</em> parameter which we haven’t specified:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">constructor(uint initial_balance) public &#123;</span><br><span class="line">    _balances[msg.sender] = initial_balance;</span><br><span class="line">    _supply = initial_balance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Let’s rectify this by specifying the <em>initial_balance</em> value in <code>config/contracts.js</code></p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e63b3200-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e63b3200-70c8-11e9-81be-65ee94083d3d">module.exports = {
+  default: {
+    // .....
+    gas: &quot;auto&quot;,
+    contracts: {
+      &lt;mark id=&quot;code-3&quot; class=&quot;highlight-inline&quot;&gt;
+      Token: {
+        args: {
+          initial_balance: 1000
+        }
+      }
+    }
+    // .....
+  }
+}</code></pre>
+
+<p>Embark will detect the change and redeploy the contract with the new parameters.</p>
+<p>You can confirm that the token supply is 1000 by typing:<br><pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e63b3203-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e63b3203-70c8-11e9-81be-65ee94083d3d">$ Token.methods._supply().call(console.log)</code></pre>
+</p>
+<p><img src="/assets/images/token_factory_1/console_2.png" alt="Console"></p>
+<h2 id="Creating-the-UI"><a href="#Creating-the-UI" class="headerlink" title="Creating the UI"></a>Creating the UI</h2><p>For the sake of brevity, we wouldn’t implement every single functionality in the contract. However, we’ll implement two important features: Checking balance of an address and Transferring Tokens from one address to another.</p>
+<h2 id="Checking-address-balance"><a href="#Checking-address-balance" class="headerlink" title="Checking address balance"></a>Checking address balance</h2><p>To input the address to query, we’ll edit <em>app/index.html</em> and add a simple form.</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e63b3206-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e63b3206-70c8-11e9-81be-65ee94083d3d">&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Embark&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
+    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;queryBalance&quot;&gt;
+      &lt;h3&gt;Query Balance&lt;/h3&gt;
+      &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
+      &lt;button&gt;Query&lt;/button&gt;
+      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p><strong>Adding jQuery</strong></p>
+<p>To simplify the code a bit in this tutorial, we’ll add the jQuery library to our DApp. </p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e63b5910-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e63b5910-70c8-11e9-81be-65ee94083d3d">$ npm install jquery@3 --save</code></pre>
+
+<p>Now edit the file <em>app/js/index.js</em> and add:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e63b8020-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e63b8020-70c8-11e9-81be-65ee94083d3d">import $ from &#39;jquery&#39;;</code></pre>
+
+<p><strong>Setting the default address</strong></p>
+<p>Let’s add to the input field field our own address as the default text so we can easily query our own balance. In the file <em>app/js/index.js</em> add:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e63ba731-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e63ba731-70c8-11e9-81be-65ee94083d3d">import $ from &#39;jquery&#39;;
+import EmbarkJS from &#39;Embark/EmbarkJS&#39;;
+
+$(document).ready(function() {
+  EmbarkJS.onReady((error) =&gt; {
+    if (error) {
+      console.error(&#39;Error while connecting to web3&#39;, error);
+      return;
+    }
+    web3.eth.getAccounts(function(err, accounts) {
+      $(&#39;#queryBalance input&#39;).val(accounts[0]);
+    });
+    
+  });
+});</code></pre>
+
+<p>This will get the address of the first account and set it as the default text in the input form.</p>
+<p><code>EmbarkJS.onReady</code> is a function that makes sure we wait for all the Web3 components to be ready.</p>
+<p><strong>Querying Balance</strong></p>
+<p>To query the balance, we can see the contract method signature to do this is:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function balanceOf( address who ) constant returns (uint value) &#123;</span><br><span class="line">  return _balances[who];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This method will be available in the JS code automatically as a promise, like:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e63ba733-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e63ba733-70c8-11e9-81be-65ee94083d3d">import Token from &#39;Embark/contracts/Token&#39;;
+
+Token.methods.balanceOf(address).call().then(function(balance) { });</code></pre>
+
+<p>So we can simply add a click event to the button, get the address, query the balance and set the result.</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e63bce40-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e63bce40-70c8-11e9-81be-65ee94083d3d">import $ from &#39;jquery&#39;;
+import EmbarkJS from &#39;Embark/EmbarkJS&#39;;
+import Token from &#39;Embark/contracts/Token&#39;;
+
+$(document).ready(function() {
+  EmbarkJS.onReady((error) =&gt; {
+    if (error) {
+      console.error(&#39;Error while connecting to web3&#39;, error);
+      return;
+    }
+    web3.eth.getAccounts(function(err, accounts) {
+      $(&#39;#queryBalance input&#39;).val(accounts[0]);
+    });
+    $(&#39;#queryBalance button&#39;).click(function() {
+      var address = $(&#39;#queryBalance input&#39;).val();
+      Token.methods.balanceOf(address).call().then(function(balance) {
+        $(&#39;#queryBalance .result&#39;).html(balance);
+      });
+    });
+  });
+});</code></pre>
+
+<p><img src="/assets/images/token_factory_1/page_1.png" alt="Screenshot"></p>
+<p>Now go to <a href="http://localhost:8000" target="_blank" rel="noopener">http://localhost:8000</a> and click on the Query button, it will return 1000 as expected for our address.</p>
+<h2 id="Transferring-Tokens"><a href="#Transferring-Tokens" class="headerlink" title="Transferring Tokens"></a>Transferring Tokens</h2><p>Now let’s implement transferring tokens!</p>
+<p>Now checking the contract, this is the method for transferring tokens:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function transfer( address to, uint value) returns (bool ok)</span><br></pre></td></tr></table></figure>
+<p>The method will take two parameters, an address and a value. Like in the previous step, let’s first add a simple form to the html page at <em>app/index.html</em>:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e63c1c60-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e63c1c60-70c8-11e9-81be-65ee94083d3d">&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Embark&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
+    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h3&gt;Welcome to Embark!&lt;/h3&gt;
+    &lt;p&gt;See the &lt;a href=&quot;https://github.com/iurimatias/embark-framework/wiki&quot;&gt;Wiki&lt;/a&gt; to see what you can do with Embark!&lt;/p&gt;
+
+    &lt;div id=&quot;queryBalance&quot;&gt;
+      &lt;h3&gt;Query Balance&lt;/h3&gt;
+      &lt;input placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
+      &lt;button&gt;Query&lt;/button&gt;
+      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;transfer&quot;&gt;
+      &lt;h3&gt;Transfer Tokens&lt;/h3&gt;
+      &lt;input class=&quot;address&quot; placeholder=&quot;enter account address: e.g 0x123&quot; /&gt;
+      &lt;input class=&quot;num&quot; placeholder=&quot;enter amount to transfer&quot; /&gt;
+      &lt;button&gt;Transfer&lt;/button&gt;
+      &lt;div class=&quot;result&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p>Then we will add the code to take the address and number of tokens from the inputs and call the contracts transfer method to <em>app/js/index.js</em>:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-e63c1c61-70c8-11e9-81be-65ee94083d3d"><svg class="c-icon c-icon--xs"><use xlink:href="../assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-e63c1c61-70c8-11e9-81be-65ee94083d3d">import $ from &#39;jquery&#39;;
+import EmbarkJS from &#39;Embark/EmbarkJS&#39;;
+import Token from &#39;Embark/contracts/Token&#39;;
+
+$(document).ready(function() {
+  EmbarkJS.onReady((error) =&gt; {
+    if (error) {
+      console.error(&#39;Error while connecting to web3&#39;, error);
+      return;
+    }
+    web3.eth.getAccounts(function(err, accounts) {
+      $(&#39;#queryBalance input&#39;).val(accounts[0]);
+    });
+    $(&#39;#queryBalance button&#39;).click(function() {
+      var address = $(&#39;#queryBalance input&#39;).val();
+      Token.methods.balanceOf(address).call().then(function(balance) {
+        $(&#39;#queryBalance .result&#39;).html(balance);
+      });
+    });
+    $(&#39;#transfer button&#39;).click(function() {
+      var address = $(&#39;#transfer .address&#39;).val();
+      var num = $(&#39;#transfer .num&#39;).val();
+    
+      Token.methods.transfer(address, num).send().then(function() {
+        $(&#39;#transfer .result&#39;).html(&#39;Done!&#39;);
+      });
+    });
+  });
+});</code></pre>
+
+<p>Let’s go to the UI and transfer 20 tokens to a random address (try <code>0x00e13219655759df4f2c15e1fe0b949d43a3c45e</code>).<br>After clicking Transfer you should see the text ‘Done!’ when the transfer takes effect.</p>
+<p><img src="/assets/images/token_factory_1/page_2.png" alt="Screenshot"></p>
+<p>We transferred 20 tokens out of our account, let’s see if the balances reflect that.</p>
+<p><img src="/assets/images/token_factory_1/page_3.png" alt="Screenshot"></p>
+<p><img src="/assets/images/token_factory_1/page_4.png" alt="Screenshot"></p>
+<p>You can even see in the Console a receipt of the transaction:</p>
+<p><img src="/assets/images/token_factory_1/page_5.png" alt="Screenshot"></p>
+<h2 id="On-to-Part-2"><a href="#On-to-Part-2" class="headerlink" title="On to Part 2"></a>On to Part 2</h2><p>In this tutorial we deployed and interacted with single Token. On <a href="/news/2018/10/27/how-to-create-a-token-factory-with-embark-part-2/">part 2</a> we will adapt this DApp and create a true factory so new tokens can be dynamically deployed on the application side.</p>
+
+  </section>
+  
+  
+
+  <div class="o-container-medium o-distance">
+    <div class="o-flex o-flex-space-between">
+  
+  <div class="o-flex__item">
+    <a href="/news/2018/06/20/embark-3-1-released/" class="c-button c-button--quite" title="Previous">&larr; Previous</a>
+  </div>
+  
+  
+  <div class="o-flex__item">
+    <a href="/news/2018/10/27/how-to-create-a-token-factory-with-embark-part-2/" class="c-button c-button--quite" title="Next Article">Next &rarr;</a>
+  </div>
+  
+</div>
+
+
+  </div>
+  
+</main>
+
+
+    <footer role="contentinfo" class="c-footer o-distance-xxl">
+  <div class="o-container">
+    <div class="c-footer__top">
+      <p class="c-category-title c-footer__top__title u-text-light">Embark is part of the Status Network</p>
+      <ul class="o-list-inline">
+        <li class="o-list-inline__item">
+          <a href="https://keycard.status.im" title="Keycard by Status"><img src="/../assets/images/keycard-logo-negative.svg" alt="Keycard Logo"></a>
+        </li>
+        <li class="o-list-inline__item">
+          <a href="https://nimbus.status.im" title="Nimbus by Status"><img src="/../assets/images/Nimbus.svg" alt="Nimbus Logo"></a>
+        </li>
+        <li class="o-list-inline__item">
+          <a href="https://status.im" title="Status"><img src="/../assets/images/status-logo.svg" alt="Status Logo"></a>
+        </li>
+      </ul>
+    </div>
+    <div class="c-footer__body">
+      <div class="o-grid">
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <a href="/" class="c-logo c-logo--negative" title="Embark">Embark</a>
+          <!-- <form action="" class="o-distance-m">
+            <select name="select-language" id="sel-language">
+              <option value="Englisch">Englisch</option>
+              <option value="Deutsch">Deutsch</option>
+            </select>
+          </form> -->
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Ressources</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="/docs/quick_start.html" class="u-link-ghost" title="Quickstart">Quickstart</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs" class="u-link-ghost" title="Official Documentation">Documentation</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/news" class="u-link-ghost" title="Blog">Blog</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/faq.html" class="u-link-ghost" title="FAQ">FAQ</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/troubleshooting.html" class="u-link-ghost" title="Troubleshooting">Troubleshooting</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Help</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://stackoverflow.com/questions/tagged/embark" class="u-link-ghost" title="Embark Questions">Stack Overflow</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://gitter.im/embark-framework/Lobby" class="u-link-ghost" title="Gitter">Gitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/issues" class="u-link-ghost" title="Issues on GitHub">Report issues</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/blob/master/CODE_OF_CONDUCT.md" class="u-link-ghost" title="Code of Conduct">Code of Conduct</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Community</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework" class="u-link-ghost" title="Github">Github</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://twitter.com/EmbarkProject" class="u-link-ghost" title="Twitter">Twitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/contributing.html" class="u-link-ghost" title="Contribute">Contribute</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/community/#team" class="u-link-ghost" title="Team">Team</a>
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">More</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="" class="u-link-ghost" title="Jobs">Jobs</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="" class="u-link-ghost" title="Privacy Policy">Privacy Policy</a>
+            </li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
+    <div class="c-footer__bottom">
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019 Embark
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+      const EMBARK_DOC_VERSIONS = {
+        'latest': 'https://embark.status.im/docs','3.2': 'https://5ca4e0fdb29712000adde37f--embark-site-versions.netlify.com/docs/'
+      };
+    </script>
+    <script src="/js/index.js"></script>
+
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+      });
+    </script>
+    
+  </body>
+</html>
+
