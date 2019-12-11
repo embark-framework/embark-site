@@ -1,3 +1,10 @@
+## IMPORTANT
+
+**This repository was moved to the Embark monorepo, here: https://github.com/embark-framework/embark/tree/master/site**
+
+------------------------------
+-----------------------------
+
 # Embark Official Website
 
 The website for Embark.
