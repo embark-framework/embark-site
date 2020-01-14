@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>Building a decentralized Reddit with Embark - Part 1 | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/news/2019/02/04/building-a-decentralized-reddit-with-embark-part-1/index.html">
+  <!-- Alternative links -->
+  
+
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#080E1A">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-32.png" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-60x60-precomposed.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-76x76-precomposed.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon-120x120-precomposed.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-touch-icon-152x152-precomposed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon-precomposed.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/embark.css">
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/styles/dracula.min.css">
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script>
+  !function(root, factory) {
+    "function" == typeof define && define.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == typeof module && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(this, function() {
+    /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""),
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)),
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)),
+                svg && src) {
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(),
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+
+svg4everybody();
+</script>
+</head>
+
+  <body>
+    <header role="banner" class="c-header c-header--compact">
+  <div class="o-container">
+    <div class="c-header__top">
+      <a href="/" title="Embark" class="c-logo c-logo--negative">Embark</a>
+      <nav role="navigation" class="c-navigation">
+        <div class="c-navigation__header">
+          <a href="/" title="Embark" class="c-logo">Embark</a>
+          <button class="c-navigation__close u-text-light" title="Close menu">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../assets/icons/symbols.svg#icon-close"></use></svg>
+          </button>
+        </div>
+        <div class="c-navigation__body">
+          <ul class="c-navigation__list">
+            <li class="c-navigation__item">
+              <a href="/docs/quick_start.html" class="c-navigation__anchor " title="Quick Start">Quick Start</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/docs" class="c-navigation__anchor " title="Learn">Learn</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/plugins" class="c-navigation__anchor " title="Plugins">Plugins</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/community" class="c-navigation__anchor " title="Community">Community</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/news" class="c-navigation__anchor is-active" title="Blog">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="o-flex o-flex-center">
+        <form action="" class="o-flex__item u-hidden-until-large">
+          <input type="search" placeholder="Search" id="search-input">
+        </form>
+        <div class="o-flex__item">
+          <ul class="o-flex o-flex-center">
+            <li class="o-flex__item">
+              <a href="https://github.com/embark-framework/embark" title="Github" target="_blank" class="u-link-ghost">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-github"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item">
+              <a href="https://twitter.com/EmbarkProject" title="Twitter" target="_blank">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-twitter"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item u-hidden-large-up">
+              <button type="button"class="c-navigation__trigger u-link-ghost" title="Open menu">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-navigation-menu"></use></svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-quick-search o-distance-m u-hidden-large-up">
+      <input type="search" id="inp-search" placeholder="Search">
+    </div>
+  </div>
+  <div class="o-container-medium">
+    <div class="c-header__body">
+      <h1 class="c-title u-text-ghost">Building a decentralized Reddit with Embark - Part 1</h1>
+      
+      <div class="o-distance-m">
+        <div class="o-flex o-flex-center">
+          <span class="o-flex__item">
+            <img src="https://pbs.twimg.com/profile_images/993785060733194241/p3oAIMDP_400x400.jpg" class="c-avatar-small">
+          </span>
+          <p class="o-flex__item">
+            Written by <a href="https://twitter.com/pascalprecht" title="Pascal Precht on Twitter">Pascal Precht</a> on the <time class="u-text-ghost">4th February 2019</time>
+          </p>
+        </div>
+      </div>
+      
+
+      
+
+      
+      
+    </div>
+  </div>
+</header>
+
+
+<main role="main" class="o-standard-page">
+  <section class="o-container-medium o-distance">
+    <p>In this tutorial we want to get very practical and build a decentralized Reddit application from scratch using Embark. The goal is to get a better idea of not only what parts and components are involved when building such an application, but also which steps are required to get there, without getting too overwhelmed.</p>
+<p>This tutorial is split up into three parts, so every individual part can get our full attention. The three parts are going to be:</p>
+<ul>
+<li><strong>Part 1</strong> - Setting up the project and implementing a Smart Contract</li>
+<li><a href="/news/2019/02/11/building-a-decentralized-reddit-with-embark-part-2/"><strong>Part 2</strong> - Testing the Smart Contract through EmbarkJS</a></li>
+<li><a href="/news/2019/02/18/building-a-decentralized-reddit-with-embark-part-3/"><strong>Part 3</strong> - Building a simple front-end using React</a></li>
+</ul>
+<p><strong>The code for this tutorial can be found in <a href="https://github.com/embark-framework/dreddit-tutorial" target="_blank" rel="noopener">this repository</a></strong>.</p>
+<p>Let’s get right to it!</p>
+<h2 id="Functionality-Overview"><a href="#Functionality-Overview" class="headerlink" title="Functionality Overview"></a>Functionality Overview</h2><p>Alright, let’s start off with quickly talking about what exactly it is that we want to build. Obviously, Reddit is a pretty sophisticated platform so we won’t be able to rebuild it completely. Instead, we’ll be focusing on some key features that will also demonstrate very nicely how Embark can help building such an application.</p>
+<p>The idea is very simple: Our app is called <strong>DReddit</strong> which lets users post topics and everyone else should be able to up and downvote topics. A user account is coupled to an Ethereum wallet account. Essentially every wallet account is a valid account for the application and users can authenticate using extensions like Metamask.</p>
+<p>We will create a Smart Contract that implements the features of posting topics and voting on them. There’s going to be a UI as well, built with React, but we’ll do that in the third part of this series.</p>
+<h2 id="Setting-up-the-application"><a href="#Setting-up-the-application" class="headerlink" title="Setting up the application"></a>Setting up the application</h2><p>If you’ve read our guide on <a href="/docs/create_project.html">Creating Applications</a> or our last tutorial on <a href="/news/2019/01/22/building-smart-contract-only-dapps/">Building Smart Contract only apps</a>, you know that Embark comes with a <code>new</code> command to scaffold an application. We’re going to do exactly that, but first we need to make sure Embark is installed. For a complete guide on installing Embark, head over to <a href="/docs/installation.html">our docs</a>, otherwise, simply run the following command in your terminal of choice:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ npm install -g embark</span><br></pre></td></tr></table></figure>
+
+<p>Next, we’ll create and set up our app using the <code>new</code> command:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ embark new dreddit</span><br><span class="line">$ cd dreddit</span><br></pre></td></tr></table></figure>
+
+<p>Now is a good time to familiarize ourselves with the project structure. The most important directories in are <code>contracts</code>, this is where out Smart Contracts go, and <code>app</code>, which will be our front-end. Take your time to take a look and check out our <a href="/docs/structure.html">Application Structure</a> guide for more detailed overview.</p>
+<p>Also, to ensure and double-check that everything’s working, we can run the application using Embark’s <code>run</code> command:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ embark run</span><br></pre></td></tr></table></figure>
+
+<p>If there are any issues in the “Available Services” section of the dashboard, go back to our <a href="/docs/installation.html">installation guide</a> and make sure all tools are available on your machine.</p>
+<h2 id="Creating-the-Smart-Contract"><a href="#Creating-the-Smart-Contract" class="headerlink" title="Creating the Smart Contract"></a>Creating the Smart Contract</h2><p>Alright, next up we want to create the brain of our application, which is a Smart Contract written in <a href="https://solidity.readthedocs.io/en/v0.5.3/" target="_blank" rel="noopener">Solidity</a>, that enables creating posts and votes. We’re going to build it up step by step and afterwards we’ll add some tests to ensure our code is actually working.</p>
+<p>First thing we do is creating a file <code>DReddit.sol</code> inside <code>contracts</code> with a Smart Contract like this:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-23b42150-36cb-11ea-b9d9-f3cda8ab32f3"><svg class="c-icon c-icon--xs"><use xlink:href="/assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-23b42150-36cb-11ea-b9d9-f3cda8ab32f3">pragma solidity ^0.5.0;
+
+contract DReddit {
+
+}</code></pre>
+
+
+<p>Great! With that in place, let’s introduce a couple of data structures for creating and storing topic posts. Let’s say a post will have a creation date, a description and an address of the owner. There’s a few more things we’ll have to add, but let’s do it one step at a time. Here’s what a <code>Post</code> struct could look like:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-23d40562-36cb-11ea-b9d9-f3cda8ab32f3"><svg class="c-icon c-icon--xs"><use xlink:href="/assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-23d40562-36cb-11ea-b9d9-f3cda8ab32f3">struct Post {
+  uint creationDate;
+  bytes description;
+  address owner;
+}</code></pre>
+
+
+<p>We’re also going to add an array to store all of our posts. Now that we have a <code>Post</code> struct, this is a simple as:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-23ec6f60-36cb-11ea-b9d9-f3cda8ab32f3"><svg class="c-icon c-icon--xs"><use xlink:href="/assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-23ec6f60-36cb-11ea-b9d9-f3cda8ab32f3">Post [] public posts;</code></pre>
+
+
+<h3 id="Creating-posts"><a href="#Creating-posts" class="headerlink" title="Creating posts"></a>Creating posts</h3><p>It’s time to add our first method which will enable users to add new posts to the platform. For that, we’ll create the method <code>createPost(bytes _description)</code> where <code>_description</code> are the bytes that represent the posts text.</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-23f17870-36cb-11ea-b9d9-f3cda8ab32f3"><svg class="c-icon c-icon--xs"><use xlink:href="/assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-23f17870-36cb-11ea-b9d9-f3cda8ab32f3">function createPost(bytes _description) public {
+  uint postId = posts.length++;
+  posts[postId] = Post({
+    creationDate: block.timestamp,
+    description: _description,
+    owner: msg.sender
+  });
+}</code></pre>
+
+
+<p>The first thing we do is creating an id for the post to be stored. We then use our <code>Post</code> struct to create a new post instance. Notice that we leverage the <code>postId</code> when storing the Post in our <code>posts</code> array. To set the owner, we take advantage of Solidity’s global <code>msg</code> object which is available in every transaction.</p>
+<h3 id="Emitting-events"><a href="#Emitting-events" class="headerlink" title="Emitting events"></a>Emitting events</h3><p>As we’re planning to build a front-end that reacts to posts being created, we need to emit an event so the front-end can subscribe to it accordingly. For that, we first introduce a new event type <code>NewPost</code> which will look something like this:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-23f41081-36cb-11ea-b9d9-f3cda8ab32f3"><svg class="c-icon c-icon--xs"><use xlink:href="/assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-23f41081-36cb-11ea-b9d9-f3cda8ab32f3">event NewPost(
+  uint indexed postId,
+  address owner,
+  bytes description
+)</code></pre>
+
+
+<p>Once that is done, all we have to do is emit <code>NewPost</code> inside <code>createPost()</code> with the required data:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-23f4fae2-36cb-11ea-b9d9-f3cda8ab32f3"><svg class="c-icon c-icon--xs"><use xlink:href="/assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-23f4fae2-36cb-11ea-b9d9-f3cda8ab32f3">function createPost(bytes _description) public {
+  ...
+  emit NewPost(postId, msg.sender, _description);
+}</code></pre>
+
+
+<h3 id="Up-and-down-voting-posts"><a href="#Up-and-down-voting-posts" class="headerlink" title="Up and down voting posts"></a>Up and down voting posts</h3><p>As mentioned earlier, Reddit allows for up and down voting topic posts. In order to get the same functionality, we need to extend our <code>Post</code> struct with vote counters, as well as introducing an enum that will represent the available vote types. We also add a new event <code>NewVote</code> for the same reasons we’ve introduced <code>NewPost</code> earlier. Once that is done, we can add a method that performs actual votes.</p>
+<p>Let’s start by adding an enum type calld <code>Ballot</code> that aggregates possible vote types:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">enum Ballot &#123; NONE, UPVOTE, DOWNVOTE &#125;</span><br></pre></td></tr></table></figure>
+
+<p>To store votes on posts, we’ll add an <code>upvotes</code> and <code>downvotes</code> counter to our <code>Post</code> struct accordingly. We’ll also add a mapping that stores all the voters, so we can check and ensure that nobody tries to vote multiple times:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">struct Post &#123;</span><br><span class="line">  ...</span><br><span class="line">  uint upvotes;</span><br><span class="line">  uint downvotes;</span><br><span class="line">  mapping(address =&gt; Ballot) voters;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Here’s the <code>NewPost</code> event which we’ll use in a few moments:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-23f521f2-36cb-11ea-b9d9-f3cda8ab32f3"><svg class="c-icon c-icon--xs"><use xlink:href="/assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-23f521f2-36cb-11ea-b9d9-f3cda8ab32f3">event NewVote(
+  uint indexed postId,
+  address owner,
+  uint8 vote
+);</code></pre>
+
+
+<p>Last but not least, we have to update our <code>createPost()</code> function as the <code>Post</code> struct now needs <code>upvotes</code> and <code>downvotes</code>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function createPost(bytes _description) public &#123;</span><br><span class="line">  ...</span><br><span class="line">  posts[postId] = Post(&#123;</span><br><span class="line">    ...</span><br><span class="line">    upvotes: 0,</span><br><span class="line">    downvotes: 0</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>With these building blocks at hand, let’s implement a <code>vote(uint postId, uint8 _vote)</code> method. <code>_vote</code> is going to be one of our defined <code>Ballot</code> types and is represented as uint going from 0 - 2. We’ll use Solidity’s <code>require()</code> statement to ensure we only vote on posts that actually exist, as well as nobody can actually vote multiple times on the same post.</p>
+<p>We then increment the up or down vote counter respectively, store the voter and emit a <code>NewVote</code> event:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-23f521f4-36cb-11ea-b9d9-f3cda8ab32f3"><svg class="c-icon c-icon--xs"><use xlink:href="/assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-23f521f4-36cb-11ea-b9d9-f3cda8ab32f3">function vote(uint _postId, uint8 _vote) public {
+  Post storage post = posts[_postId];
+
+  require(post.creationDate != 0, &quot;Post does not exist&quot;);
+  require(post.voters[msg.sender] == Ballot.NONE, &quot;You already voted on this post&quot;);
+
+  Ballot ballot = Ballot(_vote);
+
+  if (ballot == Ballot.UPVOTE) {
+      post.upvotes++;
+  } else {
+      post.downvotes++;
+  }
+
+  post.voters[msg.sender] = ballot;
+  emit NewVote(_postId, msg.sender, _vote);
+}</code></pre>
+
+
+<h3 id="Determine-if-users-can-vote"><a href="#Determine-if-users-can-vote" class="headerlink" title="Determine if users can vote"></a>Determine if users can vote</h3><p>We probably want to add an indication to the UI that a user has already voted on a certain post. For that it’d be handy to have an API that actually tells us whether a user can vote on a post. We’ve already discussed earlier that users can’t vote multiple times on the same post, so figuring out if a user can vote is pretty straight forward. Here’s what a <code>canVote(uint _postId)</code> method could look like:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-23f54901-36cb-11ea-b9d9-f3cda8ab32f3"><svg class="c-icon c-icon--xs"><use xlink:href="/assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-23f54901-36cb-11ea-b9d9-f3cda8ab32f3">function canVote(uint _postId) public view returns (bool) {
+  if (_postId &gt; posts.length - 1) return false;
+  Post storage post = posts[_postId];
+  return (post.voters[msg.sender] == Ballot.NONE);
+}</code></pre>
+
+
+<h3 id="Fetching-votes"><a href="#Fetching-votes" class="headerlink" title="Fetching votes"></a>Fetching votes</h3><p>We also need a way to actually let users check what they’ve voted for, in case they did. For that we’ll add a simple <code>getVote()</code> method that looks something like this:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-23f59721-36cb-11ea-b9d9-f3cda8ab32f3"><svg class="c-icon c-icon--xs"><use xlink:href="/assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-23f59721-36cb-11ea-b9d9-f3cda8ab32f3">function getVote(uint _postId) public view returns (uint8) {
+  Post storage post = posts[_postId];
+  return uint8(post.voters[msg.sender]);
+}</code></pre>
+
+
+<p>And with that, our Smart Contract is pretty much done! Just to make sure that everything is compiling smoothly, we can execute <code>embark build --contracts</code> in case there’s no existing Embark instance watching our work already.</p>
+<p>Here’s the complete Smart Contract code (you can also find it in <a href="https://github.com/embark-framework/dreddit-tutorial" target="_blank" rel="noopener">this repository</a>:</p>
+<pre class="highlight "><button class="c-button c-button--squared" data-clipboard-target="#code-23f5be31-36cb-11ea-b9d9-f3cda8ab32f3"><svg class="c-icon c-icon--xs"><use xlink:href="/assets/icons/symbols.svg#icon-copy-paste"/></svg></button><code id="code-23f5be31-36cb-11ea-b9d9-f3cda8ab32f3">pragma solidity ^0.5.0;
+
+contract DReddit {
+
+  enum Ballot { NONE, UPVOTE, DOWNVOTE }
+
+  struct Post {
+    uint creationDate;
+    bytes description;
+    address owner;
+    uint upvotes;
+    uint downvotes;
+    mapping(address =&gt; Ballot) voters;
+  }
+
+  Post [] public posts;
+
+  event NewPost(
+    uint indexed postId,
+    address owner,
+    bytes description
+  );
+
+  event NewVote(
+    uint indexed postId,
+    address owner,
+    uint8 vote
+  );
+
+  function createPost(bytes memory _description) public {
+    uint postId = posts.length++;
+
+    posts[postId] = Post({
+      creationDate: block.timestamp,
+      description: _description,
+      owner: msg.sender,
+      upvotes: 0,
+      downvotes: 0
+    });
+
+    emit NewPost(postId, msg.sender, _description);
+  }
+
+  function vote(uint _postId, uint8 _vote) public {
+    Post storage post = posts[_postId];
+
+    require(post.creationDate != 0, &quot;Post does not exist&quot;);
+    require(post.voters[msg.sender] == Ballot.NONE, &quot;You already voted on this post&quot;);
+
+    Ballot ballot = Ballot(_vote);
+
+    if (ballot == Ballot.UPVOTE) {
+        post.upvotes++;
+    } else {
+        post.downvotes++;
+    }
+
+    post.voters[msg.sender] = ballot;
+    emit NewVote(_postId, msg.sender, _vote);
+  }
+
+  function canVote(uint _postId) public view returns (bool) {
+    if (_postId &gt; posts.length - 1) return false;
+    Post storage post = posts[_postId];
+    return (post.voters[msg.sender] == Ballot.NONE);
+  }
+
+  function getVote(uint _postId) public view returns (uint8) {
+    Post storage post = posts[_postId];
+    return uint8(post.voters[msg.sender]);
+  }
+}</code></pre>
+
+
+<p>Wonderful! In the next part of this tutorial we’ll look into creating tests for our Smart Contract!</p>
+
+  </section>
+  
+  
+
+  <div class="o-container-medium o-distance">
+    <div class="o-flex o-flex-space-between">
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/01/28/running-embark-tests-on-a-continuous-integration-server/" class="c-button c-button--quite" title="Previous article">Previous</a>
+  </div>
+  
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/02/11/building-a-decentralized-reddit-with-embark-part-2/" class="c-button c-button--quite" title="Next article">Next</a>
+  </div>
+  
+</div>
+
+
+  </div>
+  
+</main>
+
+
+    <footer role="contentinfo" class="c-footer o-distance-xxl">
+  <div class="o-container">
+    <div class="c-footer__top">
+      <p class="c-category-title c-footer__top__title u-text-light">
+        <a href="/" class="c-logo c-logo--negative" title="Embark">Embark</a>
+      </p>
+    </div>
+    <div class="c-footer__body">
+      <div class="o-grid">
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Resources</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="/docs/quick_start.html" class="u-link-ghost" title="Quick Start">Quick Start</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs" class="u-link-ghost" title="Documentation">Documentation</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/news" class="u-link-ghost" title="Blog">Blog</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/faq.html" class="u-link-ghost" title="FAQ">FAQ</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/troubleshooting.html" class="u-link-ghost" title="Troubleshooting">Troubleshooting</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Help</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://stackoverflow.com/questions/tagged/embark" class="u-link-ghost" title="Embark Questions">Stack Overflow</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://gitter.im/embark-framework/Lobby" class="u-link-ghost" title="Gitter">Gitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/issues" class="u-link-ghost" title="Report issues">Report issues</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/blob/master/CODE_OF_CONDUCT.md" class="u-link-ghost" title="Code of Conduct">Code of Conduct</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Community</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework" class="u-link-ghost" title="Github">Github</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://twitter.com/EmbarkProject" class="u-link-ghost" title="Twitter">Twitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/contributing.html" class="u-link-ghost" title="Contribute">Contribute</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/community/#team" class="u-link-ghost" title="Team">Team</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-4">
+          <p class="c-category-title u-text-light">The Status Network</p>
+          <ul class="o-list-bare two-columns">
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://status.im/" target="_blank">Status</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://keycard.tech/" target="_blank">Keycard</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://dap.ps/" target="_blank">dap.ps</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://embark.status.im/" target="_blank">Embark</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://subspace.status.im/" target="_blank">Subspace</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://vac.dev/" target="_blank">Vac</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-footer__bottom">
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019-2020 Embark
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+      const EMBARK_DOC_VERSIONS = {
+        'latest': 'https://embark.status.im/docs','3.2': 'https://5ca4e0fdb29712000adde37f--embark-site-versions.netlify.com/docs/'
+      };
+    </script>
+
+    
+    <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
+    <script>
+    (function(f, a, t, h, o, m){
+        a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};
+        o=f.createElement('script'),
+        m=f.getElementsByTagName('script')[0];
+        o.async=1; o.src=t; o.id='fathom-script';
+        m.parentNode.insertBefore(o,m)
+    })(document, window, '//fathom.status.im/tracker.js', 'fathom');
+    fathom('set', 'siteId', 'JOQKN');
+    fathom('trackPageview');
+    </script>
+    <!-- / Fathom -->
+    
+
+    <script src="/js/index.js"></script>
+
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+      });
+    </script>
+    
+  </body>
+</html>
+

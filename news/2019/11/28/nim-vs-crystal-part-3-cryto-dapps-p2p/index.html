@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>Nim vs Crystal - Part 3 - Crypto, DApps & P2P | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/news/2019/11/28/nim-vs-crystal-part-3-cryto-dapps-p2p/index.html">
+  <!-- Alternative links -->
+  
+
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#080E1A">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-32.png" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-60x60-precomposed.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-76x76-precomposed.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon-120x120-precomposed.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-touch-icon-152x152-precomposed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon-precomposed.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/embark.css">
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/styles/dracula.min.css">
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script>
+  !function(root, factory) {
+    "function" == typeof define && define.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == typeof module && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(this, function() {
+    /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""),
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)),
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)),
+                svg && src) {
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(),
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+
+svg4everybody();
+</script>
+</head>
+
+  <body>
+    <header role="banner" class="c-header c-header--compact">
+  <div class="o-container">
+    <div class="c-header__top">
+      <a href="/" title="Embark" class="c-logo c-logo--negative">Embark</a>
+      <nav role="navigation" class="c-navigation">
+        <div class="c-navigation__header">
+          <a href="/" title="Embark" class="c-logo">Embark</a>
+          <button class="c-navigation__close u-text-light" title="Close menu">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../assets/icons/symbols.svg#icon-close"></use></svg>
+          </button>
+        </div>
+        <div class="c-navigation__body">
+          <ul class="c-navigation__list">
+            <li class="c-navigation__item">
+              <a href="/docs/quick_start.html" class="c-navigation__anchor " title="Quick Start">Quick Start</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/docs" class="c-navigation__anchor " title="Learn">Learn</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/plugins" class="c-navigation__anchor " title="Plugins">Plugins</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/community" class="c-navigation__anchor " title="Community">Community</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/news" class="c-navigation__anchor is-active" title="Blog">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="o-flex o-flex-center">
+        <form action="" class="o-flex__item u-hidden-until-large">
+          <input type="search" placeholder="Search" id="search-input">
+        </form>
+        <div class="o-flex__item">
+          <ul class="o-flex o-flex-center">
+            <li class="o-flex__item">
+              <a href="https://github.com/embark-framework/embark" title="Github" target="_blank" class="u-link-ghost">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-github"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item">
+              <a href="https://twitter.com/EmbarkProject" title="Twitter" target="_blank">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-twitter"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item u-hidden-large-up">
+              <button type="button"class="c-navigation__trigger u-link-ghost" title="Open menu">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-navigation-menu"></use></svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-quick-search o-distance-m u-hidden-large-up">
+      <input type="search" id="inp-search" placeholder="Search">
+    </div>
+  </div>
+  <div class="o-container-medium">
+    <div class="c-header__body">
+      <h1 class="c-title u-text-ghost">Nim vs Crystal - Part 3 - Crypto, DApps & P2P</h1>
+      
+      <div class="o-distance-m">
+        <div class="o-flex o-flex-center">
+          <span class="o-flex__item">
+            <img src="https://avatars1.githubusercontent.com/u/29288325?s=400&v=4" class="c-avatar-small">
+          </span>
+          <p class="o-flex__item">
+            Written by <a href="https://twitter.com/rbin" title="Robin Percy on Twitter">Robin Percy</a> on the <time class="u-text-ghost">28th November 2019</time>
+          </p>
+        </div>
+      </div>
+      
+
+      
+
+      
+      
+    </div>
+  </div>
+</header>
+
+
+<main role="main" class="o-standard-page">
+  <section class="o-container-medium o-distance">
+    <p><img src="/assets/images/nim-crystal-header-img_NEW.jpg" alt="crystal vs nim"></p>
+<p>Welcome back to my series comparing the two sweethearts of the modern low-level programming world.  Just to quickly recap: in <a href="/news/2019/11/18/nim-vs-crystal-part-1-performance-interoperability/">article #1</a> I noted my thoughts on the interoperability capabilities of the two languages, alongside briefly reviewing the performance metrics for each (albeit with relatively simple tests).  Whether simple or not, the tests <strong><em>did</em></strong> throw up some unexpected twists in the plot.  Crystal used <em>very-nearly</em> half of the memory amount executing the tests when compared to Nim, and also took <em>very nearly</em> half of the execution time in doing so.  <strong>This seriously took me by surprise!</strong></p>
+<p>In <a href="/news/2019/11/21/nim-vs-crystal-part-2-threading-tooling/">article #2</a>; I looked at the Concurrency primitives of each language, and explored both the in-built tooling, and external package ecosystems surrounding each language.  As I said in that article, one of the biggest factors I look at when considering adopting a new language; is its tooling ecosystem.  This includes, but is not limited to:  A comprehensive package manager, an intuitive testing suite, a good project scaffolder, and an in-built formatter/linter to ensure my code stays semantically correct – especially if I know I will be working in Open Source repos that others will contribute to.  But they’re just the high-level tools that I look for…</p>
+<p>From a low-level standpoint; I look for efficient use of technology in features such as in-memory storage, caching, garbage collection, and concurrency primitives that not just <em>markedly</em> improve our application performance, but that are also relatively simple, and intuitive to use.  I see <em>this</em> as particularly important as I have, in my past, seen some truly shocking examples of trying to handle multi-threading, from languages that I love *cough* <strong><em>Ruby</em></strong> *cough*. I also like to see a fully-featured standard library that takes influence from previous successful languages.  However, I digress…</p>
+<p>I regret to say that this is the final article in this series!  It’s been good fun for me; getting to the know the ins-and-outs of Nim, and to re-grow a fresh appreciation of Crystal, having put it on the back-burner for quite some time.  However,  whether the final article in the series or not, it’s going to be a good one!  We’re going to be covering the benefits to the Cryptocurrency / DApp industries from both Crystal and Nim.  So without further ado:</p>
+<p><strong><em>Let’s dive on in!</em></strong></p>
+<h2 id="Cryptocurrency"><a href="#Cryptocurrency" class="headerlink" title="Cryptocurrency"></a>Cryptocurrency</h2><p>Firstly, I’d like to talk about the possibility of using either Crystal or Nim,  (or both!) in the development of crypto apps. Hypothetically; if we had the inclination to build out our own Cryptocurrency:   Crystal and Nim have <strong><em>proven to be two of the strongest languages</em></strong> to consider for the undertaking..  (That being the <em>next</em> blog series I’m going to write – in the near future, so deciding which language to use will be heavily influenced by <strong><em>this</em></strong> blog series!)</p>
+<p>For our Cryptocurrency, we would need to be able to use an intelligent key manager, utilise smart hashing algorithms, maintain strong performance, and all of this atop of a distributed, decentralised virtual machine or blockchain.  Now, all of this sounds like a <strong><em>very</em></strong> tall order!  For all of these feature requirements to be met by a single programming language, it would mean that this language is going to have to be <strong>ONE HELL</strong> of an impressive piece of technology.</p>
+<p>Happily, both Crystal <em>and</em> Nim allow us <strong><em>all</em></strong> of the above functionality.  In our hypothetical usecase, if we were to build out a fully-featured blockchain; mining <em>and</em> hashing functions would need to be continually made, both of which entail relatively heavy computations.  As shown over the last 2 articles in the series, we can at least be sure that both langs can handle the performance stresses, no problemo.</p>
+<p>As I’d like to write this topic out into a further detailed article series, I will show off just 2 of the above pieces of functionality we’d require for our Crypto app:</p>
+<h3 id="Calculating-our-Block-Hashes"><a href="#Calculating-our-Block-Hashes" class="headerlink" title="Calculating our Block Hashes"></a>Calculating our Block Hashes</h3><p>When building our Blockchain; we need to consider how we’re going to identify and chain our transaction blocks together (blockchain).  Without going into details in <em>this</em> article on how blockchains function, we’ll stick with the existing, and proven, SHA256 algorithm.</p>
+<h3 id="In-Crystal"><a href="#In-Crystal" class="headerlink" title="In Crystal:"></a>In Crystal:</h3><figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">"json"</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">"openssl"</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">OurCryptoApp::Model</span></span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">Transaction</span></span></span><br><span class="line">    <span class="keyword">include</span> <span class="symbol">JSON:</span>:Serializable</span><br><span class="line"></span><br><span class="line">    <span class="keyword">alias</span> TxnHash = String</span><br><span class="line"></span><br><span class="line">    property from : String</span><br><span class="line">    property to : String</span><br><span class="line">    property amount : Float32</span><br><span class="line">    getter hash : TxnHash</span><br><span class="line">    getter timestamp : Int64</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">initialize</span></span>(@from, @to, @amount)</span><br><span class="line">      @timestamp = Time.utc_now.to_unix</span><br><span class="line">      @hash = calc_hash</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">def</span> <span class="title">calc_hash</span></span> : TxnHash</span><br><span class="line">      sha = <span class="symbol">OpenSSL:</span>:Digest.new(<span class="string">"SHA256"</span>)</span><br><span class="line">      sha.update(<span class="string">"<span class="subst">#&#123;@from&#125;</span><span class="subst">#&#123;@to&#125;</span><span class="subst">#&#123;@amount&#125;</span><span class="subst">#&#123;@timestamp&#125;</span>"</span>)</span><br><span class="line">      sha.hexdigest</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="In-Nim"><a href="#In-Nim" class="headerlink" title="In Nim:"></a>In Nim:</h3><p>If we want to generate a similar hash in Nim, we could run the following:</p>
+<figure class="highlight nim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> strutils</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="type">SHA256Len</span> = <span class="number">32</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">proc</span> <span class="type">SHA256</span>(d: <span class="built_in">cstring</span>, n: <span class="built_in">culong</span>, md: <span class="built_in">cstring</span> = <span class="keyword">nil</span>): <span class="built_in">cstring</span> <span class="meta">&#123;.cdecl, dynlib: "libssl.so", importc.&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">proc</span> <span class="type">SHA256</span>(s: <span class="built_in">string</span>): <span class="built_in">string</span> =</span><br><span class="line">  <span class="literal">result</span> = <span class="string">""</span></span><br><span class="line">  <span class="keyword">let</span> s = <span class="type">SHA256</span>(s.<span class="built_in">cstring</span>, s.len.<span class="built_in">culong</span>)</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span> .. &lt; <span class="type">SHA256Len</span>:</span><br><span class="line">    <span class="literal">result</span>.add s[i].<span class="type">BiggestInt</span>.toHex(<span class="number">2</span>).toLower</span><br><span class="line"></span><br><span class="line">echo <span class="type">SHA256</span>(<span class="string">"Hash this block, yo"</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Releasing-our-Crypto-App"><a href="#Releasing-our-Crypto-App" class="headerlink" title="Releasing our Crypto App"></a>Releasing our Crypto App</h2><p>Another serious factor we have to consider, is the ability to distribute our crypto app, once built, with great ease.  Remembering that both Crystal and Nim are <em>compiled</em> languages, we’re already off to a promising start.  (A single executable binary is always going to be easier to distribute than something requiring its own specialist environment!)</p>
+<p>It pays rather large dividends being able to write our Crypto app just once, and having the ability to maintain one singular code repo for that app. To this end – I think it is definitely worth considering a multi-platform app framework.  I already know that in my next article series, I will be exploring building a Crypto app using <a href="https://facebook.github.io/react-native/" target="_blank" rel="noopener">React Native</a>.</p>
+<p>However, if you wish to build the frontend of your cross-platform crypto app in something else, there are a variety of technologies available - all of which seem to work well with both Crystal and Nim:</p>
+<ul>
+<li><a href="http://ionicframework.com/" target="_blank" rel="noopener">Ionic Framework</a></li>
+<li><a href="https://flutter.io/" target="_blank" rel="noopener">Flutter</a></li>
+<li><a href="https://www.nativescript.org/" target="_blank" rel="noopener">NativeScript</a></li>
+</ul>
+<p>And if you come from a Windows background:</p>
+<ul>
+<li><a href="https://dotnet.microsoft.com/apps/xamarin" target="_blank" rel="noopener">Xamarin</a></li>
+</ul>
+<h3 id="Building-amp-Releasing-In-Nim"><a href="#Building-amp-Releasing-In-Nim" class="headerlink" title="Building &amp; Releasing In Nim:"></a>Building &amp; Releasing In Nim:</h3><p>If we wanted to build out and release our app for Android, we can run:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nim c -c --cpu:arm --os:android -d:androidNDK --noMain:on</span><br></pre></td></tr></table></figure>
+
+<p>To generate the C source files we need to include in our Android Studio project.  We then simply add the generated C files to our CMake build script in our Android project.</p>
+<p>Similarly, we could run:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nim c -c --os:ios --noMain:on</span><br></pre></td></tr></table></figure>
+
+<p>To generate C files to include in our XCode project. Then, we can use XCode to compile, link, package and sign everything.</p>
+<h3 id="Building-amp-Releasing-In-Crystal"><a href="#Building-amp-Releasing-In-Crystal" class="headerlink" title="Building &amp; Releasing In Crystal:"></a>Building &amp; Releasing In Crystal:</h3><p>Crystal also allows for cross-compilation, and makes it just as easy.  For example, to build our app for Linux distributions from our Mac, we can run:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">crystal build your_program.cr --cross-compile --target &quot;x86_64-unknown-linux-gnu&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>Worth noting:</em></strong> <em>Crystal doesn’t offer the out-of-the-box iPhone / Android cross-compilation functionality that Nim does, so building our app in Nim gets a definite thumbs-up from a distribution point-of-view!</em></p>
+<h2 id="Ethereum-Building-Signing-amp-Sending-a-Transaction"><a href="#Ethereum-Building-Signing-amp-Sending-a-Transaction" class="headerlink" title="Ethereum - Building, Signing &amp; Sending a  Transaction"></a>Ethereum - Building, Signing &amp; Sending a  Transaction</h2><p>For the sake of this article, in Crystal, I didn’t see the need to write out a more low-level example of the below action, as it <em>is</em> so similar to the Nim demo that follows.  This actually worked out in my favour, as it means I get to further show off the native HTTP library for Crystal.</p>
+<h3 id="In-Crystal-1"><a href="#In-Crystal-1" class="headerlink" title="In Crystal:"></a>In Crystal:</h3><figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">"http/client"</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Ethereum</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Transaction</span></span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># /ethereum/create/ Create - Ethereum::Transaction.create(args)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">self</span></span>.create(to : String, from : String, amount : UInt64, gas_price : UInt64? = <span class="literal">nil</span>, gas_limit : UInt64? = <span class="literal">nil</span>) : EthereumToSign | ErrorMessage</span><br><span class="line"></span><br><span class="line">      headers = <span class="symbol">HTTP:</span>:Headers.new</span><br><span class="line">      <span class="keyword">if</span> ENV[<span class="string">"ONCHAIN_API_KEY"</span>]? != <span class="literal">nil</span></span><br><span class="line">        headers.add(<span class="string">"X-API-KEY"</span>, ENV[<span class="string">"ONCHAIN_API_KEY"</span>])</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">      response = <span class="symbol">HTTP:</span>:Client.post <span class="string">"https://onchain.io/api/ethereum/create//?to=<span class="subst">#&#123;to&#125;</span>&amp;from=<span class="subst">#&#123;from&#125;</span>&amp;amount=<span class="subst">#&#123;amount&#125;</span>&amp;gas_price=<span class="subst">#&#123;gas_price&#125;</span>&amp;gas_limit=<span class="subst">#&#123;gas_limit&#125;</span>"</span>, <span class="symbol">headers:</span> headers</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> ErrorMessage.from_json response.body <span class="keyword">if</span> response.status_code != <span class="number">200</span></span><br><span class="line"></span><br><span class="line">      ethereumtosign = EthereumToSign.from_json response.body</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> ethereumtosign</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># /ethereum/sign_and_send/ Sign and send - Ethereum::Transaction.sign_and_send(args)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">self</span></span>.sign_and_send(to : String, from : String, amount : UInt64, r : String, s : String, v : String, gas_price : UInt64? = <span class="literal">nil</span>, gas_limit : UInt64? = <span class="literal">nil</span>) : SendStatus | ErrorMessage</span><br><span class="line"></span><br><span class="line">      headers = <span class="symbol">HTTP:</span>:Headers.new</span><br><span class="line">      <span class="keyword">if</span> ENV[<span class="string">"ONCHAIN_API_KEY"</span>]? != <span class="literal">nil</span></span><br><span class="line">        headers.add(<span class="string">"X-API-KEY"</span>, ENV[<span class="string">"ONCHAIN_API_KEY"</span>])</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">      response = <span class="symbol">HTTP:</span>:Client.post <span class="string">"https://onchain.io/api/ethereum/sign_and_send//?to=<span class="subst">#&#123;to&#125;</span>&amp;from=<span class="subst">#&#123;from&#125;</span>&amp;amount=<span class="subst">#&#123;amount&#125;</span>&amp;r=<span class="subst">#&#123;r&#125;</span>&amp;s=<span class="subst">#&#123;s&#125;</span>&amp;v=<span class="subst">#&#123;v&#125;</span>&amp;gas_price=<span class="subst">#&#123;gas_price&#125;</span>&amp;gas_limit=<span class="subst">#&#123;gas_limit&#125;</span>"</span>, <span class="symbol">headers:</span> headers</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> ErrorMessage.from_json response.body <span class="keyword">if</span> response.status_code != <span class="number">200</span></span><br><span class="line"></span><br><span class="line">      sendstatus = SendStatus.from_json response.body</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> sendstatus</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>Then, in our application we could simply call:</p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line"><span class="symbol">Ethereum:</span>:Transaction.create(<span class="string">"0xA02378cA1c24767eCD776aAFeC02158a30dc01ac"</span>, <span class="string">"0xA02378cA1c24767eCD776aAFeC02158a30dc01ac"</span>, <span class="number">80000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>And we would get a response similar to the following, ready to be signed and sent to the Ethereum network:</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"tx"</span>: <span class="string">"02000000011cd5d7621e2a7c9403e54e089cb0b5430b83ed13f1b897d3e319b100ba1b059b01000000db00483045022100d7534c80bc0a42addc3d955f74e31610aa78bf15d79ec4df4c36dc98e802f5200220369cab1bccb2dbca0921444ce3fafb15129fa0494d041998be104df39b8895ec01483045022100fe48c4c1d46e163acaff6b0d2e702812d20"</span>,</span><br><span class="line">  <span class="attr">"hash_to_sign"</span>: <span class="string">"955f74e31610aa78bf15d79ec4df4c36dc98e802f52002"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="In-Nim-1"><a href="#In-Nim-1" class="headerlink" title="In Nim:"></a>In Nim:</h2><p>From a deeper, more low-level perspective; instead of using an HTTP library as in the Crystal example above, we can use Status’ very own Nim-Ethereum library to build our Ethereum transaction.  Assuming we have imported <code>nim-eth</code> into our Nimble project, our Ethereum transaction can be built atop of the following protocol:</p>
+<figure class="highlight nim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span></span><br><span class="line">  nim-eth/[common, rlp, keys], nimcrypto</span><br><span class="line"></span><br><span class="line"><span class="keyword">proc</span> initTransaction*(nonce: <span class="type">AccountNonce</span>, gasPrice, gasLimit: <span class="type">GasInt</span>, to: <span class="type">EthAddress</span>,</span><br><span class="line">  value: <span class="type">UInt256</span>, payload: <span class="type">Blob</span>, V: byte, R, S: <span class="type">UInt256</span>, isContractCreation = <span class="literal">false</span>): <span class="type">Transaction</span> =</span><br><span class="line">  <span class="literal">result</span>.accountNonce = nonce</span><br><span class="line">  <span class="literal">result</span>.gasPrice = gasPrice</span><br><span class="line">  <span class="literal">result</span>.gasLimit = gasLimit</span><br><span class="line">  <span class="literal">result</span>.to = to</span><br><span class="line">  <span class="literal">result</span>.value = value</span><br><span class="line">  <span class="literal">result</span>.payload = payload</span><br><span class="line">  <span class="literal">result</span>.V = V</span><br><span class="line">  <span class="literal">result</span>.R = R</span><br><span class="line">  <span class="literal">result</span>.S = S</span><br><span class="line">  <span class="literal">result</span>.isContractCreation = isContractCreation</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span></span><br><span class="line">  <span class="type">TransHashObj</span> = <span class="keyword">object</span></span><br><span class="line">    accountNonce:  <span class="type">AccountNonce</span></span><br><span class="line">    gasPrice:      <span class="type">GasInt</span></span><br><span class="line">    gasLimit:      <span class="type">GasInt</span></span><br><span class="line">    to <span class="meta">&#123;.rlpCustomSerialization.&#125;</span>: <span class="type">EthAddress</span></span><br><span class="line">    value:         <span class="type">UInt256</span></span><br><span class="line">    payload:       <span class="type">Blob</span></span><br><span class="line">    mIsContractCreation <span class="meta">&#123;.rlpIgnore.&#125;</span>: <span class="built_in">bool</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">proc</span> read(rlp: <span class="keyword">var</span> <span class="type">Rlp</span>, t: <span class="keyword">var</span> <span class="type">TransHashObj</span>, _: <span class="keyword">type</span> <span class="type">EthAddress</span>): <span class="type">EthAddress</span> <span class="meta">&#123;.inline.&#125;</span> =</span><br><span class="line">  <span class="keyword">if</span> rlp.blobLen != <span class="number">0</span>:</span><br><span class="line">    <span class="literal">result</span> = rlp.read(<span class="type">EthAddress</span>)</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    t.mIsContractCreation = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">proc</span> append(rlpWriter: <span class="keyword">var</span> <span class="type">RlpWriter</span>, t: <span class="type">TransHashObj</span>, a: <span class="type">EthAddress</span>) <span class="meta">&#123;.inline.&#125;</span> =</span><br><span class="line">  <span class="keyword">if</span> t.mIsContractCreation:</span><br><span class="line">    rlpWriter.append(<span class="string">""</span>)</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    rlpWriter.append(a)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span></span><br><span class="line">  <span class="type">EIP155_CHAIN_ID_OFFSET</span>* = <span class="number">35</span></span><br><span class="line"></span><br><span class="line">func rlpEncode*(transaction: <span class="type">Transaction</span>): <span class="built_in">auto</span> =</span><br><span class="line">  <span class="comment"># Encode transaction without signature</span></span><br><span class="line">  <span class="keyword">return</span> rlp.encode(<span class="type">TransHashObj</span>(</span><br><span class="line">    accountNonce: transaction.accountNonce,</span><br><span class="line">    gasPrice: transaction.gasPrice,</span><br><span class="line">    gasLimit: transaction.gasLimit,</span><br><span class="line">    to: transaction.to,</span><br><span class="line">    value: transaction.value,</span><br><span class="line">    payload: transaction.payload,</span><br><span class="line">    mIsContractCreation: transaction.isContractCreation</span><br><span class="line">    ))</span><br><span class="line"></span><br><span class="line">func rlpEncodeEIP155*(tx: <span class="type">Transaction</span>): <span class="built_in">auto</span> =</span><br><span class="line">  <span class="keyword">let</span> V = (tx.V.<span class="built_in">int</span> - <span class="type">EIP155_CHAIN_ID_OFFSET</span>) <span class="keyword">div</span> <span class="number">2</span></span><br><span class="line">  <span class="comment"># Encode transaction without signature</span></span><br><span class="line">  <span class="keyword">return</span> rlp.encode(<span class="type">Transaction</span>(</span><br><span class="line">    accountNonce: tx.accountNonce,</span><br><span class="line">    gasPrice: tx.gasPrice,</span><br><span class="line">    gasLimit: tx.gasLimit,</span><br><span class="line">    to: tx.to,</span><br><span class="line">    value: tx.value,</span><br><span class="line">    payload: tx.payload,</span><br><span class="line">    isContractCreation: tx.isContractCreation,</span><br><span class="line">    V: V.byte,</span><br><span class="line">    R: <span class="number">0</span>.u256,</span><br><span class="line">    S: <span class="number">0</span>.u256</span><br><span class="line">    ))</span><br><span class="line"></span><br><span class="line">func txHashNoSignature*(tx: <span class="type">Transaction</span>): <span class="type">Hash256</span> =</span><br><span class="line">  <span class="comment"># Hash transaction without signature</span></span><br><span class="line">  <span class="keyword">return</span> keccak256.digest(<span class="keyword">if</span> tx.V.<span class="built_in">int</span> &gt;= <span class="type">EIP155_CHAIN_ID_OFFSET</span>: tx.rlpEncodeEIP155 <span class="keyword">else</span>: tx.rlpEncode)</span><br></pre></td></tr></table></figure>
+
+<p><em>Note</em> - I do realise the above Nim code example and the Crystal examples are different - I fully intended them to be.  The Crystal example allowed me to further show off the HTTP library I touched on in the last article, and the Nim example allowed me to go to a lower-level; something I think brings the article relevancy full circle.</p>
+<p><a href="https://github.com/status-im/nim-eth/" target="_blank" rel="noopener">Status’ Eth Common Library</a> contains a whole bunch of useful Nim libraries for interacting with the Ethereum Network, including:</p>
+<ul>
+<li><a href="https://github.com/status-im/nim-eth/blob/master/doc/rlp.md" target="_blank" rel="noopener">Recursive Length Prefix encoding (RLP)</a>,</li>
+<li><a href="https://github.com/status-im/nim-eth/blob/master/doc/p2p.md" target="_blank" rel="noopener">P2P</a>,</li>
+<li><a href="https://github.com/status-im/nim-eth/blob/master/doc/keys.md" target="_blank" rel="noopener">Eth-keys</a>,</li>
+<li><a href="https://github.com/status-im/nim-eth/blob/master/doc/keyfile.md" target="_blank" rel="noopener">Eth-keyfile</a>,</li>
+<li><a href="https://github.com/status-im/nim-eth/blob/master/doc/trie.md" target="_blank" rel="noopener">Ethereum Trie structure</a>, and</li>
+<li><a href="https://github.com/status-im/nim-eth/blob/master/doc/bloom.md" target="_blank" rel="noopener">Ethereum Bloom Filter</a>.</li>
+</ul>
+<p>If you are going to be working in the Ethereum ecosystem using Nim, it goes without saying that these utilities are absolutely essential.  With Status &amp; the <a href="https://nimbus.team" target="_blank" rel="noopener">Nimbus</a> team being such early adopters and major contributors to the Nim/Crypto universe, you are more than likely to stumble across this code sooner or later!</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Our hypothetical Crypto app has taken shape throughout this article, and I think both languages have shown off great promise, and have proven their respective abilities to power the Cryptocurrency universe.</p>
+<p>Realistically, if you were a brand-new developer looking to learn a language to break into the Crypto scene, the choice would almost definitely be <strong>Crystal</strong>.  This is simply because of the <em>much</em> larger ecosystem and resources surrounding it.</p>
+<p>However, if you were an already-established developer, looking to build out a crypto app that you could develop and multi-platform release with greater ease, you’d inevitably choose <strong>Nim</strong>.  Crystal not only lacks the ability to be developed properly on Windows, but also lacks the interoperability and multi-release functionality, as we have seen, with Nim.</p>
+<p>Alas, this brings me on to my final points…</p>
+<h2 id="Series-Conclusion"><a href="#Series-Conclusion" class="headerlink" title="Series Conclusion"></a>Series Conclusion</h2><p>It’s funny – each article in this series, I’ve started by saying to myself “Right, Nim is going to win.” And then half way through; changing my story to “Crystal is my choice, actually.”</p>
+<p>But then I went and spoiled it all, by saying something stupid like “Cryptocurrency”.</p>
+<p>Prior to this article, I <em>was swaying</em> towards settling on Crystal.  Not only did it impress in performance, but also seemed to have an enthusiastic ecosystem building around it.  Nim, however, refused to go down without a fight –  offering up <em>extremely</em> impressive interoperability, awesome inbuilt tooling, and great efficiency overall.</p>
+<p>I hate to do this, but I’m just going to have to say it:  for your usecase – <strong>pick the best tool for the job</strong>. Please ensure that you research properly into both languages, and weigh-up the pro’s/con’s that pertain to your specific usecase.</p>
+<p><strong><em>Cliches aside</em></strong> – if I had to pick a favourite overall language, it would have to be <strong>Crystal</strong>.  Frankly, this opinion is formed from my extensive use of Crystal over Nim, the fact I <strong>much</strong> prefer the Crystal syntax, and the fact that I am simply more comfortable coding in Crystal than I am in Nim!</p>
+<p>So, to answer the epic question – Crystal vs Nim?</p>
+<p>Personally, I choose Crystal.  But I think <strong>you</strong> should choose <strong><em>Nim.</em></strong> 😅</p>
+<p><a href="https://twitter.com/rbin" target="_blank" rel="noopener"> <strong>- @rbin</strong></a></p>
+
+  </section>
+  
+  
+
+  <div class="o-container-medium o-distance">
+    <div class="o-flex o-flex-space-between">
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/11/21/nim-vs-crystal-part-2-threading-tooling/" class="c-button c-button--quite" title="Previous article">Previous</a>
+  </div>
+  
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/12/09/web3-what-are-your-options/" class="c-button c-button--quite" title="Next article">Next</a>
+  </div>
+  
+</div>
+
+
+  </div>
+  
+</main>
+
+
+    <footer role="contentinfo" class="c-footer o-distance-xxl">
+  <div class="o-container">
+    <div class="c-footer__top">
+      <p class="c-category-title c-footer__top__title u-text-light">
+        <a href="/" class="c-logo c-logo--negative" title="Embark">Embark</a>
+      </p>
+    </div>
+    <div class="c-footer__body">
+      <div class="o-grid">
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Resources</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="/docs/quick_start.html" class="u-link-ghost" title="Quick Start">Quick Start</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs" class="u-link-ghost" title="Documentation">Documentation</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/news" class="u-link-ghost" title="Blog">Blog</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/faq.html" class="u-link-ghost" title="FAQ">FAQ</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/troubleshooting.html" class="u-link-ghost" title="Troubleshooting">Troubleshooting</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Help</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://stackoverflow.com/questions/tagged/embark" class="u-link-ghost" title="Embark Questions">Stack Overflow</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://gitter.im/embark-framework/Lobby" class="u-link-ghost" title="Gitter">Gitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/issues" class="u-link-ghost" title="Report issues">Report issues</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/blob/master/CODE_OF_CONDUCT.md" class="u-link-ghost" title="Code of Conduct">Code of Conduct</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Community</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework" class="u-link-ghost" title="Github">Github</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://twitter.com/EmbarkProject" class="u-link-ghost" title="Twitter">Twitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/contributing.html" class="u-link-ghost" title="Contribute">Contribute</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/community/#team" class="u-link-ghost" title="Team">Team</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-4">
+          <p class="c-category-title u-text-light">The Status Network</p>
+          <ul class="o-list-bare two-columns">
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://status.im/" target="_blank">Status</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://keycard.tech/" target="_blank">Keycard</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://dap.ps/" target="_blank">dap.ps</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://embark.status.im/" target="_blank">Embark</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://subspace.status.im/" target="_blank">Subspace</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://vac.dev/" target="_blank">Vac</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-footer__bottom">
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019-2020 Embark
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+      const EMBARK_DOC_VERSIONS = {
+        'latest': 'https://embark.status.im/docs','3.2': 'https://5ca4e0fdb29712000adde37f--embark-site-versions.netlify.com/docs/'
+      };
+    </script>
+
+    
+    <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
+    <script>
+    (function(f, a, t, h, o, m){
+        a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};
+        o=f.createElement('script'),
+        m=f.getElementsByTagName('script')[0];
+        o.async=1; o.src=t; o.id='fathom-script';
+        m.parentNode.insertBefore(o,m)
+    })(document, window, '//fathom.status.im/tracker.js', 'fathom');
+    fathom('set', 'siteId', 'JOQKN');
+    fathom('trackPageview');
+    </script>
+    <!-- / Fathom -->
+    
+
+    <script src="/js/index.js"></script>
+
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+      });
+    </script>
+    
+  </body>
+</html>
+

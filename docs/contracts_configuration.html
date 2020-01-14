@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>Configuring Smart Contracts | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/docs/contracts_configuration.html">
+  <!-- Alternative links -->
+  
+
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#080E1A">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-32.png" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-60x60-precomposed.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-76x76-precomposed.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon-120x120-precomposed.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-touch-icon-152x152-precomposed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon-precomposed.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/embark.css">
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/styles/dracula.min.css">
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script>
+  !function(root, factory) {
+    "function" == typeof define && define.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == typeof module && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(this, function() {
+    /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""),
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)),
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)),
+                svg && src) {
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(),
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+
+svg4everybody();
+</script>
+</head>
+
+  <body>
+    <header role="banner" class="c-header c-header--compact">
+  <span class="c-header__background"></span>
+  <div class="o-container c-header__content">
+    <div class="c-header__top">
+      <a href="/" title="Embark" class="c-logo c-logo--negative">Embark</a>
+      <nav role="navigation" class="c-navigation">
+        <div class="c-navigation__header">
+          <a href="/" title="Embark" class="c-logo">Embark</a>
+          <button class="c-navigation__close u-text-light" title="Close menu">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../assets/icons/symbols.svg#icon-close"></use></svg>
+          </button>
+        </div>
+        <div class="c-navigation__body">
+          <ul class="c-navigation__list">
+            <li class="c-navigation__item">
+              <a href="/docs/quick_start.html" class="c-navigation__anchor " title="Quick Start">Quick Start</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/docs" class="c-navigation__anchor is-active" title="Learn">Learn</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/plugins" class="c-navigation__anchor " title="Plugins">Plugins</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/community" class="c-navigation__anchor " title="Community">Community</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/news" class="c-navigation__anchor " title="Blog">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="o-flex o-flex-center">
+        <form action="" class="o-flex__item u-hidden-until-large">
+          <input type="search" placeholder="Search" id="search-input">
+        </form>
+        <div class="o-flex__item">
+          <ul class="o-flex o-flex-center">
+            <li class="o-flex__item">
+              <a href="https://github.com/embark-framework/embark" title="Github" target="_blank" class="u-link-ghost">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-github"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item">
+              <a href="https://twitter.com/EmbarkProject" title="Twitter" target="_blank">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-twitter"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item u-hidden-large-up">
+              <button type="button"class="c-navigation__trigger u-link-ghost" title="Open menu">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-navigation-menu"></use></svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-quick-search o-distance-m u-hidden-large-up">
+      <input type="search" id="inp-search" placeholder="Search">
+    </div>
+    <div class="c-header__body">
+      <h1 class="c-title u-text-ghost">Documentation</h1>
+
+      
+
+      
+      
+    </div>
+  </div>
+</header>
+
+
+<main role="main">
+  <section class="o-guided-content o-distance">
+    <div class="o-guided-content__wrapper">
+      <button title="Open docs menu" id="guides-trigger" class="c-button c-button--minion u-hidden-large-up">
+        <svg class="c-icon c-icon--xs"><use xlink:href="/../../assets/icons/symbols.svg#icon-navigation-menu"></use></svg>
+        <span>Guides</span>
+      </button>
+      <div class="c-guide o-guided-content__guide"  id="guide-navigation">
+        <div class="c-guide__header u-hidden-large-up">
+          <a href="" title="Guides">
+            Guides
+          </a>
+          <button type="button" title="Close menu" id="guides-close">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../../assets/icons/symbols.svg#icon-close"></use></svg>
+          </button>
+        </div>
+        <div class="c-guide__body">
+          <nav role="navigation">
+            <select id="version-select">
+              
+              <option value="latest">stable (v4)</option>
+              
+              <option value="3.2">v3.2</option>
+              
+            </select>
+            
+              <div class="o-distance-l">
+                <h3 class="c-category-title">Getting Started</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/overview.html" title="Overview" class="u-link-uniform ">Overview</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/installation.html" title="Installation" class="u-link-uniform ">Installation</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/faq.html" title="FAQ" class="u-link-uniform ">FAQ</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">General Usage</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/create_project.html" title="Creating apps" class="u-link-uniform ">Creating apps</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/structure.html" title="App structure" class="u-link-uniform ">App structure</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/running_apps.html" title="Running apps" class="u-link-uniform ">Running apps</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/dashboard.html" title="Using the dashboard" class="u-link-uniform ">Using the dashboard</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/using_the_console.html" title="Using the console" class="u-link-uniform ">Using the console</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/environments.html" title="Environments" class="u-link-uniform ">Environments</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/configuration.html" title="Configuration" class="u-link-uniform ">Configuration</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/pipeline_and_webpack.html" title="Building & Compiling" class="u-link-uniform ">Building & Compiling</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/javascript_usage.html" title="Using EmbarkJS" class="u-link-uniform ">Using EmbarkJS</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Smart Contract Development</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/contracts_configuration.html" title="Configuration" class="u-link-uniform is-active">Configuration</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/contracts_deployment.html" title="Accounts & Deployment" class="u-link-uniform ">Accounts & Deployment</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/contracts_imports.html" title="Special Imports" class="u-link-uniform ">Special Imports</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/contracts_testing.html" title="Testing" class="u-link-uniform ">Testing</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/contracts_javascript.html" title="Smart Contracts in JavaScript" class="u-link-uniform ">Smart Contracts in JavaScript</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Blockchain Client</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/blockchain_configuration.html" title="Configuration" class="u-link-uniform ">Configuration</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/blockchain_accounts_configuration.html" title="Managing Accounts" class="u-link-uniform ">Managing Accounts</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Storage (IPFS/Swarm)</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/storage_configuration.html" title="Configuration" class="u-link-uniform ">Configuration</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/storage_deployment.html" title="Deploying apps" class="u-link-uniform ">Deploying apps</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/storage_javascript.html" title="Storage APIs in JavaScript" class="u-link-uniform ">Storage APIs in JavaScript</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Messages (Whisper)</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/messages_configuration.html" title="Configuration" class="u-link-uniform ">Configuration</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/messages_javascript.html" title="Messages in JavaScript" class="u-link-uniform ">Messages in JavaScript</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Naming Systems (ENS)</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/naming_configuration.html" title="Configuration" class="u-link-uniform ">Configuration</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/naming_javascript.html" title="Naming Systems in JavaScript" class="u-link-uniform ">Naming Systems in JavaScript</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Plugins</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/installing_plugins.html" title="Installing plugins" class="u-link-uniform ">Installing plugins</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/creating_plugins.html" title="Creating plugins" class="u-link-uniform ">Creating plugins</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/plugin_reference.html" title="Plugin APIs" class="u-link-uniform ">Plugin APIs</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Cockpit Guides</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/cockpit_introduction.html" title="Introduction" class="u-link-uniform ">Introduction</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/cockpit_dashboard.html" title="Using the Dashboard" class="u-link-uniform ">Using the Dashboard</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/cockpit_deployment.html" title="Deployment" class="u-link-uniform ">Deployment</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/cockpit_explorer.html" title="Explorer View" class="u-link-uniform ">Explorer View</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/cockpit_editor.html" title="Code Editor" class="u-link-uniform ">Code Editor</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/cockpit_debugger.html" title="Using the Debugger" class="u-link-uniform ">Using the Debugger</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Reference</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/embark_commands.html" title="CLI Commands" class="u-link-uniform ">CLI Commands</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Miscellaneous</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/migrating_from_3.x.html" title="Migrating from Embark 3.x" class="u-link-uniform ">Migrating from Embark 3.x</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/troubleshooting.html" title="Troubleshooting" class="u-link-uniform ">Troubleshooting</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/contributing.html" title="Contributing" class="u-link-uniform ">Contributing</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+          </nav>
+        </div>
+      </div>
+      <div class="o-guided-content__content">
+        <p class="c-meta">Last updated: January 9th 2020
+          (<a href="https://github.com/embark-framework/embark/edit/master/site/source/docs/contracts_configuration.md" target="_blank">
+            Improve this guide <svg class="c-icon c-icon--xs"><use xlink:href="/../../assets/icons/symbols.svg#icon-pen-write-paper"></use></svg>
+          </a>)
+        </p>
+        <div class="o-standard-page">
+          <h1>Configuring Smart Contracts</h1>
+          <p>As many decentralized applications are powered by Smart Contracts, configuring and deploying them should be easy. That’s why Embark offers a declarative approach to define what Smart Contracts we’re interested in to deploy, what their dependencies are, as well as what they should be initialized with once instantiated. This guide will explore the different configuration options that help making deploying Smart Contracts a breeze.</p>
+<h2 id="Basic-Smart-Contract-Configuration"><a href="#Basic-Smart-Contract-Configuration" class="headerlink" title="Basic Smart Contract Configuration"></a>Basic Smart Contract Configuration</h2><p>Unless specified differently in our application’s <code>embark.json</code>, Smart Contracts are configured either in the <code>config/contracts.js</code> file, or, if we’re dealing with a <a href="create_project.html#Creating-%E2%80%9Ccontracts-only%E2%80%9D-apps">Smart Contract only app</a>, the <code>./contracts.js</code> file in the root of our project.</p>
+<p>A Smart Contract configuration is placed in an environment’s <code>deploy</code> property, with the name of the Smart Contract being the identifier. The following code creates a configuration for the <code>SimpleStorage</code> contract in the <code>development</code> environment:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  ...</span><br><span class="line">  development: &#123;</span><br><span class="line">    ...</span><br><span class="line">    deploy: &#123;</span><br><span class="line">      SimpleStorage: &#123;</span><br><span class="line">        ...</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Smart Contracts can be configured differently per environment just by adding a dedicated configuration to the corresponding environment. Head over to our <a href="environments.html">guide on environments</a> to learn more about this.</p>
+<h3 id="Configuring-constructor-parameters"><a href="#Configuring-constructor-parameters" class="headerlink" title="Configuring constructor parameters"></a>Configuring constructor parameters</h3><p>Often, Smart Contracts need to be initialized with certain values right after they have been deployed. We can configure a Smart Contract’s constructor parameters using the <code>args</code> property. <code>args</code> is either a list of values, which will be applied to the Smart Contract’s constructor parameters in the same order they are defined, or it can be an object specifying the parameters using named keys.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">development: &#123;</span><br><span class="line">  deploy: &#123;</span><br><span class="line">    SimpleStorage: &#123;</span><br><span class="line">      args: [100]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>The following configuration configures the <code>SimpleStorage</code>‘s <code>initialValue</code> parameter, assuming that that one exists. Notice that by using this syntax, the order of constructor parameter values doesn’t matter anymore:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">development: &#123;</span><br><span class="line">  deploy: &#123;</span><br><span class="line">    SimpleStorage: &#123;</span><br><span class="line">      args: &#123;</span><br><span class="line">        initialValue: 100</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="Configuring-gas-and-gas-price"><a href="#Configuring-gas-and-gas-price" class="headerlink" title="Configuring gas and gas price"></a>Configuring gas and gas price</h3><p>Both, <code>gas</code> and <code>gasPrice</code> can be configured for each Smart Contract. If we don’t want to configure that for every single contract, we can also specify <code>gas: auto</code> in the environment, like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">development: &#123;</span><br><span class="line">  gas: &apos;auto&apos;,</span><br><span class="line">  deploy: &#123;</span><br><span class="line">    SimpleStorage: &#123;</span><br><span class="line">      args: [100],</span><br><span class="line">      gas: 800000,</span><br><span class="line">      gasPrice: 5</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>Another cool feature of Embark is that it supports human readable ether units, to improve the developer experience.</p>
+<div class="c-notification c-notification--info">
+  <p><strong>Human readable ether units</strong></p>
+  <p></p><p>Embark supports <strong>human readable ether units</strong> in places where ether unit values are required. <a href="#Human-readable-Ether-units">Read here</a> for more information.</p>
+<p></p>
+</div> 
+
+
+
+<h2 id="Configuring-Smart-Contract-Dependencies"><a href="#Configuring-Smart-Contract-Dependencies" class="headerlink" title="Configuring Smart Contract Dependencies"></a>Configuring Smart Contract Dependencies</h2><p>When building more complex applications, it’s very common that a Smart Contract depends on another one. Embark makes it very easy to not only ensure dependency Smart Contracts are deployed before the Smart Contract in question deploys, but also accessing their deployed addresses.</p>
+<p>All we have to do is specifying the name of the Smart Contract we’re interested in, prefixed with a “$”. Embark will then take care of figuring out in which order our Smart Contracts need to be deployed, as well as replacing all <code>$CONTRACT_NAME</code>‘s with their corresponding addresses. Assuming <code>SimpleStorage</code> depends on <code>OtherContract</code>, this can be easily configured like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  SimpleStorage: &#123;</span><br><span class="line">    args: [100, &apos;$OtherContract&apos;]</span><br><span class="line">  &#125;,</span><br><span class="line">  OtherContract: &#123;...&#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="Disabling-deployment"><a href="#Disabling-deployment" class="headerlink" title="Disabling deployment"></a>Disabling deployment</h2><p>Sometimes we want to configure different behaviour for certain contracts within different <a href="environments.html">environments</a>. One of those cases could be that we don’t actually want to deploy <code>SimpleStorage</code> in the production environment as we might expect some other storage Smart Contract to already be somewhere out there.</p>
+<p>We can prevent Embark from deploying any of our Smart Contracts by using the <code>deploy</code> configuration and setting it to <code>false</code> like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">development:</span><br><span class="line">  deploy: &#123;</span><br><span class="line">    SimpleStorage: &#123;</span><br><span class="line">      args: [100]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line">production: &#123;</span><br><span class="line">  deploy: &#123;</span><br><span class="line">    SimpleStorage: &#123;</span><br><span class="line">      deploy: false</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="Deployment-strategies"><a href="#Deployment-strategies" class="headerlink" title="Deployment strategies"></a>Deployment strategies</h2><p>In order to give users full control over which Smart Contracts should be deployed, Embark comes with a configuration feature called “deployment strategies”. Deployment strategies tell Embark whether it should deploy all of the user’s Smart Contracts (and its (3rd-party) dependencies, or just deploy individual Smart Contracts.</p>
+<p>There are two possible strategy options:</p>
+<ul>
+<li><strong>implicit</strong> - This is the default. Using the <code>implicit</code> strategy, Embark tries to deploy all Smart Contracts configured in the <code>deploy</code> configuration, including its (3rd-party) dependencies.</li>
+<li><strong>explicit</strong> - Setting this option to <code>explicit</code> tells Embark to deploy the Smart Contracts specified in the <code>deploy</code> configuration without their dependencies. This can be combined with <a href="#Disabling-deployment">disabling deployment</a> of individual Smart Contracts for fine control.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">strategy: &apos;explicit&apos; // &apos;implicit&apos; is the default</span><br><span class="line">deploy: &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Deploying-multiple-instances"><a href="#Deploying-multiple-instances" class="headerlink" title="Deploying multiple instances"></a>Deploying multiple instances</h2><p>In cases where we want to create multiple instances of the same Smart Contract but with, for example, different initialization values per instance, we can use the <code>instanceOf</code> property and refer to the original Smart Contract that should be deployed multiple times.</p>
+<p>This can then be combined with <a href="#Disabling-deployment">disabling the deployment</a> of the original Smart Contract like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  Currency: &#123;</span><br><span class="line">    deploy: false,</span><br><span class="line">  &#125;,</span><br><span class="line">  Usd: &#123;</span><br><span class="line">    instanceOf: &apos;Currency&apos;,</span><br><span class="line">    args: [200]</span><br><span class="line">  &#125;,</span><br><span class="line">  MyCoin: &#123;</span><br><span class="line">    instanceOf: &apos;Currency&apos;,</span><br><span class="line">    args: [300]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>In the example above, we deploy <code>Usd</code> and <code>MyCoin</code> as instances of <code>Currency</code>. Notice that <code>Currency</code> itself isn’t going to be deployed but merely functions as a “recipe” to create other instances of it.</p>
+<h2 id="Referencing-already-deployed-Smart-Contracts"><a href="#Referencing-already-deployed-Smart-Contracts" class="headerlink" title="Referencing already deployed Smart Contracts"></a>Referencing already deployed Smart Contracts</h2><p>Embark not only integrates with the Smart Contracts that we create and own, but also with Smart Contracts that are already deployed and potentially owned by third-parties. If we wish to reference such a Smart Contract instance, all we have to do is specify the <code>address</code> of the instance in question.</p>
+<p>The following example configures <code>UserStorage</code> to be a Smart Contract instance that’s already deployed:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  UserStorage: &#123;</span><br><span class="line">    address: &apos;0x123456&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="Using-accounts-in-arguments"><a href="#Using-accounts-in-arguments" class="headerlink" title="Using accounts in arguments"></a>Using accounts in arguments</h2><p>Accounts can be used as arguments using Embark’s built-in interpolation syntax, similar to referring to Smart Contract instances.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  development: &#123;</span><br><span class="line">    deploy: &#123;</span><br><span class="line">      MyContractThatNeedsAccountAddresses: &#123;</span><br><span class="line">        args: [&apos;$accounts[0]&apos;, &apos;$accounts[4]&apos;]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Dynamic-Addresses"><a href="#Dynamic-Addresses" class="headerlink" title="Dynamic Addresses"></a>Dynamic Addresses</h2><p>There are scenarios in which we want to configure a Smart Contract that is already deployed by a third-party, but its address can only be computed at run-time. For such cases, Embark supports specifying a function as <code>address</code>, which returns the address we’re interested in. Usually, other Smart Contract instances are needed to perform that computation, so the <a href="#Deployment-hooks"><code>deps</code> configuration</a> comes in handy as well:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy: &#123;</span><br><span class="line">  SimpleStorage: &#123;</span><br><span class="line">    fromIndex: 0,</span><br><span class="line">    args: [100],</span><br><span class="line">  &#125;,</span><br><span class="line">  OtherContract: &#123;</span><br><span class="line">    deps: [&apos;SimpleStorage&apos;],</span><br><span class="line">    address: async (deps) =&gt; &#123;</span><br><span class="line">      // use `deps.contracts.SimpleStorage` to determine and return address</span><br><span class="line">    &#125;,</span><br><span class="line">    abiDefinition: ABI</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In the example above, <code>OtherContract</code> will be deployed after <code>SimpleStorage</code> because it uses the <code>deps</code> property to define Smart Contracts that it depends on. All dependencies are exposed on the <code>address</code> function parameter similar to <a href="#Deployment-hooks">deployment hooks</a>. Also, notice that the <code>abiDefinition</code> is only needed if the Smart Contracts bytecode isn’t already on disk.</p>
+<h2 id="Configuring-source-files"><a href="#Configuring-source-files" class="headerlink" title="Configuring source files"></a>Configuring source files</h2><p>By default Embark will look for Smart Contracts inside the folder that’s configured in the application’s <a href="configuration.html#contracts">embark.json</a>, the default being the <code>contracts</code> folder. However, if we want to change the location to look for a single Smart Contract’s source, or need to compile a third-party Smart Contract to get hold of its ABI, we can do so by using the <code>file</code> property.</p>
+<p><code>file</code> specifies a full path to a file that contains the source code for the Smart Contract in question.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  SimpleStorage: &#123;</span><br><span class="line">    file: &apos;./some_folder/simple_storage.sol&apos;,</span><br><span class="line">    args: [100]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>If Embark doesn’t find the file in the specified path, it’ll expect it to be a path inside installed <code>node_modules</code> dependencies. The following example configures a source file path that points to a third-party Smart Contract that is installed as a dependency:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  ERC20: &#123;</span><br><span class="line">    file: &apos;openzeppelin-solidity/contracts/token/ERC20/ERC20.sol&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>Embark even supports reading the source from <code>https</code>, <code>git</code>, <code>ipfs</code> and <code>bzz</code> URIs, enabling us to compile Solidity Smart Contracts that aren’t even located in our local machine.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  ERC725: &#123;</span><br><span class="line">    file: &apos;git://github.com/status/contracts/contracts/identity/ERC725.sol#develop&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  ERC725: &#123;</span><br><span class="line">    file: &apos;github.com/status/contracts/contracts/identity/ERC725.sol&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  Ownable: &#123;</span><br><span class="line">    file: &apos;https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/ownership/Ownable.sol&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="Providing-ABIs"><a href="#Providing-ABIs" class="headerlink" title="Providing ABIs"></a>Providing ABIs</h2><p>In order to use Smart Contract instances created by web3 either in <a href="Deployment-hooks">deployment hooks</a> or in <a href="contracts_javascript.html">Embark’s JavaScript client</a>, Embark needs to get hold of the Smart Contracts’ ABIs and pass those on to web3.</p>
+<p>This is not a problem when dealing with Smart Contracts that we own, or at least have <a href="#Configuring-source-files">access to their sources</a> so we Embark can compile them accordingly. However, if we don’t have either the source, nor do we want to create a Solidity interface ourselves for Embark to compile, we can provide an already defined ABI for a dedicated Smart Contract using the <code>abiDefinition</code> property, so Embark can make use of that.</p>
+<p>The following example configures <code>SimpleStorage</code> to be already deployed somewhere, but we’d still like to use the web3 instance in our <code>afterDeploy</code> hook.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  SimpleStorage: &#123;</span><br><span class="line">    address: &apos;0x0bFb07f9144729EEF54A9057Af0Fcf87aC7Cbba9&apos;,</span><br><span class="line">    abiDefinition: [...]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line">afterDeploy: async (deps) =&gt; &#123;</span><br><span class="line">  const value = await deps.contracts.SimpleStorage.methods.get().call();</span><br><span class="line">  console.log(value);</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p><code>afterDeploy</code> and other deployment hooks are covered in <a href="#Deployment-hooks">Deployment Hooks</a>.</p>
+<h2 id="Providing-Artifacts"><a href="#Providing-Artifacts" class="headerlink" title="Providing Artifacts"></a>Providing Artifacts</h2><p>Similar to providing ABIs, providing an Embark artifact lets you configure your contract using an already generated artifact.</p>
+<p>That way, you don’t need to have the contract on disk or even deploy it, if the address is specified in it.</p>
+<p>Here is how you can do it:</p>
+<pre><code class="javascript">...
+deploy: {
+  SimpleStorage: {
+    artifact: './path/to/SimpleStorage.json'
+  }
+}
+...
+</code></pre>
+
+<h2 id="Deployment-tracking"><a href="#Deployment-tracking" class="headerlink" title="Deployment tracking"></a>Deployment tracking</h2><p>Embark’s Smart Contract deployment mechanism prevents the deployment of Smart Contracts that have already been deployed. This turns out to be a powerful feature as you don’t have to worry about keeping track of it. The way this works is that, by default, Embark creates a file <code>./.embark/chains.json</code> in which it stores the name and address of the deployed Smart Contracts. That information is then mapped to the hash of the block in which the Smart Contract have been deployed:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  BLOCK_HASH &#123;</span><br><span class="line">    &quot;contracts&quot;: &#123;</span><br><span class="line">      HASH(NAME, BYTECODE, ARGS, ADDRESS): &#123;</span><br><span class="line">        &quot;name&quot;: NAME,</span><br><span class="line">        &quot;address: ADDRESS</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>With concrete data, the contents of <code>chains.json</code> could look something like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;0x6454b3e22cc9abe24bcd9f239687ad68ab6addb4f271a6b955f2e6111522310a&quot;: &#123;</span><br><span class="line">    &quot;contracts&quot;: &#123;</span><br><span class="line">      &quot;0x3043b04ad856d169c8f0b0509c0bc63192dc7edd92d6933c58708298a0e381be&quot;: &#123;</span><br><span class="line">        &quot;name&quot;: &quot;ENSRegistry&quot;,</span><br><span class="line">        &quot;address&quot;: &quot;0x4F75E2beCbD08c5dD67f74aA0E28558a6a596528&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;0xc51636fc4431a598f31d35de56a5e59b1a55d601babbdf5e9718a520654a4a93&quot;: &#123;</span><br><span class="line">        &quot;name&quot;: &quot;Resolver&quot;,</span><br><span class="line">        &quot;address&quot;: &quot;0xD9c5bEeD72A0f2FeAcF43730eF2B4bC86F38Cb6f&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;0x269ef61966bd985f10d8ae13d7eaa498b423372f266fb5c188f60fa5618ff334&quot;: &#123;</span><br><span class="line">        &quot;name&quot;: &quot;FIFSRegistrar&quot;,</span><br><span class="line">        &quot;address&quot;: &quot;0xe7120Bfe50b72a9629546dCe05c3821b3bb52B4E&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;0xc920172104d0372dfa1375d4c9ef05ae15569b94b88fd4b0d5a834965dc7420b&quot;: &#123;</span><br><span class="line">        &quot;name&quot;: &quot;SimpleStorage&quot;,</span><br><span class="line">        &quot;address&quot;: &quot;0x4928bFf909063465d3cc1708E5F9c6EB0E3F324E&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Disabling-tracking"><a href="#Disabling-tracking" class="headerlink" title="Disabling tracking"></a>Disabling tracking</h3><p>If we prefer to have full control over the deployment process and don’t want Embark to keep track of individual Smart Contract deployments, we use the <code>track</code> configuration and set it <code>false</code>.</p>
+<p>The following example ensures <code>ERC20</code> won’t be tracked and therefore redeployed in every deployment cycle.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  ERC20: &#123;</span><br><span class="line">    track: false</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="Specifying-a-tracking-file"><a href="#Specifying-a-tracking-file" class="headerlink" title="Specifying a tracking file"></a>Specifying a tracking file</h3><p>In addition to enabling and disabling tracking, it’s also possible to tell Embark which file it should use for tracking. This can be useful for tracking deployed Smart Contracts on different platforms, such as testnets and the mainnet. The tracking state of those platforms should most likely be under version control, because we certainly don’t want multiple people to redeploy our Smart Contracts on multiple platforms. Putting those files under version control ensures everybody else gets the already tracked state. The contents will have the same schema as discussed above.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">tracking: &apos;path/to/some/file&apos;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>Having the file referenced above under version control ensures that other users of our project don’t redeploy the Smart Contracts on different platforms.</p>
+<h3 id="Reducing-contract-size"><a href="#Reducing-contract-size" class="headerlink" title="Reducing contract size"></a>Reducing contract size</h3><p>To reduce the size of the contract JSON files that are included in the build directory, you can set <code>minimalContractSize</code> to <code>true</code>. It defaults to <code>false</code>.<br>When set to <code>true</code>, Embark will not put te bytecode, gas estimates and other big configurations in the JSON file.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">minimalContractSize: true,</span><br></pre></td></tr></table></figure>
+
+<p>You can also have more control over the filtering by adding a <code>filteredFields</code> array. In the array, you can add the name of the fields you want to filter out.<br>This is useful for when you want to reduce the size of the contract files, but might still need a certain field, or if you want to filter even more aggressively.<br>Note that you need to have <code>minimalContractSize</code> set to <code>true</code>.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">minimalContractSize: true,</span><br><span class="line">filteredFields: [&apos;runtimeBytecode&apos;, &apos;realRuntimeBytecode&apos;] // This will filter out only runtimeBytecode and realRuntimeBytecode</span><br></pre></td></tr></table></figure>
+
+<h2 id="Deployment-hooks"><a href="#Deployment-hooks" class="headerlink" title="Deployment hooks"></a>Deployment hooks</h2><p>Sometimes we want to execute certain logic when Smart Contracts are being deployed or after all of them have been deployed. In other cases, we’d even like to control whether a Smart Contract should be deployed in the first place. For those scenarios, Embark lets us define the deployment hooks <code>beforeDeploy</code>, <code>deployIf</code>, <code>onDeploy</code> and <code>afterDeploy</code>.</p>
+<p>Deployment hooks have access to a <code>dependencies</code> object that comes with instances of all Smart Contracts that are defined as dependency of the hooks using the <code>deps</code> property of the Smart Contract in question, and the Smart Contract itself. In addition to all relevant Smart Contract instances, this object also exposes the current <code>web3</code> instance and a <code>logger</code> instance as shown in the examples below.</p>
+<h3 id="Conditional-Deployment-with-deployIf"><a href="#Conditional-Deployment-with-deployIf" class="headerlink" title="Conditional Deployment with deployIf"></a>Conditional Deployment with <code>deployIf</code></h3><p>We can specify a condition that decides whether a contract should be deployed by using the <code>deployIf</code> hook. <code>deployIf</code> is a function that either returns a promise or is created using <code>async/await</code> syntax and has to resolve to a boolean value. If the resolve value is <code>true</code>, the Smart Contract in question will be deployed. If it’s <code>false</code>, Embark will skip deploying the Smart Contract in question.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  ERC20: &#123;</span><br><span class="line">    deployIf: async (dependencies) =&gt; &#123;</span><br><span class="line">      return await dependencies.contracts.Manager.methods.isUpdateApproved().call();</span><br><span class="line">    &#125;,</span><br><span class="line">    deps: [&apos;Manager&apos;]</span><br><span class="line">  &#125;,</span><br><span class="line">  Manager: &#123;...&#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>Notice how <code>dependencies.contracts</code> gives access to the <code>Manager</code> contract instance. This however, is only possible because <code>Manager</code> has been defined as dependency of <code>ERC20</code> using the <code>deps</code> property. If we’re using a Node version that doesn’t support async/await, the same can be achieved using promises like this (web3 APIs already return promises):</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">ERC20: &#123;</span><br><span class="line">  deployIf: (dependencies) =&gt; &#123;</span><br><span class="line">    return dependencies.contracts.Manager.methods.isUpdateApproved().call();</span><br><span class="line">  &#125;,</span><br><span class="line">  deps: [&apos;Manager&apos;]</span><br><span class="line">&#125;,</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="beforeDeploy-hook"><a href="#beforeDeploy-hook" class="headerlink" title="beforeDeploy hook"></a><code>beforeDeploy</code> hook</h3><p><code>beforeDeploy</code> is a hook that, just like the name says, is executed before something is deployed. This hook is the counterparts to the <a href="#afterDeploy-hook">afterDeploy</a> and can be used in either individual Smart Contract configurations, or for all Smart Contracts. E.g. the following snippet configures <code>beforeDeploy</code> just for <code>SimpleStorage</code>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SimpleStorage: &#123;</span><br><span class="line">  beforeDeploy: async () =&gt; &#123;</span><br><span class="line">    console.log(&apos;before deploying SimpleStorage&apos;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Wheras this configuration here runs the hook before all Smart Contracts are being deployed:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy: &#123;</span><br><span class="line">  SimpleStorage: &#123; ... &#125;</span><br><span class="line">  beforeDeploy: async () =&gt; &#123;</span><br><span class="line">    console.log(&apos;Before all deploy&apos;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="onDeploy-hook"><a href="#onDeploy-hook" class="headerlink" title="onDeploy hook"></a><code>onDeploy</code> hook</h3><p>We can specify the <code>onDeploy</code> hook to execute code, right after a contract has been deployed. Just like <code>deployIf</code> and <code>afterDeploy</code>, <code>onDeploy</code> is a function that has access to the Smart Contract’s dependencies defined in its <code>deps</code> property. The following example executes <code>SimpleStorage</code>‘s <code>set()</code> method, once deployed.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  SimpleStorage: &#123;</span><br><span class="line">    args: [100],</span><br><span class="line">    onDeploy: async (dependencies) =&gt; &#123;</span><br><span class="line">      await dependencies.contracts.SimpleStorage.methods.set(150).send(&#123;from: dependencies.web3.eth.defaultAccount&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>To actually <code>send</code> transactions and not just make <code>call</code>s, you will probably need to provide a <code>from</code> account. You can use the <code>web3</code> instance inside <code>dependencies</code> to get the <code>defaultAccount</code> as above.</p>
+<p>Also, as mentioned above, every deployment hook works with plain promises as well:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">SimpleStorage: &#123;</span><br><span class="line">  args: [100],</span><br><span class="line">  onDeploy: (dependencies) =&gt; &#123;</span><br><span class="line">    return dependencies.contracts.SimpleStorage.methods.set(150).send();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="afterDeploy-hook"><a href="#afterDeploy-hook" class="headerlink" title="afterDeploy hook"></a><code>afterDeploy</code> hook</h3><p>If we want to execute code once all of our Smart Contracts have been deployed, Embark has got us covered with the <code>afterDeploy</code> hook. The same rules apply here. <code>afterDeploy</code> has access to all deployed contract instances through the <code>dependencies</code> object.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  SimpleStorage: &#123;</span><br><span class="line">    args: [100]</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;,</span><br><span class="line">afterDeploy: (dependencies) =&gt; &#123;</span><br><span class="line">  dependencies.contracts.SimpleStorage.methods.set(150).send(&#123;from: dependencies.web3.eth.defaultAccount&#125;);</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="Error-Handling"><a href="#Error-Handling" class="headerlink" title="Error Handling"></a>Error Handling</h3><p>Since we use functions for these deployment hooks, we have to manage errors ourselves. We skipped that step in the above examples to save space, but here is an easy example on how you can do it:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">onDeploy: async (dependencies) =&gt; &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    await dependencies.contracts.SimpleStorage.methods.set(85).send(&#123;from: dependencies.web3.eth.defaultAccount&#125;);</span><br><span class="line">  &#125; catch (e) &#123;</span><br><span class="line">    console.error(&apos;Error during onDeploy&apos;, e);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="c-notification c-notification--info">
+  <p><strong>A note on deployment hook string syntax</strong></p>
+  <p></p><p>In older versions of Embark, deployment hooks have been defined as an array of strings. This is due historical reasons where configuration files used to be JSON files that don’t support functions.</p>
+<p>The examples above can be therefore written as:</p>
+<pre class="highlight">afterDeploy: ['SimpleStorage.methods.set(150).send()']
+onDeploy: ['SimpleStorage.methods.set(150).send()']
+deployIf: 'await Manager.methods.isUpdateApproved()'
+</pre>
+
+<p>This string syntax is still supported, but will be deprecated and likely be removed in future versions of Embark.</p>
+<p></p>
+</div> 
+
+
+
+<h3 id="Logging-with-context"><a href="#Logging-with-context" class="headerlink" title="Logging with context"></a>Logging with context</h3><p>Often we use log statements to either debug code or simply to output what’s going on at the moment. It can be useful to output logs within deployment hooks as well. To make sure our deployment hooks don’t drown in the rest of Embark’s output, we can use the injected <code>logger</code> which prefixes every log message with a context indicator.</p>
+<p>For example, when logging something from within an <code>onDeploy</code> hook of a Smart Contract, the output will look like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SmartContractName &gt; onDeploy &gt; [YOUR MESSAGE]</span><br></pre></td></tr></table></figure>
+
+<p>The <code>logger</code> is injected as part of the <code>dependencies</code> object, so we can use it like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy: &#123;</span><br><span class="line">  SimpleStorage: &#123;</span><br><span class="line">    onDeploy: async (dependencies) =&gt; &#123;</span><br><span class="line">      dependencies.logger.info(&apos;Hello from onDeploy!&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Which will result in</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SimpleStorage &gt; onDeploy &gt; Hello from onDeploy!</span><br></pre></td></tr></table></figure>
+
+<h2 id="Human-readable-Ether-units"><a href="#Human-readable-Ether-units" class="headerlink" title="Human readable Ether units"></a>Human readable Ether units</h2><p>Embark supports human readable ether units in different places where Ether values can be configured. A human readable ether unit is the combination of any number value and any valid ether unit, such as <code>wei</code>, <code>kwei</code>, <code>Kwei</code>, <code>shannon</code>, <code>finney</code>, … etc.</p>
+<p>Let’s take the simple Smart Contract configuration from the <a href="#Configuring-gas-and-gas-price">configuring gas and gas price</a> section:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  SimpleStorage: &#123;</span><br><span class="line">    args: [100],</span><br><span class="line">    gas: 800000,</span><br><span class="line">    gasPrice: 5</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>This can as well be written as:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">deploy: &#123;</span><br><span class="line">  SimpleStorage: &#123;</span><br><span class="line">    args: [100],</span><br><span class="line">    gas: &apos;800 Kwei&apos;,</span><br><span class="line">    gasPrice: 5</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>Embark will take care of converting those units to their dedicated Wei values.</p>
+
+        </div>
+        <div class="o-container-medium o-distance-l">
+          <div class="o-flex o-flex-space-between">
+  
+  <div class="o-flex__item">
+    <a href="/docs/javascript_usage.html" class="c-button c-button--quite" title="Previous article">Previous</a>
+  </div>
+  
+  
+  <div class="o-flex__item">
+    <a href="/docs/contracts_deployment.html" class="c-button c-button--quite" title="Next article">Next</a>
+  </div>
+  
+</div>
+
+
+        </div>
+      </div>
+      <div class="o-guided-content__addition">
+        <h3 class="c-category-title">Contents</h3>
+        <ol class="o-list-bare"><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Basic-Smart-Contract-Configuration" class="u-link-uniform">Basic Smart Contract Configuration</a><ol class="o-list-bare__child"><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Configuring-constructor-parameters" class="u-link-uniform">Configuring constructor parameters</a></li><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Configuring-gas-and-gas-price" class="u-link-uniform">Configuring gas and gas price</a></li></ol></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Configuring-Smart-Contract-Dependencies" class="u-link-uniform">Configuring Smart Contract Dependencies</a></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Disabling-deployment" class="u-link-uniform">Disabling deployment</a></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Deployment-strategies" class="u-link-uniform">Deployment strategies</a></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Deploying-multiple-instances" class="u-link-uniform">Deploying multiple instances</a></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Referencing-already-deployed-Smart-Contracts" class="u-link-uniform">Referencing already deployed Smart Contracts</a></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Using-accounts-in-arguments" class="u-link-uniform">Using accounts in arguments</a></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Dynamic-Addresses" class="u-link-uniform">Dynamic Addresses</a></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Configuring-source-files" class="u-link-uniform">Configuring source files</a></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Providing-ABIs" class="u-link-uniform">Providing ABIs</a></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Providing-Artifacts" class="u-link-uniform">Providing Artifacts</a></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Deployment-tracking" class="u-link-uniform">Deployment tracking</a><ol class="o-list-bare__child"><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Disabling-tracking" class="u-link-uniform">Disabling tracking</a></li><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Specifying-a-tracking-file" class="u-link-uniform">Specifying a tracking file</a></li><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Reducing-contract-size" class="u-link-uniform">Reducing contract size</a></li></ol></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Deployment-hooks" class="u-link-uniform">Deployment hooks</a><ol class="o-list-bare__child"><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Conditional-Deployment-with-deployIf" class="u-link-uniform">Conditional Deployment with deployIf</a></li><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#beforeDeploy-hook" class="u-link-uniform">beforeDeploy hook</a></li><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#onDeploy-hook" class="u-link-uniform">onDeploy hook</a></li><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#afterDeploy-hook" class="u-link-uniform">afterDeploy hook</a></li><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Error-Handling" class="u-link-uniform">Error Handling</a></li><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Logging-with-context" class="u-link-uniform">Logging with context</a></li></ol></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Human-readable-Ether-units" class="u-link-uniform">Human readable Ether units</a></li></ol>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="/js/linkjuice/dist/linkjuice.min.js"></script>
+
+    <footer role="contentinfo" class="c-footer o-distance-xxl">
+  <div class="o-container">
+    <div class="c-footer__top">
+      <p class="c-category-title c-footer__top__title u-text-light">
+        <a href="/" class="c-logo c-logo--negative" title="Embark">Embark</a>
+      </p>
+    </div>
+    <div class="c-footer__body">
+      <div class="o-grid">
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Resources</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="/docs/quick_start.html" class="u-link-ghost" title="Quick Start">Quick Start</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs" class="u-link-ghost" title="Documentation">Documentation</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/news" class="u-link-ghost" title="Blog">Blog</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/faq.html" class="u-link-ghost" title="FAQ">FAQ</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/troubleshooting.html" class="u-link-ghost" title="Troubleshooting">Troubleshooting</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Help</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://stackoverflow.com/questions/tagged/embark" class="u-link-ghost" title="Embark Questions">Stack Overflow</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://gitter.im/embark-framework/Lobby" class="u-link-ghost" title="Gitter">Gitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/issues" class="u-link-ghost" title="Report issues">Report issues</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/blob/master/CODE_OF_CONDUCT.md" class="u-link-ghost" title="Code of Conduct">Code of Conduct</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Community</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework" class="u-link-ghost" title="Github">Github</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://twitter.com/EmbarkProject" class="u-link-ghost" title="Twitter">Twitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/contributing.html" class="u-link-ghost" title="Contribute">Contribute</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/community/#team" class="u-link-ghost" title="Team">Team</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-4">
+          <p class="c-category-title u-text-light">The Status Network</p>
+          <ul class="o-list-bare two-columns">
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://status.im/" target="_blank">Status</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://keycard.tech/" target="_blank">Keycard</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://dap.ps/" target="_blank">dap.ps</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://embark.status.im/" target="_blank">Embark</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://subspace.status.im/" target="_blank">Subspace</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://vac.dev/" target="_blank">Vac</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-footer__bottom">
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019-2020 Embark
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+      const EMBARK_DOC_VERSIONS = {
+        'latest': 'https://embark.status.im/docs','3.2': 'https://5ca4e0fdb29712000adde37f--embark-site-versions.netlify.com/docs/'
+      };
+    </script>
+
+    
+    <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
+    <script>
+    (function(f, a, t, h, o, m){
+        a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};
+        o=f.createElement('script'),
+        m=f.getElementsByTagName('script')[0];
+        o.async=1; o.src=t; o.id='fathom-script';
+        m.parentNode.insertBefore(o,m)
+    })(document, window, '//fathom.status.im/tracker.js', 'fathom');
+    fathom('set', 'siteId', 'JOQKN');
+    fathom('trackPageview');
+    </script>
+    <!-- / Fathom -->
+    
+
+    <script src="/js/index.js"></script>
+
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+      });
+    </script>
+    
+  </body>
+</html>
+

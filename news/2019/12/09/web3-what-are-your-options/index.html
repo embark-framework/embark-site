@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>Introduction to Web3 - What Are Your Options? | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/news/2019/12/09/web3-what-are-your-options/index.html">
+  <!-- Alternative links -->
+  
+
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#080E1A">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-32.png" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-60x60-precomposed.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-76x76-precomposed.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon-120x120-precomposed.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-touch-icon-152x152-precomposed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon-precomposed.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/embark.css">
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/styles/dracula.min.css">
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script>
+  !function(root, factory) {
+    "function" == typeof define && define.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == typeof module && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(this, function() {
+    /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""),
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)),
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)),
+                svg && src) {
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(),
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+
+svg4everybody();
+</script>
+</head>
+
+  <body>
+    <header role="banner" class="c-header c-header--compact">
+  <div class="o-container">
+    <div class="c-header__top">
+      <a href="/" title="Embark" class="c-logo c-logo--negative">Embark</a>
+      <nav role="navigation" class="c-navigation">
+        <div class="c-navigation__header">
+          <a href="/" title="Embark" class="c-logo">Embark</a>
+          <button class="c-navigation__close u-text-light" title="Close menu">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../assets/icons/symbols.svg#icon-close"></use></svg>
+          </button>
+        </div>
+        <div class="c-navigation__body">
+          <ul class="c-navigation__list">
+            <li class="c-navigation__item">
+              <a href="/docs/quick_start.html" class="c-navigation__anchor " title="Quick Start">Quick Start</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/docs" class="c-navigation__anchor " title="Learn">Learn</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/plugins" class="c-navigation__anchor " title="Plugins">Plugins</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/community" class="c-navigation__anchor " title="Community">Community</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/news" class="c-navigation__anchor is-active" title="Blog">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="o-flex o-flex-center">
+        <form action="" class="o-flex__item u-hidden-until-large">
+          <input type="search" placeholder="Search" id="search-input">
+        </form>
+        <div class="o-flex__item">
+          <ul class="o-flex o-flex-center">
+            <li class="o-flex__item">
+              <a href="https://github.com/embark-framework/embark" title="Github" target="_blank" class="u-link-ghost">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-github"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item">
+              <a href="https://twitter.com/EmbarkProject" title="Twitter" target="_blank">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-twitter"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item u-hidden-large-up">
+              <button type="button"class="c-navigation__trigger u-link-ghost" title="Open menu">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-navigation-menu"></use></svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-quick-search o-distance-m u-hidden-large-up">
+      <input type="search" id="inp-search" placeholder="Search">
+    </div>
+  </div>
+  <div class="o-container-medium">
+    <div class="c-header__body">
+      <h1 class="c-title u-text-ghost">Introduction to Web3 - What Are Your Options?</h1>
+      
+      <div class="o-distance-m">
+        <div class="o-flex o-flex-center">
+          <span class="o-flex__item">
+            <img src="https://avatars1.githubusercontent.com/u/29288325?s=400&v=4" class="c-avatar-small">
+          </span>
+          <p class="o-flex__item">
+            Written by <a href="https://twitter.com/rbin" title="Robin Percy on Twitter">Robin Percy</a> on the <time class="u-text-ghost">9th December 2019</time>
+          </p>
+        </div>
+      </div>
+      
+
+      
+
+      
+      
+    </div>
+  </div>
+</header>
+
+
+<main role="main" class="o-standard-page">
+  <section class="o-container-medium o-distance">
+    <p><img src="/assets/images/web3-article-header.png" alt="Web3.js"></p>
+<p><em>This will be a fairly brief write-up, introducing Web3 ahead of my next DApp tutorial series.</em></p>
+<p>To kick this article off, I first have to reaffirm, for those that aren’t aware, I am not, and never have been, a <strong><em>lover</em></strong> of JavaScript.  While my cool friends were off learning Node, and for some reason moving a scripting language to the backend, I was learning C and Go, Erlang and Distributed Systems.</p>
+<p>For years, I harboured a deep hatred of JS, and actively whinged about it at every opportunity I got; being <strong><em>forced</em></strong> to use it in my daily work life.  Now however, I do have to say; over the last few years I have <em>softened</em> to JS, and I am much more comfortable in my own skin when having to use it.</p>
+<p>It goes without saying, the entire web is JS.  Look around you - JS.  View the source of this article - JS files.  Look at your own app’s dependencies - JS.</p>
+<p>JavaScript, specifically Node, really is in everything we use, and that now also applies to our wonderful world of Cryptocurrencies.</p>
+<p>As I mentioned briefly in my <a href="/news/2019/11/28/nim-vs-crystal-part-3-cryto-dapps-p2p/"><strong><em>last</em></strong> article</a>, my <strong><em>next</em></strong> article series is going to be about building your first DApp – from start to finish.  Inevitably, the frontend of our DApp needs to be able to communicate with the Ethereum Network.  This is where <a href="https://web3js.readthedocs.io/en/v1.2.4/index.html" target="_blank" rel="noopener">Web3.js</a> comes into the mix.  <code>Web3.js</code> is a collection of APIs allowing us such functionality as:  Reading &amp; Writing data from Smart Contracts, sending and receiving Ether, encrypting / decrypting wallets &amp; data, and <em>a whole bunch</em> of other stuff too.  Basically, <em>most</em> of the backend functionality available on the Ethereum Network natively becomes available for use in the browser.</p>
+<p>This is how the <code>web3.js</code> library talks to the Ethereum Network:</p>
+<p><img src="/assets/images/web3-js-diagram.png" alt="Web3 JS Diagram"><br><em>Image credit: <a href="https://iotbl.blogspot.com/2017/03/ethereum-and-blockchain-2.html" target="_blank" rel="noopener">iotbl</a></em></p>
+<p>So, now that the basics are covered, let’s go over installing and using the <code>web3.js</code> library.</p>
+<h1 id="Installing-Web3"><a href="#Installing-Web3" class="headerlink" title="Installing Web3"></a>Installing Web3</h1><p>Installing <code>web3.js</code> is as simple as:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install web3</span><br></pre></td></tr></table></figure>
+
+<p><em>One thing worth noting here</em>; is that (coming from an anti-js background), I kept getting a <code>cannot find web3 module</code> error when trying to import web3 into a Node console.  If you, like me, aren’t a big js fan, this can be solved by first running the <code>npm init</code> command to ensure there is a <code>package.json</code> file in the cwd, and <em>then</em> you can run <code>npm install web3</code>, and it will work fine.  (I realise this is basic stuff – but actually for someone who’s <em>tried</em> to avoid Node at all costs, it was initially confusing enough to have to search online.)</p>
+<p>I am working from a Mac here, but if you are working from Windows, the install process <em>can</em> be exactly the same, assuming you do have <a href="https://phoenixnap.com/kb/install-node-js-npm-on-windows" target="_blank" rel="noopener">Node &amp; NPM installed</a>.</p>
+<p>So, with <code>web3.js</code> installed, let’s do some basic interactions with the Ethereum Network, and <strong><em>dive on in!</em></strong></p>
+<h1 id="Communicating-with-the-Ethereum-Network"><a href="#Communicating-with-the-Ethereum-Network" class="headerlink" title="Communicating with the Ethereum Network"></a>Communicating with the Ethereum Network</h1><h2 id="Wallet-Interaction"><a href="#Wallet-Interaction" class="headerlink" title="Wallet Interaction"></a>Wallet Interaction</h2><p>For this article, we’re going to use <a href="https://www.trufflesuite.com/ganache" target="_blank" rel="noopener">Ganache</a>, for simplicity, as our local Blockchain.  By using Ganache, we can spin up a local Ethereum node, without having to write a single line of code!</p>
+<p><strong><em>(Yes, I realise that rhymes.  No, I didn’t realise until my second proof-read through of this article!)</em></strong></p>
+<p>In fact, though, Embark already has Ganache inbuilt, so we could also simply run:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">embark simulator</span><br></pre></td></tr></table></figure>
+
+<p>Anyway, to install Ganache head over to <a href="https://www.trufflesuite.com/ganache" target="_blank" rel="noopener">this page</a> and click on the executable there.  If you so choose; there is also a Ganache CLI available you can install by running:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install -g ganache-cli</span><br></pre></td></tr></table></figure>
+
+<p>Running the Ganache CLI will give you the same functionality as the desktop client; in essence giving us a multitude of ETH-loaded wallets that we can build contracts around / interact with.</p>
+<p><img src="/assets/images/ganache-cli.png" alt="Ganache CLI"></p>
+<p>Rather brilliantly; we now have a local Ethereum Node running that we can start using the Web3 client to interact with.  In another Terminal tab, open up a <code>node</code> instance from the same working directory we ran the <code>npm init</code> command from earlier.</p>
+<p>Now, in our interactive Node console, run:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> Web3 = <span class="built_in">require</span>(<span class="string">'web3'</span>);</span><br><span class="line"><span class="keyword">var</span> web3 = <span class="keyword">new</span> Web3(<span class="string">'http://localhost:8545'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Something to note here, is that I’m calling <code>new Web3</code> with an <code>http</code> protocol, but the WebSocket protocol is also commonly used:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> web3 = <span class="keyword">new</span> Web3(Web3.givenProvider || <span class="keyword">new</span> Web3.providers.WebsocketProvider(<span class="string">'ws://remotenode.com:8546'</span>));</span><br></pre></td></tr></table></figure>
+
+<p>To test and ensure the connection, you can get a list of the accounts made available in Ganache by running:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">web3.eth.getAccounts().then(<span class="built_in">console</span>.log);</span><br></pre></td></tr></table></figure>
+
+<p>Which <em>should</em> give you an output like the following:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&gt; [ <span class="string">'0x7689cF9F90FAad61B8a3c9b1b2A5b4580B37358b'</span>,</span><br><span class="line">  <span class="string">'0x852e9a9db77a4e6169e175cDBb33dBE350150A8e'</span>,</span><br><span class="line">  <span class="string">'0x946700a1a4f30Dfe80307C91B6DaF1cCa2d09401'</span>,</span><br><span class="line">  <span class="string">'0x7d356aF02A87147D3ce5F9ACA716a78f70aF7616'</span>,</span><br><span class="line">  <span class="string">'0x88A116a16e4c8838F575a0e7a72eE27C7B073263'</span>,</span><br><span class="line">  <span class="string">'0x655317701Fcf3b310F492cB801C8D23f8c6fb556'</span>,</span><br><span class="line">  <span class="string">'0x16D305e72aFb0DDa1dB1830F8a98D5cD5337882E'</span>,</span><br><span class="line">  <span class="string">'0x9099bb4Af9CE5734E7a7e62f817e833fcFFaaF32'</span>,</span><br><span class="line">  <span class="string">'0x2ec4CC6700d0424A78a9B9Fc2ecBaeFc162313F1'</span>,</span><br><span class="line">  <span class="string">'0x1BC51a0edEC9FdEA3B14748e9209F4bF8Fe024b5'</span> ]</span><br></pre></td></tr></table></figure>
+
+<p>If you want to check the balance of an individual account from the above list, you can do so by running:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> account1 = <span class="string">"0x7689cF9F90FAad61B8a3c9b1b2A5b4580B37358b"</span>;</span><br><span class="line"></span><br><span class="line">web3.eth.getBalance(account1)</span><br><span class="line">.then(<span class="built_in">console</span>.log);</span><br></pre></td></tr></table></figure>
+
+<p>Which will output:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt; 100000000000000000000</span><br></pre></td></tr></table></figure>
+
+<h2 id="Contract-Interaction"><a href="#Contract-Interaction" class="headerlink" title="Contract Interaction"></a>Contract Interaction</h2><p>As above; interacting with our <em>individual accounts</em> through <code>web3.js</code> is cool, but not nearly the extent to which the library works.  Let’s now take a brief look at the more important functionality; of interacting with Smart Contracts through <code>web3.js</code>.</p>
+<p>The first thing we need to do, is to create a new Smart Contract, which we can do with the <code>new web3.eth.Contract</code> command.</p>
+<p>Before we call the <code>new</code> command, we need to assign our <code>json interface</code> for the contract’s <code>ABI</code>:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> abi = [&#123;<span class="string">"type"</span>:<span class="string">"function"</span>, <span class="string">"name"</span>:<span class="string">"foo"</span>, <span class="string">"inputs"</span>: [&#123;<span class="string">"name"</span>:<span class="string">"a"</span>,<span class="string">"type"</span>:<span class="string">"uint256"</span>&#125;], <span class="string">"outputs"</span>: [&#123;<span class="string">"name"</span>:<span class="string">"b"</span>,<span class="string">"type"</span>:<span class="string">"address"</span>&#125;] &#125;,&#123; <span class="string">"type"</span>:<span class="string">"event"</span>, <span class="string">"name"</span>:<span class="string">"Event"</span>, <span class="string">"inputs"</span>: [&#123;<span class="string">"name"</span>:<span class="string">"a"</span>,<span class="string">"type"</span>:<span class="string">"uint256"</span>,<span class="string">"indexed"</span>:<span class="literal">true</span>&#125;,&#123;<span class="string">"name"</span>:<span class="string">"b"</span>,<span class="string">"type"</span>:<span class="string">"bytes32"</span>,<span class="string">"indexed"</span>:<span class="literal">false</span>&#125;], &#125;]</span><br></pre></td></tr></table></figure>
+
+<p>The <code>json interface</code> is a JSON object describing the <em>Application Binary Interface (ABI)</em> for our Smart Contract.  Using this JSON interface; <code>web3.js</code> is able to create a JavaScript object representing our Smart Contract and its methods &amp; events, using the <code>web3.eth.Contract</code> functionality.</p>
+<p><em>Note, the above JSON interface / ABI is taken directly from the <a href="https://web3js.readthedocs.io/en/v1.2.0/web3-eth-contract.html#id5" target="_blank" rel="noopener">Web3 docs</a>.</em></p>
+<p>Now that we have our <code>json interface</code> defined, we can create our new contract instance:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> myContract = <span class="keyword">new</span> web3.eth.Contract(abi, <span class="string">'0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe'</span>);</span><br></pre></td></tr></table></figure>
+
+<p><em>(The <code>from</code> address is the address of the already deployed contract instance that we’re aiming to talk to.)</em></p>
+<p>You could then set the Smart Contract’s <code>data</code> and other <code>options</code>, and then <strong>deploy</strong> your Contract with something <em>like</em> the following:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">myContract.options.data = <span class="string">'0x12345...'</span>;</span><br><span class="line"></span><br><span class="line">myContract.deploy(&#123;</span><br><span class="line">    <span class="built_in">arguments</span>: [<span class="number">123</span>, <span class="string">'My String'</span>]</span><br><span class="line">&#125;)</span><br><span class="line">.send(&#123;</span><br><span class="line">    <span class="keyword">from</span>: <span class="string">'0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe'</span>,</span><br><span class="line">    gas: <span class="number">1500000</span>,</span><br><span class="line">    gasPrice: <span class="string">'30000000000000'</span></span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">newContractInstance</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(newContractInstance.options.address) <span class="comment">// instance with the new contract address</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>The above examples aren’t supposed to be perfect continuous code, and should definitely <em>not</em> be copy/pasted into a production project, but they are there to show off roughly how <code>Web.js</code> works, and give an overview of interacting with the 2 main pieces of functionality, as I see them – Wallets and Contracts.</p>
+<p>In my next tutorial series, we will be utilising <a href="https://embark.status.im/docs/quick_start.html">Embark</a>, and therefore we’ll be diving deeper into <code>web3.js</code>, and showing off much more of its potential.</p>
+<h1 id="Web-js-in-Other-Languages"><a href="#Web-js-in-Other-Languages" class="headerlink" title="Web.js in Other Languages"></a>Web.js in Other Languages</h1><p>Naturally the whole idea behind this article was to show off communication with the Ethereum Network through a JavaScript frontend.  However, there are also <strong>many</strong> other libraries, in pretty much every language, available to do the same:</p>
+<p><strong><em>Nim - <a href="https://github.com/status-im/nim-web3" target="_blank" rel="noopener">nim-web3</a></em></strong><br>Crystal - <a href="https://github.com/light-side-software/web3.cr" target="_blank" rel="noopener">web3.cr</a><br>Ruby - <a href="https://github.com/izetex/web3-eth" target="_blank" rel="noopener">web3-eth gem</a><br>Elixir - <a href="https://github.com/mana-ethereum/ethereumex" target="_blank" rel="noopener">ethereumex</a><br>Python - <a href="https://github.com/ethereum/web3.py" target="_blank" rel="noopener">Web3.py</a><br>Haskell - <a href="https://github.com/airalab/hs-web3" target="_blank" rel="noopener">hs-web3</a><br>Java - <a href="https://github.com/web3j/web3j" target="_blank" rel="noopener">web3j</a><br>Scala - <a href="https://github.com/mslinn/web3j-scala" target="_blank" rel="noopener">web3j-scala</a><br>Purescript - <a href="https://github.com/f-o-a-m/purescript-web3" target="_blank" rel="noopener">purescript-web3</a><br>PHP - <a href="https://github.com/sc0Vu/web3.php" target="_blank" rel="noopener">web3.php</a></p>
+<h1 id="Beyond-Web3"><a href="#Beyond-Web3" class="headerlink" title="Beyond Web3"></a>Beyond Web3</h1><p>As stated at the opening of this article, we’ve barely even scratched the surface of <code>web.js</code> capabilities.  But I do hope that you now have a better understanding of what Web3 stands for.</p>
+<p>Personally, I am <strong>very much</strong> looking forward to <strong><em>diving on in</em></strong> to my next DApp tutorial series, to utilise and demonstrate the Ethereum Network to its fullest.</p>
+<p>As always, if you have <em>any</em> questions regarding Web3, how Status utilises Web3, or if you have comments on this article, feel free to reach out to me at <a href="mailto:robin@status.im" target="_blank" rel="noopener">robin@status</a>.</p>
+<p>Thanks again for reading, and check back for my DApp tutorial series, starting later this week!</p>
+<p><a href="https://twitter.com/rbin" target="_blank" rel="noopener"> <strong>- @rbin</strong></a></p>
+
+  </section>
+  
+  
+
+  <div class="o-container-medium o-distance">
+    <div class="o-flex o-flex-space-between">
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/11/28/nim-vs-crystal-part-3-cryto-dapps-p2p/" class="c-button c-button--quite" title="Previous article">Previous</a>
+  </div>
+  
+  
+  <div class="o-flex__item">
+    <a href="/news/2020/01/09/take-back-the-web-hackathon/" class="c-button c-button--quite" title="Next article">Next</a>
+  </div>
+  
+</div>
+
+
+  </div>
+  
+</main>
+
+
+    <footer role="contentinfo" class="c-footer o-distance-xxl">
+  <div class="o-container">
+    <div class="c-footer__top">
+      <p class="c-category-title c-footer__top__title u-text-light">
+        <a href="/" class="c-logo c-logo--negative" title="Embark">Embark</a>
+      </p>
+    </div>
+    <div class="c-footer__body">
+      <div class="o-grid">
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Resources</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="/docs/quick_start.html" class="u-link-ghost" title="Quick Start">Quick Start</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs" class="u-link-ghost" title="Documentation">Documentation</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/news" class="u-link-ghost" title="Blog">Blog</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/faq.html" class="u-link-ghost" title="FAQ">FAQ</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/troubleshooting.html" class="u-link-ghost" title="Troubleshooting">Troubleshooting</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Help</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://stackoverflow.com/questions/tagged/embark" class="u-link-ghost" title="Embark Questions">Stack Overflow</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://gitter.im/embark-framework/Lobby" class="u-link-ghost" title="Gitter">Gitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/issues" class="u-link-ghost" title="Report issues">Report issues</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/blob/master/CODE_OF_CONDUCT.md" class="u-link-ghost" title="Code of Conduct">Code of Conduct</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Community</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework" class="u-link-ghost" title="Github">Github</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://twitter.com/EmbarkProject" class="u-link-ghost" title="Twitter">Twitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/contributing.html" class="u-link-ghost" title="Contribute">Contribute</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/community/#team" class="u-link-ghost" title="Team">Team</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-4">
+          <p class="c-category-title u-text-light">The Status Network</p>
+          <ul class="o-list-bare two-columns">
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://status.im/" target="_blank">Status</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://keycard.tech/" target="_blank">Keycard</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://dap.ps/" target="_blank">dap.ps</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://embark.status.im/" target="_blank">Embark</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://subspace.status.im/" target="_blank">Subspace</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://vac.dev/" target="_blank">Vac</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-footer__bottom">
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019-2020 Embark
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+      const EMBARK_DOC_VERSIONS = {
+        'latest': 'https://embark.status.im/docs','3.2': 'https://5ca4e0fdb29712000adde37f--embark-site-versions.netlify.com/docs/'
+      };
+    </script>
+
+    
+    <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
+    <script>
+    (function(f, a, t, h, o, m){
+        a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};
+        o=f.createElement('script'),
+        m=f.getElementsByTagName('script')[0];
+        o.async=1; o.src=t; o.id='fathom-script';
+        m.parentNode.insertBefore(o,m)
+    })(document, window, '//fathom.status.im/tracker.js', 'fathom');
+    fathom('set', 'siteId', 'JOQKN');
+    fathom('trackPageview');
+    </script>
+    <!-- / Fathom -->
+    
+
+    <script src="/js/index.js"></script>
+
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+      });
+    </script>
+    
+  </body>
+</html>
+

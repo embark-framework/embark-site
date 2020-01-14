@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>Nim vs Crystal - Part 2 - Threading & Tooling | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/news/2019/11/21/nim-vs-crystal-part-2-threading-tooling/index.html">
+  <!-- Alternative links -->
+  
+
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#080E1A">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-32.png" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-60x60-precomposed.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-76x76-precomposed.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon-120x120-precomposed.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-touch-icon-152x152-precomposed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon-precomposed.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/embark.css">
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/styles/dracula.min.css">
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script>
+  !function(root, factory) {
+    "function" == typeof define && define.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == typeof module && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(this, function() {
+    /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""),
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)),
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)),
+                svg && src) {
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(),
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+
+svg4everybody();
+</script>
+</head>
+
+  <body>
+    <header role="banner" class="c-header c-header--compact">
+  <div class="o-container">
+    <div class="c-header__top">
+      <a href="/" title="Embark" class="c-logo c-logo--negative">Embark</a>
+      <nav role="navigation" class="c-navigation">
+        <div class="c-navigation__header">
+          <a href="/" title="Embark" class="c-logo">Embark</a>
+          <button class="c-navigation__close u-text-light" title="Close menu">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../assets/icons/symbols.svg#icon-close"></use></svg>
+          </button>
+        </div>
+        <div class="c-navigation__body">
+          <ul class="c-navigation__list">
+            <li class="c-navigation__item">
+              <a href="/docs/quick_start.html" class="c-navigation__anchor " title="Quick Start">Quick Start</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/docs" class="c-navigation__anchor " title="Learn">Learn</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/plugins" class="c-navigation__anchor " title="Plugins">Plugins</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/community" class="c-navigation__anchor " title="Community">Community</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/news" class="c-navigation__anchor is-active" title="Blog">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="o-flex o-flex-center">
+        <form action="" class="o-flex__item u-hidden-until-large">
+          <input type="search" placeholder="Search" id="search-input">
+        </form>
+        <div class="o-flex__item">
+          <ul class="o-flex o-flex-center">
+            <li class="o-flex__item">
+              <a href="https://github.com/embark-framework/embark" title="Github" target="_blank" class="u-link-ghost">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-github"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item">
+              <a href="https://twitter.com/EmbarkProject" title="Twitter" target="_blank">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-twitter"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item u-hidden-large-up">
+              <button type="button"class="c-navigation__trigger u-link-ghost" title="Open menu">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-navigation-menu"></use></svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-quick-search o-distance-m u-hidden-large-up">
+      <input type="search" id="inp-search" placeholder="Search">
+    </div>
+  </div>
+  <div class="o-container-medium">
+    <div class="c-header__body">
+      <h1 class="c-title u-text-ghost">Nim vs Crystal - Part 2 - Threading & Tooling</h1>
+      
+      <div class="o-distance-m">
+        <div class="o-flex o-flex-center">
+          <span class="o-flex__item">
+            <img src="https://avatars1.githubusercontent.com/u/29288325?s=400&v=4" class="c-avatar-small">
+          </span>
+          <p class="o-flex__item">
+            Written by <a href="https://twitter.com/rbin" title="Robin Percy on Twitter">Robin Percy</a> on the <time class="u-text-ghost">21st November 2019</time>
+          </p>
+        </div>
+      </div>
+      
+
+      
+
+      
+      
+    </div>
+  </div>
+</header>
+
+
+<main role="main" class="o-standard-page">
+  <section class="o-container-medium o-distance">
+    <p><img src="/assets/images/nim-crystal-header-img_NEW.jpg" alt="crystal vs nim"></p>
+<p>Welcome back to my series comparing the two sweethearts of the modern low-level programming world.  In <a href="/news/2019/11/18/nim-vs-crystal-part-1-performance-interoperability/">part 1</a>, I talked about my views on the interoperability of the two languages, alongside the performance figures of both.  Article #1 managed to throw-up a couple of surprises, but I have to admit; these made it all the more enjoyable to write!</p>
+<p>In this article, we’re going to look into the commodity that would have  changed the aforementioned performance figures, namely concurrency &amp; parallelism, and then into the things that attract me most to programming languages; which is he in-built tooling available.  As I know it’ll be useful; I won’t cover <strong><em>only</em></strong> the in-built tooling, but I’ll include my favourite external package too.</p>
+<h1 id="Threading"><a href="#Threading" class="headerlink" title="Threading"></a>Threading</h1><h3 id="Nim-Parallelism-Primitives"><a href="#Nim-Parallelism-Primitives" class="headerlink" title="Nim Parallelism Primitives"></a>Nim Parallelism Primitives</h3><p>Nim has two flavours of parallelism:</p>
+<ul>
+<li>Structured parallelism via the parallel statement.</li>
+<li>Unstructured parallelism via the standalone spawn statement.</li>
+</ul>
+<p>Nim has a builtin thread pool that can be used for CPU intensive tasks. For IO intensive tasks the async and await features should be used instead. Both parallel and spawn need the threadpool module to work.</p>
+<figure class="highlight nim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threadpool</span><br><span class="line"></span><br><span class="line"><span class="keyword">proc</span> processLine(line: <span class="built_in">string</span>) =</span><br><span class="line">  <span class="keyword">discard</span> <span class="string">"do some heavy lifting here"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> lines(<span class="string">"myinput.txt"</span>):</span><br><span class="line">  spawn processLine(x)</span><br><span class="line">sync()</span><br></pre></td></tr></table></figure>
+
+<p>The parallel statement is the preferred way to use parallelism in a Nim program.</p>
+<figure class="highlight nim"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Compute Pi in an inefficient way</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> strutils, math, threadpool</span><br><span class="line"><span class="meta">&#123;.experimental: "parallel".&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">proc</span> term(k: <span class="built_in">float</span>): <span class="built_in">float</span> = <span class="number">4</span> * math.pow(-<span class="number">1</span>, k) / (<span class="number">2</span>*k + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">proc</span> pi(n: <span class="built_in">int</span>): <span class="built_in">float</span> =</span><br><span class="line">  <span class="keyword">var</span> ch = newSeq[<span class="built_in">float</span>](n+<span class="number">1</span>)</span><br><span class="line">  parallel:</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="number">0</span>..ch.high:</span><br><span class="line">      ch[k] = spawn term(<span class="built_in">float</span>(k))</span><br><span class="line">  <span class="keyword">for</span> k <span class="keyword">in</span> <span class="number">0</span>..ch.high:</span><br><span class="line">    <span class="literal">result</span> += ch[k]</span><br><span class="line"></span><br><span class="line">echo formatFloat(pi(<span class="number">5000</span>))</span><br></pre></td></tr></table></figure>
+
+<p>Threading support in Nim is part of the <code>system</code> module.  To activate thread support you need to compile with the <code>--threads:on</code> command line switch.</p>
+<p>Nim’s memory model for threads is quite different from older common programming languages (C, Pascal), but similar to Golang and Elixir in that; each thread has its own (garbage collected) heap and sharing of memory is restricted. This helps to prevent race conditions and improves efficiency.</p>
+<h3 id="Concurrency-vs-Parallelism"><a href="#Concurrency-vs-Parallelism" class="headerlink" title="Concurrency vs Parallelism"></a>Concurrency vs Parallelism</h3><p>The definitions of “concurrency” and “parallelism” sometimes get mixed up, but they are not the same.</p>
+<p>A concurrent system is one that can be in charge of many tasks, although not necessarily executing them at the same time.  A good way to think of this is driving a car – the car can accelerate, brake &amp; change gear, but they don’t happen at the exact same time, although they <em>do</em> overlap.  This is concurrency.</p>
+<p><img src="https://dpzbhybb2pdcj.cloudfront.net/picheta/Figures/06fig01_alt.jpg" alt="concurrency"><br><em>Source: <a href="https://livebook.manning.com/book/nim-in-action/chapter-6/13" target="_blank" rel="noopener">https://livebook.manning.com/book/nim-in-action/chapter-6/13</a></em></p>
+<p>The human driving the car holds the clutch in, moves the gear lever in parallel, and then eases of the clutch at the exact same time as easing on the accelerator.  This is processes running in parallel, hence parallelism.</p>
+<p><img src="https://dpzbhybb2pdcj.cloudfront.net/picheta/Figures/06fig02_alt.jpg" alt="parallelism"><br><em>Source: <a href="https://livebook.manning.com/book/nim-in-action/chapter-6/13" target="_blank" rel="noopener">https://livebook.manning.com/book/nim-in-action/chapter-6/13</a></em></p>
+<p>At the moment, Crystal has concurrency support but not parallelism: several tasks can be executed, and a bit of time will be spent on each of these, but two code paths are never executed at the same exact time.  However, recently <a href="https://crystal-lang.org/2019/09/06/parallelism-in-crystal.html" target="_blank" rel="noopener">Parallelism was tested out</a> and I’m sure will be fully ready to use soon!</p>
+<p>A Crystal program executes in a single operating system thread, except the Garbage Collector (GC) which implements a concurrent mark-and-sweep (currently Boehm GC).</p>
+<h3 id="Crystal-Concurrency-Primitives"><a href="#Crystal-Concurrency-Primitives" class="headerlink" title="Crystal Concurrency Primitives"></a>Crystal Concurrency Primitives</h3><p>In Crystal, we can use the <code>Spawn</code> functionality in a very similar way to Goroutines in Golang, core.async in Clojure, or the threading in Nim.  When a program starts, it fires up a main <code>Fiber</code> that will execute your top-level code, from which we can spawn many other <code>Fibers</code>.</p>
+<p><code>Fibers</code> are lightweight threads of execution that are managed by the garbage collector, so you don’t <em>really</em> need to worry about managing them once you’ve spawned them.  Because of this, you could technically spin up 100 <code>Fibers</code> to make a bunch of API requests, and then simply forget about them.</p>
+<p>We can utilise <code>Spawn</code> in Crystal like so:</p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">"socket"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load</span></span>(id, chan)</span><br><span class="line">  puts <span class="string">"ID=<span class="subst">#&#123;id&#125;</span>; START"</span></span><br><span class="line">  (id..<span class="number">11</span>).each <span class="keyword">do</span></span><br><span class="line">    socket = TCPSocket.new(<span class="string">"http://robin.percy.pw"</span>, <span class="number">80</span>)</span><br><span class="line">    socket.close</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  puts <span class="string">"ID=<span class="subst">#&#123;id&#125;</span>; FINISH"</span></span><br><span class="line">  chan.send <span class="literal">nil</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span></span></span><br><span class="line">  chan = Channel(Nil).new</span><br><span class="line">  (<span class="number">1</span>..<span class="number">10</span>).each&#123;|i| spawn(load(i,chan))&#125;</span><br><span class="line">  <span class="comment"># Wait</span></span><br><span class="line">  (<span class="number">1</span>..<span class="number">10</span>).each&#123;chan.receive&#125;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">main</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>To support concurrency, Crystal has to be able to switch fibers when a fiber performs non-blocking IO operations.</p>
+</blockquote>
+<p>In program above, a spawned task with lower-number id repeatedly creates a TCP socket, and does this more times than a task with a higher-number id. For example; task #1 establishes a TCP socket 11 times, and task #10 creates a TCP socket just once. So even though task #1 started long before task #10, task #10 <em>should</em> finish before task #1.  As you can see in the image below; it does just that!</p>
+<p><img src="/assets/images/crystal-thread-test.png" alt="Crystal spawn test"></p>
+<p>Similar to Golang, Crystal uses channels to pass messages between spawned fibers.  Take the traditional Ping Pong channels example, in Crystal it looks like the following:</p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ping</span></span>(pings, message)</span><br><span class="line">  pings.send message</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pong</span></span>(pings, pongs)</span><br><span class="line">  message = pings.receive</span><br><span class="line">  pongs.send message</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">pings = Channel(String).new</span><br><span class="line">pongs = Channel(String).new</span><br><span class="line">spawn ping pings, <span class="string">"passed message"</span></span><br><span class="line">spawn pong pings, pongs</span><br><span class="line">puts pongs.receive <span class="comment"># =&gt; "passed message"</span></span><br></pre></td></tr></table></figure>
+
+<p>Unfortunately, I personally haven’t had the opportunity to test Crystal’s <code>Fibers</code> or Nim’s <code>Spawn</code> in a load-heavy production environment. But soon I fully intend to, and I’ll write another article benchmarking this in detail when I have a good usecase and get the chance to!</p>
+<h1 id="Tooling"><a href="#Tooling" class="headerlink" title="Tooling"></a>Tooling</h1><h2 id="Built-in-Tooling-in-Nim"><a href="#Built-in-Tooling-in-Nim" class="headerlink" title="Built-in Tooling in Nim"></a>Built-in Tooling in Nim</h2><p>Now that <a href="https://nim-lang.org/blog/2019/09/23/version-100-released.html" target="_blank" rel="noopener">Nim 1.0 has been released</a>, its in-built tooling has improved to a great level, and is very quickly reaching maturity.</p>
+<p>The standard library in Nim is fantastic…  Things like native database support for multiple db’s, without using any external packages like Crystal does, makes me extremely hopeful for Nim.  I really do believe it is language worth considering, if it matches your production needs.  That being said, I am still an advocate of ‘use the right tool for the job’ – so don’t go implementing Nim just for the sake of it!</p>
+<p>The only thing to keep in mind; is that Nim <em>does</em> seem to be slower in growth than Crystal.  The thing is – Nim has quite a few <strong>less</strong> core contributors than Crystal, so slower growth is to be expected!</p>
+<h3 id="Nim-Project-Packaging"><a href="#Nim-Project-Packaging" class="headerlink" title="Nim Project Packaging"></a>Nim Project Packaging</h3><p>Something I look for in <strong><em>ALL</em></strong> modern programming languages, and something I consider to be a necessity is a good, and well featured in-built package manager.  Happily in Nim’s case; we have Nimble!</p>
+<p>We can create a new app (library/binary) by using <code>nimble init</code>:</p>
+<p><img src="/assets/images/nimble-creating-app.png" alt="creating nimble app"></p>
+<p>I have to admit, although a simple thing, this is one of my favourite parts of the entire Nim ecosystem!  Being able to enter your selection variables while actually creating your app package is something I think is not only tremendously useful, but awesomely novel.</p>
+<p>It’s not just the fact that you can enter selections, but actually the fact that you can select the backend for your app.  As you can see in the image above, you have the choice of C, C++, Objective-C and JavaScript -– something that I touched on in my <a href="/news/2019/11/18/nim-vs-crystal-part-1-performance-interoperability/">last article.</a></p>
+<h3 id="Documentation"><a href="#Documentation" class="headerlink" title="Documentation"></a>Documentation</h3><p>Nimble has in-built documentation generators that can output both HTML and JSON project documentation files.  The one thing I will say is that I actually found this functionality to be <em>slightly</em> confusing, as I kept getting very odd errors, but also lacking in the excellent use experience you get from the rest of Nimble, i.e. the <code>init</code> func.</p>
+<p>You can generate the documentation file for your app by running:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nimble doc myapp.nimble</span><br></pre></td></tr></table></figure>
+
+<h3 id="Testing"><a href="#Testing" class="headerlink" title="Testing"></a>Testing</h3><p>Nimble offers a pre-defined <code>test</code> task which compiles and runs all files in the <code>/tests</code> directory beginning with ‘t’ in their filename.</p>
+<p>You may wish to override this <code>test</code> task in your <code>.nimble</code> file. This is particularly useful when you have a single test suite program. Just add the following to your <code>.nimble</code> file to override the default <code>test</code> task.</p>
+<figure class="highlight nim"><table><tr><td class="code"><pre><span class="line">task test, <span class="string">"Runs the test suite"</span>:</span><br><span class="line">  exec <span class="string">"nim c -r tests/tester"</span></span><br></pre></td></tr></table></figure>
+
+<p>Running nimble test will now use the test task you have defined.</p>
+<br>
+
+<h2 id="Built-in-Tooling-in-Crystal"><a href="#Built-in-Tooling-in-Crystal" class="headerlink" title="Built-in Tooling in Crystal"></a>Built-in Tooling in Crystal</h2><p>One of the things I like most about Crystal is the excellent built-in tooling available. When I look at new languages, especially relatively immature languages; it’s always very reassuring when the language has extensive built-in tooling available to help developers stay productive &amp; happy! In Crystal, there are a bunch of tools that make hacking around in the language super fun, but also help us to stay on the right track with semantics etc.</p>
+<h3 id="Crystal-Project-Packaging"><a href="#Crystal-Project-Packaging" class="headerlink" title="Crystal Project Packaging"></a>Crystal Project Packaging</h3><p>Much the same as the Nimble package manager, <strong><em>although not as good in my opinion,</em></strong> Crystal has it’s own built-in project scaffolder &amp; package manager. I’d recommend using this at all times to ensure semantics are followed. We can use it with the following:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ crystal init lib my_app</span><br><span class="line">      create  my_app/.gitignore</span><br><span class="line">      create  my_app/LICENSE</span><br><span class="line">      create  my_app/README.md</span><br><span class="line">      create  my_app/.travis.yml</span><br><span class="line">      create  my_app/shard.yml</span><br><span class="line">      create  my_app/src/my_app</span><br><span class="line">      create  my_app/src/my_app/version.cr</span><br><span class="line">      create  my_app/spec/spec_helper.cr</span><br><span class="line">      create  my_app/spec/my_app_spec.cr</span><br><span class="line">Initialized empty Git repository in ~/my_app/.git/</span><br></pre></td></tr></table></figure>
+
+<p><code>Shards</code> are Crystal’s packages; distributed in the same way as Ruby Gems, Elixir Libs or Golang packages. Each application we create contains a file in the root directory named shard.yml. This file contains project details and external dependencies. The shard.yml file in the <code>my_app</code> app above looks like this:</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">my_app</span></span><br><span class="line"><span class="attr">version:</span> <span class="number">0.1</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"><span class="attr">authors:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">Robin</span> <span class="string">Percy</span> <span class="string">&lt;robin@percy.pw&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">targets:</span></span><br><span class="line"><span class="attr">  sayhi_c:</span></span><br><span class="line"><span class="attr">    main:</span> <span class="string">src/my_app.cr</span></span><br><span class="line"></span><br><span class="line"><span class="attr">crystal:</span> <span class="number">0.31</span><span class="number">.1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">license:</span> <span class="string">MIT</span></span><br></pre></td></tr></table></figure>
+
+<p>The app I built has no dependencies to use, but if we want to include external packages we can do so by adding them at the bottom of the file:</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">dependencies:</span></span><br><span class="line"><span class="attr">  github:</span></span><br><span class="line"><span class="attr">    github:</span> <span class="string">felipeelias/crystal-github</span></span><br><span class="line"><span class="attr">    version:</span> <span class="string">~&gt;</span> <span class="number">0.1</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Documentation-amp-Formatting"><a href="#Documentation-amp-Formatting" class="headerlink" title="Documentation &amp; Formatting"></a>Documentation &amp; Formatting</h3><p>Crystal has a great built-in tool for generating documentation and formatting files. The documentation that is generated is excellent - built-in html/css and almost instantly ready to deploy.</p>
+<p>To generate documentation, from the project root directory we can simply run:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ crystal doc</span><br></pre></td></tr></table></figure>
+
+<p>This will create a docs directory, with a doc/index.html entry point. All files inside the root src directory of the project from which we ran the command will be considered.</p>
+<p>Alongside this, the built-in Formatter tool is a great feature of the language. We can run the formatter over our project by running:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ crystal tool format</span><br></pre></td></tr></table></figure>
+
+<p>We can use this tool to unify code styles and to submit documentation improvements to Crystal itself. The formatter is also very fast, so very little time is lost if you format the entire project’s codebase instead of just a single file.</p>
+<br>
+
+<h2 id="My-Top-Crystal-Repo"><a href="#My-Top-Crystal-Repo" class="headerlink" title="My Top Crystal Repo"></a>My Top Crystal Repo</h2><h3 id="Kemal"><a href="#Kemal" class="headerlink" title="Kemal"></a>Kemal</h3><p>Obviously, there <strong><em>had</em></strong> to be a web framework appear in this list, seen as that’s what absolutely <strong>every</strong> dev seems to want to implement.  My choice here is my buddy <a href="https://twitter.com/sdogruyol" target="_blank" rel="noopener">Serdar’s</a> library; <a href="https://kemalcr.com/" target="_blank" rel="noopener">Kemal</a>. One feature I really like about it, is how simple it makes it to utilise JSON &amp; create a JSON API.  For example, accepting JSON in a POST request, parsing &amp; mapping it directly to an object:</p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">"kemal"</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">"json"</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span></span><br><span class="line">  JSON.mapping(</span><br><span class="line">    <span class="symbol">firstname:</span> String,</span><br><span class="line">    <span class="symbol">surname:</span> String,</span><br><span class="line">  )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">post <span class="string">"/"</span> <span class="keyword">do</span> |env|</span><br><span class="line">  user = User.from_json env.request.body.not_nil!</span><br><span class="line">  &#123;<span class="symbol">firstname:</span> user.firstname, <span class="symbol">surname:</span> user.surname&#125;.to_json</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">Kemal.run</span><br></pre></td></tr></table></figure>
+
+<p><strong>If you want to find all of the best Crystal libraries, <a href="https://github.com/veelenga/awesome-crystal" target="_blank" rel="noopener">you can check them out here.</a></strong></p>
+<br>
+
+<h2 id="My-Top-Nim-Repo"><a href="#My-Top-Nim-Repo" class="headerlink" title="My Top Nim Repo"></a>My Top Nim Repo</h2><h3 id="Nimbus"><a href="#Nimbus" class="headerlink" title="Nimbus"></a>Nimbus</h3><p>My favourite Nim library really has to be <a href="https://github.com/status-im/nimbus" target="_blank" rel="noopener">Nimbus</a>.  This is not because I work for <a href="https://status.im" target="_blank" rel="noopener">Status</a> (the Nimbus creators), but because of the technology.  Nimbus has has such a fantastic reception from the Nim community – and rightly so!</p>
+<p>I think that Nimbus is literally the most impressive Nim library outside of the Nim core, the <a href="https://github.com/status-im/nimbus" target="_blank" rel="noopener">Nim Beacon Chain</a> particularly so!</p>
+<blockquote>
+<p>Nimbus beacon chain is a research implementation of the beacon chain component of the upcoming Ethereum Serenity upgrade (Ethereum 2)</p>
+</blockquote>
+<p>Whilst there are no developer code samples to include here, you can check out the <a href="https://nimbus.team/" target="_blank" rel="noopener">main Nimbus website</a>, and the <a href="https://github.com/status-im/nimbus/" target="_blank" rel="noopener">main Nimbus repo</a>.</p>
+<p>Take a look at <a href="https://nimble.directory/" target="_blank" rel="noopener">https://nimble.directory/</a> for a full list of external Nim libraries available for your projects!</p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>Back in 2012 when I quit writing Python and started exploring a bunch of other available languages, I started to become more aware of threading and its benefits.  Once I got into the likes of Golang and Elixir, I learned about their threading models, and lightweight threads of execution being the way forward.</p>
+<p>It’s fantastic seeing both Nim <em>and</em> Crystal adopting the aforementioned concurrency primitives.  I guess I have to give both languages a point there!</p>
+<p>I briefly touched on the smaller number of people on the Nim core team above, and this is something that’s pretty unfortunate.  Nim is a language and an ecosystem that has <strong>such</strong> great promise, I would love to see more people contributing to it and utilising it in production systems.</p>
+<p>The final article in this series, “Crypto, DApps &amp; P2P”, will be released over the coming days, so keep checking back.</p>
+<p>Thanks again for sticking with me!</p>
+<p><a href="https://twitter.com/rbin" target="_blank" rel="noopener"> <strong>- @rbin</strong></a></p>
+
+  </section>
+  
+  
+
+  <div class="o-container-medium o-distance">
+    <div class="o-flex o-flex-space-between">
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/11/18/nim-vs-crystal-part-1-performance-interoperability/" class="c-button c-button--quite" title="Previous article">Previous</a>
+  </div>
+  
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/11/28/nim-vs-crystal-part-3-cryto-dapps-p2p/" class="c-button c-button--quite" title="Next article">Next</a>
+  </div>
+  
+</div>
+
+
+  </div>
+  
+</main>
+
+
+    <footer role="contentinfo" class="c-footer o-distance-xxl">
+  <div class="o-container">
+    <div class="c-footer__top">
+      <p class="c-category-title c-footer__top__title u-text-light">
+        <a href="/" class="c-logo c-logo--negative" title="Embark">Embark</a>
+      </p>
+    </div>
+    <div class="c-footer__body">
+      <div class="o-grid">
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Resources</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="/docs/quick_start.html" class="u-link-ghost" title="Quick Start">Quick Start</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs" class="u-link-ghost" title="Documentation">Documentation</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/news" class="u-link-ghost" title="Blog">Blog</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/faq.html" class="u-link-ghost" title="FAQ">FAQ</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/troubleshooting.html" class="u-link-ghost" title="Troubleshooting">Troubleshooting</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Help</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://stackoverflow.com/questions/tagged/embark" class="u-link-ghost" title="Embark Questions">Stack Overflow</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://gitter.im/embark-framework/Lobby" class="u-link-ghost" title="Gitter">Gitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/issues" class="u-link-ghost" title="Report issues">Report issues</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/blob/master/CODE_OF_CONDUCT.md" class="u-link-ghost" title="Code of Conduct">Code of Conduct</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Community</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework" class="u-link-ghost" title="Github">Github</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://twitter.com/EmbarkProject" class="u-link-ghost" title="Twitter">Twitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/contributing.html" class="u-link-ghost" title="Contribute">Contribute</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/community/#team" class="u-link-ghost" title="Team">Team</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-4">
+          <p class="c-category-title u-text-light">The Status Network</p>
+          <ul class="o-list-bare two-columns">
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://status.im/" target="_blank">Status</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://keycard.tech/" target="_blank">Keycard</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://dap.ps/" target="_blank">dap.ps</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://embark.status.im/" target="_blank">Embark</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://subspace.status.im/" target="_blank">Subspace</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://vac.dev/" target="_blank">Vac</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-footer__bottom">
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019-2020 Embark
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+      const EMBARK_DOC_VERSIONS = {
+        'latest': 'https://embark.status.im/docs','3.2': 'https://5ca4e0fdb29712000adde37f--embark-site-versions.netlify.com/docs/'
+      };
+    </script>
+
+    
+    <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
+    <script>
+    (function(f, a, t, h, o, m){
+        a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};
+        o=f.createElement('script'),
+        m=f.getElementsByTagName('script')[0];
+        o.async=1; o.src=t; o.id='fathom-script';
+        m.parentNode.insertBefore(o,m)
+    })(document, window, '//fathom.status.im/tracker.js', 'fathom');
+    fathom('set', 'siteId', 'JOQKN');
+    fathom('trackPageview');
+    </script>
+    <!-- / Fathom -->
+    
+
+    <script src="/js/index.js"></script>
+
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+      });
+    </script>
+    
+  </body>
+</html>
+

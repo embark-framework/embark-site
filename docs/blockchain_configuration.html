@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>Blockchain client configuration | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/docs/blockchain_configuration.html">
+  <!-- Alternative links -->
+  
+
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#080E1A">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-32.png" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-60x60-precomposed.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-76x76-precomposed.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon-120x120-precomposed.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-touch-icon-152x152-precomposed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon-precomposed.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/embark.css">
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/styles/dracula.min.css">
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script>
+  !function(root, factory) {
+    "function" == typeof define && define.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == typeof module && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(this, function() {
+    /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""),
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)),
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)),
+                svg && src) {
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(),
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+
+svg4everybody();
+</script>
+</head>
+
+  <body>
+    <header role="banner" class="c-header c-header--compact">
+  <span class="c-header__background"></span>
+  <div class="o-container c-header__content">
+    <div class="c-header__top">
+      <a href="/" title="Embark" class="c-logo c-logo--negative">Embark</a>
+      <nav role="navigation" class="c-navigation">
+        <div class="c-navigation__header">
+          <a href="/" title="Embark" class="c-logo">Embark</a>
+          <button class="c-navigation__close u-text-light" title="Close menu">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../assets/icons/symbols.svg#icon-close"></use></svg>
+          </button>
+        </div>
+        <div class="c-navigation__body">
+          <ul class="c-navigation__list">
+            <li class="c-navigation__item">
+              <a href="/docs/quick_start.html" class="c-navigation__anchor " title="Quick Start">Quick Start</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/docs" class="c-navigation__anchor is-active" title="Learn">Learn</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/plugins" class="c-navigation__anchor " title="Plugins">Plugins</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/community" class="c-navigation__anchor " title="Community">Community</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/news" class="c-navigation__anchor " title="Blog">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="o-flex o-flex-center">
+        <form action="" class="o-flex__item u-hidden-until-large">
+          <input type="search" placeholder="Search" id="search-input">
+        </form>
+        <div class="o-flex__item">
+          <ul class="o-flex o-flex-center">
+            <li class="o-flex__item">
+              <a href="https://github.com/embark-framework/embark" title="Github" target="_blank" class="u-link-ghost">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-github"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item">
+              <a href="https://twitter.com/EmbarkProject" title="Twitter" target="_blank">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-twitter"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item u-hidden-large-up">
+              <button type="button"class="c-navigation__trigger u-link-ghost" title="Open menu">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-navigation-menu"></use></svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-quick-search o-distance-m u-hidden-large-up">
+      <input type="search" id="inp-search" placeholder="Search">
+    </div>
+    <div class="c-header__body">
+      <h1 class="c-title u-text-ghost">Documentation</h1>
+
+      
+
+      
+      
+    </div>
+  </div>
+</header>
+
+
+<main role="main">
+  <section class="o-guided-content o-distance">
+    <div class="o-guided-content__wrapper">
+      <button title="Open docs menu" id="guides-trigger" class="c-button c-button--minion u-hidden-large-up">
+        <svg class="c-icon c-icon--xs"><use xlink:href="/../../assets/icons/symbols.svg#icon-navigation-menu"></use></svg>
+        <span>Guides</span>
+      </button>
+      <div class="c-guide o-guided-content__guide"  id="guide-navigation">
+        <div class="c-guide__header u-hidden-large-up">
+          <a href="" title="Guides">
+            Guides
+          </a>
+          <button type="button" title="Close menu" id="guides-close">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../../assets/icons/symbols.svg#icon-close"></use></svg>
+          </button>
+        </div>
+        <div class="c-guide__body">
+          <nav role="navigation">
+            <select id="version-select">
+              
+              <option value="latest">stable (v4)</option>
+              
+              <option value="3.2">v3.2</option>
+              
+            </select>
+            
+              <div class="o-distance-l">
+                <h3 class="c-category-title">Getting Started</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/overview.html" title="Overview" class="u-link-uniform ">Overview</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/installation.html" title="Installation" class="u-link-uniform ">Installation</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/faq.html" title="FAQ" class="u-link-uniform ">FAQ</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">General Usage</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/create_project.html" title="Creating apps" class="u-link-uniform ">Creating apps</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/structure.html" title="App structure" class="u-link-uniform ">App structure</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/running_apps.html" title="Running apps" class="u-link-uniform ">Running apps</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/dashboard.html" title="Using the dashboard" class="u-link-uniform ">Using the dashboard</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/using_the_console.html" title="Using the console" class="u-link-uniform ">Using the console</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/environments.html" title="Environments" class="u-link-uniform ">Environments</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/configuration.html" title="Configuration" class="u-link-uniform ">Configuration</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/pipeline_and_webpack.html" title="Building & Compiling" class="u-link-uniform ">Building & Compiling</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/javascript_usage.html" title="Using EmbarkJS" class="u-link-uniform ">Using EmbarkJS</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Smart Contract Development</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/contracts_configuration.html" title="Configuration" class="u-link-uniform ">Configuration</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/contracts_deployment.html" title="Accounts & Deployment" class="u-link-uniform ">Accounts & Deployment</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/contracts_imports.html" title="Special Imports" class="u-link-uniform ">Special Imports</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/contracts_testing.html" title="Testing" class="u-link-uniform ">Testing</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/contracts_javascript.html" title="Smart Contracts in JavaScript" class="u-link-uniform ">Smart Contracts in JavaScript</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Blockchain Client</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/blockchain_configuration.html" title="Configuration" class="u-link-uniform is-active">Configuration</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/blockchain_accounts_configuration.html" title="Managing Accounts" class="u-link-uniform ">Managing Accounts</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Storage (IPFS/Swarm)</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/storage_configuration.html" title="Configuration" class="u-link-uniform ">Configuration</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/storage_deployment.html" title="Deploying apps" class="u-link-uniform ">Deploying apps</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/storage_javascript.html" title="Storage APIs in JavaScript" class="u-link-uniform ">Storage APIs in JavaScript</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Messages (Whisper)</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/messages_configuration.html" title="Configuration" class="u-link-uniform ">Configuration</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/messages_javascript.html" title="Messages in JavaScript" class="u-link-uniform ">Messages in JavaScript</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Naming Systems (ENS)</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/naming_configuration.html" title="Configuration" class="u-link-uniform ">Configuration</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/naming_javascript.html" title="Naming Systems in JavaScript" class="u-link-uniform ">Naming Systems in JavaScript</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Plugins</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/installing_plugins.html" title="Installing plugins" class="u-link-uniform ">Installing plugins</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/creating_plugins.html" title="Creating plugins" class="u-link-uniform ">Creating plugins</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/plugin_reference.html" title="Plugin APIs" class="u-link-uniform ">Plugin APIs</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Cockpit Guides</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/cockpit_introduction.html" title="Introduction" class="u-link-uniform ">Introduction</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/cockpit_dashboard.html" title="Using the Dashboard" class="u-link-uniform ">Using the Dashboard</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/cockpit_deployment.html" title="Deployment" class="u-link-uniform ">Deployment</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/cockpit_explorer.html" title="Explorer View" class="u-link-uniform ">Explorer View</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/cockpit_editor.html" title="Code Editor" class="u-link-uniform ">Code Editor</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/cockpit_debugger.html" title="Using the Debugger" class="u-link-uniform ">Using the Debugger</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Reference</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/embark_commands.html" title="CLI Commands" class="u-link-uniform ">CLI Commands</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+              <div class="o-distance-xl">
+                <h3 class="c-category-title">Miscellaneous</h3>
+                <ul class="o-list-bare">
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/migrating_from_3.x.html" title="Migrating from Embark 3.x" class="u-link-uniform ">Migrating from Embark 3.x</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/troubleshooting.html" title="Troubleshooting" class="u-link-uniform ">Troubleshooting</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                  <li class="o-list-bare__item">
+                    <a href="/docs/contributing.html" title="Contributing" class="u-link-uniform ">Contributing</a>
+                    <!-- <div class="o-distance-m">
+                      <ul class="o-list-bare c-navigation__subnav">
+                        <li class="o-list-bare__item">
+                          <a href="#" title="What is Embark?" class="u-link-uniform">What is Embark?</a>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </li>
+                  
+                </ul>
+              </div>
+            
+          </nav>
+        </div>
+      </div>
+      <div class="o-guided-content__content">
+        <p class="c-meta">Last updated: January 7th 2020
+          (<a href="https://github.com/embark-framework/embark/edit/master/site/source/docs/blockchain_configuration.md" target="_blank">
+            Improve this guide <svg class="c-icon c-icon--xs"><use xlink:href="/../../assets/icons/symbols.svg#icon-pen-write-paper"></use></svg>
+          </a>)
+        </p>
+        <div class="o-standard-page">
+          <h1>Blockchain client configuration</h1>
+          <p>When in developing, to interact with a blockchain, it is necessary to use a local Ethereum node, either using a simulator or a client like Geth or Parity. In this guide we’ll explore how to configure a blockchain client we want Embark to connect to. Embark uses the <code>blockchain.js</code> file inside the <code>./config</code> folder by default for blockchain related configurations. This <a href="/docs/configuration.html#config">can be configured</a> to different locations if we want to.</p>
+<p>Embark offers a lot of configuration options and most of them already come with a decent default so we can start right away.</p>
+<h2 id="Common-Parameters"><a href="#Common-Parameters" class="headerlink" title="Common Parameters"></a>Common Parameters</h2><p>Here are the common parameters. You will often need only a few of them to make your Embark node work.</p>
+<p>If you want more configuration options, you can find them <a href="/docs/blockchain_configuration.html#Advanced-parameters">here</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  default: &#123;</span><br><span class="line">    enabled: true,</span><br><span class="line">    client: &quot;geth&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  development: &#123;  </span><br><span class="line">    clientConfig: &#123;</span><br><span class="line">      miningMode: &apos;dev&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  testnet: &#123;</span><br><span class="line">    endpoint: &quot;https://external-node.com&quot;,</span><br><span class="line">    accounts: [</span><br><span class="line">      &#123;</span><br><span class="line">        mnemonic: &quot;12 word mnemonic&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Similar to <a href="/docs/contracts_configuration.html">configuring Smart Contracts</a>, this config contains environments that help configuring certain parameters differently depending of the environment. You can read more about <a href="https://embark.status.im/docs/environments.html">environments here</a>.</p>
+<h3 id="Parameter-descriptions"><a href="#Parameter-descriptions" class="headerlink" title="Parameter descriptions"></a>Parameter descriptions</h3><p>Most of the options are self-explanatory, still, here are some brief descriptions:</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type: <code>default</code></th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>enabled</code></td>
+<td>boolean: <code>true</code></td>
+<td>Whether or not to spawn an Ethereum node</td>
+</tr>
+<tr>
+<td><code>client</code></td>
+<td>string: <code>geth</code></td>
+<td>Client to use for the Ethereum node. Currently supported: <code>geth</code> and <code>parity</code></td>
+</tr>
+<tr>
+<td><code>miningMode</code></td>
+<td>string: <code>dev</code></td>
+<td>The mining mode to use for the node.<br><code>dev</code>: This is a special mode where the node uses a development account as defaultAccount. This account is already funded and transactions are faster.<br><code>auto</code>: Uses a mining script to mine only when needed.<br><code>always</code>: Miner is always on.<br><code>off</code>: Turns off the miner</td>
+</tr>
+<tr>
+<td><code>endpoint</code></td>
+<td>string</td>
+<td>Endpoint to connect to. Works for external endpoints (like Infura) and local ones too (only for nodes started by <code>embark run</code>)</td>
+</tr>
+<tr>
+<td><code>accounts</code></td>
+<td>array</td>
+<td>Accounts array for the node and to deploy. When no account is given, defaults to one node account. For more details, go <a href="/docs/blockchain_accounts_configuration.html">here</a></td>
+</tr>
+</tbody></table>
+<h2 id="Advanced-parameters"><a href="#Advanced-parameters" class="headerlink" title="Advanced parameters"></a>Advanced parameters</h2><p>Here are all the parameters you can use to customize your node. Note that they all come with defaults that make it that you don’t need to specify those.</p>
+<p>We recommend putting those inside the <code>clientConfig</code> object a better structure.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type: <code>default</code></th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rpcHost</code></td>
+<td>string: <code>localhost</code></td>
+<td>Host the RPC server listens to</td>
+</tr>
+<tr>
+<td><code>rpcPort</code></td>
+<td>number: <code>8545</code></td>
+<td>Port the RPC server listens to</td>
+</tr>
+<tr>
+<td><code>rpcCorsDomain</code></td>
+<td>object</td>
+<td>The CORS domains the node accepts</td>
+</tr>
+<tr>
+<td><code>rpcCorsDomain.auto</code></td>
+<td></td>
+<td>When set to true, Embark checks your other configurations to set the CORS domains. This only adds the required domains.</td>
+</tr>
+<tr>
+<td><code>rpcCorsDomain.additionalCors</code></td>
+<td></td>
+<td>Manual list of CORS domains to accept. If <code>auto</code> is set to <code>true</code>, any URLs specified here will be applied <em>in addition to</em> those automatically added with <code>auto</code>.</td>
+</tr>
+<tr>
+<td><code>wsRPC</code></td>
+<td>boolean: <code>true</code></td>
+<td>Whether or not to enable the Websocket server</td>
+</tr>
+<tr>
+<td><code>wsOrigins</code></td>
+<td>object</td>
+<td>Same as <code>rpcCorsDomain</code>, but for the Websocket server</td>
+</tr>
+<tr>
+<td><code>wsHost</code></td>
+<td>string: <code>localhost</code></td>
+<td>Same as <code>rpcHost</code>, but for the Websocket server</td>
+</tr>
+<tr>
+<td><code>wsPort</code></td>
+<td>number: <code>8546</code></td>
+<td>Same as <code>rpcPort</code>, but for the Websocket server</td>
+</tr>
+<tr>
+<td><code>ethereumClientBin</code></td>
+<td>string: <code>geth</code></td>
+<td>Path to the client binary. By default, Embark uses the client name as an executable (if it is in the PATH)</td>
+</tr>
+<tr>
+<td><code>datadir</code></td>
+<td>string</td>
+<td>Directory where to put the Node’s data (eg: keystores)</td>
+</tr>
+<tr>
+<td><code>networkType</code></td>
+<td>string: <code>custom</code></td>
+<td>Can be: <code>testnet</code>, <code>rinkeby</code>, <code>kovan</code> or custom, in which case, it will use the specified <code>networkId</code></td>
+</tr>
+<tr>
+<td><code>networkId</code></td>
+<td>number: <code>1337</code></td>
+<td>Used when <code>networkType</code> is set as <code>custom</code>. <a href="https://github.com/ethereumbook/ethereumbook/blob/3e8cf74eb935d4be495f4306b73de027af95fd97/contrib/devp2p-protocol.asciidoc#known-current-network-ids" target="_blank" rel="noopener">List of known network ids</a></td>
+</tr>
+<tr>
+<td><code>nodiscover</code></td>
+<td>boolean: <code>true</code></td>
+<td>Disables the peer discovery mechanism when set to <code>true</code></td>
+</tr>
+<tr>
+<td><code>maxpeers</code></td>
+<td>number: <code>0</code></td>
+<td>Maximum number of network peers</td>
+</tr>
+<tr>
+<td><code>proxy</code></td>
+<td>boolean: <code>true</code></td>
+<td>Whether or not Embark should use a proxy to add functionalities. This proxy is used by Embark to see the different transactions that go through, for example, and shows them to you.</td>
+</tr>
+<tr>
+<td><code>targetGasLimit</code></td>
+<td>number</td>
+<td>Artificial target gas floor for the blocks to mine</td>
+</tr>
+<tr>
+<td><code>genesisBlock</code></td>
+<td>string</td>
+<td>The genesis file to use to create the network. This file is used when creating the network. It tells the client the parameters to initiate the node with. You can read more on <a href="https://arvanaghi.com/blog/explaining-the-genesis-block-in-ethereum/" target="_blank" rel="noopener">genesis blocks here</a></td>
+</tr>
+</tbody></table>
+<div class="c-notification c-notification--info">
+  <p><strong>Using Parity and Metamask</strong></p>
+  <p></p><p>Parity has very strict CORS policies. In order to use it with Metamask (or any other browser extension), you need to add the extension’s URL in the CORS.</p>
+<p>You can do so by opening Metamask in its own tab. Then, copy the URL. It will look something like <code>chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn</code>.</p>
+<p>Afterwards, in your blockchain config, add it to <code>additionalCors</code> of <code>rpcCorsDomain</code> and <code>wsOrigins</code>.</p>
+<p></p>
+</div> 
+
+
+
+<h2 id="Privatenet-configuration"><a href="#Privatenet-configuration" class="headerlink" title="Privatenet configuration"></a>Privatenet configuration</h2><p>A private network is really similar to using the development mode of a client. The biggest differences is that it does not come with a default pre-funded account and it will not use POA (proof of authority), meaning that blocks will need to be mined.</p>
+<p>Luckily, Embark has settings to limit the mining to a minimum so that everything can run smoothly while testing in a more realistic environment before going to a test network.</p>
+<h3 id="Privatenet-parameters"><a href="#Privatenet-parameters" class="headerlink" title="Privatenet parameters"></a>Privatenet parameters</h3><p>Here are common parameters for private net configurations:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">privatenet: &#123;</span><br><span class="line">  clientConfig: &#123;</span><br><span class="line">    miningMode: &apos;auto&apos;,</span><br><span class="line">    genesisBlock: &quot;config/privatenet/genesis.json&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  accounts: [</span><br><span class="line">    &#123;</span><br><span class="line">      nodeAccounts: true,</span><br><span class="line">      password: &quot;config/privatenet/password&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Note that we can always use the parameters we saw in the <a href="#Common-Parameters">Common parameters section</a> to override the <code>default</code> parameters.</p>
+<h3 id="Parameter-descriptions-1"><a href="#Parameter-descriptions-1" class="headerlink" title="Parameter descriptions"></a>Parameter descriptions</h3><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type: <code>value</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>miningMode</code></td>
+<td>string: <code>auto</code></td>
+<td>You need to set <code>miningMode</code> to <code>auto</code> or <code>always</code> so you don’t use the development mode</td>
+</tr>
+<tr>
+<td><code>genesisBlock</code></td>
+<td>string</td>
+<td>File to start the chain in a clean state for your private network</td>
+</tr>
+<tr>
+<td><code>accounts</code></td>
+<td>array</td>
+<td>Array of accounts to connect to. Go to the <a href="/docs/blockchain_accounts_configuration.html">Accounts configuration</a> page to learn more on accounts</td>
+</tr>
+</tbody></table>
+<h2 id="Testnet-configuration"><a href="#Testnet-configuration" class="headerlink" title="Testnet configuration"></a>Testnet configuration</h2><p>Test networks are networks that are public. Knowing that, if we want to connect to a node that we control, we will first need to synchronize it. This can take hours, as we need to download the blocks that we are missing from the other peers.</p>
+<p>The big advantage of using a local synced node is that we have control over it and it preserves our privacy, as we aren’t using a third party node. However, as mentioned, it takes a lot of time to synchronize a node and also requires a lot of computer resources, so keep it in mind if you want to go down that route.</p>
+<h3 id="Testnet-parameters"><a href="#Testnet-parameters" class="headerlink" title="Testnet parameters"></a>Testnet parameters</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">testnet: &#123;</span><br><span class="line">  networkType: &quot;testnet&quot;,</span><br><span class="line">  syncMode: &quot;light&quot;,</span><br><span class="line">  accounts: [</span><br><span class="line">    &#123;</span><br><span class="line">      nodeAccounts: true,</span><br><span class="line">      password: &quot;config/testnet/password&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Here are the necessary parameters. Again, we can add more to override as you see fit.</p>
+<h3 id="Parameter-descriptions-2"><a href="#Parameter-descriptions-2" class="headerlink" title="Parameter descriptions"></a>Parameter descriptions</h3><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type: <code>default</code></th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>networkType</code></td>
+<td>string: <code>testnet</code></td>
+<td>Again, used to specify the network. <code>testnet</code> here represents Ropsten. You can change the network by using a <code>networkId</code> by changing <code>networkType</code> to <code>custom</code></td>
+</tr>
+<tr>
+<td><code>syncMode</code></td>
+<td>string</td>
+<td>Blockchain sync mode</td>
+</tr>
+<tr>
+<td><code>syncMode = &#39;light&#39;</code></td>
+<td></td>
+<td>Light clients synchronize a bare minimum of data and fetch necessary data on-demand from the network. Much lower in storage, potentially higher in bandwidth</td>
+</tr>
+<tr>
+<td><code>syncMode = &#39;fast&#39;</code></td>
+<td></td>
+<td>Faster, but higher store</td>
+</tr>
+<tr>
+<td><code>syncMode = &#39;full&#39;</code></td>
+<td></td>
+<td>Normal sync</td>
+</tr>
+<tr>
+<td><code>accounts</code></td>
+<td>array</td>
+<td>Array of accounts to connect to.  Go to the <a href="/docs/blockchain_accounts_configuration.html">Accounts configuration</a> page to learn more on accounts</td>
+</tr>
+</tbody></table>
+<h2 id="Mainnet-configuration"><a href="#Mainnet-configuration" class="headerlink" title="Mainnet configuration"></a>Mainnet configuration</h2><p>Finally, the main network, a.k.a. mainnet. It may come as no surprise, but to sync to the mainnet, the step and configurations are actually the same as for a <a href="#Testnet-configuration">test network</a>. The only major difference is that the <code>networkType</code> needs to be <code>custom</code> with the <code>networkId</code> set to <code>1</code>.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mainnet: &#123;</span><br><span class="line">  networkType: &quot;custom&quot;,</span><br><span class="line">  networkId: 1,</span><br><span class="line">  syncMode: &quot;light&quot;,</span><br><span class="line">  accounts: [</span><br><span class="line">    &#123;</span><br><span class="line">      nodeAccounts: true,</span><br><span class="line">      password: &quot;config/mainnet/password&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+        <div class="o-container-medium o-distance-l">
+          <div class="o-flex o-flex-space-between">
+  
+  <div class="o-flex__item">
+    <a href="/docs/contracts_javascript.html" class="c-button c-button--quite" title="Previous article">Previous</a>
+  </div>
+  
+  
+  <div class="o-flex__item">
+    <a href="/docs/blockchain_accounts_configuration.html" class="c-button c-button--quite" title="Next article">Next</a>
+  </div>
+  
+</div>
+
+
+        </div>
+      </div>
+      <div class="o-guided-content__addition">
+        <h3 class="c-category-title">Contents</h3>
+        <ol class="o-list-bare"><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Common-Parameters" class="u-link-uniform">Common Parameters</a><ol class="o-list-bare__child"><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Parameter-descriptions" class="u-link-uniform">Parameter descriptions</a></li></ol></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Advanced-parameters" class="u-link-uniform">Advanced parameters</a></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Privatenet-configuration" class="u-link-uniform">Privatenet configuration</a><ol class="o-list-bare__child"><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Privatenet-parameters" class="u-link-uniform">Privatenet parameters</a></li><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Parameter-descriptions-1" class="u-link-uniform">Parameter descriptions</a></li></ol></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Testnet-configuration" class="u-link-uniform">Testnet configuration</a><ol class="o-list-bare__child"><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Testnet-parameters" class="u-link-uniform">Testnet parameters</a></li><li class="o-list-bare__item o-list-bare-level-3 o-ellipsis"><a href="#Parameter-descriptions-2" class="u-link-uniform">Parameter descriptions</a></li></ol></li><li class="o-list-bare__item o-list-bare-level-2 o-ellipsis"><a href="#Mainnet-configuration" class="u-link-uniform">Mainnet configuration</a></li></ol>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="/js/linkjuice/dist/linkjuice.min.js"></script>
+
+    <footer role="contentinfo" class="c-footer o-distance-xxl">
+  <div class="o-container">
+    <div class="c-footer__top">
+      <p class="c-category-title c-footer__top__title u-text-light">
+        <a href="/" class="c-logo c-logo--negative" title="Embark">Embark</a>
+      </p>
+    </div>
+    <div class="c-footer__body">
+      <div class="o-grid">
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Resources</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="/docs/quick_start.html" class="u-link-ghost" title="Quick Start">Quick Start</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs" class="u-link-ghost" title="Documentation">Documentation</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/news" class="u-link-ghost" title="Blog">Blog</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/faq.html" class="u-link-ghost" title="FAQ">FAQ</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/troubleshooting.html" class="u-link-ghost" title="Troubleshooting">Troubleshooting</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Help</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://stackoverflow.com/questions/tagged/embark" class="u-link-ghost" title="Embark Questions">Stack Overflow</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://gitter.im/embark-framework/Lobby" class="u-link-ghost" title="Gitter">Gitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/issues" class="u-link-ghost" title="Report issues">Report issues</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/blob/master/CODE_OF_CONDUCT.md" class="u-link-ghost" title="Code of Conduct">Code of Conduct</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Community</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework" class="u-link-ghost" title="Github">Github</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://twitter.com/EmbarkProject" class="u-link-ghost" title="Twitter">Twitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/contributing.html" class="u-link-ghost" title="Contribute">Contribute</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/community/#team" class="u-link-ghost" title="Team">Team</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-4">
+          <p class="c-category-title u-text-light">The Status Network</p>
+          <ul class="o-list-bare two-columns">
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://status.im/" target="_blank">Status</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://keycard.tech/" target="_blank">Keycard</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://dap.ps/" target="_blank">dap.ps</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://embark.status.im/" target="_blank">Embark</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://subspace.status.im/" target="_blank">Subspace</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://vac.dev/" target="_blank">Vac</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-footer__bottom">
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019-2020 Embark
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+      const EMBARK_DOC_VERSIONS = {
+        'latest': 'https://embark.status.im/docs','3.2': 'https://5ca4e0fdb29712000adde37f--embark-site-versions.netlify.com/docs/'
+      };
+    </script>
+
+    
+    <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
+    <script>
+    (function(f, a, t, h, o, m){
+        a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};
+        o=f.createElement('script'),
+        m=f.getElementsByTagName('script')[0];
+        o.async=1; o.src=t; o.id='fathom-script';
+        m.parentNode.insertBefore(o,m)
+    })(document, window, '//fathom.status.im/tracker.js', 'fathom');
+    fathom('set', 'siteId', 'JOQKN');
+    fathom('trackPageview');
+    </script>
+    <!-- / Fathom -->
+    
+
+    <script src="/js/index.js"></script>
+
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+      });
+    </script>
+    
+  </body>
+</html>
+

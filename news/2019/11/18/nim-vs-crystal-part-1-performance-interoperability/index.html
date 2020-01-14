@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>Nim vs Crystal - Part 1 - Performance & Interoperability | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/news/2019/11/18/nim-vs-crystal-part-1-performance-interoperability/index.html">
+  <!-- Alternative links -->
+  
+
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#080E1A">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-32.png" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-60x60-precomposed.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-76x76-precomposed.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon-120x120-precomposed.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-touch-icon-152x152-precomposed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon-precomposed.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/embark.css">
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/styles/dracula.min.css">
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script>
+  !function(root, factory) {
+    "function" == typeof define && define.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == typeof module && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(this, function() {
+    /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""),
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)),
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)),
+                svg && src) {
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(),
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+
+svg4everybody();
+</script>
+</head>
+
+  <body>
+    <header role="banner" class="c-header c-header--compact">
+  <div class="o-container">
+    <div class="c-header__top">
+      <a href="/" title="Embark" class="c-logo c-logo--negative">Embark</a>
+      <nav role="navigation" class="c-navigation">
+        <div class="c-navigation__header">
+          <a href="/" title="Embark" class="c-logo">Embark</a>
+          <button class="c-navigation__close u-text-light" title="Close menu">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../assets/icons/symbols.svg#icon-close"></use></svg>
+          </button>
+        </div>
+        <div class="c-navigation__body">
+          <ul class="c-navigation__list">
+            <li class="c-navigation__item">
+              <a href="/docs/quick_start.html" class="c-navigation__anchor " title="Quick Start">Quick Start</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/docs" class="c-navigation__anchor " title="Learn">Learn</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/plugins" class="c-navigation__anchor " title="Plugins">Plugins</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/community" class="c-navigation__anchor " title="Community">Community</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/news" class="c-navigation__anchor is-active" title="Blog">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="o-flex o-flex-center">
+        <form action="" class="o-flex__item u-hidden-until-large">
+          <input type="search" placeholder="Search" id="search-input">
+        </form>
+        <div class="o-flex__item">
+          <ul class="o-flex o-flex-center">
+            <li class="o-flex__item">
+              <a href="https://github.com/embark-framework/embark" title="Github" target="_blank" class="u-link-ghost">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-github"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item">
+              <a href="https://twitter.com/EmbarkProject" title="Twitter" target="_blank">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-twitter"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item u-hidden-large-up">
+              <button type="button"class="c-navigation__trigger u-link-ghost" title="Open menu">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-navigation-menu"></use></svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-quick-search o-distance-m u-hidden-large-up">
+      <input type="search" id="inp-search" placeholder="Search">
+    </div>
+  </div>
+  <div class="o-container-medium">
+    <div class="c-header__body">
+      <h1 class="c-title u-text-ghost">Nim vs Crystal - Part 1 - Performance & Interoperability</h1>
+      
+      <div class="o-distance-m">
+        <div class="o-flex o-flex-center">
+          <span class="o-flex__item">
+            <img src="https://avatars1.githubusercontent.com/u/29288325?s=400&v=4" class="c-avatar-small">
+          </span>
+          <p class="o-flex__item">
+            Written by <a href="https://twitter.com/rbin" title="Robin Percy on Twitter">Robin Percy</a> on the <time class="u-text-ghost">18th November 2019</time>
+          </p>
+        </div>
+      </div>
+      
+
+      
+
+      
+      
+    </div>
+  </div>
+</header>
+
+
+<main role="main" class="o-standard-page">
+  <section class="o-container-medium o-distance">
+    <p><img src="/assets/images/nim-crystal-header-img_NEW.jpg" alt="crystal vs nim"></p>
+<p>I’ve been wanting to write-up a comparison on Nim and Crystal for quite some time now, and I’m happy that I’m finally able to do so.  What I’ve decided on doing; is breaking this up into a three part series as there are <strong><em>SO</em></strong> many features of both languages I’d like to talk about, and therein many opinions held too.  I do have a habit of writing <strong>very</strong> long articles, so I’d like to limit the topic scope, to keep each of these a little snappier!</p>
+<p>Before I go into specifics on either of these languages, I’d first like to go into my reasons for first learning both languages, and briefly touch on my past experiences with the two of them.  I admit that I <em>have</em> had more experience with Crystal than I have with Nim; however, I will give an objective view of both languages until I go into my personal preference towards the end of each article in this series.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">crystal or nim? Both super immature but fun</p>&mdash; @r4vi (@r4vi) <a href="https://twitter.com/r4vi/status/874741870093623296?ref_src=twsrc%5Etfw" target="_blank" rel="noopener">June 13, 2017</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Back in mid-2017, I sent out a tweet asking my dev followers which low-level languages they would recommend I take a look at.  For a while before this, I had been waiting for a new systems language for me to learn, but until this tweet, I never really found one that I was <em>actually</em> interested in taking a look at.</p>
+<p>Naturally, both languages have a <strong>TONNE</strong> of features, so I’m not going to go into details on things like basic types, etc.  I will simply compare the biggest things that attracted me to both languages.  For in-depth tutorials on the features of both langs, check out the <a href="https://crystal-lang.org/reference/" target="_blank" rel="noopener">Crystal Docs</a>, or the <a href="https://nim-lang.org/docs/lib.html" target="_blank" rel="noopener">Nim Docs</a>.</p>
+<p>Anyway, let’s take a look at both languages, and you can make your own mind up as to which you’d rather be programming in.  Maybe both.  Maybe neither!</p>
+<br>
+
+<h2 id="Nim"><a href="#Nim" class="headerlink" title="Nim"></a>Nim</h2><p>Nim is a statically-typed, imperative, systems programming language; aiming to achieve the performance of C, be as expressive as Lisp, and have a simple, clear syntax like Python.  I have to say, from my experience Nim manages to <strong><em>pretty much</em></strong> fit these criterion.  </p>
+<blockquote>
+<p>By compiling to C, Nim is able to take advantage of many features offered by modern C compilers. The primary benefits gained by this compilation model include incredible portability and optimisations.</p>
+</blockquote>
+<blockquote>
+<p>The binaries produced by Nim have zero dependencies and are typically very small. This makes their distribution easy and keeps your users happy.</p>
+</blockquote>
+<p>When I say it <em>pretty much</em> matches the criteria, the only statement that doesn’t quite match is achieving the performance of C.  In realise this is an almost impossible task, but Nim actually did fall short on a few occasions when it came to performance.  I will go into detail about this later on in the article.</p>
+<h3 id="Installing-Nim"><a href="#Installing-Nim" class="headerlink" title="Installing Nim"></a>Installing Nim</h3><p>Nim is super easy to install.  If you’re on Windows, <a href="https://nim-lang.org/install_windows.html" target="_blank" rel="noopener">head over here</a>, and download/run the installer.</p>
+<p>If you’re on any other Unix-based system, you can run:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ curl https://nim-lang.org/choosenim/init.sh -sSf | sh`</span><br></pre></td></tr></table></figure>
+
+<p>If you’re on Mac, and with Homebrew installed, simply run:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ brew install nim</span><br></pre></td></tr></table></figure>
+
+<p>You could also consider using <a href="https://github.com/dom96/choosenim" target="_blank" rel="noopener">choosenim</a> to manage Nim installations in a similar way to <code>pyenv</code> and <code>rustup</code>.</p>
+<h3 id="Interfacing-Other-Languages"><a href="#Interfacing-Other-Languages" class="headerlink" title="Interfacing Other Languages"></a>Interfacing Other Languages</h3><p>One of the things that attracted me to both Nim <strong>and</strong> Crystal, was the ability to natively interface with other languages, and the <strong>ease</strong> with which that is achieved.  Nim has bidirectional interfacing not only with C, but also natively with JavaScript. Crystal natively interfaces with C, but is only unidirectional.  Definitely a point scored here for Nim!</p>
+<p>When it comes to building DApps, the variety of target hardware they must be run on is already large, and growing all the time.  The low-level ability to interop with other languages makes for both languages being a much more attractive proposition.</p>
+<p>For a quick demo, let’s take a look at interfacing both C and JavaScript from Nim.</p>
+<h4 id="C-Invocation"><a href="#C-Invocation" class="headerlink" title="C Invocation"></a>C Invocation</h4><p>Firstly, create the file <code>logic.c</code> with the following content:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">addTwoIntegers</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Next, create the file <code>calculator.nim</code> with the following content:</p>
+<figure class="highlight nim"><table><tr><td class="code"><pre><span class="line"><span class="meta">&#123;.compile: "logic.c".&#125;</span></span><br><span class="line"><span class="keyword">proc</span> addTwoIntegers(a, b: <span class="built_in">cint</span>): <span class="built_in">cint</span> <span class="meta">&#123;.importc.&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">when</span> isMainModule:</span><br><span class="line">  echo addTwoIntegers(<span class="number">3</span>, <span class="number">7</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Now then, with these two <em>very simple</em> files in place, we can run:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ nim c -r calculator.nim</span><br></pre></td></tr></table></figure>
+
+<p>The Nim compiler will compile the <code>logic.c</code> file in addition to <code>calculator.nim</code> and link both into an executable; which outputs <code>10</code> when run.  Very sharp, in my opinion!</p>
+<h4 id="JavaScript-Invocation"><a href="#JavaScript-Invocation" class="headerlink" title="JavaScript Invocation"></a>JavaScript Invocation</h4><p>Even sharper, in my opinion, is the ability to interop with JavaScript.  Create a file titled <code>host.html</code> with the following content:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">addTwoIntegers</span>(<span class="params">a, b</span>)</span></span></span><br><span class="line"><span class="undefined">    &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> a + b;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"calculator.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Now, create another <code>calculator.nim</code> file with the following content (or reuse the one from the above C example):</p>
+<figure class="highlight nim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">proc</span> addTwoIntegers(a, b: <span class="built_in">int</span>): <span class="built_in">int</span> <span class="meta">&#123;.importc.&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">when</span> isMainModule:</span><br><span class="line">  echo addTwoIntegers(<span class="number">3</span>, <span class="number">7</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Compile the Nim code to JavaScript by running:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ nim js -o:calculator.js calculator.nim</span><br></pre></td></tr></table></figure>
+
+<p>Once that’s done, go ahead and open <code>host.html</code> in a browser and you should see the value <code>10</code> in the browser’s console.  I think this is <strong>REALLY</strong> neat.  It’s superb how easy it is to achieve that, too.</p>
+<h3 id="Aside-–-a-Quick-not-so-Secret"><a href="#Aside-–-a-Quick-not-so-Secret" class="headerlink" title="Aside – a Quick (not-so) Secret:"></a>Aside – a Quick (not-so) Secret:</h3><p>Instead of writing out the HTML above, you could actually use <strong><em>Nim’s native</em></strong> HTML DSL:</p>
+<figure class="highlight nim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> html_dsl</span><br><span class="line"></span><br><span class="line">html page:</span><br><span class="line">  head:</span><br><span class="line">    title(<span class="string">"Title"</span>)</span><br><span class="line">  body:</span><br><span class="line">    p(<span class="string">"Hello"</span>)</span><br><span class="line">    p(<span class="string">"World"</span>)</span><br><span class="line">    dv:</span><br><span class="line">      p <span class="string">"Example"</span></span><br><span class="line"></span><br><span class="line">echo render(page())</span><br></pre></td></tr></table></figure>
+
+<p>Running this will output the following:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">html</span> <span class="attr">class</span>=<span class="string">'has-navbar-fixed-top'</span> &gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">class</span>=<span class="string">'has-navbar-fixed-top'</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> &gt;</span>Hello<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> &gt;</span>World<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>Example<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h2 id="Crystal"><a href="#Crystal" class="headerlink" title="Crystal"></a>Crystal</h2><p>Crystal is a statically-typed, object-oriented, systems programming language; with the aim of achieving the speed and performance of c/c++, whilst having a syntax as simple, readable, and easy to learn as Ruby.</p>
+<p>I first came across Crystal when I saw <a href="https://twitter.com/sferik" target="_blank" rel="noopener">@sferik</a> giving a talk on it in Poland back in 2015. <a href="https://www.youtube.com/watch?v=Ysm4IU4aWoQ" target="_blank" rel="noopener">Video here.</a> It was a great talk, and sparked my interest in Crystal right there and then. When I initially explored Crystal I thought it looked awesome, but I was too busy with all the other languages I was using on a daily basis, to be able to focus my time on it properly.</p>
+<h3 id="Installing-Crystal"><a href="#Installing-Crystal" class="headerlink" title="Installing Crystal"></a>Installing Crystal</h3><p>You can find all of the relevant instructions for installing Crystal, on the <a href="https://crystal-lang.org/install/" target="_blank" rel="noopener">main website installation page</a>.</p>
+<p>If you are on Mac, and have Homebrew installed, you can simply run:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ brew install crystal</span><br></pre></td></tr></table></figure>
+
+<p><strong>However</strong>, if you are a Windows user, <em>for the time being</em> you are out of luck, unless you use the Windows Subsystem for Linux.  If I were in a more shocking/pedantic mood, I’d take a (not yet gained) point <strong>away</strong> from Crystal here, for lack of Windows support.</p>
+<h3 id="Interfacing-C"><a href="#Interfacing-C" class="headerlink" title="Interfacing C"></a>Interfacing C</h3><p>Let’s build a simple script in C that says “hi!”. We’ll then write a Crystal app to bind to our C library. This is a great starting point for anyone who wants to know about binding C in Crystal.</p>
+<p>First off, let’s create a project with Crystal’s scaffolding tool (I’ll cover this feature later). Run:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ crystal init app sayhi_c</span><br></pre></td></tr></table></figure>
+
+<p>Then head into the directory <code>sayhi_c/src/sayhi_c</code> and let’s create a file <code>sayhi.c</code> with the following contents:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hi</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> * name)</span></span>&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Hi %s!\n"</span>, name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Now we need to compile our C file into an object. On Ubuntu or Mac using gcc we can run:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ gcc -c sayhi.c -o sayhi.o</span><br></pre></td></tr></table></figure>
+
+<p>Using the -o flags allow us to create an Object filetype. Once we’ve got our Object file, we can bind it from within our Crystal app. Open up our <code>sayhi_c.cr</code> file, and have it reflect the following:</p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">"./sayhi_c/*"</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@[Link(ldflags: <span class="meta-string">"#&#123;__DIR__&#125;/sayhi_c/sayhi.o"</span>)]</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">lib</span> <span class="title">Say</span></span></span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">hi</span></span>(name : <span class="symbol">LibC:</span>:Char*) : Void</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">Say.hi(<span class="string">"Status"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>I’ll mention now that there are no implicit type conversions except to_unsafe - explained here when invoking a C function: you must pass the exact type that is expected.</p>
+<p>Also worth noting at this point is that since we have built our C file into an object file, we can include it in the project directory and link from there. When we want to link dynamic libraries or installed C packages, we can just link them without including a path.</p>
+<p>So, if we build our project file and run it, we get the following:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ crystal build --release src/sayhi_c.cr</span><br><span class="line"></span><br><span class="line">$ ./sayhi_c</span><br><span class="line"></span><br><span class="line"> &gt; Hi Status!</span><br></pre></td></tr></table></figure>
+
+<p>As you can see, Nim takes the winners trophy in this case, as it is <strong>much</strong> simpler to achieve a similar goal.  With Nim, we were also able to link both the Nim and C files into the same executable, which Crystal sadly cannot do.</p>
+<br>
+
+<h2 id="Performance-Tests"><a href="#Performance-Tests" class="headerlink" title="Performance Tests"></a>Performance Tests</h2><h3 id="Parsing-amp-calculating-values-from-a-large-JSON-file"><a href="#Parsing-amp-calculating-values-from-a-large-JSON-file" class="headerlink" title="Parsing &amp; calculating values from a large JSON file:"></a>Parsing &amp; calculating values from a large JSON file:</h3><p>Firstly, we need to generate our large JSON file.  For this test, we’re going to generate a dataset which includes <strong>1 Million</strong> items.</p>
+<center><iframe src="https://giphy.com/embed/13B1WmJg7HwjGU" width="480" height="270" frameborder="0"></iframe></center>
+
+<p>We can do so with the following Ruby script:</p>
+<figure class="highlight rb"><table><tr><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">'json'</span></span><br><span class="line"></span><br><span class="line">x = []</span><br><span class="line"></span><br><span class="line"><span class="number">1000000</span>.times <span class="keyword">do</span></span><br><span class="line">  h = &#123;</span><br><span class="line">    <span class="string">'x'</span> =&gt; rand,</span><br><span class="line">    <span class="string">'y'</span> =&gt; rand,</span><br><span class="line">    <span class="string">'z'</span> =&gt; rand,</span><br><span class="line">    <span class="string">'name'</span> =&gt; (<span class="string">'a'</span>..<span class="string">'z'</span>).to_a.shuffle[<span class="number">0</span>..<span class="number">5</span>].join + <span class="string">' '</span> + rand(<span class="number">10000</span>).to_s,</span><br><span class="line">    <span class="string">'opts'</span> =&gt; &#123;<span class="string">'1'</span> =&gt; [<span class="number">1</span>, <span class="literal">true</span>]&#125;,</span><br><span class="line">  &#125;</span><br><span class="line">  x &lt;&lt; h</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">File.open(<span class="string">"1.json"</span>, <span class="string">'w'</span>) &#123; <span class="params">|f|</span> f.write JSON.pretty_generate(<span class="string">'coordinates'</span> =&gt; x, <span class="string">'info'</span> =&gt; <span class="string">"some info"</span>) &#125;</span><br></pre></td></tr></table></figure>
+
+<p>This will generate a JSON file <strong>of around 212mb</strong>, with the following syntax:</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"coordinates"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"x"</span>: <span class="number">0.10327081810860272</span>,</span><br><span class="line">      <span class="attr">"y"</span>: <span class="number">0.03247172212368832</span>,</span><br><span class="line">      <span class="attr">"z"</span>: <span class="number">0.8155255437507467</span>,</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"scojbq 5965"</span>,</span><br><span class="line">      <span class="attr">"opts"</span>: &#123;</span><br><span class="line">        <span class="attr">"1"</span>: [</span><br><span class="line">          <span class="number">1</span>,</span><br><span class="line">          <span class="literal">true</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"info"</span>: <span class="string">"some info"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Now that we have our chunky JSON file; we can write our first test – <strong>in Nim</strong>:</p>
+<figure class="highlight nim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> jobj = parseFile(<span class="string">"1.json"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> coordinates = jobj[<span class="string">"coordinates"</span>].elems</span><br><span class="line"><span class="keyword">let</span> len = <span class="built_in">float</span>(coordinates.len)</span><br><span class="line"><span class="keyword">var</span> x = <span class="number">0</span>.<span class="number">0</span></span><br><span class="line"><span class="keyword">var</span> y = <span class="number">0</span>.<span class="number">0</span></span><br><span class="line"><span class="keyword">var</span> z = <span class="number">0</span>.<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> coord <span class="keyword">in</span> coordinates:</span><br><span class="line">  x += coord[<span class="string">"x"</span>].fnum</span><br><span class="line">  y += coord[<span class="string">"y"</span>].fnum</span><br><span class="line">  z += coord[<span class="string">"z"</span>].fnum</span><br><span class="line"></span><br><span class="line">echo x / len</span><br><span class="line">echo y / len</span><br><span class="line">echo z / len</span><br></pre></td></tr></table></figure>
+
+<p>And again; the same simple test, this time written <strong>in Crystal</strong>:</p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">"json"</span></span><br><span class="line"></span><br><span class="line">text = File.read(<span class="string">"1.json"</span>)</span><br><span class="line">jobj = JSON.parse(text)</span><br><span class="line">coordinates = jobj[<span class="string">"coordinates"</span>].as_a</span><br><span class="line">len = coordinates.size</span><br><span class="line">x = y = z = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">coordinates.each <span class="keyword">do</span> |coord|</span><br><span class="line">  x += coord[<span class="string">"x"</span>].as_f</span><br><span class="line">  y += coord[<span class="string">"y"</span>].as_f</span><br><span class="line">  z += coord[<span class="string">"z"</span>].as_f</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">p x / len</span><br><span class="line">p y / len</span><br><span class="line">p z / len</span><br></pre></td></tr></table></figure>
+
+<h3 id="Results"><a href="#Results" class="headerlink" title="Results:"></a>Results:</h3><p>Building our test files into tiny release packages with the respective commands below:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ crystal build json_test.cr --release -o json_test_cr --no-debug</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ nim c -o:json_test_nim -d:danger --cc:gcc --verbosity:0 json_test.nim</span><br></pre></td></tr></table></figure>
+
+<p>We can then time &amp; run those packages, to obtain our test results:</p>
+<table>
+<thead>
+<tr>
+<th>Language</th>
+<th>Time (s)</th>
+<th>Memory (Mb)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nim</td>
+<td>6.92</td>
+<td>1320.4</td>
+</tr>
+<tr>
+<td>Crystal</td>
+<td>4.58</td>
+<td>960.7</td>
+</tr>
+</tbody></table>
+<p>As you can see; in this case <strong><em>Crystal</em></strong> is the more performant language – taking less time to execute &amp; complete the test, and also fewer Megabytes in memory doing so.</p>
+<br>
+
+<h3 id="Base64-encoding-decoding-a-large-blob"><a href="#Base64-encoding-decoding-a-large-blob" class="headerlink" title="Base64 encoding / decoding a large blob:"></a>Base64 encoding / decoding a large blob:</h3><p>In this test; we will firstly encode and then decode a string, with a current timestamp into newly allocated buffers, utilising the Base64 algorithm.  For starters, let’s look at the <strong><em>Nim</em></strong> test:</p>
+<figure class="highlight nim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> base64, times, strutils, strformat</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="type">STR_SIZE</span> = <span class="number">131072</span></span><br><span class="line"><span class="keyword">let</span> <span class="type">TRIES</span> = <span class="number">8192</span></span><br><span class="line"><span class="keyword">let</span> str = strutils.repeat('a', <span class="type">STR_SIZE</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> str2 = base64.encode(str)</span><br><span class="line"><span class="literal">stdout</span>.write(<span class="string">fmt"encode &#123;str[..3]&#125;... to &#123;str2[..3]&#125;...: "</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> t = times.epochTime()</span><br><span class="line"><span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line"><span class="keyword">var</span> s:<span class="built_in">int64</span> = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> i &lt; <span class="type">TRIES</span>:</span><br><span class="line">  str2 = base64.encode(str)</span><br><span class="line">  s += len(str2)</span><br><span class="line">  i += <span class="number">1</span></span><br><span class="line">echo(<span class="string">fmt"&#123;s&#125;, &#123;formatFloat(times.epochTime() - t, ffDefault, 6)&#125;"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> str3 = base64.decode(str2)</span><br><span class="line"><span class="literal">stdout</span>.write(<span class="string">fmt"decode &#123;str2[..3]&#125;... to &#123;str3[..3]&#125;...: "</span>)</span><br><span class="line"></span><br><span class="line">t = times.epochTime()</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line">s = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> i &lt; <span class="type">TRIES</span>:</span><br><span class="line">  str3 = base64.decode(str2)</span><br><span class="line">  s += len(str3)</span><br><span class="line">  i += <span class="number">1</span></span><br><span class="line">echo(<span class="string">fmt"&#123;s&#125;, &#123;formatFloat(times.epochTime() - t, ffDefault, 6)&#125;"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>And now the same test, written in Crystal:</p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">"base64"</span></span><br><span class="line"></span><br><span class="line">STR_SIZE = <span class="number">131072</span></span><br><span class="line">TRIES = <span class="number">8192</span></span><br><span class="line"></span><br><span class="line">str = <span class="string">"a"</span> * STR_SIZE</span><br><span class="line"></span><br><span class="line">str2 = Base64.strict_encode(str)</span><br><span class="line">print <span class="string">"encode <span class="subst">#&#123;str[<span class="number">0</span>..<span class="number">3</span>]&#125;</span>... to <span class="subst">#&#123;str2[<span class="number">0</span>..<span class="number">3</span>]&#125;</span>...: "</span></span><br><span class="line"></span><br><span class="line">t, s = Time.local, <span class="number">0</span></span><br><span class="line">TRIES.times <span class="keyword">do</span> |i|</span><br><span class="line">  str2 = Base64.strict_encode(str)</span><br><span class="line">  s += str2.bytesize</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">puts <span class="string">"<span class="subst">#&#123;s&#125;</span>, <span class="subst">#&#123;Time.local - t&#125;</span>"</span></span><br><span class="line"></span><br><span class="line">str3 = Base64.decode_string(str2)</span><br><span class="line">print <span class="string">"decode <span class="subst">#&#123;str2[<span class="number">0</span>..<span class="number">3</span>]&#125;</span>... to <span class="subst">#&#123;str3[<span class="number">0</span>..<span class="number">3</span>]&#125;</span>...: "</span></span><br><span class="line"></span><br><span class="line">t, s = Time.local, <span class="number">0</span></span><br><span class="line">TRIES.times <span class="keyword">do</span> |i|</span><br><span class="line">  str3 = Base64.decode_string(str2)</span><br><span class="line">  s += str3.bytesize</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">puts <span class="string">"<span class="subst">#&#123;s&#125;</span>, <span class="subst">#&#123;Time.local - t&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Results-1"><a href="#Results-1" class="headerlink" title="Results:"></a>Results:</h3><p>We can again; build our Base64 test files into release packages with the respective commands below:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ crystal build base64_test.cr --release -o base64_test_cr --no-debug</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ nim c -o:base64_test_nim -d:danger --cc:gcc --verbosity:0 base64_test.nim</span><br></pre></td></tr></table></figure>
+
+<p>As with our last test suite, we can then time &amp; run those packages, to obtain our test results:</p>
+<table>
+<thead>
+<tr>
+<th>Language</th>
+<th>Time (s)</th>
+<th>Memory (Mb)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nim</td>
+<td>4.17</td>
+<td>6.6</td>
+</tr>
+<tr>
+<td>Crystal</td>
+<td>2.36</td>
+<td>3.5</td>
+</tr>
+</tbody></table>
+<p>Once again, to my surprise, Crystal came out on top. And did again and again for me, running a bunch of different tests I could scrape together from other curious devs.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>The summary of this first-in-series article, is most definitely one of surprise.  I already knew that Crystal was a highly-performant language, and I have previously done my own research &amp; testing to see how close to <em>C speeds</em> it could achieve.  That being said, I was <em>also</em> already aware that Nim <strong>claims</strong> close to C speeds, and that one of the language’s principals was to run well on old &amp; less-performant hardware.  </p>
+<p>Yet, Crystal beat not only my own expectations; but beat Nim for both memory usage <strong>AND</strong> execution times.  I really didn’t expect to see Crystal come out <em>this</em> far ahead in performance.  On the other hand, Nim came out by-far the leader when it comes to language interoperability.  <strong>Nim makes it even easier</strong> than Crystal when interfacing other langs – not something I thought possible, given just how easy Crystal makes the task.</p>
+<p>In conclusion, it seems that we have 1 point for Nim (interoperability), and 1 point for Crystal (performance).  Both languages have pleasantly surprised me, and I look forward to diving into the next topics in the series:</p>
+<ul>
+<li>Part 2: Threading and Tooling</li>
+<li>Part 3: Crypto, DApps and P2P</li>
+</ul>
+<p>These two articles will be released over the next couple of days, so don’t forget to come back then to check them out!</p>
+<p>Thanks for reading - as ever, if you have any questions, please feel free to reach out at <a href="mailto:robin@status.im" target="_blank" rel="noopener">robin@status</a>.</p>
+<p><a href="https://twitter.com/rbin" target="_blank" rel="noopener"> - <strong>@rbin</strong></a></p>
+
+  </section>
+  
+  
+
+  <div class="o-container-medium o-distance">
+    <div class="o-flex o-flex-space-between">
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/07/23/whats-new-in-embark-4.1/" class="c-button c-button--quite" title="Previous article">Previous</a>
+  </div>
+  
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/11/21/nim-vs-crystal-part-2-threading-tooling/" class="c-button c-button--quite" title="Next article">Next</a>
+  </div>
+  
+</div>
+
+
+  </div>
+  
+</main>
+
+
+    <footer role="contentinfo" class="c-footer o-distance-xxl">
+  <div class="o-container">
+    <div class="c-footer__top">
+      <p class="c-category-title c-footer__top__title u-text-light">
+        <a href="/" class="c-logo c-logo--negative" title="Embark">Embark</a>
+      </p>
+    </div>
+    <div class="c-footer__body">
+      <div class="o-grid">
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Resources</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="/docs/quick_start.html" class="u-link-ghost" title="Quick Start">Quick Start</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs" class="u-link-ghost" title="Documentation">Documentation</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/news" class="u-link-ghost" title="Blog">Blog</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/faq.html" class="u-link-ghost" title="FAQ">FAQ</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/troubleshooting.html" class="u-link-ghost" title="Troubleshooting">Troubleshooting</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Help</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://stackoverflow.com/questions/tagged/embark" class="u-link-ghost" title="Embark Questions">Stack Overflow</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://gitter.im/embark-framework/Lobby" class="u-link-ghost" title="Gitter">Gitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/issues" class="u-link-ghost" title="Report issues">Report issues</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/blob/master/CODE_OF_CONDUCT.md" class="u-link-ghost" title="Code of Conduct">Code of Conduct</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Community</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework" class="u-link-ghost" title="Github">Github</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://twitter.com/EmbarkProject" class="u-link-ghost" title="Twitter">Twitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/contributing.html" class="u-link-ghost" title="Contribute">Contribute</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/community/#team" class="u-link-ghost" title="Team">Team</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-4">
+          <p class="c-category-title u-text-light">The Status Network</p>
+          <ul class="o-list-bare two-columns">
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://status.im/" target="_blank">Status</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://keycard.tech/" target="_blank">Keycard</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://dap.ps/" target="_blank">dap.ps</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://embark.status.im/" target="_blank">Embark</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://subspace.status.im/" target="_blank">Subspace</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://vac.dev/" target="_blank">Vac</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-footer__bottom">
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019-2020 Embark
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+      const EMBARK_DOC_VERSIONS = {
+        'latest': 'https://embark.status.im/docs','3.2': 'https://5ca4e0fdb29712000adde37f--embark-site-versions.netlify.com/docs/'
+      };
+    </script>
+
+    
+    <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
+    <script>
+    (function(f, a, t, h, o, m){
+        a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};
+        o=f.createElement('script'),
+        m=f.getElementsByTagName('script')[0];
+        o.async=1; o.src=t; o.id='fathom-script';
+        m.parentNode.insertBefore(o,m)
+    })(document, window, '//fathom.status.im/tracker.js', 'fathom');
+    fathom('set', 'siteId', 'JOQKN');
+    fathom('trackPageview');
+    </script>
+    <!-- / Fathom -->
+    
+
+    <script src="/js/index.js"></script>
+
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+      });
+    </script>
+    
+  </body>
+</html>
+

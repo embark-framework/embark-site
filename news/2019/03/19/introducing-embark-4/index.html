@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>Introducing Embark 4.0 - Cockpit, Debugger and more | Embark</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://embark.status.im/news/2019/03/19/introducing-embark-4/index.html">
+  <!-- Alternative links -->
+  
+
+  <!-- Icon -->
+  <meta name="msapplication-TileColor" content="#080E1A">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/favicon-32.png" sizes="32x32">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-60x60-precomposed.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/apple-touch-icon-76x76-precomposed.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon-120x120-precomposed.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/apple-touch-icon-152x152-precomposed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon-precomposed.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/embark.css">
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Embark">
+  <meta property="og:image" content="/img/share.png?v=0.0.5">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/styles/dracula.min.css">
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script>
+  !function(root, factory) {
+    "function" == typeof define && define.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == typeof module && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(this, function() {
+    /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""),
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)),
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)),
+                svg && src) {
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(),
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+
+svg4everybody();
+</script>
+</head>
+
+  <body>
+    <header role="banner" class="c-header c-header--compact">
+  <div class="o-container">
+    <div class="c-header__top">
+      <a href="/" title="Embark" class="c-logo c-logo--negative">Embark</a>
+      <nav role="navigation" class="c-navigation">
+        <div class="c-navigation__header">
+          <a href="/" title="Embark" class="c-logo">Embark</a>
+          <button class="c-navigation__close u-text-light" title="Close menu">
+            <svg class="c-icon c-icon--xs"><use xlink:href="/../assets/icons/symbols.svg#icon-close"></use></svg>
+          </button>
+        </div>
+        <div class="c-navigation__body">
+          <ul class="c-navigation__list">
+            <li class="c-navigation__item">
+              <a href="/docs/quick_start.html" class="c-navigation__anchor " title="Quick Start">Quick Start</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/docs" class="c-navigation__anchor " title="Learn">Learn</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/plugins" class="c-navigation__anchor " title="Plugins">Plugins</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/community" class="c-navigation__anchor " title="Community">Community</a>
+            </li>
+            <li class="c-navigation__item">
+              <a href="/news" class="c-navigation__anchor is-active" title="Blog">Blog</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="o-flex o-flex-center">
+        <form action="" class="o-flex__item u-hidden-until-large">
+          <input type="search" placeholder="Search" id="search-input">
+        </form>
+        <div class="o-flex__item">
+          <ul class="o-flex o-flex-center">
+            <li class="o-flex__item">
+              <a href="https://github.com/embark-framework/embark" title="Github" target="_blank" class="u-link-ghost">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-github"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item">
+              <a href="https://twitter.com/EmbarkProject" title="Twitter" target="_blank">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-twitter"></use></svg>
+              </a>
+            </li>
+            <li class="o-flex__item u-hidden-large-up">
+              <button type="button"class="c-navigation__trigger u-link-ghost" title="Open menu">
+                <svg class="c-icon"><use xlink:href="/../assets/icons/symbols.svg#icon-navigation-menu"></use></svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-quick-search o-distance-m u-hidden-large-up">
+      <input type="search" id="inp-search" placeholder="Search">
+    </div>
+  </div>
+  <div class="o-container-medium">
+    <div class="c-header__body">
+      <h1 class="c-title u-text-ghost">Introducing Embark 4.0 - Cockpit, Debugger and more</h1>
+      
+      <div class="o-distance-m">
+        <div class="o-flex o-flex-center">
+          <span class="o-flex__item">
+            <img src="https://pbs.twimg.com/profile_images/1043774340490248192/gI9aGy17_400x400.jpg" class="c-avatar-small">
+          </span>
+          <p class="o-flex__item">
+            Written by <a href="https://twitter.com/jonnyzerah" title="Jonny Zerah on Twitter">Jonny Zerah</a> on the <time class="u-text-ghost">19th March 2019</time>
+          </p>
+        </div>
+      </div>
+      
+
+      
+
+      
+      
+    </div>
+  </div>
+</header>
+
+
+<main role="main" class="o-standard-page">
+  <section class="o-container-medium o-distance">
+    <p><img src="/assets/images/EMBARK_HEADER_ALT_OPTIMIZED.jpg" alt="Embark" title="Embark"></p>
+<p><strong>Embark 4.0 is officially out of beta and ready for developers around the world. Cockpit (the new web UI dashboard), a robust debugger, and the frontend-agnostic build pipeline provide the support you need to develop production-ready decentralized applications.</strong></p>
+<p>2019 is off to a great start! We’ve been taking Embark 4.0 from alpha to beta, and are now happy to present the official release of version 4.0. It comes jam-packed with many new features, including Cockpit, a transaction debugger, and a massively improved integration with existing frontend tooling. To mark this major milestone, we’ve also launched our new website with updated docs, more tutorials, and a brand new look!</p>
+<p>Thanks to all the developers who have been using, testing, contributing to, and providing feedback on the beta version. The official release of 4.0 is now ready for the world to use. Read on for an overview of the key features or simply get going with our <a href="/docs/quick_start.html">Quick Start Guide</a>.</p>
+<div class="c-notification c-notification--info">
+  <p><strong>Embark now follows SemVer</strong></p>
+  <p></p><p>Version 4.0 contains <strong>some breaking changes</strong>, however we kept them at a minimum and you can learn about all of them in our article on <a href="/news/2019/03/18/upgrading-to-embark-4/">upgrading DApps created with Embark 3.x</a>.</p>
+<p>That said, with the release of 4.0 <strong>Embark will now follow SemVer</strong> making it easier for developers to update and watch out for changes.</p>
+<p></p>
+</div> 
+
+
+
+<h2 id="Cockpit-–-An-intuitive-Web-Interface"><a href="#Cockpit-–-An-intuitive-Web-Interface" class="headerlink" title="Cockpit – An intuitive Web Interface"></a>Cockpit – An intuitive Web Interface</h2><p>Cockpit has been under active development for a few months and is officially ready! Cockpit is your command center for building, debugging, and deploying decentralized applications.</p>
+<p><strong>The dashboard</strong> is the first page users see when they load Cockpit. It provides an overview of all processes controlled by Embark and comes with an interactive console and predictive commands, allowing developers to conveniently interact with Embark and all components (e.g. Ethereum blockchain, ENS, Whisper, IPFS/Swarm, etc). The dashboard also  displays a summary of deployed contracts and enables users to search for accounts, blocks, addresses, and transactions.</p>
+<p>For more information regarding Cockpit’s dashboard, please refer to the <a href="/docs/cockpit_dashboard.html">Embark docs</a>.</p>
+<p><img src="/assets/images/cockpit_dashboard_release.png" alt="Cockpit Dashboard" title="Cockpit Dashboard"></p>
+<p><strong>The blockchain explorer</strong> provides detailed views of blocks, transactions, smart contracts, and connected accounts. We’ve also introduced a brand new way to analyze deployed instances of smart contracts. Within the contracts view, users can interact with a contract’s API, view the ABI and bytecode, retrieve the contract’s transaction logs, and invoke Cockpit’s new integrated debugger. <a href="/docs/cockpit_explorer.html">Learn more</a></p>
+<p><img src="/assets/images/cockpit_explorer_overview.png" alt="Cockpit Explorer" title="Cockpit Explorer"></p>
+<p><strong>Iterative Deployment</strong> enables selective deployment of smart contracts to any network, removing headaches when it comes to complex applications. Using the deployment panel, single or multiple smart contracts can be deployed to production safely, with full control over the process. <a href="/docs/cockpit_deployment.html">Learn more</a></p>
+<p><strong>The code editor</strong> allows you to edit a DApp’s source files from within Cockpit for quick and easy updates. The web-based editor enables a DApp’s source code to be changed on the fly. Like any typical code editor, it has a file tree, can open multiple source files, and allows files to be added and deleted. Users can also access and interact with contact properties and methods in the editor’s UI. Contracts even get redeployed as changes are saved – iterative development at its best! <a href="/docs/cockpit_editor.html">Learn more</a></p>
+<p><img src="/assets/images/cockpit_editor_release.png" alt="Cockpit Editor" title="Cockpit Editor"></p>
+<h2 id="Integrated-Debugger"><a href="#Integrated-Debugger" class="headerlink" title="Integrated Debugger"></a>Integrated Debugger</h2><p>Debugging is an important part of all software development and has been a significant challenge for blockchain developers for some time. The new Embark debugger provides an easy way to debug contracts by displaying solidity source codes lines where a transaction failed. This greatly speeds up development and helps to eliminate bugs.</p>
+<p>The debugger comes in handy in a number of situations. For example, if a transaction fails, no problem! The debugger will spring into action and offer a quick shortcut to help identify the problem and start troubleshooting.</p>
+<h2 id="Better-tooling-integration"><a href="#Better-tooling-integration" class="headerlink" title="Better tooling integration"></a>Better tooling integration</h2><p>Embark is now compatible with any frontend tooling such as Create React App and the CLI tools for Angular, Vue, and more.</p>
+<p>Previously, Embark used its own pipeline, which was compatible with most frontend frameworks by way of Webpack configuration. However, it wasn’t compatible with most frontend tooling. Embark 4 is now fully frontend-agnostic, but the old pipeline is still available if you wish to use it.</p>
+<h2 id="Additional-Updates-and-Features"><a href="#Additional-Updates-and-Features" class="headerlink" title="Additional Updates and Features"></a>Additional Updates and Features</h2><p>We’ve introduced a number of updates and new features to go along with the key features mentioned above. These include:</p>
+<ul>
+<li><strong>New contract deployment hooks</strong>: onDeploy and afterDeploy allow for complete customization of the deployment lifecycle.</li>
+<li><strong>Better account configuration</strong>: accounts are now consistently defined in config/blockchain.js.</li>
+<li><strong>Embark can be installed as a local dependency for per-project versioning</strong>: global installation of Embark is no longer required.</li>
+</ul>
+<h2 id="A-new-Website-and-Fresh-New-Look"><a href="#A-new-Website-and-Fresh-New-Look" class="headerlink" title="A new Website and Fresh New Look"></a>A new Website and Fresh New Look</h2><p><img src="/assets/images/website_release.png" alt="Website Release" title="Website Release"></p>
+<p>Embarking into decentralized applications is exciting and fun. That’s precisely why we updated our website: to better accompany developers on their journey. Not only did we give Embark a facelift with slick new illustrations and a fresh logo, but we also made it easier to navigate developer resources such as docs, plugins, and tutorials. For developers new to Embark, the  Quick Start guide will get you up and running in no time!</p>
+<h2 id="Get-Started-Now"><a href="#Get-Started-Now" class="headerlink" title="Get Started Now"></a>Get Started Now</h2><p>Embark 4.0 is a great companion for those embarking into the ether! From brand new developers still learning the concepts, to seasoned pros with a specific project in mind, Embark is the ideal all-in-one development platform for building and deploying decentralized applications. Whether developing DApps end-to-end or simply deploying smart contracts, Embark allows developers to pick and choose which features, plugins, and tools to integrate.</p>
+<p>Check out the <a href="/docs/quick_start.html">Quick Start guide</a> or dive right into the <a href="/docs">documentation</a>.</p>
+<p>Chat with us in <a href="https://gitter.im/embark-framework/Lobby" target="_blank" rel="noopener">Gitter</a><br>Star the repo on <a href="https://github.com/embark-framework/embark" target="_blank" rel="noopener">GitHub</a><br>Follow us on <a href="https://twitter.com/EmbarkProject" target="_blank" rel="noopener">Twitter</a></p>
+
+  </section>
+  
+  
+
+  <div class="o-container-medium o-distance">
+    <div class="o-flex o-flex-space-between">
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/03/18/upgrading-to-embark-4/" class="c-button c-button--quite" title="Previous article">Previous</a>
+  </div>
+  
+  
+  <div class="o-flex__item">
+    <a href="/news/2019/07/23/whats-new-in-embark-4.1/" class="c-button c-button--quite" title="Next article">Next</a>
+  </div>
+  
+</div>
+
+
+  </div>
+  
+</main>
+
+
+    <footer role="contentinfo" class="c-footer o-distance-xxl">
+  <div class="o-container">
+    <div class="c-footer__top">
+      <p class="c-category-title c-footer__top__title u-text-light">
+        <a href="/" class="c-logo c-logo--negative" title="Embark">Embark</a>
+      </p>
+    </div>
+    <div class="c-footer__body">
+      <div class="o-grid">
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Resources</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="/docs/quick_start.html" class="u-link-ghost" title="Quick Start">Quick Start</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs" class="u-link-ghost" title="Documentation">Documentation</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/news" class="u-link-ghost" title="Blog">Blog</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/faq.html" class="u-link-ghost" title="FAQ">FAQ</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/troubleshooting.html" class="u-link-ghost" title="Troubleshooting">Troubleshooting</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Help</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://stackoverflow.com/questions/tagged/embark" class="u-link-ghost" title="Embark Questions">Stack Overflow</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://gitter.im/embark-framework/Lobby" class="u-link-ghost" title="Gitter">Gitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/issues" class="u-link-ghost" title="Report issues">Report issues</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework/embark/blob/master/CODE_OF_CONDUCT.md" class="u-link-ghost" title="Code of Conduct">Code of Conduct</a>
+            </li>
+          </ul>
+        </div>
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-5">
+          <p class="c-category-title u-text-light">Community</p>
+          <ul class="o-list-bare">
+            <li class="o-list-bare__item">
+              <a href="https://github.com/embark-framework" class="u-link-ghost" title="Github">Github</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="https://twitter.com/EmbarkProject" class="u-link-ghost" title="Twitter">Twitter</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/docs/contributing.html" class="u-link-ghost" title="Contribute">Contribute</a>
+            </li>
+            <li class="o-list-bare__item">
+              <a href="/community/#team" class="u-link-ghost" title="Team">Team</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="o-grid__column--1-1 o-grid__column--medium-1-2 o-grid__column--large-1-4">
+          <p class="c-category-title u-text-light">The Status Network</p>
+          <ul class="o-list-bare two-columns">
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://status.im/" target="_blank">Status</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://keycard.tech/" target="_blank">Keycard</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://dap.ps/" target="_blank">dap.ps</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://embark.status.im/" target="_blank">Embark</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://subspace.status.im/" target="_blank">Subspace</a></li>
+            <li class="o-list-bare__item"><a class="u-link-ghost" href="https://vac.dev/" target="_blank">Vac</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="c-footer__bottom">
+      <p class="u-text-light">
+        <a href="https://status.im/privacy-policy.html" title="Privacy Policy" target="_blank" class="u-text-light">Privacy Policy</a>
+        / © 2019-2020 Embark
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.4/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+      const EMBARK_DOC_VERSIONS = {
+        'latest': 'https://embark.status.im/docs','3.2': 'https://5ca4e0fdb29712000adde37f--embark-site-versions.netlify.com/docs/'
+      };
+    </script>
+
+    
+    <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
+    <script>
+    (function(f, a, t, h, o, m){
+        a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};
+        o=f.createElement('script'),
+        m=f.getElementsByTagName('script')[0];
+        o.async=1; o.src=t; o.id='fathom-script';
+        m.parentNode.insertBefore(o,m)
+    })(document, window, '//fathom.status.im/tracker.js', 'fathom');
+    fathom('set', 'siteId', 'JOQKN');
+    fathom('trackPageview');
+    </script>
+    <!-- / Fathom -->
+    
+
+    <script src="/js/index.js"></script>
+
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '439d8dc2add18007a2f31be4a9c0ed70',
+        indexName: 'embark',
+        inputSelector: '#search-input'
+      });
+    </script>
+    
+  </body>
+</html>
+
